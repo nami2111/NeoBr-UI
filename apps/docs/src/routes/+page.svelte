@@ -67,33 +67,55 @@
         </h2>
         <div class="flex flex-wrap gap-6 items-start">
             <div class="space-y-2">
-                <p class="text-sm font-bold text-muted-foreground uppercase tracking-widest">Modal Overlay</p>
+                <p
+                    class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
+                >
+                    Modal Overlay
+                </p>
                 <Button onclick={() => (showModal = true)}>Open Modal</Button>
-                <Modal 
-                    show={showModal} 
-                    title="Neo Brutalist Modal" 
+                <Modal
+                    open={showModal}
+                    title="Neo Brutalist Modal"
                     onClose={() => (showModal = false)}
                 >
                     <p class="py-4">
-                        This is a high-contrast modal with refined 12px rounded edges and 
-                        centered shadows. It supports both light and dark themes.
+                        This is a high-contrast modal with refined 12px rounded
+                        edges and centered shadows. It supports both light and
+                        dark themes.
                     </p>
                     <div class="flex justify-end gap-2">
-                        <Button variant="outline" onclick={() => (showModal = false)}>Cancel</Button>
-                        <Button onclick={() => (showModal = false)}>Confirm</Button>
+                        <Button
+                            variant="outline"
+                            onclick={() => (showModal = false)}>Cancel</Button
+                        >
+                        <Button onclick={() => (showModal = false)}
+                            >Confirm</Button
+                        >
                     </div>
                 </Modal>
             </div>
 
             <div class="space-y-2">
-                <p class="text-sm font-bold text-muted-foreground uppercase tracking-widest">Dropdown Menu</p>
+                <p
+                    class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
+                >
+                    Dropdown Menu
+                </p>
                 {#snippet menuTrigger()}
                     <Button variant="outline">Options Menu</Button>
                 {/snippet}
                 <DropdownMenu trigger={menuTrigger}>
-                    <DropdownMenuItem onclick={() => console.log('Profile')}>Profile Settings</DropdownMenuItem>
-                    <DropdownMenuItem onclick={() => console.log('Billing')}>Billing & Plans</DropdownMenuItem>
-                    <DropdownMenuItem class="text-destructive" onclick={() => console.log('Logout')}>Logout</DropdownMenuItem>
+                    <DropdownMenuItem onclick={() => console.log("Profile")}
+                        >Profile Settings</DropdownMenuItem
+                    >
+                    <DropdownMenuItem onclick={() => console.log("Billing")}
+                        >Billing & Plans</DropdownMenuItem
+                    >
+                    <DropdownMenuItem
+                        class="text-destructive"
+                        onclick={() => console.log("Logout")}
+                        >Logout</DropdownMenuItem
+                    >
                 </DropdownMenu>
             </div>
         </div>
@@ -118,7 +140,10 @@
                     <CardTitle>Form Layout</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Form onsubmit={(e) => e.preventDefault()} class="space-y-4">
+                    <Form
+                        onsubmit={(e) => e.preventDefault()}
+                        class="space-y-4"
+                    >
                         <FormItem>
                             <FormLabel>Username</FormLabel>
                             <Input placeholder="neo_brutalist" />
@@ -127,7 +152,9 @@
                             <FormLabel>Bio</FormLabel>
                             <Input placeholder="Brutalism is efficiency..." />
                         </FormItem>
-                        <Button type="submit" class="w-full">Save Profile</Button>
+                        <Button type="submit" class="w-full"
+                            >Save Profile</Button
+                        >
                     </Form>
                 </CardContent>
             </Card>
@@ -142,12 +169,16 @@
             <Card>
                 <CardHeader>
                     <CardTitle>Standard Card</CardTitle>
-                    <CardDescription>With external and internal links</CardDescription>
+                    <CardDescription
+                        >With external and internal links</CardDescription
+                    >
                 </CardHeader>
                 <CardContent class="space-y-4">
                     <p>Cards are the foundation of Brutalist layouts.</p>
                     <div class="flex gap-4">
-                        <Link href="https://svelte.dev" target="_blank">Svelte Docs</Link>
+                        <Link href="https://svelte.dev" target="_blank"
+                            >Svelte Docs</Link
+                        >
                         <Link href="#" variant="secondary">Local Link</Link>
                     </div>
                 </CardContent>
@@ -277,12 +308,16 @@
                         >
                     </TabsList>
                     <TabsContent value="tab-1">
-                        <div class="p-4 border-2 border-foreground mt-2 rounded-brutalist">
+                        <div
+                            class="p-4 border-2 border-foreground mt-2 rounded-brutalist"
+                        >
                             Content for Tab 1
                         </div>
                     </TabsContent>
                     <TabsContent value="tab-2">
-                        <div class="p-4 border-2 border-foreground mt-2 rounded-brutalist">
+                        <div
+                            class="p-4 border-2 border-foreground mt-2 rounded-brutalist"
+                        >
                             Content for Tab 2
                         </div>
                     </TabsContent>
