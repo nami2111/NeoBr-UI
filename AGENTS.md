@@ -1,271 +1,633 @@
 # NeoBr-UI Agent Guidelines
 
-This file contains guidelines for agentic coding agents working in the NeoBr-UI repository.
+High-performance, accessible Neo-Brutalist component library built with **Svelte 5** and **Tailwind CSS**.
 
-## Project Overview
+## Project Structure
 
-NeoBr-UI is a high-performance, accessible, and stunningly beautiful Neo-Brutalist component library for modern web development. The project uses a monorepo structure with pnpm workspaces.
+```
+neobr-ui/
+├── packages/
+│   ├── svelte/              # Core component library
+│   │   ├── src/lib/
+│   │   │   ├── components/  # UI components
+│   │   │   ├── variants/    # CVA variant definitions
+│   │   │   └── utils/       # Utility functions
+│   │   └── package.json
+│   └── tailwind-preset/     # Design tokens & config
+├── apps/
+│   └── docs/                # SvelteKit documentation
+└── package.json
+```
 
 ## Build Commands
 
 ### Root Level
-
 ```bash
-# Install dependencies
-pnpm install
-
-# Build all packages
-pnpm build
-
-# Run tests for all packages
-pnpm test
-
-# Run lint for all packages
-pnpm lint
-
-# Format all files
-pnpm format
+pnpm install              # Install all dependencies
+pnpm build               # Build all packages
+pnpm test                # Test all packages
+pnpm lint                # Lint all packages
+pnpm format              # Format all files
 ```
 
 ### Package Level (@neobr/svelte)
-
 ```bash
-# Build the Svelte package
-svelte-package
-
-# Development server
-vite dev
-
-# Type checking
-svelte-check --tsconfig ./tsconfig.json
-
-# Lint with Prettier
-prettier --check .
-
-# Format with Prettier
-prettier --write .
-
-# Run tests
-vitest run
-
-# Watch tests
-vitest
-
-# Watch type checking
-svelte-check --tsconfig ./tsconfig.json --watch
+svelte-package           # Build the package
+vite dev                 # Development server
+svelte-check             # Type checking
+svelte-check --watch     # Watch mode type checking
+vitest run               # Run tests once
+vitest                   # Watch mode tests
+prettier --write .       # Format code
 ```
 
-### Package Level (@neobr/tailwind-preset)
-
+### Documentation
 ```bash
-# Build the Tailwind preset
-# (No specific build script - uses CommonJS exports)
+pnpm --filter docs dev       # Dev server
+pnpm --filter docs build     # Production build
+pnpm --filter docs preview   # Preview build
+pnpm --filter docs check     # Type checking
 ```
 
-### Documentation App
+## Core Principles
 
-```bash
-# Development server
-pnpm --filter docs dev
+1. **Token-first design** - All visual values from design tokens, zero hardcoded values
+2. **Svelte 5 patterns** - Use runes (`$state`, `$derived`, `$effect`), snippets over slots
+3. **CVA variants** - Type-safe component variants with class-variance-authority
+4. **Accessibility first** - WCAG AAA compliance (7:1 contrast ratio minimum)
+5. **Neo-Brutalism** - Thick borders, sharp corners, hard shadows, high contrast, no gradients
 
-# Build for production
-pnpm --filter docs build
-
-# Preview production build
-pnpm --filter docs preview
-
-# Type checking
-pnpm --filter docs check
-
-# Watch type checking
-pnpm --filter docs check:watch
-```
-
-### Running Single Tests
-
-```bash
-# Run a specific test file
-pnpm --filter svelte test path/to/test.test.ts
-
-# Or within the package directory
-cd packages/svelte && vitest run src/lib/components/ui/button/button.test.ts
-```
-
-## Code Style Guidelines
-
-### General Principles
-
-- **Neo Brutalism aesthetic**: Bold colors, thick borders, sharp shadows
-- **Token-first design**: All visual values must come from design tokens
-- **No hardcoded values**: Colors, spacing, radius must use tokens
-- **TypeScript strict mode**: All code must be type-safe
-- **Accessibility first**: WCAG AAA compliance for contrast ratios
-
-### Import Organization
-
-```typescript
-// 1. External dependencies (React, Vue, etc.)
-import { Component } from "svelte";
-import { fade, scale } from "svelte/transition";
-
-// 2. Internal dependencies (@neobr/*)
-import { cn } from "$lib/utils";
-import { Button } from "$lib/components/ui/button";
-
-// 3. Type imports
-import type { Props } from "./types";
-```
-
-### Component Structure (Svelte 5)
+## Component Structure Pattern
 
 ```svelte
 <script lang="ts">
-  // 1. Type imports
-  import type { ComponentProps } from 'svelte';
-
-  // 2. Component imports
-  import { cn } from '$lib/utils';
-
-  // 3. Props definition
-  type Props = {
-    variant?: 'primary' | 'secondary' | 'destructive';
-    size?: 'sm' | 'md' | 'lg';
-    disabled?: boolean;
-    children?: import('svelte').Snippet;
-    [key: string]: any;
-  };
-
-  // 4. Props destructuring
+  // 1. Svelte imports
+  import { fade } from 'svelte/transition'
+  
+  // 2. External dependencies
+  import { cva, type VariantProps } from 'class-variance-authority'
+  
+  // 3. Internal utilities
+  import { cn } from '$lib/utils'
+  
+  // 4. Type imports
+  import type { Snippet } from 'svelte'
+  import type { HTMLButtonAttributes } from 'svelte/elements'
+  
+  // 5. Variant definition (or import from variants/)
+  const buttonVariants = cva(
+    'inline-flex items-center justify-center border-brutalist shadow-brutalist',
+    {
+      variants: {
+        variant: {
+          primary: 'bg-primary text-fg-light hover:bg-primary-hover',
+          secondary: 'bg-secondary text-fg-dark hover:bg-secondary-hover',
+        },
+        size: {
+          sm: 'h-9 px-brutalist-sm',
+          md: 'h-11 px-brutalist-md',
+        },
+      },
+      defaultVariants: { variant: 'primary', size: 'md' },
+    }
+  )
+  
+  type ButtonVariant = VariantProps<typeof buttonVariants>
+  
+  // 6. Props type definition
+  type Props = ButtonVariant & {
+    class?: string
+    disabled?: boolean
+    children?: Snippet
+    onclick?: (e: MouseEvent) => void
+  } & Omit<HTMLButtonAttributes, 'class'>
+  
+  // 7. Props destructuring with defaults
   let {
     variant = 'primary',
     size = 'md',
+    class: className,
     disabled = false,
     children,
-    ...rest
-  }: Props = $props();
-
-  // 5. Local state
-  let visible = $state(false);
+    onclick,
+    ...restProps
+  }: Props = $props()
+  
+  // 8. Local state (if needed)
+  let isPressed = $state(false)
+  
+  // 9. Derived values
+  let computedClasses = $derived(
+    cn(buttonVariants({ variant, size }), className)
+  )
 </script>
 
-<!-- 6. Template -->
-<div class="{cn('base-class', className)}">
+<button
+  type="button"
+  {disabled}
+  class={computedClasses}
+  onclick={onclick}
+  {...restProps}
+>
   {@render children?.()}
-</div>
+</button>
 ```
 
-### Styling Guidelines
+## CVA Variant Patterns
 
-- Use `cn()` utility for class merging
-- Apply brutalist design principles: `shadow-bruntalist`, `rounded-none`, `tracking-brutalist`
-- Use semantic color tokens: `bg-primary`, `text-fg-light`, etc.
-- No inline styles - use Tailwind classes only
-- Mechanical precision in typography and layout
+### Basic Variants File
+```typescript
+// lib/variants/button.ts
+import { cva, type VariantProps } from 'class-variance-authority'
 
-### TypeScript Guidelines
+export const buttonVariants = cva(
+  // Base classes - always applied
+  'inline-flex items-center justify-center font-brutalist tracking-brutalist border-brutalist transition-brutalist focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
+  {
+    variants: {
+      variant: {
+        primary: 'bg-primary text-fg-light border-fg-dark hover:bg-primary-hover shadow-brutalist',
+        secondary: 'bg-secondary text-fg-dark border-fg-dark hover:bg-secondary-hover shadow-brutalist',
+        destructive: 'bg-destructive text-fg-light border-fg-dark hover:bg-destructive-hover shadow-brutalist',
+        outline: 'bg-transparent border-2 border-fg-dark text-fg-dark hover:bg-bg-light',
+        ghost: 'border-none hover:bg-bg-light text-fg-dark',
+      },
+      size: {
+        sm: 'h-9 px-brutalist-sm text-sm',
+        md: 'h-11 px-brutalist-md text-base',
+        lg: 'h-13 px-brutalist-lg text-lg',
+        icon: 'h-11 w-11',
+      },
+    },
+    defaultVariants: {
+      variant: 'primary',
+      size: 'md',
+    },
+  }
+)
 
-- Strict mode enabled
-- Use proper type definitions for all props
-- Generic types for component props
-- Avoid `any` types - use proper interfaces
-- Use `$props()` for Svelte 5 component props
+export type ButtonVariant = VariantProps<typeof buttonVariants>
+```
 
-### Naming Conventions
+## Svelte 5 Runes Guide
 
-- **Components**: PascalCase (Button, Card, Modal)
-- **Props**: camelCase (variant, size, disabled)
-- **Files**: kebab-case for utilities (class-variance.ts), PascalCase for components (Button.svelte)
-- **Variables**: camelCase (isVisible, isLoading)
-- **Constants**: UPPER_SNAKE_CASE (API_BASE_URL)
+### $state - Reactive State
+```typescript
+// Simple values
+let count = $state(0)
+let name = $state('')
 
-### Error Handling
+// Objects (mutations are reactive)
+let user = $state({ name: 'John', age: 30 })
+user.age++ // This is reactive
 
-- Use proper error boundaries in Svelte components
-- Validate props with TypeScript types
-- Provide meaningful error messages
-- Handle loading and error states gracefully
+// Arrays (mutations are reactive)
+let items = $state<string[]>([])
+items.push('new item') // This is reactive
+```
 
-### Testing Guidelines
+### $derived - Computed Values
+```typescript
+let count = $state(0)
 
-- Use Vitest for unit testing
-- Use @testing-library/svelte for component testing
-- Test accessibility with vitest-axe
-- Test all component props and variants
-- Test brutalist styling consistency
+// Simple derived
+let doubled = $derived(count * 2)
 
-### Accessibility Requirements
+// Complex derived with .by()
+let status = $derived.by(() => {
+  if (count < 10) return 'low'
+  if (count < 50) return 'medium'
+  return 'high'
+})
 
-- Minimum contrast ratio: 7:1 for normal text, 4.5:1 for large text
-- Semantic HTML elements (button, a, label)
-- ARIA attributes where necessary (aria-label, aria-expanded)
-- Keyboard navigation support
-- Focus management with visible focus rings
+// Multiple dependencies
+let price = $state(100)
+let quantity = $state(2)
+let total = $derived(price * quantity)
+```
 
-### Git Conventions
+### $effect - Side Effects
+```typescript
+let name = $state('')
 
-- Use conventional commits: `feat:`, `fix:`, `docs:`, `test:`, etc.
-- Keep commits focused and atomic
-- Write clear, descriptive commit messages
+// Basic effect
+$effect(() => {
+  console.log('Name changed:', name)
+})
 
-### Package Management
+// Effect with cleanup
+$effect(() => {
+  const timer = setInterval(() => console.log('tick'), 1000)
+  
+  return () => {
+    clearInterval(timer)
+  }
+})
+```
 
-- Use pnpm workspaces
-- Dependencies in root package.json for shared tooling
-- Package-specific dependencies in individual package.json files
-- Use workspace protocol for internal dependencies (`workspace:*`)
+### $bindable - Two-way Binding
+```typescript
+// In child component
+type Props = {
+  value?: string
+}
 
-## Development Workflow
+let { value = $bindable('') }: Props = $props()
 
-1. **Setup**: Run `pnpm install` to install all dependencies
-2. **Development**: Use `pnpm --filter svelte dev` for component development
-3. **Testing**: Run `pnpm --filter svelte test` for component tests
-4. **Linting**: Use `pnpm --filter svelte lint` for code formatting
-5. **Type Checking**: Use `pnpm --filter svelte check` for type validation
-6. **Building**: Run `pnpm build` to build all packages
+// In parent component
+let text = $state('')
+<Input bind:value={text} />
+```
 
-## Key Files and Directories
+## Snippet Pattern (Replaces Slots)
 
-- `packages/svelte/`: Core Svelte component library
-- `packages/tailwind-preset/`: Tailwind configuration and tokens
-- `apps/docs/`: Documentation site (SvelteKit)
-- `src/lib/`: Component source code
-- `src/lib/utils.ts`: Utility functions (cn, etc.)
-- `src/tests/`: Test setup and utilities
-- `vitest.config.ts`: Test configuration
-- `tsconfig.json`: TypeScript configuration
+### Basic Snippets
+```svelte
+<script lang="ts">
+  import type { Snippet } from 'svelte'
+  
+  type Props = {
+    children?: Snippet
+    header?: Snippet
+    footer?: Snippet
+  }
+  
+  let { children, header, footer }: Props = $props()
+</script>
 
-## Design Tokens
+<div class="card">
+  {#if header}
+    <div class="card-header">
+      {@render header()}
+    </div>
+  {/if}
+  
+  {#if children}
+    <div class="card-content">
+      {@render children()}
+    </div>
+  {/if}
+  
+  {#if footer}
+    <div class="card-footer">
+      {@render footer()}
+    </div>
+  {/if}
+</div>
 
-All visual values must come from design tokens defined in `packages/tailwind-preset/tokens.js`:
+<!-- Usage -->
+<Card>
+  {#snippet header()}
+    <h2>Card Title</h2>
+  {/snippet}
+  
+  {#snippet children()}
+    <p>Card content goes here</p>
+  {/snippet}
+  
+  {#snippet footer()}
+    <Button>Action</Button>
+  {/snippet}
+</Card>
+```
 
-- **Colors**: `colors.bg.light`, `colors.fg.dark`, etc.
-- **Spacing**: `spacing.md`, `spacing.brutalist`, etc.
-- **Typography**: `typography.fontSize.md`, `typography.letterSpacing.brutalist`
-- **Shadows**: `shadow.brutalist`, `shadow.impact`, etc.
-- **Radius**: `radius.brutalist`, `radius.none`, etc.
+### Snippets with Parameters
+```svelte
+<script lang="ts">
+  type Props = {
+    items: Array<{ id: string; name: string }>
+    itemSnippet?: Snippet<[{ id: string; name: string }]>
+  }
+  
+  let { items, itemSnippet }: Props = $props()
+</script>
 
-## Brutalist Design Principles
+<ul>
+  {#each items as item}
+    <li>
+      {@render itemSnippet?.(item)}
+    </li>
+  {/each}
+</ul>
 
-- **Bold, high-contrast colors** with no gradients
-- **Visible, thick borders** (2px-3px)
-- **No rounded corners** (sharp edges)
-- **Mechanical precision** in typography and layout
-- **Structured and grid-based** layouts
-- **High contrast ratios** for maximum readability
+<!-- Usage -->
+<List {items}>
+  {#snippet itemSnippet(item)}
+    <strong>{item.name}</strong>
+  {/snippet}
+</List>
+```
 
-## Testing Requirements
+## Design Tokens Reference
 
-- All components must have unit tests
-- Test all props and variants
-- Test accessibility compliance
-- Test brutalist styling consistency
-- Use @testing-library/svelte for DOM testing
-- Use vitest-axe for accessibility testing
+### Color Tokens
+```css
+/* Background */
+bg-light, bg-dark, bg-muted
 
-## Documentation
+/* Foreground */
+fg-light, fg-dark, fg-muted
 
-- Update documentation for new components
-- Include brutalist design examples
-- Document all props and variants
-- Include accessibility guidelines
-- Provide usage examples with tokens
+/* Semantic */
+primary, secondary, destructive, warning, success
+primary-hover, secondary-hover, destructive-hover
+
+/* Component-specific */
+border, ring, input
+```
+
+### Spacing Tokens
+```css
+/* Brutalist spacing */
+px-brutalist-sm   /* 12px */
+px-brutalist-md   /* 20px */
+px-brutalist-lg   /* 32px */
+
+/* Standard spacing */
+p-sm, p-md, p-lg, p-xl
+m-sm, m-md, m-lg, m-xl
+gap-sm, gap-md, gap-lg
+```
+
+### Typography Tokens
+```css
+/* Font families */
+font-brutalist    /* Space Grotesk */
+font-body         /* Inter */
+
+/* Sizes */
+text-sm, text-base, text-lg, text-xl, text-2xl
+
+/* Letter spacing */
+tracking-brutalist, tracking-tight, tracking-normal
+```
+
+### Effect Tokens
+```css
+/* Borders */
+border-brutalist  /* 3px */
+border-thin       /* 1px */
+border-2          /* 2px */
+
+/* Shadows */
+shadow-brutalist  /* 4px 4px 0 0 #000 */
+shadow-impact     /* 8px 8px 0 0 #000 */
+shadow-none
+
+/* Border radius */
+rounded-none      /* 0 - brutalist style */
+rounded-sm        /* 2px - subtle */
+
+/* Transitions */
+transition-brutalist
+duration-brutalist
+```
+
+## Brutalist Design Checklist
+
+When creating components, ensure:
+
+- [ ] **No hardcoded values** - All values from design tokens
+- [ ] **Thick borders** - Use `border-brutalist` (3px) or `border-2` (2px)
+- [ ] **Sharp corners** - Always use `rounded-none`
+- [ ] **Hard shadows** - Use `shadow-brutalist` or `shadow-impact`
+- [ ] **High contrast** - Minimum 7:1 ratio for text
+- [ ] **Bold colors** - Solid fills only, no gradients
+- [ ] **Wide spacing** - Use `tracking-brutalist` for headings
+- [ ] **Grid layouts** - Structured, aligned elements
+- [ ] **Mechanical precision** - Consistent spacing and alignment
+
+## Accessibility Requirements
+
+### Required Attributes
+```svelte
+<!-- Buttons -->
+<button
+  type="button"
+  aria-label="Close dialog"
+  disabled={isDisabled}
+>
+  Close
+</button>
+
+<!-- Interactive elements -->
+<div
+  role="button"
+  tabindex="0"
+  aria-pressed={isPressed}
+  onkeydown={handleKeydown}
+>
+  Toggle
+</div>
+
+<!-- Form fields -->
+<input
+  id={fieldId}
+  aria-describedby={descriptionId}
+  aria-invalid={!!error}
+  aria-required={required}
+/>
+```
+
+### Keyboard Navigation
+```typescript
+function handleKeydown(e: KeyboardEvent) {
+  switch (e.key) {
+    case 'Enter':
+    case ' ':
+      e.preventDefault()
+      handleActivate()
+      break
+    case 'Escape':
+      handleClose()
+      break
+    case 'ArrowDown':
+      e.preventDefault()
+      focusNext()
+      break
+    case 'ArrowUp':
+      e.preventDefault()
+      focusPrevious()
+      break
+  }
+}
+```
+
+### Focus Management
+```svelte
+<script lang="ts">
+  let dialogElement: HTMLElement | undefined = $state()
+  let open = $state(false)
+  let previousFocus: Element | null = null
+  
+  $effect(() => {
+    if (open && dialogElement) {
+      previousFocus = document.activeElement
+      dialogElement.focus()
+    } else if (!open && previousFocus instanceof HTMLElement) {
+      previousFocus.focus()
+    }
+  })
+</script>
+```
+
+## Testing Guidelines
+
+### Component Test Structure
+```typescript
+import { render, screen } from '@testing-library/svelte'
+import { describe, it, expect } from 'vitest'
+import userEvent from '@testing-library/user-event'
+import { axe } from 'vitest-axe'
+import Button from './Button.svelte'
+
+describe('Button', () => {
+  it('renders with default props', () => {
+    render(Button, { props: { children: 'Click me' } })
+    expect(screen.getByRole('button')).toHaveTextContent('Click me')
+  })
+  
+  it('applies variant styles correctly', () => {
+    render(Button, { props: { variant: 'primary' } })
+    expect(screen.getByRole('button')).toHaveClass('bg-primary')
+  })
+  
+  it('handles click events', async () => {
+    const user = userEvent.setup()
+    let clicked = false
+    
+    render(Button, { 
+      props: { 
+        onclick: () => { clicked = true }
+      } 
+    })
+    
+    await user.click(screen.getByRole('button'))
+    expect(clicked).toBe(true)
+  })
+  
+  it('respects disabled state', async () => {
+    const user = userEvent.setup()
+    let clicked = false
+    
+    render(Button, { 
+      props: { 
+        disabled: true,
+        onclick: () => { clicked = true }
+      } 
+    })
+    
+    const button = screen.getByRole('button')
+    expect(button).toBeDisabled()
+    
+    await user.click(button)
+    expect(clicked).toBe(false)
+  })
+  
+  it('meets WCAG AAA accessibility standards', async () => {
+    const { container } = render(Button, { 
+      props: { children: 'Click' } 
+    })
+    
+    const results = await axe(container)
+    expect(results).toHaveNoViolations()
+  })
+  
+  it('applies brutalist design tokens', () => {
+    render(Button, { props: { variant: 'primary' } })
+    const button = screen.getByRole('button')
+    
+    expect(button).toHaveClass('border-brutalist')
+    expect(button).toHaveClass('shadow-brutalist')
+  })
+})
+```
+
+### Test Coverage Requirements
+- ✅ All variants and sizes
+- ✅ All event handlers
+- ✅ Disabled/loading/error states
+- ✅ Accessibility (WCAG AAA)
+- ✅ Keyboard navigation
+- ✅ Focus management
+- ✅ Brutalist styling consistency
+
+## Naming Conventions
+
+- **Components**: PascalCase (`Button.svelte`, `Card.svelte`, `DialogModal.svelte`)
+- **Props**: camelCase (`variant`, `size`, `isDisabled`, `onClick`)
+- **Files**: 
+  - Components: PascalCase (`Button.svelte`)
+  - Utilities: kebab-case (`class-variance.ts`, `token-utils.ts`)
+  - Variants: kebab-case (`button-variants.ts`)
+- **Variables**: camelCase (`isVisible`, `currentUser`, `itemCount`)
+- **Constants**: UPPER_SNAKE_CASE (`API_BASE_URL`, `MAX_ITEMS`)
+
+## Git Commit Conventions
+
+```bash
+# Format: <type>(<scope>): <subject>
+
+# Types
+feat:     # New feature
+fix:      # Bug fix
+docs:     # Documentation
+style:    # Code formatting
+refactor: # Code refactoring
+test:     # Tests
+chore:    # Maintenance
+
+# Examples
+feat(button): add brutalist shadow variant
+fix(card): correct border thickness token
+docs(readme): update installation guide
+test(input): add keyboard navigation tests
+refactor(utils): simplify cn function
+```
+
+## Common Utilities
+
+### cn() - Class Name Merging
+```typescript
+import { cn } from '$lib/utils'
+
+// Basic usage
+cn('base-class', 'additional-class')
+
+// With conditionals
+cn('base-class', isActive && 'active-class', className)
+
+// With arrays
+cn(['class-1', 'class-2'], className)
+
+// Complex merging
+cn(
+  'base-class',
+  variant === 'primary' && 'primary-class',
+  size === 'large' && 'large-class',
+  disabled && 'disabled-class',
+  className
+)
+```
+
+## Quick Reference
+
+### Svelte 4 → Svelte 5 Migration
+
+| Pattern | Svelte 4 | Svelte 5 |
+|---------|----------|----------|
+| Props | `export let prop` | `let { prop } = $props()` |
+| Computed | `$: computed = value * 2` | `let computed = $derived(value * 2)` |
+| Effects | `$: { sideEffect() }` | `$effect(() => { sideEffect() })` |
+| Slots | `<slot />` | `{@render children?.()}` |
+| Named slots | `<slot name="header" />` | `{@render header?.()}` |
+| Binding | `bind:value` | `bind:value` or `$bindable()` |
+
+## Resources
+
+- **Svelte 5**: https://svelte-5-preview.vercel.app/
+- **Tailwind CSS**: https://tailwindcss.com/docs
+- **CVA**: https://cva.style/docs
+- **Testing Library**: https://testing-library.com/svelte
+- **Vitest**: https://vitest.dev/
+- **Accessibility**: https://www.w3.org/WAI/WCAG21/quickref/
