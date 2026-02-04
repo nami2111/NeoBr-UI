@@ -131,9 +131,7 @@
         </h2>
         <div class="flex flex-wrap gap-6 items-start">
             <div class="space-y-2">
-                <p
-                    class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-                >
+                <p class="text-sm font-bold text-muted-foreground">
                     Modal Overlay
                 </p>
                 <Button onclick={() => (showModal = true)}>Open Modal</Button>
@@ -156,9 +154,7 @@
             </div>
 
             <div class="space-y-2">
-                <p
-                    class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-                >
+                <p class="text-sm font-bold text-muted-foreground">
                     Dropdown Menu
                 </p>
                 {#snippet menuTrigger()}
@@ -180,9 +176,7 @@
             </div>
 
             <div class="space-y-2">
-                <p
-                    class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-                >
+                <p class="text-sm font-bold text-muted-foreground">
                     Sheet (Drawer)
                 </p>
                 <div class="flex gap-2">
@@ -349,9 +343,7 @@
                         <div
                             class="p-4 border-2 border-foreground rounded-brutalist bg-accent"
                         >
-                            <p class="font-bold uppercase tracking-tight">
-                                Content Loaded!
-                            </p>
+                            <p class="font-bold">Content Loaded!</p>
                             <p class="text-sm">
                                 The skeleton vanished after the data arrived.
                             </p>
@@ -375,19 +367,17 @@
                 <CardContent class="space-y-8">
                     <div class="space-y-2">
                         <div class="flex justify-between text-xs font-bold">
-                            <span>SYSTEM UPLOAD</span>
+                            <span>System Upload</span>
                             <span>{Math.round(progress)}%</span>
                         </div>
                         <Progress value={progress} />
                     </div>
                     <div class="space-y-2">
-                        <p class="text-xs font-bold uppercase tracking-widest">
-                            Syncing Data...
-                        </p>
+                        <p class="text-xs font-bold">Syncing Data...</p>
                         <Progress indeterminate />
                     </div>
                     <div class="space-y-2">
-                        <p class="text-xs font-bold uppercase tracking-widest">
+                        <p class="text-xs font-bold">
                             Destructive Action (Active)
                         </p>
                         <Progress
@@ -433,9 +423,7 @@
                     </div>
                     <div class="flex flex-wrap gap-4">
                         <div class="space-y-2">
-                            <p
-                                class="text-[10px] font-bold uppercase opacity-50"
-                            >
+                            <p class="text-[10px] font-bold opacity-50">
                                 Brutalist
                             </p>
                             <div class="flex gap-2">
@@ -446,9 +434,7 @@
                             </div>
                         </div>
                         <div class="space-y-2">
-                            <p
-                                class="text-[10px] font-bold uppercase opacity-50"
-                            >
+                            <p class="text-[10px] font-bold opacity-50">
                                 Standard
                             </p>
                             <div class="flex gap-2">
@@ -721,18 +707,14 @@
                         <Slider bind:value={volume} min={0} max={100} />
                     </div>
                     <div class="space-y-4 opacity-50">
-                        <p class="text-xs font-bold uppercase tracking-wider">
-                            Brightness (Disabled)
-                        </p>
+                        <p class="text-xs font-bold">Brightness (Disabled)</p>
                         <Slider value={70} disabled />
                     </div>
                 </CardContent>
             </Card>
         </div>
         <section class="space-y-4">
-            <h2
-                class="font-mono text-2xl font-bold uppercase tracking-brutalist"
-            >
+            <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
                 Selection Controls
             </h2>
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -865,9 +847,7 @@
 
         <!-- Advanced Selection -->
         <section class="space-y-4">
-            <h2
-                class="font-mono text-2xl font-bold uppercase tracking-brutalist border-b-2 border-foreground pb-2"
-            >
+            <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
                 Advanced Selection
             </h2>
             <Card>
@@ -911,9 +891,7 @@
 
         <!-- Data Display & Utility -->
         <section class="space-y-4">
-            <h2
-                class="font-mono text-2xl font-bold uppercase tracking-brutalist border-b-2 border-foreground pb-2"
-            >
+            <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
                 Data Display & Utility
             </h2>
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
