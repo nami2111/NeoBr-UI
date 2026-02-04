@@ -29,10 +29,20 @@
         Form,
         FormItem,
         FormLabel,
+        FormDescription,
+        FormMessage,
     } from "@neobr/svelte";
     import { Home01Icon, Notification02Icon } from "@hugeicons/core-free-icons";
 
     let showModal = $state(false);
+
+    // Form validation state
+    let email = $state("");
+    let emailError = $derived(
+        email.length > 0 && !email.includes("@")
+            ? "Please enter a valid email address."
+            : "",
+    );
 </script>
 
 <div class="container mx-auto py-10 space-y-10">
@@ -128,16 +138,32 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
                 <CardHeader>
-                    <CardTitle>Direct Input</CardTitle>
+                    <CardTitle>Interactive Validation</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Input type="email" placeholder="Enter your email..." />
+                    <Form
+                        onsubmit={(e) => e.preventDefault()}
+                        class="space-y-4"
+                    >
+                        <FormItem error={emailError}>
+                            <FormLabel>Email Address</FormLabel>
+                            <Input
+                                bind:value={email}
+                                placeholder="neo@brutalist.com"
+                            />
+                            <FormDescription
+                                >We'll never share your email with anyone else.</FormDescription
+                            >
+                            <FormMessage />
+                        </FormItem>
+                        <Button type="submit" class="w-full">Subscribe</Button>
+                    </Form>
                 </CardContent>
             </Card>
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Form Layout</CardTitle>
+                    <CardTitle>Standard Form</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Form

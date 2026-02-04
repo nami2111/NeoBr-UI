@@ -24,6 +24,8 @@ export { default as DropdownMenuItem } from "./components/ui/dropdown-menu/dropd
 export { default as Form } from "./components/ui/form/form.svelte";
 export { default as FormItem } from "./components/ui/form/form-item.svelte";
 export { default as FormLabel } from "./components/ui/form/form-label.svelte";
+export { default as FormDescription } from "./components/ui/form/form-description.svelte";
+export { default as FormMessage } from "./components/ui/form/form-message.svelte";
 
 export { default as Accordion } from "./components/ui/accordion/accordion.svelte";
 export { default as AccordionItem } from "./components/ui/accordion/accordion-item.svelte";
