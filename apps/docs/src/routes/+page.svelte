@@ -397,6 +397,70 @@
                     </div>
                 </CardContent>
             </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Loading Spinners</CardTitle>
+                    <CardDescription>Animated state indicators.</CardDescription
+                    >
+                </CardHeader>
+                <CardContent class="space-y-6">
+                    <div class="flex items-center space-x-6">
+                        <Loading size="sm" />
+                        <Loading size="default" />
+                        <Loading size="lg" />
+                        <Loading size="xl" />
+                    </div>
+                    <div class="flex items-center space-x-6">
+                        <Loading variant="default" size="lg" />
+                        <Loading variant="secondary" size="lg" />
+                        <Loading variant="muted" size="lg" />
+                    </div>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Badges</CardTitle>
+                    <CardDescription>Status labels and tags.</CardDescription>
+                </CardHeader>
+                <CardContent class="space-y-6">
+                    <div class="flex flex-wrap gap-2">
+                        <Badge variant="default">Default</Badge>
+                        <Badge variant="secondary">Secondary</Badge>
+                        <Badge variant="destructive">Destructive</Badge>
+                        <Badge variant="outline">Outline</Badge>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="space-y-2">
+                            <p
+                                class="text-[10px] font-bold uppercase opacity-50"
+                            >
+                                Brutalist
+                            </p>
+                            <div class="flex gap-2">
+                                <Badge brutalist={true}>New</Badge>
+                                <Badge brutalist={true} variant="secondary"
+                                    >Beta</Badge
+                                >
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <p
+                                class="text-[10px] font-bold uppercase opacity-50"
+                            >
+                                Standard
+                            </p>
+                            <div class="flex gap-2">
+                                <Badge brutalist={false}>Standard</Badge>
+                                <Badge brutalist={false} variant="secondary"
+                                    >Pill</Badge
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
         </div>
     </section>
 
