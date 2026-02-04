@@ -25,4 +25,14 @@ export { default as Form } from "./components/ui/form/form.svelte";
 export { default as FormItem } from "./components/ui/form/form-item.svelte";
 export { default as FormLabel } from "./components/ui/form/form-label.svelte";
 
+export { default as Accordion } from "./components/ui/accordion/accordion.svelte";
+export { default as AccordionItem } from "./components/ui/accordion/accordion-item.svelte";
+export { default as AccordionTrigger } from "./components/ui/accordion/accordion-trigger.svelte";
+export { default as AccordionContent } from "./components/ui/accordion/accordion-content.svelte";
+
+export { default as Tabs } from "./components/ui/tabs/tabs.svelte";
+export { default as TabsList } from "./components/ui/tabs/tabs-list.svelte";
+export { default as TabsTrigger } from "./components/ui/tabs/tabs-trigger.svelte";
+export { default as TabsContent } from "./components/ui/tabs/tabs-content.svelte";
+
 export * from "./utils";
