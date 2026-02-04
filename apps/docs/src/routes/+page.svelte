@@ -1,19 +1,29 @@
 <script lang="ts">
-    import { Button } from "@neobr/svelte";
-    import { Input } from "@neobr/svelte";
     import {
+        Button,
+        Input,
         Card,
         CardContent,
         CardDescription,
         CardFooter,
         CardHeader,
         CardTitle,
+        Badge,
+        Link,
+        Icon,
+        Loading,
+        Alert,
+        AlertTitle,
+        AlertDescription,
+        Accordion,
+        AccordionItem,
+        AccordionTrigger,
+        AccordionContent,
+        Tabs,
+        TabsList,
+        TabsTrigger,
+        TabsContent,
     } from "@neobr/svelte";
-    import { Badge } from "@neobr/svelte";
-    import { Link } from "@neobr/svelte";
-    import { Icon } from "@neobr/svelte";
-    import { Loading } from "@neobr/svelte";
-    import { Alert, AlertTitle, AlertDescription } from "@neobr/svelte";
     import { Home01Icon, Notification02Icon } from "@hugeicons/core-free-icons";
 </script>
 
@@ -47,7 +57,7 @@
         <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
             Inputs
         </h2>
-        <div class="grid w-full max-w-sm items-center gap-1.5">
+        <div class="grid w-full max-sm items-center gap-1.5">
             <Input type="email" placeholder="Email" />
         </div>
     </section>
@@ -123,5 +133,88 @@
             <Loading size="lg" />
             <Loading variant="secondary" />
         </div>
+    </section>
+
+    <section class="space-y-4">
+        <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
+            Accordion
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Single Accordion</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Accordion type="single" value="item-1">
+                        <AccordionItem value="item-1">
+                            <AccordionTrigger>Section 1</AccordionTrigger>
+                            <AccordionContent>
+                                Content for section 1.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-2">
+                            <AccordionTrigger>Section 2</AccordionTrigger>
+                            <AccordionContent>
+                                Content for section 2.
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Multiple Accordion</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Accordion type="multiple" value={["item-1"]}>
+                        <AccordionItem value="item-1">
+                            <AccordionTrigger>Item 1</AccordionTrigger>
+                            <AccordionContent>
+                                Multiple items can be open.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-2">
+                            <AccordionTrigger>Item 2</AccordionTrigger>
+                            <AccordionContent>
+                                This one is also toggleable.
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+                </CardContent>
+            </Card>
+        </div>
+    </section>
+
+    <section class="space-y-4">
+        <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
+            Tabs
+        </h2>
+        <Card>
+            <CardHeader>
+                <CardTitle>Interactive Tabs</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <Tabs value="tab-1">
+                    <TabsList>
+                        <TabsTrigger value="tab-1">Tab 1</TabsTrigger>
+                        <TabsTrigger value="tab-2">Tab 2</TabsTrigger>
+                        <TabsTrigger value="tab-3" disabled
+                            >Disabled</TabsTrigger
+                        >
+                    </TabsList>
+                    <TabsContent value="tab-1">
+                        <div class="p-4 border-2 border-foreground mt-2">
+                            Content for Tab 1
+                        </div>
+                    </TabsContent>
+                    <TabsContent value="tab-2">
+                        <div class="p-4 border-2 border-foreground mt-2">
+                            Content for Tab 2
+                        </div>
+                    </TabsContent>
+                </Tabs>
+            </CardContent>
+        </Card>
     </section>
 </div>

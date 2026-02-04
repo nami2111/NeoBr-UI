@@ -1,27 +1,26 @@
 <script lang="ts">
-    import type { ComponentType } from "svelte";
+    import { HugeiconsIcon } from "@hugeicons/svelte";
     import { cn } from "../../../utils";
 
     type Props = {
-        icon: ComponentType;
+        icon: any; // IconSvgObject
         size?: number | string;
         color?: string;
+        strokeWidth?: number;
         class?: string;
         [key: string]: any;
     };
 
     let {
-        icon: IconComponent,
+        icon,
         size = 24,
-        color = undefined,
+        color = "currentColor",
+        strokeWidth = 1.5,
         class: className,
         ...rest
     }: Props = $props();
 </script>
 
-<IconComponent
-    {size}
-    {color}
-    class={cn("inline-block shrink-0", className)}
-    {...rest}
-/>
+<div class={cn("inline-flex shrink-0 items-center justify-center", className)}>
+    <HugeiconsIcon {icon} size={Number(size)} {color} {strokeWidth} {...rest} />
+</div>
