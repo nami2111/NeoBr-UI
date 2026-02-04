@@ -50,7 +50,7 @@
             <h2 id="modal-title" class="text-lg font-bold tracking-tight">{title}</h2>
           {/if}
           <button
-            class="rounded-brutalist border-2 border-foreground p-1 hover:bg-accent transition-colors"
+            class="rounded-brutalist border-2 border-foreground p-1 hover:bg-accent transition-all active:translate-y-[2px] active:shadow-none"
             onclick={onClose}
             aria-label="Close modal"
           >

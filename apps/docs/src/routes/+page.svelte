@@ -23,12 +23,20 @@
         TabsList,
         TabsTrigger,
         TabsContent,
+        Modal,
+        DropdownMenu,
+        DropdownMenuItem,
+        Form,
+        FormItem,
+        FormLabel,
     } from "@neobr/svelte";
     import { Home01Icon, Notification02Icon } from "@hugeicons/core-free-icons";
+
+    let showModal = $state(false);
 </script>
 
 <div class="container mx-auto py-10 space-y-10">
-    <div class="space-y-2">
+    <div class="space-y-4">
         <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl">
             NeoBr-UI Showcase
         </h1>
@@ -55,28 +63,96 @@
 
     <section class="space-y-4">
         <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
-            Inputs
+            Interactivity & Overlays
         </h2>
-        <div class="grid w-full max-sm items-center gap-1.5">
-            <Input type="email" placeholder="Email" />
+        <div class="flex flex-wrap gap-6 items-start">
+            <div class="space-y-2">
+                <p class="text-sm font-bold text-muted-foreground uppercase tracking-widest">Modal Overlay</p>
+                <Button onclick={() => (showModal = true)}>Open Modal</Button>
+                <Modal 
+                    show={showModal} 
+                    title="Neo Brutalist Modal" 
+                    onClose={() => (showModal = false)}
+                >
+                    <p class="py-4">
+                        This is a high-contrast modal with refined 12px rounded edges and 
+                        centered shadows. It supports both light and dark themes.
+                    </p>
+                    <div class="flex justify-end gap-2">
+                        <Button variant="outline" onclick={() => (showModal = false)}>Cancel</Button>
+                        <Button onclick={() => (showModal = false)}>Confirm</Button>
+                    </div>
+                </Modal>
+            </div>
+
+            <div class="space-y-2">
+                <p class="text-sm font-bold text-muted-foreground uppercase tracking-widest">Dropdown Menu</p>
+                {#snippet menuTrigger()}
+                    <Button variant="outline">Options Menu</Button>
+                {/snippet}
+                <DropdownMenu trigger={menuTrigger}>
+                    <DropdownMenuItem onclick={() => console.log('Profile')}>Profile Settings</DropdownMenuItem>
+                    <DropdownMenuItem onclick={() => console.log('Billing')}>Billing & Plans</DropdownMenuItem>
+                    <DropdownMenuItem class="text-destructive" onclick={() => console.log('Logout')}>Logout</DropdownMenuItem>
+                </DropdownMenu>
+            </div>
         </div>
     </section>
 
     <section class="space-y-4">
         <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
-            Cards
+            Inputs & Forms
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
                 <CardHeader>
-                    <CardTitle>Card Title</CardTitle>
-                    <CardDescription>Card Description</CardDescription>
+                    <CardTitle>Direct Input</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p>Card Content</p>
+                    <Input type="email" placeholder="Enter your email..." />
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Form Layout</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Form onsubmit={(e) => e.preventDefault()} class="space-y-4">
+                        <FormItem>
+                            <FormLabel>Username</FormLabel>
+                            <Input placeholder="neo_brutalist" />
+                        </FormItem>
+                        <FormItem>
+                            <FormLabel>Bio</FormLabel>
+                            <Input placeholder="Brutalism is efficiency..." />
+                        </FormItem>
+                        <Button type="submit" class="w-full">Save Profile</Button>
+                    </Form>
+                </CardContent>
+            </Card>
+        </div>
+    </section>
+
+    <section class="space-y-4">
+        <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
+            Cards & Links
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Standard Card</CardTitle>
+                    <CardDescription>With external and internal links</CardDescription>
+                </CardHeader>
+                <CardContent class="space-y-4">
+                    <p>Cards are the foundation of Brutalist layouts.</p>
+                    <div class="flex gap-4">
+                        <Link href="https://svelte.dev" target="_blank">Svelte Docs</Link>
+                        <Link href="#" variant="secondary">Local Link</Link>
+                    </div>
                 </CardContent>
                 <CardFooter>
-                    <p>Card Footer</p>
+                    <p class="text-sm">Footer text here</p>
                 </CardFooter>
             </Card>
 
@@ -85,7 +161,7 @@
                     <CardTitle>Accent Card</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p>This is a raw accent card.</p>
+                    <p>High impact cards for important call-outs.</p>
                 </CardContent>
             </Card>
         </div>
@@ -93,13 +169,19 @@
 
     <section class="space-y-4">
         <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
-            Badges
+            Badges & Status
         </h2>
-        <div class="flex gap-2">
-            <Badge>Default</Badge>
-            <Badge variant="secondary">Secondary</Badge>
-            <Badge variant="outline">Outline</Badge>
-            <Badge variant="destructive">Destructive</Badge>
+        <div class="flex flex-wrap gap-4 items-center">
+            <div class="flex gap-2">
+                <Badge>Default</Badge>
+                <Badge variant="secondary">Secondary</Badge>
+                <Badge variant="outline">Outline</Badge>
+                <Badge variant="destructive">Destructive</Badge>
+            </div>
+            <div class="flex gap-4 border-l-2 border-muted pl-4">
+                <Loading />
+                <Loading size="lg" />
+            </div>
         </div>
     </section>
 
@@ -107,31 +189,22 @@
         <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
             Alerts
         </h2>
-        <Alert>
-            <Icon icon={Home01Icon} class="h-4 w-4" />
-            <AlertTitle>Heads up!</AlertTitle>
-            <AlertDescription>
-                This is a default alert for general information.
-            </AlertDescription>
-        </Alert>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Alert>
+                <Icon icon={Home01Icon} class="h-4 w-4" />
+                <AlertTitle>Heads up!</AlertTitle>
+                <AlertDescription>
+                    This is a default alert for general information.
+                </AlertDescription>
+            </Alert>
 
-        <Alert variant="destructive">
-            <Icon icon={Notification02Icon} class="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>
-                This is a destructive alert for critical errors.
-            </AlertDescription>
-        </Alert>
-    </section>
-
-    <section class="space-y-4">
-        <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
-            Loading
-        </h2>
-        <div class="flex gap-4">
-            <Loading />
-            <Loading size="lg" />
-            <Loading variant="secondary" />
+            <Alert variant="destructive">
+                <Icon icon={Notification02Icon} class="h-4 w-4" />
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>
+                    This is a destructive alert for critical errors.
+                </AlertDescription>
+            </Alert>
         </div>
     </section>
 
@@ -204,12 +277,12 @@
                         >
                     </TabsList>
                     <TabsContent value="tab-1">
-                        <div class="p-4 border-2 border-foreground mt-2">
+                        <div class="p-4 border-2 border-foreground mt-2 rounded-brutalist">
                             Content for Tab 1
                         </div>
                     </TabsContent>
                     <TabsContent value="tab-2">
-                        <div class="p-4 border-2 border-foreground mt-2">
+                        <div class="p-4 border-2 border-foreground mt-2 rounded-brutalist">
                             Content for Tab 2
                         </div>
                     </TabsContent>
