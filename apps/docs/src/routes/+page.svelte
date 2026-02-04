@@ -84,6 +84,7 @@
     let showSheet = $state(false);
     let loading = $state(true);
     let progress = $state(33);
+    let currentPage = $state(2);
 
     $effect(() => {
         const timer = setTimeout(() => (loading = false), 2000);
@@ -391,9 +392,12 @@
                     </div>
                     <div class="space-y-2">
                         <p class="text-xs font-bold uppercase tracking-widest">
-                            Destructive Action
+                            Destructive Action (Active)
                         </p>
-                        <Progress value={75} class="[&>div]:bg-destructive" />
+                        <Progress
+                            indeterminate
+                            class="[&>div]:bg-destructive"
+                        />
                     </div>
                 </CardContent>
             </Card>
@@ -444,27 +448,56 @@
                     <Pagination>
                         <PaginationContent>
                             <PaginationItem>
-                                <PaginationPrevious href="#" />
+                                <PaginationPrevious
+                                    href="#"
+                                    onclick={(e: MouseEvent) => {
+                                        e.preventDefault();
+                                        currentPage = Math.max(
+                                            1,
+                                            currentPage - 1,
+                                        );
+                                    }}
+                                />
                             </PaginationItem>
-                            <PaginationItem>
-                                <PaginationLink href="#">1</PaginationLink>
-                            </PaginationItem>
-                            <PaginationItem>
-                                <PaginationLink href="#" isActive
-                                    >2</PaginationLink
-                                >
-                            </PaginationItem>
-                            <PaginationItem>
-                                <PaginationLink href="#">3</PaginationLink>
-                            </PaginationItem>
+                            {#each [1, 2, 3] as page}
+                                <PaginationItem>
+                                    <PaginationLink
+                                        href="#"
+                                        isActive={currentPage === page}
+                                        onclick={(e: MouseEvent) => {
+                                            e.preventDefault();
+                                            currentPage = page;
+                                        }}
+                                    >
+                                        {page}
+                                    </PaginationLink>
+                                </PaginationItem>
+                            {/each}
                             <PaginationItem>
                                 <PaginationEllipsis />
                             </PaginationItem>
                             <PaginationItem>
-                                <PaginationNext href="#" />
+                                <PaginationLink href="#">99</PaginationLink>
+                            </PaginationItem>
+                            <PaginationItem>
+                                <PaginationNext
+                                    href="#"
+                                    onclick={(e: MouseEvent) => {
+                                        e.preventDefault();
+                                        currentPage = Math.min(
+                                            99,
+                                            currentPage + 1,
+                                        );
+                                    }}
+                                />
                             </PaginationItem>
                         </PaginationContent>
                     </Pagination>
+                    <p class="mt-4 text-sm font-bold text-center">
+                        Viewing Page: <span class="text-primary"
+                            >{currentPage}</span
+                        >
+                    </p>
                 </CardContent>
             </Card>
         </div>
