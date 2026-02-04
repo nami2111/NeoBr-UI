@@ -46,6 +46,22 @@
         SelectItem,
         toast,
         Toaster,
+        Skeleton,
+        Progress,
+        Breadcrumbs,
+        BreadcrumbList,
+        BreadcrumbItem,
+        BreadcrumbLink,
+        BreadcrumbPage,
+        BreadcrumbSeparator,
+        Pagination,
+        PaginationContent,
+        PaginationItem,
+        PaginationLink,
+        PaginationPrevious,
+        PaginationNext,
+        PaginationEllipsis,
+        Sheet,
     } from "@neobr/svelte";
     import { Home01Icon, Notification02Icon } from "@hugeicons/core-free-icons";
 
@@ -65,6 +81,21 @@
 
     let notifications = $state(true);
     let volume = $state(45);
+    let showSheet = $state(false);
+    let loading = $state(true);
+    let progress = $state(33);
+
+    $effect(() => {
+        const timer = setTimeout(() => (loading = false), 2000);
+        return () => clearTimeout(timer);
+    });
+
+    $effect(() => {
+        const interval = setInterval(() => {
+            progress = progress >= 100 ? 0 : progress + 1;
+        }, 100);
+        return () => clearInterval(interval);
+    });
 </script>
 
 <div class="container mx-auto py-10 space-y-10">
@@ -149,6 +180,52 @@
                         >Logout</DropdownMenuItem
                     >
                 </DropdownMenu>
+            </div>
+
+            <div class="space-y-2">
+                <p
+                    class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
+                >
+                    Sheet (Drawer)
+                </p>
+                <div class="flex gap-2">
+                    <Button variant="outline" onclick={() => (showSheet = true)}
+                        >Right Sheet</Button
+                    >
+                </div>
+                <Sheet
+                    bind:open={showSheet}
+                    title="System Configuration"
+                    side="right"
+                >
+                    <div class="space-y-6 py-4">
+                        <div class="space-y-2">
+                            <h4 class="font-bold">Performance Mode</h4>
+                            <p class="text-sm text-muted-foreground">
+                                High performance enables multi-core processing.
+                            </p>
+                            <Switch checked />
+                        </div>
+                        <Separator />
+                        <div class="space-y-2">
+                            <h4 class="font-bold">Theme Settings</h4>
+                            <div class="flex gap-2">
+                                <Button size="sm" variant="outline"
+                                    >Light</Button
+                                >
+                                <Button size="sm" variant="primary">Dark</Button
+                                >
+                            </div>
+                        </div>
+                        <div class="pt-4">
+                            <Button
+                                class="w-full"
+                                onclick={() => (showSheet = false)}
+                                >Save Changes</Button
+                            >
+                        </div>
+                    </div>
+                </Sheet>
             </div>
         </div>
     </section>
@@ -248,19 +325,148 @@
 
     <section class="space-y-4">
         <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
-            Badges & Status
+            Loading & Feedback
         </h2>
-        <div class="flex flex-wrap gap-4 items-center">
-            <div class="flex gap-2">
-                <Badge>Default</Badge>
-                <Badge variant="secondary">Secondary</Badge>
-                <Badge variant="outline">Outline</Badge>
-                <Badge variant="destructive">Destructive</Badge>
-            </div>
-            <div class="flex gap-4 border-l-2 border-muted pl-4">
-                <Loading />
-                <Loading size="lg" />
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Skeleton Loaders</CardTitle>
+                    <CardDescription
+                        >Animated placeholders for content states.</CardDescription
+                    >
+                </CardHeader>
+                <CardContent class="space-y-4">
+                    <div class="flex items-center space-x-4">
+                        <Skeleton class="h-12 w-12 rounded-full" />
+                        <div class="space-y-2">
+                            <Skeleton class="h-4 w-[250px]" />
+                            <Skeleton class="h-4 w-[200px]" />
+                        </div>
+                    </div>
+                    {#if loading}
+                        <div class="space-y-3">
+                            <Skeleton class="h-8 w-full" />
+                            <Skeleton class="h-32 w-full" />
+                        </div>
+                    {:else}
+                        <div
+                            class="p-4 border-2 border-foreground rounded-brutalist bg-accent"
+                        >
+                            <p class="font-bold uppercase tracking-tight">
+                                Content Loaded!
+                            </p>
+                            <p class="text-sm">
+                                The skeleton vanished after the data arrived.
+                            </p>
+                        </div>
+                    {/if}
+                    <Button
+                        size="sm"
+                        variant="outline"
+                        onclick={() => (loading = true)}>Reset Loader</Button
+                    >
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Progress Bars</CardTitle>
+                    <CardDescription
+                        >Visual status for long-running tasks.</CardDescription
+                    >
+                </CardHeader>
+                <CardContent class="space-y-8">
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-bold">
+                            <span>SYSTEM UPLOAD</span>
+                            <span>{Math.round(progress)}%</span>
+                        </div>
+                        <Progress value={progress} />
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold uppercase tracking-widest">
+                            Syncing Data...
+                        </p>
+                        <Progress indeterminate />
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold uppercase tracking-widest">
+                            Destructive Action
+                        </p>
+                        <Progress value={75} class="[&>div]:bg-destructive" />
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+    </section>
+
+    <section class="space-y-4">
+        <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
+            Navigation & Structure
+        </h2>
+        <div class="space-y-8">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Breadcrumbs</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Breadcrumbs>
+                        <BreadcrumbList>
+                            <BreadcrumbItem>
+                                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator />
+                            <BreadcrumbItem>
+                                <BreadcrumbLink href="/docs"
+                                    >Documentation</BreadcrumbLink
+                                >
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator />
+                            <BreadcrumbItem>
+                                <BreadcrumbLink href="/docs/components"
+                                    >Components</BreadcrumbLink
+                                >
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator />
+                            <BreadcrumbItem>
+                                <BreadcrumbPage>Breadcrumbs</BreadcrumbPage>
+                            </BreadcrumbItem>
+                        </BreadcrumbList>
+                    </Breadcrumbs>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Pagination</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Pagination>
+                        <PaginationContent>
+                            <PaginationItem>
+                                <PaginationPrevious href="#" />
+                            </PaginationItem>
+                            <PaginationItem>
+                                <PaginationLink href="#">1</PaginationLink>
+                            </PaginationItem>
+                            <PaginationItem>
+                                <PaginationLink href="#" isActive
+                                    >2</PaginationLink
+                                >
+                            </PaginationItem>
+                            <PaginationItem>
+                                <PaginationLink href="#">3</PaginationLink>
+                            </PaginationItem>
+                            <PaginationItem>
+                                <PaginationEllipsis />
+                            </PaginationItem>
+                            <PaginationItem>
+                                <PaginationNext href="#" />
+                            </PaginationItem>
+                        </PaginationContent>
+                    </Pagination>
+                </CardContent>
+            </Card>
         </div>
     </section>
 

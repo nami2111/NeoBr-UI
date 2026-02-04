@@ -20,7 +20,7 @@
 
   let { class: className, error = false, children, ...rest }: Props = $props();
 
-  const errorStore = writable({ error });
+  const errorStore = writable<{ error?: string | boolean }>({ error: undefined });
   setContext(FORM_ITEM_ID, errorStore);
 
   $effect(() => {

@@ -43,5 +43,10 @@ export * from "./components/ui/separator";
 export * from "./components/ui/avatar";
 export * from "./components/ui/tooltip";
 export * from "./components/ui/select";
+export * from "./components/ui/skeleton";
+export * from "./components/ui/progress";
+export * from "./components/ui/breadcrumbs";
+export * from "./components/ui/pagination";
+export * from "./components/ui/sheet";
 
 export * from "./utils";
