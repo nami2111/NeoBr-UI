@@ -3,18 +3,12 @@
   import type { HTMLAttributes } from "svelte/elements";
 
   type Props = HTMLAttributes<HTMLDivElement> & {
-      children?: import('svelte').Snippet;
+    children?: import("svelte").Snippet;
   };
 
   let { class: className, children, ...rest }: Props = $props();
 </script>
 
-<div
-  class={cn(
-    "bg-card text-card-foreground border-2 border-foreground shadow-brutalist rounded-brutalist",
-    className
-  )}
-  {...rest}
->
+<div class={cn("card-brutalist", className)} {...rest}>
   {@render children?.()}
 </div>

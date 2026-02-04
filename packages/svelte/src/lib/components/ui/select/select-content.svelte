@@ -5,7 +5,7 @@
 
   type Props = {
     class?: string;
-    children?: import('svelte').Snippet;
+    children?: import("svelte").Snippet;
     [key: string]: any;
   };
 
@@ -15,8 +15,12 @@
 
   // Close on click outside
   function handleOutsideClick(e: MouseEvent) {
-    if (ctx.open && ctx.triggerElement && !ctx.triggerElement.contains(e.target)) {
-        ctx.open = false;
+    if (
+      ctx.open &&
+      ctx.triggerElement &&
+      !ctx.triggerElement.contains(e.target)
+    ) {
+      ctx.open = false;
     }
   }
 </script>
@@ -26,8 +30,8 @@
 {#if ctx.open}
   <div
     class={cn(
-      "absolute left-0 top-[calc(100%+8px)] z-50 min-w-[8rem] overflow-hidden rounded-sm border-3 border-foreground bg-background p-1 text-foreground shadow-impact animate-in fade-in-0 zoom-in-95",
-      className
+      "absolute left-0 top-[calc(100%+8px)] z-50 min-w-[8rem] overflow-hidden card-brutalist p-1 text-foreground animate-in fade-in-0 zoom-in-95",
+      className,
     )}
     transition:fly={{ y: 5, duration: 150 }}
     style="width: {ctx.triggerElement?.offsetWidth}px"

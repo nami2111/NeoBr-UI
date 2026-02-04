@@ -38,7 +38,7 @@
     )}
 >
     <div
-        class="relative h-4 w-full grow overflow-hidden rounded-full border-2 border-foreground bg-background shadow-inner"
+        class="relative h-4 w-full grow overflow-hidden rounded-brutalist border-2 border-foreground bg-background shadow-inner"
     >
         <div
             class="absolute h-full bg-primary"
@@ -59,7 +59,7 @@
     <!-- Custom Thumb for visual consistency -->
     <div
         class={cn(
-            "pointer-events-none absolute h-6 w-6 rounded-full border-2 border-foreground bg-foreground",
+            "pointer-events-none absolute h-6 w-6 rounded-brutalist border-2 border-foreground bg-foreground shadow-brutalist",
             disabled && "opacity-50",
         )}
         style="left: calc({percentage}% - 12px)"

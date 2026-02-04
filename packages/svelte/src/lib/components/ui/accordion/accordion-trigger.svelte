@@ -4,20 +4,22 @@
 
   type Props = {
     class?: string;
-    children?: import('svelte').Snippet;
+    children?: import("svelte").Snippet;
     [key: string]: any;
   };
 
   let { class: className, children, ...rest }: Props = $props();
 
-  const root = getContext<{ 
-    activeValues: string[]; 
-    toggleItem: (v: string) => void 
+  const root = getContext<{
+    activeValues: string[];
+    toggleItem: (v: string) => void;
   }>("accordion");
   const item = getContext<{ value: string }>("accordion-item");
 
   if (!root || !item) {
-    throw new Error("AccordionTrigger must be used within AccordionItem and Accordion");
+    throw new Error(
+      "AccordionTrigger must be used within AccordionItem and Accordion",
+    );
   }
 
   let isOpen = $derived(root.activeValues.includes(item.value));
@@ -26,8 +28,9 @@
 <button
   type="button"
   class={cn(
-    "flex w-full items-center justify-between py-4 text-sm font-bold transition-all hover:bg-accent ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 px-4 group active:translate-y-[2px]",
-    className
+    "flex w-full items-center justify-between py-4 text-sm font-bold transition-all hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 px-4 group active:translate-y-[2px]",
+    "border-b-2 border-transparent hover:border-foreground data-[state=open]:border-foreground",
+    className,
   )}
   onclick={() => root.toggleItem(item.value)}
   aria-expanded={isOpen}
@@ -46,7 +49,7 @@
     stroke-linejoin="miter"
     class={cn(
       "h-4 w-4 shrink-0 transition-transform duration-200",
-      isOpen && "rotate-180"
+      isOpen && "rotate-180",
     )}
   >
     <path d="m6 9 6 6 6-6" />

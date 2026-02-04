@@ -4,19 +4,26 @@
   import { cn } from "../../../utils";
 
   const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap text-sm font-bold ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-2 active:translate-y-[5px] active:shadow-none",
+    "inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
     {
       variants: {
         variant: {
-          default: "bg-primary text-primary-foreground border-foreground hover:bg-primary-hover shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
-          primary: "bg-primary text-primary-foreground border-foreground hover:bg-primary-hover shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
-          destructive: "bg-destructive text-destructive-foreground border-foreground hover:bg-destructive-hover shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
-          success: "bg-success text-success-foreground border-foreground hover:bg-success-hover shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
-          warning: "bg-warning text-warning-foreground border-foreground hover:bg-warning-hover shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
-          outline: "border-input bg-background hover:bg-accent hover:text-accent-foreground shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
-          secondary: "bg-secondary text-secondary-foreground border-foreground hover:bg-secondary-hover shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
-          ghost: "hover:bg-accent hover:text-accent-foreground border-transparent",
-          link: "text-primary underline-offset-4 hover:underline border-transparent",
+          default:
+            "btn-brutalist bg-primary text-primary-foreground hover:bg-primary-hover",
+          primary:
+            "btn-brutalist bg-primary text-primary-foreground hover:bg-primary-hover",
+          destructive:
+            "btn-brutalist bg-destructive text-destructive-foreground hover:bg-destructive-hover",
+          success:
+            "btn-brutalist bg-success text-success-foreground hover:bg-success-hover",
+          warning:
+            "btn-brutalist bg-warning text-warning-foreground hover:bg-warning-hover",
+          secondary:
+            "btn-brutalist bg-secondary text-secondary-foreground hover:bg-secondary-hover",
+          outline: "btn-brutalist border-2 bg-background hover:bg-accent",
+          ghost:
+            "hover:bg-accent hover:text-accent-foreground border-2 border-transparent",
+          link: "text-primary underline-offset-4 hover:underline border-2 border-transparent",
         },
         size: {
           default: "h-10 px-4 py-2",
@@ -25,22 +32,23 @@
           icon: "h-10 w-10",
         },
         brutalist: {
-          true: "rounded-brutalist tracking-brutalist",
+          true: "rounded-brutalist tracking-[0.1em]",
           false: "rounded-md",
-        }
+        },
       },
       defaultVariants: {
         variant: "default",
         size: "default",
-        brutalist: true
+        brutalist: true,
       },
-    }
+    },
   );
 
-  type Props = HTMLButtonAttributes & VariantProps<typeof buttonVariants> & {
-    brutalist?: boolean;
-    children?: import('svelte').Snippet;
-  };
+  type Props = HTMLButtonAttributes &
+    VariantProps<typeof buttonVariants> & {
+      brutalist?: boolean;
+      children?: import("svelte").Snippet;
+    };
 
   let props: Props = $props();
   let {

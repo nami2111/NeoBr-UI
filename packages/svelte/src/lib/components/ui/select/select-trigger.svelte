@@ -6,15 +6,15 @@
   type Props = {
     class?: string;
     placeholder?: string;
-    children?: import('svelte').Snippet;
+    children?: import("svelte").Snippet;
     [key: string]: any;
   };
 
-  let { 
-    class: className, 
+  let {
+    class: className,
     placeholder = "Select an option",
     children,
-    ...rest 
+    ...rest
   }: Props = $props();
 
   const ctx = getContext<any>("select");
@@ -34,8 +34,8 @@
   type="button"
   bind:this={ctx.triggerElement}
   class={cn(
-    "flex h-12 w-full items-center justify-between rounded-sm border-3 border-foreground bg-background px-4 py-2 text-sm font-bold shadow-brutalist transition-all hover:-translate-y-[2px] hover:shadow-hover focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-    className
+    "flex h-12 w-full items-center justify-between rounded-brutalist border-2 border-foreground bg-background px-4 py-2 text-sm font-bold shadow-brutalist transition-all hover:-translate-y-[2px] hover:shadow-brutalist-hover focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+    className,
   )}
   onclick={() => (ctx.open = !ctx.open)}
   onkeydown={handleKeydown}

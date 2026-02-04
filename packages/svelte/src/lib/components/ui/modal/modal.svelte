@@ -48,7 +48,7 @@
 
     <!-- Modal Content -->
     <div
-      class="relative z-50 w-full max-w-lg border-2 border-foreground bg-background p-6 shadow-brutalist rounded-brutalist"
+      class={cn("relative z-50 w-full max-w-lg card-brutalist p-6")}
       transition:fly={{ y: 20, duration: 300 }}
     >
       <div class="flex flex-col space-y-2">
@@ -59,7 +59,7 @@
             </h2>
           {/if}
           <button
-            class="rounded-brutalist border-2 border-foreground p-1 hover:bg-accent transition-all active:translate-y-[2px] active:shadow-none"
+            class="btn-brutalist p-1 hover:bg-accent transition-all rounded-[var(--brutalist-radius)]"
             onclick={handleClose}
             aria-label="Close modal"
           >

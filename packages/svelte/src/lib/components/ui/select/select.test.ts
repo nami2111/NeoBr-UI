@@ -14,7 +14,7 @@ describe("Select", () => {
         expect(screen.getByText("Staging")).toBeTruthy();
     });
 
-    it("selects an option and closes", async () => {
+    it("selects an option and closes", { timeout: 2000 }, async () => {
         render(SelectTest);
 
         const trigger = screen.getByRole("button");

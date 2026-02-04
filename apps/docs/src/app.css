@@ -1,96 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* 
+ * NeoBr UI - Application Styles 
+ * Transitioned to v4-ready CSS architecture
+ */
+@import "tailwindcss";
+@import "@neobr/tailwind-preset/style";
+
+/* Monorepo scanning */
+@source "../../../packages/svelte/src/lib";
+@source ".";
 
 @layer base {
-  :root {
-    /* Soft Pastel Palette (Light) */
-    --bg-light: #f5f5f7;
-    --bg-dark: #1e1e2e;
-    --bg-accent: #b4befe;
-    --bg-warning: #f9e2af;
-    --bg-muted: #fab387;
-    --bg-success: #a6e3a1;
-
-    --fg-light: #11111b;
-    --fg-dark: #cdd6f4;
-    --fg-accent: #b4befe;
-    --fg-warning: #f9e2af;
-    --fg-muted: #fab387;
-    --fg-success: #a6e3a1;
-
-    --success: #a6e3a1;
-    --success-hover: #8ae084;
-    --success-active: #74c365;
-    --success-foreground: #11111b;
-    --warning: #f9e2af;
-    --warning-hover: #f7d78a;
-    --warning-active: #f5c277;
-    --warning-foreground: #11111b;
-
-    --primary: #b4befe;
-    --primary-hover: #92a1f9;
-    --primary-active: #7685d4;
-    --primary-foreground: #11111b;
-
-    --secondary: #fab387;
-    --secondary-hover: #ef9f76;
-    --secondary-active: #ea999c;
-    --secondary-foreground: #11111b;
-
-    --destructive: #f38ba8;
-    --destructive-hover: #e67e80;
-    --destructive-active: #d20f39;
-    --destructive-foreground: #11111b;
-
-    --neutral: #1e1e2e;
-    --neutral-hover: #181825;
-    --neutral-active: #11111b;
-    --neutral-foreground: #cdd6f4;
-
-    --background: #f5f5f7;
-    --foreground: #11111b;
-    --muted: #e6e9ef;
-    --muted-foreground: #4c4f69;
-    --accent: #e6e9ef;
-    --accent-foreground: #11111b;
-    --popover: #ffffff;
-    --popover-foreground: #11111b;
-    --card: #ffffff;
-    --card-foreground: #11111b;
-    --input: #dce0e8;
-    --border: #11111b;
-    --ring: #b4befe;
-    --shadow-color: #11111b;
-  }
-
-  .dark {
-    /* Soft Pastel Palette (Dark) */
-    --background: #11111b;
-    --foreground: #cdd6f4;
-    --muted: #313244;
-    --muted-foreground: #9399b2;
-    --accent: #313244;
-    --accent-foreground: #f5f5f7;
-    --popover: #11111b;
-    --popover-foreground: #cdd6f4;
-    --card: #181825;
-    --card-foreground: #cdd6f4;
-    --input: #313244;
-    --border: #cdd6f4;
-    --ring: #b4befe;
-    --shadow-color: #cdd6f4;
-
-    /* Semantic adjustments for dark mode */
-    --primary: #b4befe;
-    --primary-foreground: #11111b;
-    --secondary: #fab387;
-    --secondary-foreground: #11111b;
-    --neutral: #cdd6f4;
-    --neutral-foreground: #11111b;
-  }
-
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
 }
+
+/* App-specific components/utilities can go here */

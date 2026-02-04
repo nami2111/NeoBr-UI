@@ -11,6 +11,8 @@
                     destructive:
                         "bg-background data-[state=checked]:bg-destructive",
                     success: "bg-background data-[state=checked]:bg-success",
+                    brutalist:
+                        "rounded-brutalist border-2 border-foreground bg-background data-[state=checked]:bg-primary shadow-brutalist",
                 },
             },
             defaultVariants: {

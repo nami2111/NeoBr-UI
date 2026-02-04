@@ -9,35 +9,36 @@
       variants: {
         variant: {
           default:
-            "border-foreground bg-primary text-primary-foreground hover:bg-primary/80",
+            "border-foreground bg-primary text-primary-foreground hover:bg-primary-hover",
           secondary:
-            "border-foreground bg-secondary text-secondary-foreground hover:bg-secondary/80",
+            "border-foreground bg-secondary text-secondary-foreground hover:bg-secondary-hover",
           destructive:
-            "border-foreground bg-destructive text-destructive-foreground hover:bg-destructive/80",
-          outline: "text-foreground",
+            "border-foreground bg-destructive text-destructive-foreground hover:bg-destructive-hover",
+          outline: "border-foreground text-foreground bg-background",
         },
         brutalist: {
           true: "rounded-brutalist",
           false: "rounded-md",
-        }
+        },
       },
       defaultVariants: {
         variant: "default",
-        brutalist: true
+        brutalist: true,
       },
-    }
+    },
   );
 
-  type Props = HTMLAttributes<HTMLDivElement> & VariantProps<typeof badgeVariants> & {
-      children?: import('svelte').Snippet;
-  };
+  type Props = HTMLAttributes<HTMLDivElement> &
+    VariantProps<typeof badgeVariants> & {
+      children?: import("svelte").Snippet;
+    };
 
-  let { 
-    class: className, 
-    variant = "default", 
-    brutalist = true, 
-    children, 
-    ...rest 
+  let {
+    class: className,
+    variant = "default",
+    brutalist = true,
+    children,
+    ...rest
   }: Props = $props();
 </script>
 

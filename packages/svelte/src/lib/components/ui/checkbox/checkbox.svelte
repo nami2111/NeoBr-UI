@@ -30,8 +30,8 @@
     />
     <div
         class={cn(
-            "flex h-full w-full items-center justify-center rounded-sm border-3 border-foreground bg-background transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2 peer-disabled:opacity-50",
-            checked && "bg-primary",
+            "flex h-full w-full items-center justify-center rounded-[2px] border-2 border-foreground bg-background transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2 peer-disabled:opacity-50",
+            checked && "bg-primary text-primary-foreground",
         )}
     >
         {#if checked}
