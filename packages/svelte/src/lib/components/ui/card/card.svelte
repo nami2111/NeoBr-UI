@@ -11,7 +11,7 @@
 
 <div
   class={cn(
-    "bg-card text-card-foreground border-2 border-foreground shadow-brutalist",
+    "bg-card text-card-foreground border-2 border-foreground shadow-brutalist rounded-brutalist",
     className
   )}
   {...rest}

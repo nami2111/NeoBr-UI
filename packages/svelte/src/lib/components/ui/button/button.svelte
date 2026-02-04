@@ -22,7 +22,7 @@
           icon: "h-10 w-10",
         },
         brutalist: {
-          true: "rounded-none tracking-brutalist",
+          true: "rounded-brutalist tracking-brutalist",
           false: "rounded-md",
         }
       },

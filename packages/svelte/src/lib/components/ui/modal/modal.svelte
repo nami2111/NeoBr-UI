@@ -41,7 +41,7 @@
     ></div>
 
     <div
-      class="relative z-50 w-full max-w-lg border-2 border-foreground bg-background p-6 shadow-brutalist"
+      class="relative z-50 w-full max-w-lg border-2 border-foreground bg-background p-6 shadow-brutalist rounded-brutalist"
       transition:fly={{ y: 20, duration: 300 }}
     >
       <div class="flex flex-col space-y-2">
@@ -50,7 +50,7 @@
             <h2 id="modal-title" class="text-lg font-bold tracking-tight">{title}</h2>
           {/if}
           <button
-            class="rounded-none border-2 border-foreground p-1 hover:bg-accent transition-colors"
+            class="rounded-brutalist border-2 border-foreground p-1 hover:bg-accent transition-colors"
             onclick={onClose}
             aria-label="Close modal"
           >

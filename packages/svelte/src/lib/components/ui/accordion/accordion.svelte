@@ -52,6 +52,6 @@
   });
 </script>
 
-<div class={cn("w-full border-t-2 border-foreground", className)} {...rest}>
+<div class={cn("w-full border-t-2 border-foreground border-x-2 rounded-brutalist overflow-hidden", className)} {...rest}>
   {@render children?.()}
 </div>

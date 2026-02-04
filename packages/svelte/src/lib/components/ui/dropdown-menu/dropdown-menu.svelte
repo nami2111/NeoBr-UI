@@ -28,7 +28,7 @@
 
   {#if open}
     <div
-      class="absolute right-0 z-50 mt-2 w-56 origin-top-right border-2 border-foreground bg-background shadow-brutalist focus:outline-none"
+      class="absolute right-0 z-50 mt-2 w-56 origin-top-right border-2 border-foreground bg-background shadow-brutalist focus:outline-none rounded-brutalist overflow-hidden"
       transition:fade={{ duration: 100 }}
       role="menu"
       aria-orientation="vertical"

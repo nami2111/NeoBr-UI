@@ -13,7 +13,7 @@
             "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive bg-destructive/10",
         },
         brutalist: {
-          true: "rounded-none shadow-brutalist",
+          true: "rounded-brutalist shadow-brutalist",
           false: "rounded-lg",
         }
       },

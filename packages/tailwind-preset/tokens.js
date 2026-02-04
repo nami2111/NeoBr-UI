@@ -98,7 +98,7 @@ export const spacing = {
 
 export const radius = {
     none: '0', sm: '0.125rem', md: '0.25rem', lg: '0.375rem', xl: '0.5rem',
-    brutalist: '0.75rem'  // Minimal rounding for raw edges
+    brutalist: '0.5rem'   // Slight rounding for modern brutalism
 }
 
 export const shadow = {

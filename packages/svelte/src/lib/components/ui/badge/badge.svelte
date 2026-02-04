@@ -17,7 +17,7 @@
           outline: "text-foreground",
         },
         brutalist: {
-          true: "rounded-none",
+          true: "rounded-brutalist",
           false: "rounded-md",
         }
       },

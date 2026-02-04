@@ -20,7 +20,7 @@ module.exports = {
                 'inner': 'inset 0 2px 4px 0 rgba(0,0,0,0.06)'
             },
             borderRadius: {
-                'brutalist': '0.75rem',
+                'brutalist': '0.5rem',
                 'none': '0'
             },
             letterSpacing: {
