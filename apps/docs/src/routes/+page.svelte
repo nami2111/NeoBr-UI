@@ -33,6 +33,10 @@
         FormMessage,
         Switch,
         Slider,
+        Checkbox,
+        RadioGroup,
+        RadioGroupItem,
+        Label,
         toast,
     } from "@neobr/svelte";
     import { Home01Icon, Notification02Icon } from "@hugeicons/core-free-icons";
@@ -41,6 +45,9 @@
 
     // Form validation state
     let email = $state("");
+    let sliderValue = $state(50);
+    let checkboxState = $state(true);
+    let radioValue = $state("option-2");
     let emailError = $derived(
         email.length > 0 && !email.includes("@")
             ? "Please enter a valid email address."
@@ -414,6 +421,82 @@
                 </CardContent>
             </Card>
         </div>
+        <section class="space-y-4">
+            <h2
+                class="font-mono text-2xl font-bold uppercase tracking-brutalist"
+            >
+                Selection Controls
+            </h2>
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Checkbox</CardTitle>
+                        <CardDescription
+                            >Tactile selection with bold visual feedback.</CardDescription
+                        >
+                    </CardHeader>
+                    <CardContent class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <Checkbox id="terms" bind:checked={checkboxState} />
+                            <Label for="terms" class="cursor-pointer"
+                                >Accept terms and conditions</Label
+                            >
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <Checkbox id="marketing" disabled />
+                            <Label for="marketing" class="opacity-50"
+                                >Receive marketing emails (Disabled)</Label
+                            >
+                        </div>
+                        <p class="text-sm font-medium">
+                            State: <span class="text-primary font-bold"
+                                >{checkboxState ? "Checked" : "Unchecked"}</span
+                            >
+                        </p>
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Radio Group</CardTitle>
+                        <CardDescription
+                            >Coordinate selection across multiple options.</CardDescription
+                        >
+                    </CardHeader>
+                    <CardContent class="space-y-4">
+                        <RadioGroup bind:value={radioValue}>
+                            <div class="flex items-center space-x-3">
+                                <RadioGroupItem value="option-1" id="r1" />
+                                <Label for="r1" class="cursor-pointer"
+                                    >Standard Delivery</Label
+                                >
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <RadioGroupItem value="option-2" id="r2" />
+                                <Label for="r2" class="cursor-pointer"
+                                    >Express Delivery</Label
+                                >
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <RadioGroupItem
+                                    value="option-3"
+                                    id="r3"
+                                    disabled
+                                />
+                                <Label for="r3" class="opacity-50"
+                                    >Drone Delivery (Out of Stock)</Label
+                                >
+                            </div>
+                        </RadioGroup>
+                        <p class="text-sm font-medium">
+                            Selected: <span class="text-primary font-bold"
+                                >{radioValue}</span
+                            >
+                        </p>
+                    </CardContent>
+                </Card>
+            </div>
+        </section>
         <section class="space-y-4">
             <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
                 Global Notifications (Toasts)

@@ -36,5 +36,8 @@ export * from "./components/ui/tabs";
 export * from "./components/ui/switch";
 export * from "./components/ui/slider";
 export * from "./components/ui/toast";
+export * from "./components/ui/checkbox";
+export * from "./components/ui/radio-group";
+export * from "./components/ui/label";
 
 export * from "./utils";
