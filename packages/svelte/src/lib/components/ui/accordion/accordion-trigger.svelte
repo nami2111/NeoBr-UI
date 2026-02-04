@@ -26,7 +26,7 @@
 <button
   type="button"
   class={cn(
-    "flex w-full items-center justify-between py-4 text-sm font-bold transition-all hover:bg-accent ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 px-4 group",
+    "flex w-full items-center justify-between py-4 text-sm font-bold transition-all hover:bg-accent ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 px-4 group active:translate-y-[2px]",
     className
   )}
   onclick={() => root.toggleItem(item.value)}
