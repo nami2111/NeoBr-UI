@@ -1,19 +1,20 @@
 <script lang="ts">
-    import { cn } from "$lib/utils";
-    import type { HTMLLabelAttributes } from "svelte/elements";
+  import { cn } from "../../../utils";
+  import type { HTMLLabelAttributes } from "svelte/elements";
 
-    type $$Props = HTMLLabelAttributes;
+  type Props = HTMLLabelAttributes & {
+      children?: import('svelte').Snippet;
+  };
 
-    let className: string | undefined = undefined;
-    export { className as class };
+  let { class: className, children, ...rest }: Props = $props();
 </script>
 
 <label
-    class={cn(
-        "text-sm font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
-        className,
-    )}
-    {...$$restProps}
+  class={cn(
+    "text-sm font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+    className
+  )}
+  {...rest}
 >
-    <slot />
+  {@render children?.()}
 </label>

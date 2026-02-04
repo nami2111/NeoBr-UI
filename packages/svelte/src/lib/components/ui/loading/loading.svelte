@@ -1,6 +1,6 @@
 <script lang="ts">
     import { cva, type VariantProps } from "class-variance-authority";
-    import { cn } from "$lib/utils";
+    import { cn } from "../../../utils";
 
     const loadingVariants = cva("animate-spin", {
         variants: {
@@ -22,15 +22,17 @@
         },
     });
 
-    type $$Props = VariantProps<typeof loadingVariants> & {
+    type Props = VariantProps<typeof loadingVariants> & {
         class?: string;
+        [key: string]: any;
     };
 
-    let className: string | undefined = undefined;
-    export { className as class };
-
-    export let variant: $$Props["variant"] = "default";
-    export let size: $$Props["size"] = "default";
+    let {
+        class: className,
+        variant = "default",
+        size = "default",
+        ...rest
+    }: Props = $props();
 </script>
 
 <svg
@@ -42,7 +44,7 @@
     stroke-linecap="square"
     stroke-linejoin="miter"
     class={cn(loadingVariants({ variant, size, className }))}
-    {...$$restProps}
+    {...rest}
 >
     <path d="M21 12a9 9 0 1 1-6.219-8.56" />
 </svg>

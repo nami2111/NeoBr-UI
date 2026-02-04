@@ -1,71 +1,77 @@
 <script lang="ts">
-    import { cn } from "$lib/utils";
-    import { createEventDispatcher } from "svelte";
+  import { cn } from "../../../utils";
+  import { fly, fade } from "svelte/transition";
 
-    export let open: boolean = false;
-    export let closeOnOutsideClick: boolean = true;
+  type Props = {
+    open?: boolean;
+    onClose?: () => void;
+    title?: string;
+    children?: import('svelte').Snippet;
+  };
 
-    const dispatch = createEventDispatcher();
+  let { 
+    open = false, 
+    onClose = () => {}, 
+    title = undefined, 
+    children 
+  }: Props = $props();
 
-    function close() {
-        open = false;
-        dispatch("close");
+  function handleKeydown(e: KeyboardEvent) {
+    if (e.key === "Escape" && open) {
+      onClose();
     }
-
-    function handleOutsideClick(event: MouseEvent) {
-        if (closeOnOutsideClick && event.target === event.currentTarget) {
-            close();
-        }
-    }
-
-    function handleKeydown(event: KeyboardEvent) {
-        if (event.key === "Escape" && open) {
-            close();
-        }
-    }
+  }
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
 
 {#if open}
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center p-4"
+    transition:fade={{ duration: 150 }}
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby={title ? "modal-title" : undefined}
+  >
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
-        on:click={handleOutsideClick}
+      class="fixed inset-0 bg-background/80 backdrop-blur-sm"
+      onclick={onClose}
+    ></div>
+
+    <div
+      class="relative z-50 w-full max-w-lg border-2 border-foreground bg-background p-6 shadow-brutalist"
+      transition:fly={{ y: 20, duration: 300 }}
     >
-        <div
-            role="dialog"
-            aria-modal="true"
-            class={cn(
-                "relative w-full max-w-lg bg-background p-6 shadow-impact",
-                "border-2 border-foreground",
-                "animate-in fade-in zoom-in-95 duration-200",
-            )}
-            {...$$restProps}
-        >
-            <button
-                class="absolute right-4 top-4 rounded-none opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-                on:click={close}
+      <div class="flex flex-col space-y-2">
+        <div class="flex items-center justify-between">
+          {#if title}
+            <h2 id="modal-title" class="text-lg font-bold tracking-tight">{title}</h2>
+          {/if}
+          <button
+            class="rounded-none border-2 border-foreground p-1 hover:bg-accent transition-colors"
+            onclick={onClose}
+            aria-label="Close modal"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
             >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="h-4 w-4"
-                >
-                    <path d="M18 6 6 18" />
-                    <path d="m6 6 12 12" />
-                </svg>
-                <span class="sr-only">Close</span>
-            </button>
-            <slot />
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
         </div>
+        <div class="pt-4">
+            {@render children?.()}
+        </div>
+      </div>
     </div>
+  </div>
 {/if}

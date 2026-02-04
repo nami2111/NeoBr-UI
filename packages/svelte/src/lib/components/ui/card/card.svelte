@@ -1,19 +1,20 @@
 <script lang="ts">
-    import type { HTMLAttributes } from "svelte/elements";
-    import { cn } from "$lib/utils";
+  import { cn } from "../../../utils";
+  import type { HTMLAttributes } from "svelte/elements";
 
-    type $$Props = HTMLAttributes<HTMLDivElement>;
+  type Props = HTMLAttributes<HTMLDivElement> & {
+      children?: import('svelte').Snippet;
+  };
 
-    let className: $$Props["class"] = undefined;
-    export { className as class };
+  let { class: className, children, ...rest }: Props = $props();
 </script>
 
 <div
-    class={cn(
-        "rounded-none border-2 bg-card text-card-foreground shadow-brutalist",
-        className,
-    )}
-    {...$$restProps}
+  class={cn(
+    "bg-card text-card-foreground border-2 border-foreground shadow-brutalist",
+    className
+  )}
+  {...rest}
 >
-    <slot />
+  {@render children?.()}
 </div>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { type VariantProps, cva } from "class-variance-authority";
   import type { HTMLButtonAttributes } from "svelte/elements";
-  import { cn } from "$lib/utils";
+  import { cn } from "../../../utils";
 
   const buttonVariants = cva(
     "inline-flex items-center justify-center whitespace-nowrap text-sm font-bold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-2",
@@ -34,19 +34,25 @@
     }
   );
 
-  type $$Props = HTMLButtonAttributes & VariantProps<typeof buttonVariants>;
+  type Props = HTMLButtonAttributes & VariantProps<typeof buttonVariants> & {
+    brutalist?: boolean;
+    children?: import('svelte').Snippet;
+  };
 
-  let className: $$Props["class"] = undefined;
-  export { className as class };
-  export let variant: $$Props["variant"] = "default";
-  export let size: $$Props["size"] = "default";
-  export let brutalist: $$Props["brutalist"] = true;
+  let props: Props = $props();
+  let {
+    class: className,
+    variant = "default",
+    size = "default",
+    brutalist = true,
+    children,
+    ...rest
+  } = props;
 </script>
 
 <button
   class={cn(buttonVariants({ variant, size, brutalist, className }))}
-  {...$$restProps}
-  on:click
+  {...rest}
 >
-  <slot />
+  {@render children?.()}
 </button>

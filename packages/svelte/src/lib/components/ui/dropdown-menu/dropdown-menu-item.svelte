@@ -1,21 +1,33 @@
 <script lang="ts">
-    import { cn } from "$lib/utils";
-    import type { HTMLAttributes } from "svelte/elements";
+  import { cn } from "../../../utils";
 
-    type $$Props = HTMLAttributes<HTMLDivElement>;
+  type Props = {
+    class?: string;
+    onclick?: () => void;
+    children?: import('svelte').Snippet;
+    [key: string]: any;
+  };
 
-    let className: string | undefined = undefined;
-    export { className as class };
+  let props: Props = $props();
+  let { 
+    class: className, 
+    onclick = () => {}, 
+    children, 
+    ...rest 
+  } = props;
 </script>
 
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-    role="menuitem"
-    tabindex="-1"
-    class={cn(
-        "relative flex cursor-default select-none items-center px-2 py-1.5 text-sm font-bold outline-none transition-colors hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-        className,
-    )}
-    {...$$restProps}
+  class={cn(
+    "flex cursor-pointer items-center px-4 py-2 text-sm font-bold hover:bg-accent hover:text-accent-foreground transition-colors",
+    className
+  )}
+  onclick={(e) => {
+    onclick();
+  }}
+  {...rest}
 >
-    <slot />
+  {@render children?.()}
 </div>
