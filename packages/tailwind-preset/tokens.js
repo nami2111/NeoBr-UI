@@ -6,113 +6,113 @@
 export const colors = {
     // Background colors (brutalist palette)
     bg: {
-        light: '#fafafa',     // Raw White - pure, unfiltered
-        dark: '#2c2c2c',      // Grayscale Base - mechanical gray
-        accent: '#00ffff',     // Bold Cyan - digital neon
-        warning: '#ff0033',    // Sharp Red - urgent, raw
-        muted: '#ffb3b3',      // Muted Pink - vintage warmth
-        success: '#bfff00',    // Lime Punch - digital green
+        light: 'var(--bg-light)',
+        dark: 'var(--bg-dark)',
+        accent: 'var(--bg-accent)',
+        warning: 'var(--bg-warning)',
+        muted: 'var(--bg-muted)',
+        success: 'var(--bg-success)',
     },
 
     // Foreground colors
     fg: {
-        light: '#000000',     // Pure Black - absolute contrast
-        dark: '#ffffff',      // Raw White - maximum brightness
-        accent: '#00ffff',     // Bold Cyan - digital neon
-        warning: '#ff0033',    // Sharp Red - urgent, raw
-        muted: '#ffb3b3',      // Muted Pink - vintage warmth
-        success: '#bfff00',    // Lime Punch - digital green
+        light: 'var(--fg-light)',
+        dark: 'var(--fg-dark)',
+        accent: 'var(--fg-accent)',
+        warning: 'var(--fg-warning)',
+        muted: 'var(--fg-muted)',
+        success: 'var(--fg-success)',
     },
 
     // Semantic colors (brutalist variants)
     primary: {
-        DEFAULT: '#00ffff',      // Bold Cyan - digital neon
-        hover: '#00cccc',     // Darker Cyan - mechanical depth
-        active: '#00a3a3',    // Deep Cyan - raw intensity
-        foreground: '#000000',
+        DEFAULT: 'var(--primary)',
+        hover: 'var(--primary-hover)',
+        active: 'var(--primary-active)',
+        foreground: 'var(--primary-foreground)',
     },
     secondary: {
-        DEFAULT: '#ffb3b3',      // Muted Pink - vintage warmth
-        hover: '#ff9999',     // Brighter Pink - mechanical glow
-        active: '#ff8080',    // Deep Pink - raw intensity
-        foreground: '#2c2c2c',
+        DEFAULT: 'var(--secondary)',
+        hover: 'var(--secondary-hover)',
+        active: 'var(--secondary-active)',
+        foreground: 'var(--secondary-foreground)',
     },
     destructive: {
-        DEFAULT: '#ff0033',      // Sharp Red - urgent, raw
-        hover: '#cc0029',     // Darker Red - mechanical depth
-        active: '#990020',    // Deep Red - raw intensity
-        foreground: '#fafafa',
+        DEFAULT: 'var(--destructive)',
+        hover: 'var(--destructive-hover)',
+        active: 'var(--destructive-active)',
+        foreground: 'var(--destructive-foreground)',
     },
     neutral: {
-        DEFAULT: '#2c2c2c',      // Grayscale Base - mechanical gray
-        hover: '#1a1a1a',     // Darker Gray - mechanical depth
-        active: '#0d0d0d',    // Deep Gray - raw intensity
-        foreground: '#ffffff',
+        DEFAULT: 'var(--neutral)',
+        hover: 'var(--neutral-hover)',
+        active: 'var(--neutral-active)',
+        foreground: 'var(--neutral-foreground)',
     },
-    background: '#fafafa',
-    foreground: '#000000',
+    background: 'var(--background)',
+    foreground: 'var(--foreground)',
     muted: {
-        DEFAULT: '#f3f4f6',
-        foreground: '#6b7280',
+        DEFAULT: 'var(--muted)',
+        foreground: 'var(--muted-foreground)',
     },
     accent: {
-        DEFAULT: '#f3f4f6',
-        foreground: '#111827',
+        DEFAULT: 'var(--accent)',
+        foreground: 'var(--accent-foreground)',
     },
     popover: {
-        DEFAULT: '#ffffff',
-        foreground: '#09090b',
+        DEFAULT: 'var(--popover)',
+        foreground: 'var(--popover-foreground)',
     },
     card: {
-        DEFAULT: '#ffffff',
-        foreground: '#09090b',
+        DEFAULT: 'var(--card)',
+        foreground: 'var(--card-foreground)',
     },
-    input: '#e5e7eb',
-    border: '#e5e7eb',
-    ring: '#00ffff', // primary
+    input: 'var(--input)',
+    border: 'var(--border)',
+    ring: 'var(--ring)',
 }
 
 export const typography = {
     fontFamily: {
-        mono: ['JetBrains Mono', 'Fira Code', 'monospace'], // Mechanical precision
-        sans: ['Inter', 'system-ui', 'sans-serif']          // System fonts
+        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+        sans: ['Inter', 'system-ui', 'sans-serif']
     },
     fontSize: {
         xs: '0.75rem', sm: '0.875rem', md: '1rem', lg: '1.125rem', xl: '1.25rem',
-        display: '3rem', // Brutalist display typography
-        hero: '4.5rem'   // Maximum impact
+        display: '3rem',
+        hero: '4.5rem'
     },
     lineHeight: { tight: '1.25', normal: '1.5', relaxed: '1.75' },
     letterSpacing: {
         tight: '-0.025em', normal: '0em', wide: '0.025em',
-        brutalist: '0.1em', // Mechanical tracking for impact
-        uppercase: '0.2em'  // Maximum mechanical precision
+        brutalist: '0.1em',
+        uppercase: '0.2em'
     }
 }
 
 export const spacing = {
     xs: '0.25rem', sm: '0.5rem', md: '1rem', lg: '1.5rem', xl: '2rem',
-    brutalist: '0.75rem', // Mechanical spacing for structure
-    impact: '3rem'        // Maximum spacing for impact
+    brutalist: '0.75rem',
+    impact: '3rem'
 }
 
 export const radius = {
     none: '0', sm: '0.125rem', md: '0.25rem', lg: '0.375rem', xl: '0.5rem',
-    brutalist: '12px'      // Final refined rounding for optimal aesthetic
+    brutalist: '12px'
 }
 
 export const shadow = {
     sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
     md: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
     lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-    brutalist: '0px 5px 0px 0px rgba(0,0,0,1)', // Mechanical offset
-    impact: '0px 10px 0px 0px rgba(0,0,0,1)',  // Maximum impact
+    brutalist: '0px 5px 0px 0px var(--shadow-color)',
+    impact: '0px 10px 0px 0px var(--shadow-color)',
     inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)'
 }
 
 export const zIndex = {
     dropdown: 1000, modal: 1050, toast: 1100, tooltip: 1200,
-    brutalist: 2000  // Maximum z-index for brutalist overlays
+    brutalist: 2000
 }
 
 export const duration = { fast: '150ms', normal: '300ms', slow: '500ms' }

@@ -15,8 +15,8 @@ module.exports = {
             },
             // Brutalist utilities
             boxShadow: {
-                'brutalist': '0px 5px 0px 0px rgba(0,0,0,1)',
-                'impact': '0px 10px 0px 0px rgba(0,0,0,1)',
+                'brutalist': '0px 5px 0px 0px var(--shadow-color)',
+                'impact': '0px 10px 0px 0px var(--shadow-color)',
                 'inner': 'inset 0 2px 4px 0 rgba(0,0,0,0.06)'
             },
             borderRadius: {

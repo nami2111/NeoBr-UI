@@ -3,6 +3,82 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --bg-light: #fafafa;
+    --bg-dark: #2c2c2c;
+    --bg-accent: #00ffff;
+    --bg-warning: #ff0033;
+    --bg-muted: #ffb3b3;
+    --bg-success: #bfff00;
+
+    --fg-light: #000000;
+    --fg-dark: #ffffff;
+    --fg-accent: #00ffff;
+    --fg-warning: #ff0033;
+    --fg-muted: #ffb3b3;
+    --fg-success: #bfff00;
+
+    --primary: #00ffff;
+    --primary-hover: #00cccc;
+    --primary-active: #00a3a3;
+    --primary-foreground: #000000;
+
+    --secondary: #ffb3b3;
+    --secondary-hover: #ff9999;
+    --secondary-active: #ff8080;
+    --secondary-foreground: #2c2c2c;
+
+    --destructive: #ff0033;
+    --destructive-hover: #cc0029;
+    --destructive-active: #990020;
+    --destructive-foreground: #fafafa;
+
+    --neutral: #2c2c2c;
+    --neutral-hover: #1a1a1a;
+    --neutral-active: #0d0d0d;
+    --neutral-foreground: #ffffff;
+
+    --background: #fafafa;
+    --foreground: #000000;
+    --muted: #f3f4f6;
+    --muted-foreground: #6b7280;
+    --accent: #f3f4f6;
+    --accent-foreground: #111827;
+    --popover: #ffffff;
+    --popover-foreground: #09090b;
+    --card: #ffffff;
+    --card-foreground: #09090b;
+    --input: #e5e7eb;
+    --border: #000000;
+    --ring: #00ffff;
+    --shadow-color: #000000;
+  }
+
+  .dark {
+    --background: #1a1a1a;
+    --foreground: #ffffff;
+    --muted: #262626;
+    --muted-foreground: #a3a3a3;
+    --accent: #262626;
+    --accent-foreground: #fafafa;
+    --popover: #1a1a1a;
+    --popover-foreground: #fafafa;
+    --card: #1a1a1a;
+    --card-foreground: #fafafa;
+    --input: #262626;
+    --border: #ffffff;
+    --ring: #00ffff;
+    --shadow-color: #ffffff;
+
+    /* Semantic adjustments for dark mode */
+    --primary: #00ffff;
+    --primary-foreground: #000000;
+    --secondary: #ffb3b3;
+    --secondary-foreground: #2c2c2c;
+    --neutral: #ffffff;
+    --neutral-foreground: #000000;
+  }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
