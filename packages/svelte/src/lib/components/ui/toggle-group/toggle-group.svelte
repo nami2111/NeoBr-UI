@@ -1,0 +1,49 @@
+<script lang="ts">
+    import { setContext } from "svelte";
+    import { cn } from "../../../utils";
+
+    type Props = {
+        value?: string | string[];
+        type?: "single" | "multiple";
+        class?: string;
+        children?: import("svelte").Snippet;
+        [key: string]: any;
+    };
+
+    let {
+        value = $bindable(undefined),
+        type = "single",
+        class: className,
+        children,
+        ...rest
+    }: Props = $props();
+
+    if (value === undefined) {
+        value = type === "multiple" ? [] : "";
+    }
+
+    setContext("toggle-group", {
+        get value() {
+            return value;
+        },
+        get type() {
+            return type;
+        },
+        setValue: (v: string) => {
+            const currentType = type;
+            if (currentType === "single") {
+                value = value === v ? "" : v;
+            } else if (Array.isArray(value)) {
+                if (value.includes(v)) {
+                    value = value.filter((i) => i !== v);
+                } else {
+                    value = [...value, v];
+                }
+            }
+        },
+    });
+</script>
+
+<div class={cn("flex items-center justify-center gap-1", className)} {...rest}>
+    {@render children?.()}
+</div>

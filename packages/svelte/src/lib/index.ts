@@ -4,6 +4,11 @@ export { default as Badge } from "./components/ui/badge/badge.svelte";
 export { default as Link } from "./components/ui/link/link.svelte";
 export { default as Icon } from "./components/ui/icon/icon.svelte";
 export { default as Loading } from "./components/ui/loading/loading.svelte";
+export * from "./components/ui/textarea";
+export * from "./components/ui/toggle";
+export * from "./components/ui/popover";
+
+
 
 export { default as Card } from "./components/ui/card/card.svelte";
 export { default as CardHeader } from "./components/ui/card/card-header.svelte";
@@ -48,5 +53,7 @@ export * from "./components/ui/progress";
 export * from "./components/ui/breadcrumbs";
 export * from "./components/ui/pagination";
 export * from "./components/ui/sheet";
+export * from "./components/ui/toggle-group";
+
 
 export * from "./utils";

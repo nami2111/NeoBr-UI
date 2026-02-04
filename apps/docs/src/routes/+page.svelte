@@ -62,7 +62,13 @@
         PaginationNext,
         PaginationEllipsis,
         Sheet,
+        Textarea,
+        Toggle,
+        ToggleGroup,
+        ToggleGroupItem,
+        Popover,
     } from "@neobr/svelte";
+
     import { Home01Icon, Notification02Icon } from "@hugeicons/core-free-icons";
 
     let showModal = $state(false);
@@ -97,6 +103,11 @@
         }, 100);
         return () => clearInterval(interval);
     });
+
+    let togglePressed = $state(false);
+    let toggleGroupValue = $state("bold");
+    let toggleGroupMultiValue = $state(["italic"]);
+    let bio = $state("");
 </script>
 
 <div class="container mx-auto py-10 space-y-10">
@@ -266,12 +277,104 @@
                         </FormItem>
                         <FormItem>
                             <FormLabel>Bio</FormLabel>
-                            <Input placeholder="Brutalism is efficiency..." />
+                            <Textarea
+                                bind:value={bio}
+                                placeholder="Brutalism is efficiency..."
+                            />
                         </FormItem>
                         <Button type="submit" class="w-full"
                             >Save Profile</Button
                         >
                     </Form>
+                </CardContent>
+            </Card>
+        </div>
+    </section>
+
+    <section class="space-y-4">
+        <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
+            Selection & Toggles
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Toggle & Popover</CardTitle>
+                </CardHeader>
+                <CardContent class="space-y-4">
+                    <div class="flex gap-4 items-center">
+                        <div class="space-y-2">
+                            <p class="text-xs font-bold text-muted-foreground">
+                                Single Toggle
+                            </p>
+                            <Toggle bind:pressed={togglePressed}>
+                                {togglePressed ? "ON" : "OFF"}
+                            </Toggle>
+                        </div>
+
+                        <div class="space-y-2">
+                            <p class="text-xs font-bold text-muted-foreground">
+                                Popover
+                            </p>
+                            <Popover>
+                                {#snippet trigger()}
+                                    <Button variant="outline"
+                                        >Open Popover</Button
+                                    >
+                                {/snippet}
+                                <div class="space-y-2">
+                                    <h3 class="font-bold">Popover Content</h3>
+                                    <p class="text-sm">
+                                        This is a popover with brutalist
+                                        styling.
+                                    </p>
+                                    <Button size="sm" class="w-full"
+                                        >Action</Button
+                                    >
+                                </div>
+                            </Popover>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Toggle Groups</CardTitle>
+                </CardHeader>
+                <CardContent class="space-y-6">
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-muted-foreground">
+                            Single Selection: {toggleGroupValue}
+                        </p>
+                        <ToggleGroup
+                            type="single"
+                            bind:value={toggleGroupValue}
+                        >
+                            <ToggleGroupItem value="bold">B</ToggleGroupItem>
+                            <ToggleGroupItem value="italic">I</ToggleGroupItem>
+                            <ToggleGroupItem value="underline"
+                                >U</ToggleGroupItem
+                            >
+                        </ToggleGroup>
+                    </div>
+
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-muted-foreground">
+                            Multiple Selection: {toggleGroupMultiValue.join(
+                                ", ",
+                            )}
+                        </p>
+                        <ToggleGroup
+                            type="multiple"
+                            bind:value={toggleGroupMultiValue}
+                        >
+                            <ToggleGroupItem value="bold">B</ToggleGroupItem>
+                            <ToggleGroupItem value="italic">I</ToggleGroupItem>
+                            <ToggleGroupItem value="underline"
+                                >U</ToggleGroupItem
+                            >
+                        </ToggleGroup>
+                    </div>
                 </CardContent>
             </Card>
         </div>
