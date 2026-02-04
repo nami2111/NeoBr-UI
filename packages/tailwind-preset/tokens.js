@@ -106,6 +106,7 @@ export const shadow = {
     md: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
     lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
     brutalist: '0px 5px 0px 0px var(--shadow-color, #11111b)',
+    hover: '0px 7px 0px 0px var(--shadow-color, #11111b)',
     impact: '0px 10px 0px 0px var(--shadow-color, #11111b)',
     inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)'
 }

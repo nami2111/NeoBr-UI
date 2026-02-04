@@ -16,6 +16,7 @@ module.exports = {
             // Brutalist utilities
             boxShadow: {
                 'brutalist': '0px 5px 0px 0px var(--shadow-color)',
+                'hover': '0px 7px 0px 0px var(--shadow-color)',
                 'impact': '0px 10px 0px 0px var(--shadow-color)',
                 'inner': 'inset 0 2px 4px 0 rgba(0,0,0,0.06)'
             },

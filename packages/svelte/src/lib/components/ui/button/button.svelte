@@ -8,10 +8,10 @@
     {
       variants: {
         variant: {
-          default: "bg-primary text-primary-foreground border-foreground hover:bg-primary/90 shadow-brutalist",
-          destructive: "bg-destructive text-destructive-foreground border-foreground hover:bg-destructive/90 shadow-brutalist",
-          outline: "border-input bg-background hover:bg-accent hover:text-accent-foreground shadow-brutalist",
-          secondary: "bg-secondary text-secondary-foreground border-foreground hover:bg-secondary/80 shadow-brutalist",
+          default: "bg-primary text-primary-foreground border-foreground hover:bg-primary-hover shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
+          destructive: "bg-destructive text-destructive-foreground border-foreground hover:bg-destructive-hover shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
+          outline: "border-input bg-background hover:bg-accent hover:text-accent-foreground shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
+          secondary: "bg-secondary text-secondary-foreground border-foreground hover:bg-secondary-hover shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
           ghost: "hover:bg-accent hover:text-accent-foreground border-transparent",
           link: "text-primary underline-offset-4 hover:underline border-transparent",
         },
