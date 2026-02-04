@@ -22,6 +22,7 @@ neobr-ui/
 ## Build Commands
 
 ### Root Level
+
 ```bash
 pnpm install              # Install all dependencies
 pnpm build               # Build all packages
@@ -31,6 +32,7 @@ pnpm format              # Format all files
 ```
 
 ### Package Level (@neobr/svelte)
+
 ```bash
 svelte-package           # Build the package
 vite dev                 # Development server
@@ -42,6 +44,7 @@ prettier --write .       # Format code
 ```
 
 ### Documentation
+
 ```bash
 pnpm --filter docs dev       # Dev server
 pnpm --filter docs build     # Production build
@@ -136,6 +139,7 @@ pnpm --filter docs check     # Type checking
 ## CVA Variant Patterns
 
 ### Basic Variants File
+
 ```typescript
 // lib/variants/button.ts
 import { cva, type VariantProps } from 'class-variance-authority'
@@ -172,6 +176,7 @@ export type ButtonVariant = VariantProps<typeof buttonVariants>
 ## Svelte 5 Runes Guide
 
 ### $state - Reactive State
+
 ```typescript
 // Simple values
 let count = $state(0)
@@ -187,6 +192,7 @@ items.push('new item') // This is reactive
 ```
 
 ### $derived - Computed Values
+
 ```typescript
 let count = $state(0)
 
@@ -207,6 +213,7 @@ let total = $derived(price * quantity)
 ```
 
 ### $effect - Side Effects
+
 ```typescript
 let name = $state('')
 
@@ -226,6 +233,7 @@ $effect(() => {
 ```
 
 ### $bindable - Two-way Binding
+
 ```typescript
 // In child component
 type Props = {
@@ -242,6 +250,7 @@ let text = $state('')
 ## Snippet Pattern (Replaces Slots)
 
 ### Basic Snippets
+
 ```svelte
 <script lang="ts">
   import type { Snippet } from 'svelte'
@@ -292,6 +301,7 @@ let text = $state('')
 ```
 
 ### Snippets with Parameters
+
 ```svelte
 <script lang="ts">
   type Props = {
@@ -321,6 +331,7 @@ let text = $state('')
 ## Design Tokens Reference
 
 ### Color Tokens
+
 ```css
 /* Background */
 bg-light, bg-dark, bg-muted
@@ -337,6 +348,7 @@ border, ring, input
 ```
 
 ### Spacing Tokens
+
 ```css
 /* Brutalist spacing */
 px-brutalist-sm   /* 12px */
@@ -350,6 +362,7 @@ gap-sm, gap-md, gap-lg
 ```
 
 ### Typography Tokens
+
 ```css
 /* Font families */
 font-brutalist    /* Space Grotesk */
@@ -363,6 +376,7 @@ tracking-brutalist, tracking-tight, tracking-normal
 ```
 
 ### Effect Tokens
+
 ```css
 /* Borders */
 border-brutalist  /* 3px */
@@ -400,6 +414,7 @@ When creating components, ensure:
 ## Accessibility Requirements
 
 ### Required Attributes
+
 ```svelte
 <!-- Buttons -->
 <button
@@ -430,6 +445,7 @@ When creating components, ensure:
 ```
 
 ### Keyboard Navigation
+
 ```typescript
 function handleKeydown(e: KeyboardEvent) {
   switch (e.key) {
@@ -454,6 +470,7 @@ function handleKeydown(e: KeyboardEvent) {
 ```
 
 ### Focus Management
+
 ```svelte
 <script lang="ts">
   let dialogElement: HTMLElement | undefined = $state()
@@ -474,6 +491,7 @@ function handleKeydown(e: KeyboardEvent) {
 ## Testing Guidelines
 
 ### Component Test Structure
+
 ```typescript
 import { render, screen } from '@testing-library/svelte'
 import { describe, it, expect } from 'vitest'
@@ -544,6 +562,7 @@ describe('Button', () => {
 ```
 
 ### Test Coverage Requirements
+
 - ✅ All variants and sizes
 - ✅ All event handlers
 - ✅ Disabled/loading/error states
@@ -556,7 +575,7 @@ describe('Button', () => {
 
 - **Components**: PascalCase (`Button.svelte`, `Card.svelte`, `DialogModal.svelte`)
 - **Props**: camelCase (`variant`, `size`, `isDisabled`, `onClick`)
-- **Files**: 
+- **Files**:
   - Components: PascalCase (`Button.svelte`)
   - Utilities: kebab-case (`class-variance.ts`, `token-utils.ts`)
   - Variants: kebab-case (`button-variants.ts`)
@@ -588,6 +607,7 @@ refactor(utils): simplify cn function
 ## Common Utilities
 
 ### cn() - Class Name Merging
+
 ```typescript
 import { cn } from '$lib/utils'
 
@@ -625,9 +645,9 @@ cn(
 
 ## Resources
 
-- **Svelte 5**: https://svelte-5-preview.vercel.app/
-- **Tailwind CSS**: https://tailwindcss.com/docs
-- **CVA**: https://cva.style/docs
-- **Testing Library**: https://testing-library.com/svelte
-- **Vitest**: https://vitest.dev/
-- **Accessibility**: https://www.w3.org/WAI/WCAG21/quickref/
+- **Svelte 5**: <https://svelte.dev/docs/svelte/overview>
+- **Tailwind CSS**: <https://tailwindcss.com/docs>
+- **CVA**: <https://cva.style/docs>
+- **Testing Library**: <https://testing-library.com/svelte> <https://svelte.dev/docs/svelte/testing>
+- **Vitest**: <https://vitest.dev/>
+- **Accessibility**: <https://www.w3.org/WAI/WCAG21/quickref/>
