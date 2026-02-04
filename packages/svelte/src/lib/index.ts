@@ -32,9 +32,8 @@ export { default as AccordionItem } from "./components/ui/accordion/accordion-it
 export { default as AccordionTrigger } from "./components/ui/accordion/accordion-trigger.svelte";
 export { default as AccordionContent } from "./components/ui/accordion/accordion-content.svelte";
 
-export { default as Tabs } from "./components/ui/tabs/tabs.svelte";
-export { default as TabsList } from "./components/ui/tabs/tabs-list.svelte";
-export { default as TabsTrigger } from "./components/ui/tabs/tabs-trigger.svelte";
-export { default as TabsContent } from "./components/ui/tabs/tabs-content.svelte";
+export * from "./components/ui/tabs";
+export * from "./components/ui/switch";
+export * from "./components/ui/slider";
 
 export * from "./utils";

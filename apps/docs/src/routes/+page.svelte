@@ -31,6 +31,8 @@
         FormLabel,
         FormDescription,
         FormMessage,
+        Switch,
+        Slider,
     } from "@neobr/svelte";
     import { Home01Icon, Notification02Icon } from "@hugeicons/core-free-icons";
 
@@ -43,6 +45,9 @@
             ? "Please enter a valid email address."
             : "",
     );
+
+    let notifications = $state(true);
+    let volume = $state(45);
 </script>
 
 <div class="container mx-auto py-10 space-y-10">
@@ -350,5 +355,63 @@
                 </Tabs>
             </CardContent>
         </Card>
+    </section>
+
+    <section class="space-y-4">
+        <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
+            Interactive Controls
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Switch Toggles</CardTitle>
+                </CardHeader>
+                <CardContent class="space-y-6">
+                    <div class="flex items-center justify-between">
+                        <div class="space-y-0.5">
+                            <p class="font-bold">Email Notifications</p>
+                            <p class="text-xs text-muted-foreground">
+                                Receive daily digests.
+                            </p>
+                        </div>
+                        <Switch bind:checked={notifications} />
+                    </div>
+                    <div class="flex items-center justify-between opacity-50">
+                        <div class="space-y-0.5">
+                            <p class="font-bold">Marketing Emails</p>
+                            <p class="text-xs text-muted-foreground">
+                                Disabled by admin.
+                            </p>
+                        </div>
+                        <Switch disabled />
+                    </div>
+                    <div class="flex gap-4">
+                        <Switch variant="destructive" checked />
+                        <Switch variant="success" checked />
+                    </div>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Slider Ranges</CardTitle>
+                </CardHeader>
+                <CardContent class="space-y-8 pt-4">
+                    <div class="space-y-4">
+                        <div class="flex justify-between">
+                            <p class="font-bold">Volume Level</p>
+                            <Badge>{volume}%</Badge>
+                        </div>
+                        <Slider bind:value={volume} min={0} max={100} />
+                    </div>
+                    <div class="space-y-4 opacity-50">
+                        <p class="text-xs font-bold uppercase tracking-wider">
+                            Brightness (Disabled)
+                        </p>
+                        <Slider value={70} disabled />
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
     </section>
 </div>
