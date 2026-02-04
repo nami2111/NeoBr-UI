@@ -110,7 +110,7 @@
 
 /* Neo Brutalist Utility Patterns */
 @utility btn-brutalist {
-    @apply border-2 border-foreground shadow-brutalist transition-all rounded-brutalist;
+    @apply border-2 border-foreground shadow-brutalist transition-all rounded-brutalist cursor-pointer;
     @apply hover:-translate-y-[2px] hover:shadow-brutalist-hover;
     @apply active:translate-y-[5px] active:shadow-none;
 }
