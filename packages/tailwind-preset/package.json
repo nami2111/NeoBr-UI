@@ -1,0 +1,20 @@
+{
+    "name": "@neobr/tailwind-preset",
+    "version": "1.0.0",
+    "description": "Clean Neo Brutalism Tailwind Preset",
+    "main": "index.js",
+    "exports": {
+        ".": "./index.js",
+        "./tokens": "./tokens.js"
+    },
+    "files": [
+        "index.js",
+        "tokens.js"
+    ],
+    "peerDependencies": {
+        "tailwindcss": "^3.0.0"
+    },
+    "dependencies": {
+        "tailwindcss-animate": "^1.0.7"
+    }
+}
