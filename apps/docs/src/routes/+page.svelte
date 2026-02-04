@@ -33,6 +33,7 @@
         FormMessage,
         Switch,
         Slider,
+        toast,
     } from "@neobr/svelte";
     import { Home01Icon, Notification02Icon } from "@hugeicons/core-free-icons";
 
@@ -413,5 +414,62 @@
                 </CardContent>
             </Card>
         </div>
+        <section class="space-y-4">
+            <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
+                Global Notifications (Toasts)
+            </h2>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Trigger Notifications</CardTitle>
+                    <CardDescription
+                        >Bold alerts that pop from the corner of the screen.</CardDescription
+                    >
+                </CardHeader>
+                <CardContent>
+                    <div class="flex flex-wrap gap-4">
+                        <Button
+                            onclick={() =>
+                                toast.add({
+                                    title: "Update",
+                                    description:
+                                        "A new version of NeoBr-UI is available.",
+                                })}
+                        >
+                            Default Toast
+                        </Button>
+                        <Button
+                            variant="success"
+                            onclick={() =>
+                                toast.success(
+                                    "Your profile has been saved successfully!",
+                                    { title: "Success" },
+                                )}
+                        >
+                            Success Toast
+                        </Button>
+                        <Button
+                            variant="destructive"
+                            onclick={() =>
+                                toast.error(
+                                    "Unable to connect to the server. Please try again.",
+                                    { title: "Connection Error" },
+                                )}
+                        >
+                            Error Toast
+                        </Button>
+                        <Button
+                            variant="warning"
+                            onclick={() =>
+                                toast.warning(
+                                    "Your storage is almost full. Check your plan.",
+                                    { title: "Warning" },
+                                )}
+                        >
+                            Warning Toast
+                        </Button>
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
     </section>
 </div>

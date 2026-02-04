@@ -10,6 +10,8 @@
         variant: {
           default: "bg-primary text-primary-foreground border-foreground hover:bg-primary-hover shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
           destructive: "bg-destructive text-destructive-foreground border-foreground hover:bg-destructive-hover shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
+          success: "bg-success text-success-foreground border-foreground hover:bg-success-hover shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
+          warning: "bg-warning text-warning-foreground border-foreground hover:bg-warning-hover shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
           outline: "border-input bg-background hover:bg-accent hover:text-accent-foreground shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
           secondary: "bg-secondary text-secondary-foreground border-foreground hover:bg-secondary-hover shadow-brutalist hover:-translate-y-[2px] hover:shadow-hover",
           ghost: "hover:bg-accent hover:text-accent-foreground border-transparent",

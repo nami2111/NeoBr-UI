@@ -35,5 +35,6 @@ export { default as AccordionContent } from "./components/ui/accordion/accordion
 export * from "./components/ui/tabs";
 export * from "./components/ui/switch";
 export * from "./components/ui/slider";
+export * from "./components/ui/toast";
 
 export * from "./utils";

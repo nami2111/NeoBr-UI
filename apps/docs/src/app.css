@@ -19,6 +19,15 @@
     --fg-muted: #fab387;
     --fg-success: #a6e3a1;
 
+    --success: #a6e3a1;
+    --success-hover: #8ae084;
+    --success-active: #74c365;
+    --success-foreground: #11111b;
+    --warning: #f9e2af;
+    --warning-hover: #f7d78a;
+    --warning-active: #f5c277;
+    --warning-foreground: #11111b;
+
     --primary: #b4befe;
     --primary-hover: #92a1f9;
     --primary-active: #7685d4;
@@ -32,7 +41,7 @@
     --destructive: #f38ba8;
     --destructive-hover: #e67e80;
     --destructive-active: #d20f39;
-    --destructive-foreground: #f5f5f7;
+    --destructive-foreground: #11111b;
 
     --neutral: #1e1e2e;
     --neutral-hover: #181825;

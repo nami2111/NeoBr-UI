@@ -43,6 +43,18 @@ export const colors = {
         active: 'var(--destructive-active, #d20f39)',
         foreground: 'var(--destructive-foreground, #f5f5f7)',
     },
+    success: {
+        DEFAULT: 'var(--success, #a6e3a1)',
+        hover: 'var(--success-hover, #8ae084)',
+        active: 'var(--success-active, #74c365)',
+        foreground: 'var(--success-foreground, #11111b)',
+    },
+    warning: {
+        DEFAULT: 'var(--warning, #f9e2af)',
+        hover: 'var(--warning-hover, #f7d78a)',
+        active: 'var(--warning-active, #f5c277)',
+        foreground: 'var(--warning-foreground, #11111b)',
+    },
     neutral: {
         DEFAULT: 'var(--neutral, #1e1e2e)',
         hover: 'var(--neutral-hover, #181825)',
