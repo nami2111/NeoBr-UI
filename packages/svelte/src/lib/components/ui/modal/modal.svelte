@@ -6,19 +6,24 @@
     open?: boolean;
     onClose?: () => void;
     title?: string;
-    children?: import('svelte').Snippet;
+    children?: import("svelte").Snippet;
   };
 
-  let { 
-    open = false, 
-    onClose = () => {}, 
-    title = undefined, 
-    children 
+  let {
+    open = $bindable(false),
+    onClose = () => {},
+    title = undefined,
+    children,
   }: Props = $props();
+
+  function handleClose() {
+    open = false;
+    onClose?.();
+  }
 
   function handleKeydown(e: KeyboardEvent) {
     if (e.key === "Escape" && open) {
-      onClose();
+      handleClose();
     }
   }
 </script>
@@ -28,18 +33,20 @@
 {#if open}
   <div
     class="fixed inset-0 z-50 flex items-center justify-center p-4"
-    transition:fade={{ duration: 150 }}
     role="dialog"
     aria-modal="true"
     aria-labelledby={title ? "modal-title" : undefined}
   >
+    <!-- Backdrop -->
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
-      class="fixed inset-0 bg-background/80 backdrop-blur-sm"
-      onclick={onClose}
+      class="fixed inset-0 bg-foreground/30 backdrop-blur-sm"
+      transition:fade={{ duration: 200 }}
+      onclick={handleClose}
     ></div>
 
+    <!-- Modal Content -->
     <div
       class="relative z-50 w-full max-w-lg border-2 border-foreground bg-background p-6 shadow-brutalist rounded-brutalist"
       transition:fly={{ y: 20, duration: 300 }}
@@ -47,11 +54,13 @@
       <div class="flex flex-col space-y-2">
         <div class="flex items-center justify-between">
           {#if title}
-            <h2 id="modal-title" class="text-lg font-bold tracking-tight">{title}</h2>
+            <h2 id="modal-title" class="text-lg font-bold tracking-tight">
+              {title}
+            </h2>
           {/if}
           <button
             class="rounded-brutalist border-2 border-foreground p-1 hover:bg-accent transition-all active:translate-y-[2px] active:shadow-none"
-            onclick={onClose}
+            onclick={handleClose}
             aria-label="Close modal"
           >
             <svg
@@ -69,7 +78,7 @@
           </button>
         </div>
         <div class="pt-4">
-            {@render children?.()}
+          {@render children?.()}
         </div>
       </div>
     </div>

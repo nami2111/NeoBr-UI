@@ -137,11 +137,7 @@
                     Modal Overlay
                 </p>
                 <Button onclick={() => (showModal = true)}>Open Modal</Button>
-                <Modal
-                    open={showModal}
-                    title="Neo Brutalist Modal"
-                    onClose={() => (showModal = false)}
-                >
+                <Modal bind:open={showModal} title="Neo Brutalist Modal">
                     <p class="py-4">
                         This is a high-contrast modal with refined 12px rounded
                         edges and centered shadows. It supports both light and
