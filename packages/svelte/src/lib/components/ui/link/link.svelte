@@ -10,6 +10,7 @@
         variant: {
           default: "text-foreground underline decoration-2 underline-offset-4",
           primary: "text-primary underline decoration-2 underline-offset-4",
+          secondary: "text-secondary underline decoration-2 underline-offset-4",
           muted: "text-muted-foreground underline decoration-1 underline-offset-2",
         },
         brutalist: {
