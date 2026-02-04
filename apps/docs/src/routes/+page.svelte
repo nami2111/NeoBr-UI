@@ -37,7 +37,15 @@
         RadioGroup,
         RadioGroupItem,
         Label,
+        Separator,
+        Avatar,
+        Tooltip,
+        Select,
+        SelectTrigger,
+        SelectContent,
+        SelectItem,
         toast,
+        Toaster,
     } from "@neobr/svelte";
     import { Home01Icon, Notification02Icon } from "@hugeicons/core-free-icons";
 
@@ -48,6 +56,7 @@
     let sliderValue = $state(50);
     let checkboxState = $state(true);
     let radioValue = $state("option-2");
+    let selectValue = $state("");
     let emailError = $derived(
         email.length > 0 && !email.includes("@")
             ? "Please enter a valid email address."
@@ -553,6 +562,138 @@
                     </div>
                 </CardContent>
             </Card>
+        </section>
+
+        <!-- Advanced Selection -->
+        <section class="space-y-4">
+            <h2
+                class="font-mono text-2xl font-bold uppercase tracking-brutalist border-b-2 border-foreground pb-2"
+            >
+                Advanced Selection
+            </h2>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Select</CardTitle>
+                    <CardDescription
+                        >A bold, custom dropdown replacement.</CardDescription
+                    >
+                </CardHeader>
+                <CardContent class="space-y-4">
+                    <div class="max-w-xs">
+                        <Select bind:value={selectValue}>
+                            <SelectTrigger>
+                                {selectValue
+                                    ? selectValue.charAt(0).toUpperCase() +
+                                      selectValue.slice(1)
+                                    : "Pick an environment"}
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="production"
+                                    >Production</SelectItem
+                                >
+                                <SelectItem value="staging">Staging</SelectItem>
+                                <SelectItem value="development"
+                                    >Development</SelectItem
+                                >
+                                <SelectItem value="local" disabled
+                                    >Local (Internal only)</SelectItem
+                                >
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <p class="text-sm font-medium">
+                        Selected: <span class="font-mono font-bold text-primary"
+                            >{selectValue || "none"}</span
+                        >
+                    </p>
+                </CardContent>
+            </Card>
+        </section>
+
+        <!-- Data Display & Utility -->
+        <section class="space-y-4">
+            <h2
+                class="font-mono text-2xl font-bold uppercase tracking-brutalist border-b-2 border-foreground pb-2"
+            >
+                Data Display & Utility
+            </h2>
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Avatar</CardTitle>
+                        <CardDescription
+                            >User profile containers with a thick border.</CardDescription
+                        >
+                    </CardHeader>
+                    <CardContent class="space-y-6">
+                        <div class="flex items-center space-x-4">
+                            <Avatar
+                                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=128&h=128&fit=crop"
+                                alt="User 1"
+                                size="lg"
+                            />
+                            <Avatar alt="JD" size="lg" />
+                            <Avatar
+                                alt="Missing"
+                                src="/failed-image.jpg"
+                                size="lg"
+                            />
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <Avatar alt="Square" shape="square" size="md" />
+                            <Avatar alt="Mini" size="sm" />
+                            <Avatar alt="Large" size="xl" />
+                        </div>
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Tooltip & Separator</CardTitle>
+                        <CardDescription
+                            >Micro-interactions and organizational elements.</CardDescription
+                        >
+                    </CardHeader>
+                    <CardContent class="space-y-6">
+                        <div
+                            class="flex h-5 items-center space-x-4 text-sm font-bold"
+                        >
+                            <div>Dashboard</div>
+                            <Separator orientation="vertical" />
+                            <div>Settings</div>
+                            <Separator orientation="vertical" />
+                            <div>Profile</div>
+                        </div>
+                        <Separator />
+                        <div class="flex flex-wrap gap-4">
+                            <Tooltip
+                                content="This is a top tooltip"
+                                position="top"
+                            >
+                                <Button variant="outline" size="sm"
+                                    >Hover Top</Button
+                                >
+                            </Tooltip>
+                            <Tooltip
+                                content="Brutalist styling!"
+                                position="right"
+                            >
+                                <Button variant="outline" size="sm"
+                                    >Hover Right</Button
+                                >
+                            </Tooltip>
+                            <Tooltip
+                                content="Helpful info down here"
+                                position="bottom"
+                            >
+                                <Button variant="outline" size="sm"
+                                    >Hover Bottom</Button
+                                >
+                            </Tooltip>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
         </section>
     </section>
 </div>

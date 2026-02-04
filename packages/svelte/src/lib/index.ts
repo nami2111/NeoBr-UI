@@ -39,5 +39,9 @@ export * from "./components/ui/toast";
 export * from "./components/ui/checkbox";
 export * from "./components/ui/radio-group";
 export * from "./components/ui/label";
+export * from "./components/ui/separator";
+export * from "./components/ui/avatar";
+export * from "./components/ui/tooltip";
+export * from "./components/ui/select";
 
 export * from "./utils";
