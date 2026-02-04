@@ -2,7 +2,7 @@
     import { cva, type VariantProps } from "class-variance-authority";
     import { cn } from "../../../utils";
 
-    const loadingVariants = cva("animate-spin", {
+    const loadingVariants = cva("", {
         variants: {
             variant: {
                 default: "text-primary",
@@ -35,16 +35,80 @@
     }: Props = $props();
 </script>
 
-<svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="square"
-    stroke-linejoin="miter"
-    class={cn(loadingVariants({ variant, size, className }))}
+<div
+    class={cn(
+        "relative inline-block",
+        loadingVariants({ variant, size, className }),
+        className,
+    )}
     {...rest}
 >
-    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-</svg>
+    <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-full w-full"
+    >
+        <!-- 4 Blocks with Staggered Tail Animation -->
+        <rect
+            x="2"
+            y="2"
+            width="9"
+            height="9"
+            fill="currentColor"
+            class="animate-neobr-tail"
+            style="animation-delay: 0s;"
+        />
+        <rect
+            x="13"
+            y="2"
+            width="9"
+            height="9"
+            fill="currentColor"
+            class="animate-neobr-tail"
+            style="animation-delay: 0.2s;"
+        />
+        <rect
+            x="13"
+            y="13"
+            width="9"
+            height="9"
+            fill="currentColor"
+            class="animate-neobr-tail"
+            style="animation-delay: 0.4s;"
+        />
+        <rect
+            x="2"
+            y="13"
+            width="9"
+            height="9"
+            fill="currentColor"
+            class="animate-neobr-tail"
+            style="animation-delay: 0.6s;"
+        />
+    </svg>
+</div>
+
+<style>
+    @keyframes neobr-tail {
+        0% {
+            opacity: 0;
+        }
+        5% {
+            opacity: 1;
+        }
+        25% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
+    :global(.animate-neobr-tail) {
+        animation: neobr-tail 0.8s infinite;
+    }
+</style>
