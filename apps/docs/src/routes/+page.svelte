@@ -67,6 +67,17 @@
         ToggleGroup,
         ToggleGroupItem,
         Popover,
+        AspectRatio,
+        Collapsible,
+        CollapsibleTrigger,
+        CollapsibleContent,
+        ScrollArea,
+        Command,
+        CommandInput,
+        CommandList,
+        CommandEmpty,
+        CommandGroup,
+        CommandItem,
     } from "@neobr/svelte";
 
     import { Home01Icon, Notification02Icon } from "@hugeicons/core-free-icons";
@@ -91,6 +102,8 @@
     let loading = $state(true);
     let progress = $state(33);
     let currentPage = $state(2);
+    let collapsibleOpen = $state(false);
+    let commandOpen = $state(false);
 
     $effect(() => {
         const timer = setTimeout(() => (loading = false), 2000);
@@ -1070,6 +1083,174 @@
                                     >Hover Bottom</Button
                                 >
                             </Tooltip>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        </section>
+        <!-- Advanced Layout & Disclosure -->
+        <section class="space-y-4">
+            <h2 class="text-2xl font-bold border-b-2 border-foreground pb-2">
+                Advanced Layout & Disclosure
+            </h2>
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Collapsible</CardTitle>
+                        <CardDescription
+                            >Expandable content sections with slide transitions.</CardDescription
+                        >
+                    </CardHeader>
+                    <CardContent>
+                        <Collapsible
+                            bind:open={collapsibleOpen}
+                            class="w-full space-y-2"
+                        >
+                            <div
+                                class="flex items-center justify-between space-x-4 px-4 py-2 border-2 border-foreground bg-background rounded-brutalist shadow-brutalist"
+                            >
+                                <h4 class="text-sm font-bold">@neobr/svelte</h4>
+                                <CollapsibleTrigger>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        class="w-9 p-0"
+                                    >
+                                        <div
+                                            class="h-4 w-4 transition-transform {collapsibleOpen
+                                                ? 'rotate-180'
+                                                : ''}"
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2.5"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                ><path d="m6 9 6 6 6-6" /></svg
+                                            >
+                                        </div>
+                                        <span class="sr-only">Toggle</span>
+                                    </Button>
+                                </CollapsibleTrigger>
+                            </div>
+                            <div
+                                class="px-4 py-2 text-sm border-2 border-foreground bg-secondary rounded-brutalist shadow-brutalist"
+                            >
+                                @neobr/tailwind-preset
+                            </div>
+                            <CollapsibleContent class="space-y-2">
+                                <div
+                                    class="px-4 py-2 text-sm border-2 border-foreground bg-background rounded-brutalist shadow-brutalist"
+                                >
+                                    @hugeicons/svelte
+                                </div>
+                                <div
+                                    class="px-4 py-2 text-sm border-2 border-foreground bg-background rounded-brutalist shadow-brutalist"
+                                >
+                                    class-variance-authority
+                                </div>
+                            </CollapsibleContent>
+                        </Collapsible>
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>AspectRatio & ScrollArea</CardTitle>
+                        <CardDescription
+                            >Visual consistency and custom scrollbars.</CardDescription
+                        >
+                    </CardHeader>
+                    <CardContent class="space-y-6">
+                        <AspectRatio
+                            ratio={16 / 9}
+                            class="bg-primary border-2 border-foreground rounded-brutalist overflow-hidden shadow-brutalist"
+                        >
+                            <img
+                                src="https://images.unsplash.com/photo-1588345919324-80d0ac50ea1a?w=800&q=80"
+                                alt="Drew Beamer"
+                                class="h-full w-full object-cover"
+                            />
+                        </AspectRatio>
+
+                        <ScrollArea class="h-40 p-4">
+                            <div class="space-y-4">
+                                <h4 class="font-bold">Brutalist Scrollbars</h4>
+                                <p class="text-sm">
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit. Sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua.
+                                    Ut enim ad minim veniam, quis nostrud
+                                    exercitation ullamco laboris nisi ut aliquip
+                                    ex ea commodo consequat.
+                                </p>
+                                <p class="text-sm">
+                                    Duis aute irure dolor in reprehenderit in
+                                    voluptate velit esse cillum dolore eu fugiat
+                                    nulla pariatur. Excepteur sint occaecat
+                                    cupidatat non proident, sunt in culpa qui
+                                    officia deserunt mollit anim id est laborum.
+                                </p>
+                                <p class="text-sm">
+                                    Sed ut perspiciatis unde omnis iste natus
+                                    error sit voluptatem accusantium doloremque
+                                    laudantium, totam rem aperiam, eaque ipsa
+                                    quae ab illo inventore veritatis et quasi
+                                    architecto beatae vitae dicta sunt
+                                    explicabo.
+                                </p>
+                            </div>
+                        </ScrollArea>
+                    </CardContent>
+                </Card>
+
+                <Card class="md:col-span-2">
+                    <CardHeader>
+                        <CardTitle>Command Palette</CardTitle>
+                        <CardDescription
+                            >A search-first interaction model.</CardDescription
+                        >
+                    </CardHeader>
+                    <CardContent>
+                        <div
+                            class="max-w-xl mx-auto border-2 border-foreground rounded-brutalist overflow-hidden shadow-brutalist"
+                        >
+                            <Command>
+                                <CommandInput
+                                    placeholder="Search components..."
+                                />
+                                <CommandList>
+                                    <CommandEmpty />
+                                    <CommandGroup heading="Suggestions">
+                                        <CommandItem value="Calendar"
+                                            >Calendar</CommandItem
+                                        >
+                                        <CommandItem value="Search Emoji"
+                                            >Search Emoji</CommandItem
+                                        >
+                                        <CommandItem value="Calculator"
+                                            >Calculator</CommandItem
+                                        >
+                                    </CommandGroup>
+                                    <Separator />
+                                    <CommandGroup heading="Settings">
+                                        <CommandItem value="Profile"
+                                            >Profile</CommandItem
+                                        >
+                                        <CommandItem value="Billing"
+                                            >Billing</CommandItem
+                                        >
+                                        <CommandItem value="Settings"
+                                            >Settings</CommandItem
+                                        >
+                                    </CommandGroup>
+                                </CommandList>
+                            </Command>
                         </div>
                     </CardContent>
                 </Card>

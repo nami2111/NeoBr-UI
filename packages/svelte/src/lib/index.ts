@@ -54,6 +54,10 @@ export * from "./components/ui/breadcrumbs";
 export * from "./components/ui/pagination";
 export * from "./components/ui/sheet";
 export * from "./components/ui/toggle-group";
+export * from "./components/ui/collapsible";
+export * from "./components/ui/aspect-ratio";
+export * from "./components/ui/scroll-area";
+export * from "./components/ui/command";
 
 
 export * from "./utils";
