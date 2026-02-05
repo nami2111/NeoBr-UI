@@ -38,11 +38,7 @@
         <div
             class="animate-in fade-in slide-in-from-bottom-10 flex flex-wrap gap-6 delay-500 duration-700"
         >
-            <Button
-                size="lg"
-                href="/docs/installation"
-                class="h-auto px-12 py-8 text-xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-none"
-            >
+            <Button size="lg" href="/docs/installation" class="h-auto px-12 py-8 text-xl">
                 Get Started
                 <Icon icon={ArrowRight01Icon} class="ml-2 h-6 w-6" />
             </Button>
@@ -60,7 +56,7 @@
     <!-- Features -->
     <section class="grid grid-cols-1 gap-8 md:grid-cols-3">
         <Card
-            class="bg-primary/10 border-foreground border-4 transition-transform hover:-translate-y-1 hover:translate-x-1"
+            class="bg-primary/10 hover:shadow-brutalist-hover transition-all hover:-translate-y-1"
         >
             <CardHeader>
                 <div
@@ -77,7 +73,7 @@
         </Card>
 
         <Card
-            class="bg-secondary/10 border-foreground border-4 transition-transform hover:-translate-y-1 hover:translate-x-1"
+            class="bg-secondary/10 hover:shadow-brutalist-hover transition-all hover:-translate-y-1"
         >
             <CardHeader>
                 <div
@@ -93,9 +89,7 @@
             </CardHeader>
         </Card>
 
-        <Card
-            class="bg-accent/10 border-foreground border-4 transition-transform hover:-translate-y-1 hover:translate-x-1"
-        >
+        <Card class="bg-accent/10 hover:shadow-brutalist-hover transition-all hover:-translate-y-1">
             <CardHeader>
                 <div
                     class="bg-accent border-foreground mb-6 flex h-16 w-16 items-center justify-center border-4"
@@ -113,7 +107,7 @@
 
     <!-- Call to Action -->
     <section
-        class="border-foreground bg-accent relative flex flex-col items-center space-y-6 overflow-hidden rounded-none border-4 p-12 text-center"
+        class="border-foreground bg-accent shadow-brutalist relative flex flex-col items-center space-y-6 overflow-hidden rounded-none border-2 p-12 text-center"
     >
         <div
             class="bg-primary border-foreground absolute top-0 right-0 h-32 w-32 -translate-y-16 translate-x-16 -rotate-45 border-b-4 border-l-4"

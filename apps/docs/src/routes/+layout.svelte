@@ -26,7 +26,7 @@
             </Button>
             <a
                 href="/"
-                class="hover:text-primary text-2xl font-black tracking-tighter transition-colors"
+                class="hover:text-primary text-stroke-2 text-2xl font-black tracking-tighter transition-colors"
             >
                 NEOBR-UI
             </a>

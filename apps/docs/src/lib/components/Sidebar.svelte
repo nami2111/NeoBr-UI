@@ -74,11 +74,11 @@
                 {#each section.items as item}
                     <a
                         href={item.href}
-                        class="hover:border-foreground hover:bg-accent rounded-sm border-2 border-transparent px-3 py-2 text-sm font-bold transition-all {isActive(
+                        class="rounded-none border-2 px-3 py-2 text-sm font-bold transition-all {isActive(
                             item.href,
                         )
-                            ? 'bg-primary text-primary-foreground border-foreground'
-                            : ''}"
+                            ? 'bg-primary text-primary-foreground border-foreground shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]'
+                            : 'hover:border-foreground hover:bg-accent border-transparent'}"
                     >
                         {item.title}
                     </a>

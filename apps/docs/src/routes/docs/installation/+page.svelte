@@ -10,7 +10,7 @@
             </h2>
             <p class="font-medium">Run the following command in your project root:</p>
             <pre
-                class="border-foreground rounded-none border-4 bg-slate-950 p-6 text-slate-50 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                class="border-foreground bg-muted text-foreground overflow-x-auto rounded-none border-4 p-6 font-mono text-sm leading-relaxed">
 <code>pnpm add @neobr/svelte @neobr/tailwind-preset</code>
             </pre>
         </section>
@@ -24,7 +24,7 @@
                 <code>app.css</code>:
             </p>
             <pre
-                class="border-foreground rounded-none border-4 bg-slate-950 p-6 text-sm text-slate-50 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                class="border-foreground bg-muted text-foreground overflow-x-auto rounded-none border-4 p-6 font-mono text-sm leading-relaxed">
 <code
                     >@import "tailwindcss";
 @import "@neobr/tailwind-preset/style";</code
@@ -36,7 +36,7 @@
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">3. Usage</h2>
             <p class="font-medium">Import components directly in your Svelte files:</p>
             <pre
-                class="border-foreground rounded-none border-4 bg-slate-950 p-6 text-sm text-slate-50 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                class="border-foreground bg-muted text-foreground overflow-x-auto rounded-none border-4 p-6 font-mono text-sm leading-relaxed">
 <code
                     >&lt;script&gt;
   import &#123; Button &#125; from "@neobr/svelte";

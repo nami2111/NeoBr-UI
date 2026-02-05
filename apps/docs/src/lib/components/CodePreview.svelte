@@ -36,7 +36,7 @@
                 class="border-foreground bg-accent/10 relative flex min-h-[200px] items-center justify-center overflow-hidden rounded-none border-4 p-6 md:p-10"
             >
                 <div
-                    class="absolute inset-0 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:20px_20px] opacity-10"
+                    class="absolute inset-0 bg-[radial-gradient(var(--color-foreground)_1px,transparent_1px)] [background-size:20px_20px] opacity-10"
                 ></div>
                 <div class="relative z-10 flex w-full items-center justify-center">
                     {@render children?.()}
@@ -45,11 +45,9 @@
         </TabsContent>
         <TabsContent value="code" class="pt-6">
             <div class="group relative">
-                <div
-                    class="bg-primary/20 absolute -inset-2 -z-10 rounded-none blur-sm transition-all group-hover:blur-md"
-                ></div>
+                <!-- Removed the glow and shadow as per user request -->
                 <pre
-                    class="border-foreground overflow-x-auto rounded-none border-4 bg-slate-950 p-6 font-mono text-sm leading-relaxed text-slate-50 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                    class="border-foreground bg-muted text-foreground overflow-x-auto rounded-none border-4 p-6 font-mono text-sm leading-relaxed">
                     <code>{code.trim()}</code>
                 </pre>
             </div>

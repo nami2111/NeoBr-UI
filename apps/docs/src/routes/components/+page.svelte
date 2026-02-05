@@ -22,9 +22,9 @@
 <DocPage title="Components" description="Explore our collection of neo-brutalist UI components.">
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {#each components as component}
-            <a href={component.href} class="group block hover:no-underline">
+            <a href={component.href} class="group block font-mono hover:no-underline">
                 <Card
-                    class="border-foreground group-hover:bg-primary/5 h-full border-4 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
+                    class="group-hover:bg-primary/5 group-hover:shadow-brutalist-hover h-full transition-all group-hover:-translate-y-1"
                 >
                     <CardHeader>
                         <CardTitle
@@ -41,7 +41,7 @@
         {/each}
 
         <div
-            class="border-foreground/20 flex items-center justify-center border-4 border-dashed p-6 text-center"
+            class="border-foreground/20 rounded-brutalist flex items-center justify-center border-2 border-dashed p-6 text-center"
         >
             <p class="text-muted-foreground font-bold italic">More components coming soon...</p>
         </div>
