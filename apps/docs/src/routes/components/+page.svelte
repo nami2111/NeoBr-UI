@@ -25,6 +25,11 @@
             href: "/components/badge",
         },
         {
+            title: "Breadcrumbs",
+            description: "Displays the path to the current resource.",
+            href: "/components/breadcrumbs",
+        },
+        {
             title: "Button",
             description: "Interactive elements used for actions.",
             href: "/components/button",
@@ -35,6 +40,26 @@
             description: "A control that allows the user to toggle check states.",
             href: "/components/checkbox",
         },
+        {
+            title: "Collapsible",
+            description: "Interactive component which expands/collapses a panel.",
+            href: "/components/collapsible",
+        },
+        {
+            title: "Command",
+            description: "Fast, composable command menu.",
+            href: "/components/command",
+        },
+        {
+            title: "Dropdown Menu",
+            description: "Displays a menu of actions triggered by a button.",
+            href: "/components/dropdown-menu",
+        },
+        {
+            title: "Form",
+            description: "Building forms with validation.",
+            href: "/components/form",
+        },
         { title: "Input", description: "Displays a form input field.", href: "/components/input" },
         {
             title: "Label",
@@ -44,14 +69,49 @@
         { title: "Link", description: "Neo-brutalist text link.", href: "/components/link" },
         { title: "Loading", description: "Animated loading spinner.", href: "/components/loading" },
         {
+            title: "Modal",
+            description: "A window overlaid on the primary window.",
+            href: "/components/modal",
+        },
+        {
+            title: "Pagination",
+            description: "Navigation between pages.",
+            href: "/components/pagination",
+        },
+        {
+            title: "Popover",
+            description: "Rich content triggered by a button.",
+            href: "/components/popover",
+        },
+        {
             title: "Progress",
             description: "Displays completion progress of a task.",
             href: "/components/progress",
         },
         {
+            title: "Radio Group",
+            description: "Set of checkable buttons where only one can be checked.",
+            href: "/components/radio-group",
+        },
+        {
+            title: "Scroll Area",
+            description: "Custom cross-browser scroll functionality.",
+            href: "/components/scroll-area",
+        },
+        {
+            title: "Select",
+            description: "List of options for user to pick from.",
+            href: "/components/select",
+        },
+        {
             title: "Separator",
             description: "Separates content visually.",
             href: "/components/separator",
+        },
+        {
+            title: "Sheet",
+            description: "Complementary content that slides from side.",
+            href: "/components/sheet",
         },
         {
             title: "Skeleton",
@@ -62,11 +122,21 @@
         { title: "Switch", description: "Binary on/off control.", href: "/components/switch" },
         { title: "Tabs", description: "Layered sections of content.", href: "/components/tabs" },
         { title: "Textarea", description: "Multi-line text input.", href: "/components/textarea" },
+        {
+            title: "Toast",
+            description: "Succinct message after an action.",
+            href: "/components/toast",
+        },
         { title: "Toggle", description: "Two-state button.", href: "/components/toggle" },
         {
             title: "Toggle Group",
             description: "A set of toggle buttons.",
             href: "/components/toggle-group",
+        },
+        {
+            title: "Tooltip",
+            description: "Information on hover or focus.",
+            href: "/components/tooltip",
         },
     ];
 </script>
