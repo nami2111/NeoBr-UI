@@ -2,7 +2,24 @@
     "name": "@neobr/svelte",
     "version": "1.0.2",
     "type": "module",
-    "description": "NeoBr UI Svelte Components",
+    "description": "Premium Neo-Brutalist Svelte 5 Component Library",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nami2111/NeoBr-UI.git",
+        "directory": "packages/svelte"
+    },
+    "homepage": "https://github.com/nami2111/NeoBr-UI/tree/main/packages/svelte#readme",
+    "bugs": "https://github.com/nami2111/NeoBr-UI/issues",
+    "license": "MIT",
+    "keywords": [
+        "svelte",
+        "svelte5",
+        "neo-brutalism",
+        "ui-components",
+        "component-library",
+        "tailwind",
+        "shadcn-svelte"
+    ],
     "main": "dist/index.js",
     "module": "dist/index.mjs",
     "types": "dist/index.d.ts",
