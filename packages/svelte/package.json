@@ -1,6 +1,6 @@
 {
     "name": "@neobr/svelte",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "type": "module",
     "description": "NeoBr UI Svelte Components",
     "main": "dist/index.js",

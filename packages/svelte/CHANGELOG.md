@@ -1,5 +1,13 @@
 # @neobr/svelte
 
+## 1.0.2
+
+### Patch Changes
+
+- Added Command Palette, ScrollArea, Collapsible, and AspectRatio components.
+- Updated dependencies
+  - @neobr/tailwind-preset@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes

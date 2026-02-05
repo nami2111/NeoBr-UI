@@ -1,5 +1,11 @@
 # @neobr/tailwind-preset
 
+## 1.0.2
+
+### Patch Changes
+
+- Added Command Palette, ScrollArea, Collapsible, and AspectRatio components.
+
 ## 1.0.1
 
 ### Patch Changes
