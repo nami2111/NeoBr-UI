@@ -1,7 +1,7 @@
 <script>
     import "../app.css";
     import ThemeToggle from "../lib/components/ThemeToggle.svelte";
-    import { Toaster } from "@nami2111/svelte";
+    import { Toaster } from "@neobr/svelte";
 
     let { children } = $props();
 </script>

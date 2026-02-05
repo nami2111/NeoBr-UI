@@ -3,7 +3,7 @@
  * Transitioned to v4-ready CSS architecture
  */
 @import "tailwindcss";
-@import "@nami2111/tailwind-preset/style";
+@import "@neobr/tailwind-preset/style";
 
 /* Monorepo scanning */
 @source "../../../packages/svelte/src/lib";

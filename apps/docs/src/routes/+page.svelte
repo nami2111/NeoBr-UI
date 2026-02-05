@@ -67,7 +67,7 @@
         ToggleGroup,
         ToggleGroupItem,
         Popover,
-    } from "@nami2111/svelte";
+    } from "@neobr/svelte";
 
     import { Home01Icon, Notification02Icon } from "@hugeicons/core-free-icons";
 

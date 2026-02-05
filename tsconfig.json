@@ -5,7 +5,7 @@
         "target": "esnext",
         "baseUrl": ".",
         "paths": {
-            "@nami2111/*": [
+            "@neobr/*": [
                 "packages/*"
             ]
         },
