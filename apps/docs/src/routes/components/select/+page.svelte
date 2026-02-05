@@ -26,6 +26,7 @@
         <SelectItem value="pineapple">Pineapple</SelectItem>
     </SelectContent>
 </Select>`}
+                class="min-h-[450px]"
             >
                 <div class="flex items-center justify-center py-10">
                     <div class="w-[200px]">

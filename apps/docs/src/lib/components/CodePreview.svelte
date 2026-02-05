@@ -5,10 +5,13 @@
     interface Props {
         code: string;
         children?: import("svelte").Snippet;
+        class?: string;
     }
 
-    let { code, children }: Props = $props();
+    let { code, children, class: className }: Props = $props();
     let copied = $state(false);
+
+    import { cn } from "@neobr/svelte";
 
     async function copyToClipboard() {
         await navigator.clipboard.writeText(code);
@@ -33,7 +36,10 @@
         </div>
         <TabsContent value="preview" class="pt-6">
             <div
-                class="border-foreground bg-accent/10 relative flex min-h-[200px] items-center justify-center overflow-hidden rounded-none border-2 p-6 md:p-10"
+                class={cn(
+                    "border-foreground bg-accent/10 relative flex min-h-[200px] items-center justify-center rounded-none border-2 p-6 md:p-10",
+                    className,
+                )}
             >
                 <div
                     class="absolute inset-0 bg-[radial-gradient(var(--color-foreground)_1px,transparent_1px)] [background-size:20px_20px] opacity-10"
