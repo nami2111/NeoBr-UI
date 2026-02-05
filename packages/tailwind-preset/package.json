@@ -1,7 +1,23 @@
 {
     "name": "@neobr/tailwind-preset",
     "version": "1.0.2",
-    "description": "Clean Neo Brutalism Tailwind Preset",
+    "description": "Premium Neo-Brutalist Tailwind CSS v4 Preset",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nami2111/NeoBr-UI.git",
+        "directory": "packages/tailwind-preset"
+    },
+    "homepage": "https://github.com/nami2111/NeoBr-UI/tree/main/packages/tailwind-preset#readme",
+    "bugs": "https://github.com/nami2111/NeoBr-UI/issues",
+    "license": "MIT",
+    "keywords": [
+        "tailwind",
+        "tailwindcss",
+        "neo-brutalism",
+        "design-system",
+        "tokens",
+        "v4"
+    ],
     "main": "index.js",
     "exports": {
         ".": "./index.js",
