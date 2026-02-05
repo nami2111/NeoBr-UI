@@ -1,5 +1,11 @@
 # @neobr/tailwind-preset
 
+## 1.0.3
+
+### Patch Changes
+
+- Improvements of Critical Accessibility Gaps and Testing Coverage
+
 ## 1.0.2
 
 ### Patch Changes
@@ -11,7 +17,7 @@
 ### Patch Changes
 
 - Initial release of the NeoBr-UI component library and Tailwind preset.
-  - Core Svelte 5 components with Neo-Brutalist design.
-  - Tailwind v4 compatible design system and preset.
-  - HugeIcons integration.
-  - Accessible and performant base components.
+    - Core Svelte 5 components with Neo-Brutalist design.
+    - Tailwind v4 compatible design system and preset.
+    - HugeIcons integration.
+    - Accessible and performant base components.
