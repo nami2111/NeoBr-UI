@@ -3,7 +3,7 @@
     import CodePreview from "../../../lib/components/CodePreview.svelte";
     import { AspectRatio } from "@neobr/svelte";
 
-    const sixteenByNine = `<AspectRatio ratio={16 / 9} class="bg-muted border-4 border-foreground">
+    const sixteenByNine = `<AspectRatio ratio={16 / 9} class="bg-muted border-2 border-foreground">
     <img
         src="https://images.unsplash.com/photo-1588345921523-c2dcd57f7dcc?w=800&dpr=2&q=80"
         alt="Abstract artwork"
@@ -20,7 +20,7 @@
                 <div class="w-full max-w-md">
                     <AspectRatio
                         ratio={16 / 9}
-                        class="bg-muted border-foreground rounded-brutalist overflow-hidden border-4"
+                        class="bg-muted border-foreground rounded-brutalist overflow-hidden border-2"
                     >
                         <img
                             src="https://images.unsplash.com/photo-1588345921523-c2dcd57f7dcc?w=800&dpr=2&q=80"

@@ -18,7 +18,7 @@
 <div class="bg-background text-foreground flex min-h-screen flex-col">
     <!-- Header -->
     <header
-        class="border-foreground bg-background sticky top-0 z-50 flex h-16 items-center justify-between border-b-4 px-6"
+        class="border-foreground bg-background sticky top-0 z-50 flex h-16 items-center justify-between border-b-2 px-6"
     >
         <div class="flex items-center gap-4">
             <Button variant="outline" size="sm" class="lg:hidden" onclick={toggleMobileMenu}>

@@ -38,7 +38,7 @@
 
 <div
     class={cn(
-        "relative flex shrink-0 overflow-hidden border-3 border-foreground bg-muted shadow-sm",
+        "border-foreground bg-muted relative flex shrink-0 overflow-hidden border-2 shadow-sm",
         sizes[size],
         shapes[shape],
         className,
@@ -54,7 +54,7 @@
         />
     {:else}
         <div
-            class="flex h-full w-full items-center justify-center bg-primary font-bold uppercase text-primary-foreground"
+            class="bg-primary text-primary-foreground flex h-full w-full items-center justify-center font-bold uppercase"
         >
             {fallback || alt.slice(0, 2) || "??"}
         </div>

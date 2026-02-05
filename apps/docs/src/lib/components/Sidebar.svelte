@@ -63,7 +63,7 @@
 </script>
 
 <aside
-    class="border-foreground bg-background h-full w-64 space-y-8 overflow-y-auto border-r-4 p-6 {className}"
+    class="border-foreground bg-background h-full w-64 space-y-8 overflow-y-auto border-r-2 p-6 {className}"
 >
     {#each sections as section}
         <div class="space-y-3">

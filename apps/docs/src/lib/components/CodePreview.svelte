@@ -19,7 +19,7 @@
 
 <div class="space-y-4">
     <Tabs value="preview" class="w-full">
-        <div class="border-foreground flex items-center justify-between border-b-4 pb-2">
+        <div class="border-foreground flex items-center justify-between border-b-2 pb-2">
             <TabsList class="border-0">
                 <TabsTrigger value="preview">Preview</TabsTrigger>
                 <TabsTrigger value="code">Code</TabsTrigger>
@@ -33,7 +33,7 @@
         </div>
         <TabsContent value="preview" class="pt-6">
             <div
-                class="border-foreground bg-accent/10 relative flex min-h-[200px] items-center justify-center overflow-hidden rounded-none border-4 p-6 md:p-10"
+                class="border-foreground bg-accent/10 relative flex min-h-[200px] items-center justify-center overflow-hidden rounded-none border-2 p-6 md:p-10"
             >
                 <div
                     class="absolute inset-0 bg-[radial-gradient(var(--color-foreground)_1px,transparent_1px)] [background-size:20px_20px] opacity-10"
@@ -47,7 +47,7 @@
             <div class="group relative">
                 <!-- Removed the glow and shadow as per user request -->
                 <pre
-                    class="border-foreground bg-muted text-foreground overflow-x-auto rounded-none border-4 p-6 font-mono text-sm leading-relaxed">
+                    class="border-foreground bg-muted text-foreground overflow-x-auto rounded-none border-2 p-6 font-mono text-sm leading-relaxed">
                     <code>{code.trim()}</code>
                 </pre>
             </div>

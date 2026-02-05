@@ -24,7 +24,7 @@
 
 <div
     class={cn(
-        "relative h-6 w-full overflow-hidden rounded-sm border-3 border-foreground bg-background shadow-brutalist",
+        "border-foreground bg-background shadow-brutalist relative h-6 w-full overflow-hidden rounded-sm border-2",
         className,
     )}
     role="progressbar"
@@ -35,12 +35,10 @@
 >
     <div
         class={cn(
-            "h-full w-full flex-1 bg-primary transition-all duration-300",
+            "bg-primary h-full w-full flex-1 transition-all duration-300",
             indeterminate && "animate-progress-indeterminate origin-left",
         )}
-        style={indeterminate
-            ? ""
-            : `transform: translateX(-${100 - percentage}%)`}
+        style={indeterminate ? "" : `transform: translateX(-${100 - percentage}%)`}
     ></div>
 </div>
 

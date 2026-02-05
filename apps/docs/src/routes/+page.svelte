@@ -28,7 +28,7 @@
                 System
             </h1>
             <p
-                class="border-foreground animate-in fade-in slide-in-from-left-10 max-w-2xl border-l-8 py-2 pl-6 text-2xl font-bold delay-200 duration-700"
+                class="border-foreground animate-in fade-in slide-in-from-left-10 max-w-2xl border-l-4 py-2 pl-6 text-2xl font-bold delay-200 duration-700"
             >
                 A high-contrast, high-impact UI library built for speed and accessibility. Designed
                 with Svelte 5 runes.
@@ -60,7 +60,7 @@
         >
             <CardHeader>
                 <div
-                    class="bg-primary border-foreground mb-6 flex h-16 w-16 items-center justify-center border-4"
+                    class="bg-primary border-foreground mb-6 flex h-16 w-16 items-center justify-center border-2"
                 >
                     <Icon icon={FlashIcon} class="text-primary-foreground h-10 w-10" />
                 </div>
@@ -77,7 +77,7 @@
         >
             <CardHeader>
                 <div
-                    class="bg-secondary border-foreground mb-6 flex h-16 w-16 items-center justify-center border-4"
+                    class="bg-secondary border-foreground mb-6 flex h-16 w-16 items-center justify-center border-2"
                 >
                     <Icon icon={PackageIcon} class="text-secondary-foreground h-10 w-10" />
                 </div>
@@ -92,7 +92,7 @@
         <Card class="bg-accent/10 hover:shadow-brutalist-hover transition-all hover:-translate-y-1">
             <CardHeader>
                 <div
-                    class="bg-accent border-foreground mb-6 flex h-16 w-16 items-center justify-center border-4"
+                    class="bg-accent border-foreground mb-6 flex h-16 w-16 items-center justify-center border-2"
                 >
                     <Icon icon={Layout01Icon} class="text-accent-foreground h-10 w-10" />
                 </div>
@@ -110,7 +110,7 @@
         class="border-foreground bg-accent shadow-brutalist relative flex flex-col items-center space-y-6 overflow-hidden rounded-none border-2 p-12 text-center"
     >
         <div
-            class="bg-primary border-foreground absolute top-0 right-0 h-32 w-32 -translate-y-16 translate-x-16 -rotate-45 border-b-4 border-l-4"
+            class="bg-primary border-foreground absolute top-0 right-0 h-32 w-32 -translate-y-16 translate-x-16 -rotate-45 border-b-2 border-l-2"
         ></div>
         <h2 class="relative z-10 text-4xl font-black tracking-tighter uppercase md:text-5xl">
             Ready to build something bold?

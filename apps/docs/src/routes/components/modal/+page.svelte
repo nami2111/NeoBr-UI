@@ -33,7 +33,7 @@
                     <Modal bind:open title="Edit Profile">
                         <div class="grid gap-4 py-4">
                             <p
-                                class="text-muted-foreground border-primary border-l-4 py-1 pl-4 text-sm font-medium italic"
+                                class="text-muted-foreground border-primary border-l-2 py-1 pl-4 text-sm font-medium italic"
                             >
                                 Make changes to your profile here. Click save when you're done.
                             </p>
