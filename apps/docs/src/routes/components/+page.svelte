@@ -10,12 +10,64 @@
         },
         { title: "Alert", description: "Important messages for users.", href: "/components/alert" },
         {
+            title: "Aspect Ratio",
+            description: "Displays content within a desired ratio.",
+            href: "/components/aspect-ratio",
+        },
+        {
+            title: "Avatar",
+            description: "An image element with a fallback for representing the user.",
+            href: "/components/avatar",
+        },
+        {
+            title: "Badge",
+            description: "Small label for status or category.",
+            href: "/components/badge",
+        },
+        {
             title: "Button",
             description: "Interactive elements used for actions.",
             href: "/components/button",
         },
         { title: "Card", description: "Flexible container for content.", href: "/components/card" },
-        // Add more here...
+        {
+            title: "Checkbox",
+            description: "A control that allows the user to toggle check states.",
+            href: "/components/checkbox",
+        },
+        { title: "Input", description: "Displays a form input field.", href: "/components/input" },
+        {
+            title: "Label",
+            description: "Accessible label for form controls.",
+            href: "/components/label",
+        },
+        { title: "Link", description: "Neo-brutalist text link.", href: "/components/link" },
+        { title: "Loading", description: "Animated loading spinner.", href: "/components/loading" },
+        {
+            title: "Progress",
+            description: "Displays completion progress of a task.",
+            href: "/components/progress",
+        },
+        {
+            title: "Separator",
+            description: "Separates content visually.",
+            href: "/components/separator",
+        },
+        {
+            title: "Skeleton",
+            description: "Placeholder for loading content.",
+            href: "/components/skeleton",
+        },
+        { title: "Slider", description: "Range selection input.", href: "/components/slider" },
+        { title: "Switch", description: "Binary on/off control.", href: "/components/switch" },
+        { title: "Tabs", description: "Layered sections of content.", href: "/components/tabs" },
+        { title: "Textarea", description: "Multi-line text input.", href: "/components/textarea" },
+        { title: "Toggle", description: "Two-state button.", href: "/components/toggle" },
+        {
+            title: "Toggle Group",
+            description: "A set of toggle buttons.",
+            href: "/components/toggle-group",
+        },
     ];
 </script>
 

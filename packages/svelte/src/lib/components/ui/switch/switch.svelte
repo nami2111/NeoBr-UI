@@ -8,8 +8,7 @@
             variants: {
                 variant: {
                     default: "bg-background data-[state=checked]:bg-primary",
-                    destructive:
-                        "bg-background data-[state=checked]:bg-destructive",
+                    destructive: "bg-background data-[state=checked]:bg-destructive",
                     success: "bg-background data-[state=checked]:bg-success",
                     brutalist:
                         "rounded-brutalist border-2 border-foreground bg-background data-[state=checked]:bg-primary shadow-brutalist",
@@ -21,10 +20,10 @@
         },
     );
 
-    type Props = {
-        class?: string;
+    import type { HTMLButtonAttributes } from "svelte/elements";
+
+    type Props = HTMLButtonAttributes & {
         checked?: boolean;
-        disabled?: boolean;
         variant?: VariantProps<typeof switchVariants>["variant"];
         onchange?: (checked: boolean) => void;
     };
@@ -66,7 +65,7 @@
     <span
         data-state={checked ? "checked" : "unchecked"}
         class={cn(
-            "pointer-events-none block h-4 w-4 rounded-full bg-foreground shadow-lg transition-transform border border-foreground/10",
+            "bg-foreground border-foreground/10 pointer-events-none block h-4 w-4 rounded-full border shadow-lg transition-transform",
             checked ? "translate-x-5" : "translate-x-1",
         )}
     ></span>
