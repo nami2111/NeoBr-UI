@@ -7,24 +7,20 @@
         orientation?: "vertical" | "horizontal" | "both";
     };
 
-    let {
-        class: className,
-        children,
-        orientation = "vertical",
-        ...rest
-    }: Props = $props();
+    let { class: className, children, orientation = "vertical", ...rest }: Props = $props();
 </script>
 
 <div
     class={cn(
-        "scroll-area relative overflow-auto border-2 border-foreground bg-background shadow-brutalist",
-        orientation === "vertical" && "overflow-x-hidden",
-        orientation === "horizontal" && "overflow-y-hidden",
+        "scroll-area border-foreground bg-background shadow-brutalist relative border-2",
+        orientation === "vertical" && "h-full overflow-x-hidden overflow-y-auto",
+        orientation === "horizontal" && "w-full overflow-x-auto overflow-y-hidden",
+        orientation === "both" && "h-full w-full overflow-auto",
         className,
     )}
     {...rest}
 >
-    <div class="h-full w-full">
+    <div class="w-full">
         {@render children?.()}
     </div>
 </div>

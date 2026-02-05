@@ -1,6 +1,6 @@
 <script lang="ts">
     import { page } from "$app/state";
-    import { Link } from "@neobr/svelte";
+    import { Link, ScrollArea } from "@neobr/svelte";
 
     const sections = [
         {
@@ -62,28 +62,30 @@
     }
 </script>
 
-<aside
-    class="border-foreground bg-background h-full w-64 space-y-8 overflow-y-auto border-r-2 p-6 {className}"
->
-    {#each sections as section}
-        <div class="space-y-3">
-            <h4 class="text-muted-foreground text-sm font-black tracking-tighter uppercase">
-                {section.title}
-            </h4>
-            <div class="flex flex-col gap-1">
-                {#each section.items as item}
-                    <a
-                        href={item.href}
-                        class="rounded-none border-2 px-3 py-2 text-sm font-bold transition-all {isActive(
-                            item.href,
-                        )
-                            ? 'bg-primary text-primary-foreground border-foreground shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]'
-                            : 'hover:border-foreground hover:bg-accent border-transparent'}"
-                    >
-                        {item.title}
-                    </a>
-                {/each}
-            </div>
+<aside class="bg-background flex w-64 flex-col overflow-hidden {className}">
+    <ScrollArea class="h-full rounded-none border-0 border-r-2 shadow-none" orientation="vertical">
+        <div class="space-y-8 p-6">
+            {#each sections as section}
+                <div class="space-y-3">
+                    <h4 class="text-muted-foreground text-sm font-black tracking-tighter uppercase">
+                        {section.title}
+                    </h4>
+                    <div class="flex flex-col gap-1">
+                        {#each section.items as item}
+                            <a
+                                href={item.href}
+                                class="border-2 px-3 py-2 text-sm font-bold transition-all {isActive(
+                                    item.href,
+                                )
+                                    ? 'bg-primary text-primary-foreground border-foreground shadow-brutalist rounded-brutalist -translate-y-[2px] translate-x-[2px]'
+                                    : 'hover:border-foreground hover:bg-accent rounded-none border-transparent'}"
+                            >
+                                {item.title}
+                            </a>
+                        {/each}
+                    </div>
+                </div>
+            {/each}
         </div>
-    {/each}
+    </ScrollArea>
 </aside>
