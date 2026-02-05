@@ -41,7 +41,7 @@
     <div class="space-y-12">
         <section class="space-y-4">
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Usage</h2>
-            <CodePreview code={usage} class="min-h-[400px]">
+            <CodePreview code={usage} class="min-h-[500px]">
                 <div class="flex items-center justify-center py-10">
                     <DropdownMenu>
                         {#snippet trigger()}

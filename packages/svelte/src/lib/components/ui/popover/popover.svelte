@@ -33,7 +33,7 @@
     {#if open}
         <div
             class={cn(
-                "absolute z-50 mt-2 min-w-[200px] border-2 border-foreground bg-background p-4 shadow-brutalist rounded-brutalist overflow-hidden",
+                "border-foreground bg-background shadow-brutalist rounded-brutalist absolute z-50 mt-2 min-w-[200px] border-2 p-4",
                 contentClass,
             )}
             transition:fade={{ duration: 100 }}
