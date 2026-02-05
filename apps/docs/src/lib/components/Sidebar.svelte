@@ -77,7 +77,7 @@
                                 class="border-2 px-3 py-2 text-sm font-bold transition-all {isActive(
                                     item.href,
                                 )
-                                    ? 'bg-primary text-primary-foreground border-foreground shadow-brutalist rounded-brutalist -translate-y-[2px] translate-x-[2px]'
+                                    ? 'bg-primary text-primary-foreground border-foreground rounded-brutalist'
                                     : 'hover:border-foreground hover:bg-accent rounded-none border-transparent'}"
                             >
                                 {item.title}
