@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { Button } from "@neobr/svelte";
+    import { Button } from "@nami2111/svelte";
 
     let isDark = $state(false);
 

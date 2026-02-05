@@ -18,7 +18,7 @@ neobr-ui/
 │       └── package.json
 ├── apps/
 │   └── docs/                # SvelteKit documentation & Showcase
-│       ├── src/app.css      # Imports @neobr/tailwind-preset/style
+│       ├── src/app.css      # Imports @nami2111/tailwind-preset/style
 │       └── vite.config.ts   # Uses @tailwindcss/vite
 └── package.json
 ```
@@ -47,7 +47,7 @@ In `app.css` (Tailwind v4 style):
 
 ```css
 @import "tailwindcss";
-@import "@neobr/tailwind-preset/style";
+@import "@nami2111/tailwind-preset/style";
 
 /* Ensure monorepo scanning works */
 @source "../../../packages/svelte/src/lib";
