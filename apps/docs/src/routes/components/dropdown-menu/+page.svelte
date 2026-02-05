@@ -81,6 +81,7 @@
     <DropdownMenuItem>Edit</DropdownMenuItem>
     <DropdownMenuItem>Delete</DropdownMenuItem>
 </DropdownMenu>`}
+                class="min-h-[300px]"
             >
                 <div class="flex items-center justify-center py-10">
                     <DropdownMenu>

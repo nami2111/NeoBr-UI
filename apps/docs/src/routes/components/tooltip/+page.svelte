@@ -30,7 +30,7 @@
     <div class="space-y-12">
         <section class="space-y-4">
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Usage</h2>
-            <CodePreview code={usage}>
+            <CodePreview code={usage} class="min-h-[450px]">
                 <div class="flex items-center justify-center py-10">
                     <Tooltip content="Add to library">
                         <Button variant="outline">Hover me</Button>
@@ -41,7 +41,7 @@
 
         <section class="space-y-4">
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Positions</h2>
-            <CodePreview code={positions}>
+            <CodePreview code={positions} class="min-h-[300px]">
                 <div class="flex flex-wrap items-center justify-center gap-6 py-10">
                     <Tooltip content="Tooltip top" position="top">
                         <Button variant="outline" size="sm">Top</Button>

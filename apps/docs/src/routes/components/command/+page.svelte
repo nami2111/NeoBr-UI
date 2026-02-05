@@ -60,7 +60,7 @@
     <div class="space-y-12">
         <section class="space-y-4">
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Usage</h2>
-            <CodePreview code={usage}>
+            <CodePreview code={usage} class="min-h-[450px]">
                 <div class="w-full max-w-[450px]">
                     <Command>
                         <CommandInput placeholder="Type a command or search..." />
