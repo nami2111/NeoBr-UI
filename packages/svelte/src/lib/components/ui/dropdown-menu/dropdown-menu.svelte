@@ -18,7 +18,20 @@
 <div class="relative inline-block text-left">
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div onclick={toggle} class="cursor-pointer">
+    <div
+        onclick={toggle}
+        class="cursor-pointer"
+        role="button"
+        tabindex="0"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onkeydown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                toggle();
+            }
+        }}
+    >
         {@render trigger?.()}
     </div>
 
