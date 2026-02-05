@@ -43,7 +43,13 @@ cp packages/svelte/src/lib/styles/design-system.css packages/tailwind-preset/des
 To build, test, and publish all packages:
 
 ```bash
-pnpm release
+cd packages/tailwind-preset
+npm publish --access public
+```
+
+```bash
+cd ../svelte
+npm publish --access public
 ```
 
 Ensure you are logged in to npm (`npm login`) before running this.
