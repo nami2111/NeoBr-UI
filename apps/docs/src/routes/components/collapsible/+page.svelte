@@ -9,7 +9,7 @@
         Card,
         Icon,
     } from "@neobr/svelte";
-    import { SquareArrowExpand01Icon, SquareArrowShrink01Icon } from "@hugeicons/core-free-icons";
+    import { ArrowDown01Icon, ArrowUp01Icon } from "@hugeicons/core-free-icons";
 
     let open = $state(false);
 
@@ -18,7 +18,7 @@
         <h4 class="text-sm font-bold">@peduarte starred 3 repositories</h4>
         <CollapsibleTrigger>
             <Button variant="ghost" size="sm" class="w-9 p-0">
-                <Icon icon={open ? SquareArrowShrink01Icon : SquareArrowExpand01Icon} class="h-4 w-4" />
+                <Icon icon={open ? ArrowUp01Icon : ArrowDown01Icon} class="h-4 w-4" />
                 <span class="sr-only">Toggle</span>
             </Button>
         </CollapsibleTrigger>
@@ -53,7 +53,7 @@
                         <CollapsibleTrigger>
                             <Button variant="outline" size="sm" class="h-8 w-8 p-0">
                                 <Icon
-                                    icon={open ? SquareArrowShrink01Icon : SquareArrowExpand01Icon}
+                                    icon={open ? ArrowUp01Icon : ArrowDown01Icon}
                                     class="h-4 w-4"
                                 />
                                 <span class="sr-only">Toggle</span>
