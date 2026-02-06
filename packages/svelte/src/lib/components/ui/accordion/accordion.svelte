@@ -1,57 +1,31 @@
 <script lang="ts">
-  import { setContext } from "svelte";
-  import { cn } from "../../../utils";
+    import { Accordion } from "bits-ui";
+    import { cn } from "../../../utils";
 
-  type Props = {
-    value?: string | string[];
-    type?: "single" | "multiple";
-    class?: string;
-    children?: import('svelte').Snippet;
-    [key: string]: any;
-  };
+    type Props = Omit<Accordion.RootProps, "value" | "type"> & {
+        value?: string | string[];
+        type?: "single" | "multiple";
+        class?: string;
+    };
 
-  let { 
-    value = $bindable(undefined), 
-    type = "single", 
-    class: className, 
-    children, 
-    ...rest 
-  }: Props = $props();
-
-  // Reactive state controlled by the root
-  let activeValues = $state<string[]>(
-    Array.isArray(value) ? value : value ? [value] : []
-  );
-
-  // Sync internal state with external prop
-  $effect(() => {
-    if (Array.isArray(value)) {
-      activeValues = value;
-    } else if (value !== undefined) {
-      activeValues = [value];
-    } else {
-      activeValues = [];
-    }
-  });
-
-  function toggleItem(itemValue: string) {
-    if (type === "single") {
-      const newValue = activeValues.includes(itemValue) ? undefined : itemValue;
-      value = newValue as any;
-    } else {
-      const newValues = activeValues.includes(itemValue)
-        ? activeValues.filter((v) => v !== itemValue)
-        : [...activeValues, itemValue];
-      value = newValues;
-    }
-  }
-
-  setContext("accordion", {
-    get activeValues() { return activeValues; },
-    toggleItem
-  });
+    let {
+        value = $bindable(),
+        type = "single",
+        class: className,
+        children,
+        ...rest
+    }: Props = $props();
 </script>
 
-<div class={cn("w-full border-t-2 border-foreground border-x-2 rounded-brutalist overflow-hidden", className)} {...rest}>
-  {@render children?.()}
-</div>
+<!-- @ts-expect-error - Bits UI union types are too complex for Svelte 5 prop inference but runtime is correct -->
+<Accordion.Root
+    bind:value={value as any}
+    {type}
+    class={cn(
+        "border-foreground rounded-brutalist w-full overflow-hidden border-x-2 border-t-2",
+        className,
+    )}
+    {...rest}
+>
+    {@render children?.()}
+</Accordion.Root>

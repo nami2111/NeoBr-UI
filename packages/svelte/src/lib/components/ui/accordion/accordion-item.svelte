@@ -1,21 +1,14 @@
 <script lang="ts">
-  import { setContext } from "svelte";
-  import { cn } from "../../../utils";
+    import { Accordion } from "bits-ui";
+    import { cn } from "../../../utils";
 
-  type Props = {
-    value: string;
-    class?: string;
-    children?: import('svelte').Snippet;
-    [key: string]: any;
-  };
+    type Props = Accordion.ItemProps & {
+        class?: string;
+    };
 
-  let { value, class: className, children, ...rest }: Props = $props();
-
-  setContext("accordion-item", { 
-    get value() { return value; } 
-  });
+    let { class: className, children, ...rest }: Props = $props();
 </script>
 
-<div class={cn("border-b-2 border-foreground", className)} {...rest}>
-  {@render children?.()}
-</div>
+<Accordion.Item class={cn("border-foreground border-b-2", className)} {...rest}>
+    {@render children?.()}
+</Accordion.Item>

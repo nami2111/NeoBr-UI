@@ -19,6 +19,7 @@
     }: Props = $props();
 
     if (value === undefined) {
+        // svelte-ignore state_referenced_locally
         value = type === "multiple" ? [] : "";
     }
 

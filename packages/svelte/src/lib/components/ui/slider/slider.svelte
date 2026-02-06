@@ -9,6 +9,7 @@
         step?: number;
         disabled?: boolean;
         onchange?: (value: number) => void;
+        [key: string]: any;
     };
 
     let {
@@ -31,19 +32,11 @@
     let percentage = $derived(((value - min) / (max - min)) * 100);
 </script>
 
-<div
-    class={cn(
-        "relative flex w-full touch-none select-none items-center",
-        className,
-    )}
->
+<div class={cn("relative flex w-full touch-none items-center select-none", className)}>
     <div
-        class="relative h-4 w-full grow overflow-hidden rounded-brutalist border-2 border-foreground bg-background shadow-inner"
+        class="rounded-brutalist border-foreground bg-background relative h-4 w-full grow overflow-hidden border-2 shadow-inner"
     >
-        <div
-            class="absolute h-full bg-primary"
-            style="width: {percentage}%"
-        ></div>
+        <div class="bg-primary absolute h-full" style="width: {percentage}%"></div>
     </div>
     <input
         type="range"
@@ -53,13 +46,13 @@
         {disabled}
         bind:value
         oninput={handleInput}
-        class="absolute h-4 w-full cursor-pointer opacity-0 accent-primary"
+        class="accent-primary absolute h-4 w-full cursor-pointer opacity-0"
         {...rest}
     />
     <!-- Custom Thumb for visual consistency -->
     <div
         class={cn(
-            "pointer-events-none absolute h-6 w-6 rounded-brutalist border-2 border-foreground bg-foreground",
+            "rounded-brutalist border-foreground bg-foreground pointer-events-none absolute h-6 w-6 border-2",
             disabled && "opacity-50",
         )}
         style="left: calc({percentage}% - 12px)"

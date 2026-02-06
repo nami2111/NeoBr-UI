@@ -1,6 +1,6 @@
 <script lang="ts">
     import { cn } from "../../../utils";
-    import { toast, type ToastItem } from "./toast.svelte.ts";
+    import { toast, type ToastItem } from "./toast.svelte.js";
     import { cva } from "class-variance-authority";
 
     const toastVariants = cva(
@@ -32,7 +32,7 @@
     </div>
     <button
         onclick={() => toast.dismiss(item.id)}
-        class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border-2 border-transparent text-foreground/50 transition-colors hover:border-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+        class="text-foreground/50 hover:border-foreground hover:text-foreground focus:ring-ring inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border-2 border-transparent transition-colors focus:ring-2 focus:outline-none"
         aria-label="Close"
     >
         <svg
