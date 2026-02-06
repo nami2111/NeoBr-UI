@@ -56,5 +56,58 @@
                 </li>
             </ul>
         </section>
+
+        <section class="space-y-6">
+            <h2
+                class="border-foreground border-b-2 pb-2 text-2xl font-bold tracking-tighter uppercase italic"
+            >
+                Acknowledgments
+            </h2>
+            <p class="text-lg leading-relaxed font-medium">
+                NeoBr-UI is built upon the shoulders of giants. Special thanks to the teams behind:
+            </p>
+            <ul class="space-y-4 font-bold italic underline decoration-2 underline-offset-4">
+                <li>
+                    <a
+                        href="https://bits-ui.com"
+                        target="_blank"
+                        class="hover:text-primary transition-colors"
+                    >
+                        Bits UI
+                    </a>
+                    - For the incredible headless primitives that power our accessibility.
+                </li>
+                <li>
+                    <a
+                        href="https://hugeicons.com"
+                        target="_blank"
+                        class="hover:text-secondary transition-colors"
+                    >
+                        Hugeicons
+                    </a>
+                    - For the stunning icon library that gives our components character.
+                </li>
+                <li>
+                    <a
+                        href="https://svelte.dev"
+                        target="_blank"
+                        class="hover:text-accent transition-colors"
+                    >
+                        Svelte
+                    </a>
+                    - The framework that makes UI development a joy.
+                </li>
+                <li>
+                    <a
+                        href="https://tailwindcss.com"
+                        target="_blank"
+                        class="hover:text-success transition-colors"
+                    >
+                        Tailwind CSS
+                    </a>
+                    - For the utility-first styling power.
+                </li>
+            </ul>
+        </section>
     </div>
 </DocPage>
