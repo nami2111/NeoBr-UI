@@ -58,6 +58,7 @@ export * from "./components/ui/collapsible";
 export * from "./components/ui/aspect-ratio";
 export * from "./components/ui/scroll-area";
 export * from "./components/ui/command";
+export * from "./components/ui/bento-grid";
 export * from "./components/ui/marquee";
 export * from "./components/ui/table";
 export * from "./components/ui/window";

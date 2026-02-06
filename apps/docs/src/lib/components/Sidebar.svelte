@@ -18,6 +18,7 @@
                 { title: "Aspect Ratio", href: "/components/aspect-ratio" },
                 { title: "Avatar", href: "/components/avatar" },
                 { title: "Badge", href: "/components/badge" },
+                { title: "Bento Grid", href: "/components/bento-grid" },
                 { title: "Breadcrumbs", href: "/components/breadcrumbs" },
                 { title: "Button", href: "/components/button" },
                 { title: "Card", href: "/components/card" },

@@ -25,6 +25,11 @@
             href: "/components/badge",
         },
         {
+            title: "Bento Grid",
+            description: "Variable-sized grid system for stunning layouts.",
+            href: "/components/bento-grid",
+        },
+        {
             title: "Breadcrumbs",
             description: "Displays the path to the current resource.",
             href: "/components/breadcrumbs",
