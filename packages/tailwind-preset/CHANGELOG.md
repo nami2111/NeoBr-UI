@@ -1,5 +1,11 @@
 # @neobr/tailwind-preset
 
+## 1.0.4
+
+### Patch Changes
+
+- fix: Bump version to resolve registry conflict due to existing 1.0.3 version.
+
 ## 1.0.3
 
 ### Patch Changes
