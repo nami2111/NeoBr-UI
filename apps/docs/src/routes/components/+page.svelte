@@ -69,6 +69,11 @@
         { title: "Link", description: "Neo-brutalist text link.", href: "/components/link" },
         { title: "Loading", description: "Animated loading spinner.", href: "/components/loading" },
         {
+            title: "Marquee",
+            description: "A scrolling ticker for bold messaging.",
+            href: "/components/marquee",
+        },
+        {
             title: "Modal",
             description: "A window overlaid on the primary window.",
             href: "/components/modal",
@@ -119,7 +124,17 @@
             href: "/components/skeleton",
         },
         { title: "Slider", description: "Range selection input.", href: "/components/slider" },
+        {
+            title: "Sticker",
+            description: "Decorative badge with random rotation.",
+            href: "/components/sticker",
+        },
         { title: "Switch", description: "Binary on/off control.", href: "/components/switch" },
+        {
+            title: "Table",
+            description: "A responsive table for structured data.",
+            href: "/components/table",
+        },
         { title: "Tabs", description: "Layered sections of content.", href: "/components/tabs" },
         { title: "Textarea", description: "Multi-line text input.", href: "/components/textarea" },
         {
@@ -137,6 +152,11 @@
             title: "Tooltip",
             description: "Information on hover or focus.",
             href: "/components/tooltip",
+        },
+        {
+            title: "Window",
+            description: "A container mimicking classic OS windows.",
+            href: "/components/window",
         },
     ];
 </script>
