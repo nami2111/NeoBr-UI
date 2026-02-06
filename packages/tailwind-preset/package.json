@@ -4,7 +4,7 @@
     "description": "Premium Neo-Brutalist Tailwind CSS v4 Preset",
     "repository": {
         "type": "git",
-        "url": "https://github.com/nami2111/NeoBr-UI.git",
+        "url": "git+https://github.com/nami2111/NeoBr-UI.git",
         "directory": "packages/tailwind-preset"
     },
     "homepage": "https://github.com/nami2111/NeoBr-UI/tree/main/packages/tailwind-preset#readme",
