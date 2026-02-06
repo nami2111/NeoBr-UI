@@ -35,20 +35,24 @@
             {#if minimizable}
                 <button
                     aria-label="Minimize"
-                    class="border-foreground bg-background hover:bg-muted h-5 w-5 border-2 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-colors active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
-                ></button>
+                    class="border-foreground bg-background hover:bg-muted text-foreground flex h-5 w-5 items-center justify-center border-2 text-[10px] font-bold shadow-[0px_2px_0px_0px_var(--color-shadow-color)] transition-all active:translate-y-[2px] active:shadow-none"
+                >
+                    —
+                </button>
             {/if}
             {#if maximizable}
                 <button
                     aria-label="Maximize"
-                    class="border-foreground bg-background hover:bg-muted h-5 w-5 border-2 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-colors active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
-                ></button>
+                    class="border-foreground bg-background hover:bg-muted text-foreground flex h-5 w-5 items-center justify-center border-2 text-[10px] font-bold shadow-[0px_2px_0px_0px_var(--color-shadow-color)] transition-all active:translate-y-[2px] active:shadow-none"
+                >
+                    □
+                </button>
             {/if}
             {#if closable}
                 <button
                     aria-label="Close"
                     onclick={onClose}
-                    class="border-foreground bg-destructive text-destructive-foreground hover:bg-destructive-hover flex h-5 w-5 items-center justify-center border-2 text-[10px] font-bold shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-colors active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+                    class="border-foreground bg-destructive text-destructive-foreground hover:bg-destructive-hover flex h-5 w-5 items-center justify-center border-2 text-[10px] font-bold shadow-[0px_2px_0px_0px_var(--color-shadow-color)] transition-all active:translate-y-[2px] active:shadow-none"
                 >
                     ✕
                 </button>
