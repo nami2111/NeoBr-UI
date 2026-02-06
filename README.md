@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@neobr/svelte.svg?style=flat-square)](https://www.npmjs.com/package/@neobr/svelte)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/nami2111/NeoBr-UI/ci.yml?branch=main&style=flat-square)](https://github.com/nami2111/NeoBr-UI/actions)
+[![npm downloads](https://img.shields.io/npm/dw/@neobr/svelte.svg?style=flat-square)](https://www.npmjs.com/package/@neobr/svelte)
 
 **NeoBr-UI** is a high-performance, accessible, and stunningly beautiful **Neo-Brutalist** component library built for the modern web. It combines raw industrial aesthetics with a technical mono-aesthetic, high-end animations, and a developer experience focused on Svelte 5 logic.
 
