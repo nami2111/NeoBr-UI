@@ -45,7 +45,7 @@
             <Button
                 variant="outline"
                 size="lg"
-                href="/components/button"
+                href="/components"
                 class="h-auto px-12 py-8 text-xl"
             >
                 View Components

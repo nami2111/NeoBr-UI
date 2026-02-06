@@ -6,7 +6,7 @@
         {
             title: "Getting Started",
             items: [
-                { title: "Introduction", href: "/" },
+                { title: "Introduction", href: "/docs/introduction" },
                 { title: "Installation", href: "/docs/installation" },
             ],
         },
