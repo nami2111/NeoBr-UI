@@ -42,6 +42,26 @@
         </section>
 
         <section class="space-y-4">
+            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Shapes</h2>
+            <CodePreview
+                code={`<Sticker shape="rectangle">Rectangle</Sticker>
+<Sticker shape="pill" variant="primary">Pill Shape</Sticker>
+<Sticker shape="circle" variant="secondary">Circular</Sticker>
+<Sticker shape="tape" variant="success">Tape Style</Sticker>
+<Sticker shape="jagged" variant="destructive">Jagged Edge</Sticker>`}
+            >
+                <div class="flex flex-wrap items-center gap-8 py-4">
+                    <Sticker shape="rectangle">Rectangle</Sticker>
+                    <Sticker shape="pill" variant="primary">Pill Shape</Sticker>
+                    <Sticker shape="circle" variant="secondary">ROUND</Sticker>
+                    <Sticker shape="tape" variant="success">Tape Style</Sticker>
+                    <Sticker shape="jagged" variant="destructive">Jagged Edge</Sticker>
+                    <Sticker shape="star" variant="warning">STAR BURST</Sticker>
+                </div>
+            </CodePreview>
+        </section>
+
+        <section class="space-y-4">
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Fixed Rotation</h2>
             <CodePreview code={fixedRotation}>
                 <div class="flex flex-wrap items-center gap-8 py-4">
