@@ -39,6 +39,11 @@
             description: "Interactive elements used for actions.",
             href: "/components/button",
         },
+        {
+            title: "Calendar",
+            description: "Date selection component with raw aesthetic.",
+            href: "/components/calendar",
+        },
         { title: "Card", description: "Flexible container for content.", href: "/components/card" },
         {
             title: "Checkbox",
@@ -54,6 +59,11 @@
             title: "Command",
             description: "Fast, composable command menu.",
             href: "/components/command",
+        },
+        {
+            title: "Date Picker",
+            description: "Input field with calendar selection popover.",
+            href: "/components/date-picker",
         },
         {
             title: "Dropdown Menu",

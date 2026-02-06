@@ -25,6 +25,10 @@ importers:
         version: 1.13.4
 
   apps/docs:
+    dependencies:
+      '@internationalized/date':
+        specifier: ^3.11.0
+        version: 3.11.0
     devDependencies:
       '@hugeicons/core-free-icons':
         specifier: ^3.1.1
@@ -86,6 +90,9 @@ importers:
       '@hugeicons/svelte':
         specifier: ^1.1.0
         version: 1.1.0(svelte@5.49.1)
+      '@internationalized/date':
+        specifier: ^3.11.0
+        version: 3.11.0
       '@neobr/tailwind-preset':
         specifier: workspace:*
         version: link:../tailwind-preset
