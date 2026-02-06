@@ -1,5 +1,11 @@
 # @neobr/svelte
 
+## 1.0.4
+
+### Patch Changes
+
+- Migrate Accordion and Select components to use bits-ui, alongside minor component adjustments
+
 ## 1.0.3
 
 ### Patch Changes
