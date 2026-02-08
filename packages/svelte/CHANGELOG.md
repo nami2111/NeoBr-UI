@@ -1,5 +1,11 @@
 # @neobr/svelte
 
+## 1.0.7
+
+### Patch Changes
+
+- Fix broken exports configuration
+
 ## 1.0.6
 
 ### Patch Changes

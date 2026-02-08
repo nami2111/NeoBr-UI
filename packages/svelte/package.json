@@ -1,6 +1,6 @@
 {
     "name": "@neobr/svelte",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "type": "module",
     "description": "Premium Neo-Brutalist Svelte 5 Component Library",
     "repository": {
@@ -36,12 +36,13 @@
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
-            "svelte": "./src/lib/index.ts",
+            "svelte": "./dist/index.js",
             "default": "./dist/index.js"
         }
     },
     "files": [
         "dist",
+        "src",
         "!dist/**/*.test.*",
         "!dist/**/*.spec.*"
     ],
