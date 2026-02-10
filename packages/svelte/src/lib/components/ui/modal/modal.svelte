@@ -7,6 +7,7 @@
         open?: boolean;
         onClose?: () => void;
         title?: string;
+        size?: "sm" | "md" | "lg" | "xl" | "full" | "auto";
         children?: import("svelte").Snippet;
     };
 
@@ -14,11 +15,21 @@
         open = $bindable(false),
         onClose = () => {},
         title = undefined,
+        size = "md",
         children,
     }: Props = $props();
 
     let modalContent = $state<HTMLElement>();
     let previousFocus: HTMLElement | null = null;
+
+    const sizeClasses = {
+        sm: "max-w-sm max-h-[80vh]",
+        md: "max-w-lg max-h-[85vh]",
+        lg: "max-w-2xl max-h-[90vh]",
+        xl: "max-w-4xl max-h-[90vh]",
+        full: "max-w-[95vw] max-h-[95vh]",
+        auto: "max-w-[95vw] max-h-[95vh]",
+    };
 
     function handleClose() {
         open = false;
@@ -108,7 +119,10 @@
         <!-- Modal Content -->
         <div
             bind:this={modalContent}
-            class={cn("card-brutalist relative z-50 w-full max-w-lg p-6 outline-none")}
+            class={cn(
+                "card-brutalist relative z-50 w-full overflow-auto p-6 outline-none",
+                sizeClasses[size],
+            )}
             transition:fly={{ y: 20, duration: 300 }}
             tabindex="-1"
         >
