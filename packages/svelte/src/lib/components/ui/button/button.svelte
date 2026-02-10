@@ -51,15 +51,30 @@
         };
 
     let props: Props = $props();
-    let {
-        class: className,
-        variant = "default",
-        size = "default",
-        brutalist = true,
-        href,
-        children,
-        ...rest
-    } = props;
+
+    // Use $derived to create reactive computed values
+    let className = $derived(props.class);
+    let variant = $derived(props.variant ?? "default");
+    let size = $derived(props.size ?? "default");
+    let brutalist = $derived(props.brutalist ?? true);
+    let href = $derived(props.href);
+    let children = $derived(props.children);
+
+    // Create reactive rest props by excluding the known props
+    let rest = $derived(
+        (() => {
+            const {
+                class: _,
+                variant: __,
+                size: ___,
+                brutalist: ____,
+                href: _____,
+                children: ______,
+                ...remaining
+            } = props;
+            return remaining;
+        })(),
+    );
 </script>
 
 {#if href}

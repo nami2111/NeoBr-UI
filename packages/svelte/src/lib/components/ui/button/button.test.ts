@@ -52,4 +52,21 @@ describe("Button component", () => {
         expect(button).toBeDisabled();
         expect(button).toHaveClass("disabled:opacity-50");
     });
+
+    test("reacts to disabled prop changes", async () => {
+        const { rerender } = render(ButtonTestWrapper, {
+            props: { disabled: false, childrenText: "Submit" }
+        });
+
+        const button = screen.getByRole("button", { name: /submit/i });
+        expect(button).not.toBeDisabled();
+
+        // Change disabled prop to true
+        await rerender({ disabled: true, childrenText: "Submit" });
+        expect(button).toBeDisabled();
+
+        // Change back to false
+        await rerender({ disabled: false, childrenText: "Submit" });
+        expect(button).not.toBeDisabled();
+    });
 });
