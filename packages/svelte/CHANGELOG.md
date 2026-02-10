@@ -1,5 +1,11 @@
 # @neobr/svelte
 
+## 1.0.8
+
+### Patch Changes
+
+- fix Modal Component Sizing Issue and Button Disabled Prop Reactivity Issue
+
 ## 1.0.7
 
 ### Patch Changes
