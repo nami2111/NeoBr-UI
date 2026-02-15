@@ -14,6 +14,7 @@
 - 🎨 **Tailwind CSS v4 Ready**: CSS-first design system optimized for the next generation of Tailwind.
 - ♿ **Accessibility First**: Keyboard navigation and screen-reader support built into every component.
 - ⚡ **Performance**: Zero-runtime overhead for styling, powered by pure CSS and Svelte snippets.
+- ✅ **Zod Validation**: Built-in utilities for type-safe form validation with Svelte 5 runes.
 - 🛠 **Customizable**: Token-based design system that's easy to theme and extend.
 
 ---
@@ -39,6 +40,17 @@ pnpm add @neobr/svelte @neobr/tailwind-preset
 ```
 
 1. **Configure your project** to use the "JetBrains Mono" font for the full technical aesthetic.
+
+### 🌳 Tree-shaking & Sub-path Exports
+
+NeoBr-UI supports granular sub-path exports for optimal tree-shaking. Instead of importing from the main entry point, you can import specific components:
+
+```svelte
+<script>
+  import { Button } from "@neobr/svelte/button";
+  import { createFormState } from "@neobr/svelte/form";
+</script>
+```
 
 ---
 
