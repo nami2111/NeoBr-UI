@@ -33,6 +33,23 @@ pnpm build               # Build all packages
 pnpm test                # Test all packages
 ```
 
+### Package Filters (PNPM)
+
+Instead of `cd`-ing into directories, use the `--filter` (or `-f`) flag from the root:
+
+| Command | Shorthand | Description |
+| :--- | :--- | :--- |
+| `pnpm -F docs dev` | `pnpm --filter docs dev` | Run documentation dev server |
+| `pnpm -F @neobr/svelte test` | `pnpm --filter @neobr/svelte test` | Run library tests |
+| `pnpm -F @neobr/svelte add <pkg>` | | Add dependency to Svelte lib |
+| `pnpm -F docs build` | | Build only the documentation |
+
+**Filter Cheat Sheet:**
+- `-F docs...`: Docs + its local dependencies (like `@neobr/svelte`).
+- `-F @neobr/svelte...`: Svelte lib + its dependants (like `docs`).
+- `-F "./packages/*"`: Run command for all packages in the `packages` directory.
+
+
 ### Design System Sync (CRITICAL)
 
 Whenever `packages/svelte/src/lib/styles/design-system.css` is modified, you **must** sync it to the preset:
