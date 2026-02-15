@@ -1,6 +1,8 @@
 /**
  * Form validation utilities using Zod schema validation.
  * Provides type-safe form handling with Neo-Brutalist styling.
+ * 
+ * @note This file uses .svelte.ts extension to enable Svelte 5 runes.
  */
 import { z } from "zod";
 
@@ -53,11 +55,21 @@ export type FormOptions<T extends z.ZodTypeAny> = {
  * </form>
  * ```
  */
-export function createFormState<T extends z.ZodTypeAny>(options: FormOptions<T>) {
+export function createFormState<T extends z.AnyZodObject>(options: FormOptions<T>) {
     const { schema, initialValues = {}, onSubmit, validateOnChange = true, validateOnBlur = true } = options;
 
+    // Initialize values with initialValues or empty strings for all fields in the schema
+    // This avoids "props_invalid_value" error when binding undefined to components with fallbacks
+    const initialData = { ...(initialValues as any) };
+    const shape = (schema as any).shape || {};
+    for (const key in shape) {
+        if (initialData[key] === undefined) {
+            initialData[key] = "";
+        }
+    }
+
     // Initialize state with runes
-    let values = $state<z.infer<T>>(initialValues as z.infer<T>);
+    let values = $state<z.infer<T>>(initialData as z.infer<T>);
     let errors = $state<Partial<Record<keyof z.infer<T>, string>>>({});
     let touched = $state<Partial<Record<keyof z.infer<T>, boolean>>>({});
     let isSubmitting = $state(false);
@@ -71,7 +83,7 @@ export function createFormState<T extends z.ZodTypeAny>(options: FormOptions<T>)
      */
     function validateField(name: keyof z.infer<T>): string | null {
         try {
-            const fieldSchema = schema.shape?.[name as string];
+            const fieldSchema = (schema.shape as any)?.[name as string];
             if (fieldSchema) {
                 fieldSchema.parse(values[name]);
             }
@@ -89,7 +101,7 @@ export function createFormState<T extends z.ZodTypeAny>(options: FormOptions<T>)
      */
     function validateAll(): boolean {
         const result = schema.safeParse(values);
-        
+
         if (result.success) {
             errors = {};
             return true;
@@ -111,7 +123,7 @@ export function createFormState<T extends z.ZodTypeAny>(options: FormOptions<T>)
      */
     function handleBlur(name: keyof z.infer<T>): void {
         touched[name] = true;
-        
+
         if (validateOnBlur) {
             const error = validateField(name);
             if (error) {
@@ -128,7 +140,7 @@ export function createFormState<T extends z.ZodTypeAny>(options: FormOptions<T>)
     function handleChange(name: keyof z.infer<T>, value: unknown): void {
         values[name] = value as z.infer<T>[keyof z.infer<T>];
         isDirty = true;
-        
+
         if (validateOnChange && touched[name]) {
             const error = validateField(name);
             if (error) {
@@ -165,7 +177,7 @@ export function createFormState<T extends z.ZodTypeAny>(options: FormOptions<T>)
      * Resets the form to initial values
      */
     function reset(): void {
-        values = initialValues as z.infer<T>;
+        values = initialData as z.infer<T>;
         errors = {};
         touched = {};
         isSubmitting = false;
@@ -177,21 +189,21 @@ export function createFormState<T extends z.ZodTypeAny>(options: FormOptions<T>)
      */
     async function handleSubmit(event: Event): Promise<void> {
         event.preventDefault();
-        
+
         isSubmitting = true;
-        
+
         // Mark all fields as touched
         const allFields = Object.keys(schema.shape || {}) as (keyof z.infer<T>)[];
         for (const field of allFields) {
             touched[field] = true;
         }
-        
+
         // Validate all fields
         if (!validateAll()) {
             isSubmitting = false;
             return;
         }
-        
+
         try {
             await onSubmit(values);
         } finally {
@@ -207,7 +219,7 @@ export function createFormState<T extends z.ZodTypeAny>(options: FormOptions<T>)
         get isValid() { return isValid; },
         get isSubmitting() { return isSubmitting; },
         get isDirty() { return isDirty; },
-        
+
         // Methods
         handleBlur,
         handleChange,
