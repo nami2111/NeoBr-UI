@@ -3,19 +3,20 @@
     import { cn } from "../../../utils";
     import Icon from "../icon/icon.svelte";
     import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
+    import type { CompatibleCalendarProps, SimpleDateValue } from "../../../types/bits-ui-compat";
 
-    type Props = CalendarPrimitive.RootProps & {
+    type Props = CompatibleCalendarProps<"single" | "multiple"> & {
         class?: string;
     };
 
-    let { class: className = undefined, value = $bindable(), ...rest }: Props = $props();
+    let { value = $bindable(), type = "single", class: className, ...rest }: Props = $props();
 </script>
 
-<!-- @ts-expect-error - Bits UI union types are too complex for Svelte 5 prop inference -->
 <CalendarPrimitive.Root
     bind:value={value as any}
+    {type}
     class={cn("container-brutalist w-fit p-4", className)}
-    {...rest}
+    {...rest as any}
 >
     {#snippet children({ months, weekdays })}
         <CalendarPrimitive.Header class="flex items-center justify-between pb-4">

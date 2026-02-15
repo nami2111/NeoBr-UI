@@ -1,12 +1,39 @@
 <script lang="ts">
+    /**
+     * Wrapper for Hugeicons components.
+     *
+     * @example
+     * ```svelte
+     * <Icon icon={Home01Icon} size={24} color="currentColor" />
+     * ```
+     */
     import { HugeiconsIcon } from "@hugeicons/svelte";
     import { cn } from "../../../utils";
 
     type Props = {
-        icon: any; // IconSvgObject
+        /**
+         * The icon component or object from @hugeicons/svelte
+         */
+        icon: any;
+
+        /**
+         * Size of the icon in pixels.
+         * @default 24
+         */
         size?: number | string;
+
+        /**
+         * Color of the icon.
+         * @default "currentColor"
+         */
         color?: string;
+
+        /**
+         * Stroke width of the icon lines.
+         * @default 1.5
+         */
         strokeWidth?: number;
+
         class?: string;
         [key: string]: any;
     };

@@ -1,10 +1,28 @@
 <script lang="ts">
+    /**
+     * A Neo-Brutalist input component.
+     *
+     * @example
+     * ```svelte
+     * <Input placeholder="Enter your email" type="email" bind:value={email} />
+     * ```
+     */
     import { cn } from "../../../utils";
     import type { HTMLInputAttributes } from "svelte/elements";
     import { getFormItemContext } from "../form/form-item.svelte";
 
     type Props = HTMLInputAttributes & {
+        /**
+         * The value of the input. Can be bound.
+         */
         value?: any;
+
+        /**
+         * Error state of the input.
+         * Can be a boolean or an error message string.
+         * If used inside a FormField, it automatically picks up validation errors.
+         * @default false
+         */
         error?: boolean | string;
     };
 

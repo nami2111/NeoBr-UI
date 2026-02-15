@@ -1,6 +1,6 @@
 <script lang="ts">
     import { page } from "$app/state";
-    import { Link, ScrollArea } from "@neobr/svelte";
+    import { Link, ScrollArea, Input } from "@neobr/svelte";
 
     const sections = [
         {
@@ -28,6 +28,7 @@
                 { title: "Command", href: "/components/command" },
                 { title: "Date Picker", href: "/components/date-picker" },
                 { title: "Dropdown Menu", href: "/components/dropdown-menu" },
+                { title: "Error Boundary", href: "/components/error-boundary" },
                 { title: "Form", href: "/components/form" },
                 { title: "Input", href: "/components/input" },
                 { title: "Label", href: "/components/label" },
@@ -59,6 +60,19 @@
         },
     ];
 
+    let searchQuery = $state("");
+
+    const filteredSections = $derived(
+        sections
+            .map((section) => ({
+                ...section,
+                items: section.items.filter((item) =>
+                    item.title.toLowerCase().includes(searchQuery.toLowerCase()),
+                ),
+            }))
+            .filter((section) => section.items.length > 0),
+    );
+
     let { class: className = "" } = $props<{ class?: string }>();
 
     function isActive(href: string) {
@@ -70,9 +84,16 @@
 </script>
 
 <aside class="bg-background flex w-64 flex-col overflow-hidden {className}">
+    <div class="border-foreground border-b-2 p-4">
+        <Input
+            placeholder="Search components..."
+            bind:value={searchQuery}
+            class="h-9 px-3 text-sm"
+        />
+    </div>
     <ScrollArea class="h-full rounded-none border-0 border-r-2 shadow-none" orientation="vertical">
         <div class="space-y-8 p-6">
-            {#each sections as section}
+            {#each filteredSections as section}
                 <div class="space-y-3">
                     <h4 class="text-muted-foreground text-sm font-black tracking-tighter uppercase">
                         {section.title}
@@ -93,6 +114,11 @@
                     </div>
                 </div>
             {/each}
+            {#if filteredSections.length === 0}
+                <p class="text-muted-foreground py-10 text-center text-sm font-bold italic">
+                    No components found
+                </p>
+            {/if}
         </div>
     </ScrollArea>
 </aside>

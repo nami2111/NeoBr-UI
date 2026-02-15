@@ -1,10 +1,9 @@
 <script lang="ts">
     import { Accordion } from "bits-ui";
     import { cn } from "../../../utils";
+    import type { CompatibleAccordionProps } from "../../../types/bits-ui-compat";
 
-    type Props = Omit<Accordion.RootProps, "value" | "type"> & {
-        value?: string | string[];
-        type?: "single" | "multiple";
+    type Props = CompatibleAccordionProps<"single" | "multiple"> & {
         class?: string;
     };
 
@@ -17,7 +16,6 @@
     }: Props = $props();
 </script>
 
-<!-- @ts-expect-error - Bits UI union types are too complex for Svelte 5 prop inference but runtime is correct -->
 <Accordion.Root
     bind:value={value as any}
     {type}
@@ -25,7 +23,7 @@
         "border-foreground rounded-brutalist w-full overflow-hidden border-x-2 border-t-2",
         className,
     )}
-    {...rest}
+    {...rest as any}
 >
     {@render children?.()}
 </Accordion.Root>

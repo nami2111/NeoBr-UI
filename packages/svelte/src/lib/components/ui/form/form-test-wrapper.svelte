@@ -12,6 +12,12 @@
         label = "",
         description = "",
         placeholder = "",
+    }: {
+        value?: string;
+        error?: boolean | string;
+        label?: string;
+        description?: string;
+        placeholder?: string;
     } = $props();
 </script>
 

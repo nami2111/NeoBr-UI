@@ -7,6 +7,9 @@
         CardDescription,
         CardContent,
         Icon,
+        Badge,
+        Slider,
+        Switch,
     } from "@neobr/svelte";
     import {
         ArrowRight01Icon,
@@ -14,9 +17,23 @@
         FlashIcon,
         Layout01Icon,
     } from "@hugeicons/core-free-icons";
+
+    let sliderValue = $state(45);
+    let systemStatus = $state(true);
 </script>
 
-<div class="space-y-20 py-10">
+<div class="relative space-y-20 py-10">
+    <!-- Decorative background elements -->
+    <div
+        class="bg-grid pointer-events-none absolute inset-x-0 -top-20 -z-10 h-[600px] opacity-20"
+    ></div>
+    <div
+        class="bg-primary/20 absolute -top-40 -left-40 -z-20 h-96 w-96 rounded-full blur-[120px]"
+    ></div>
+    <div
+        class="bg-secondary/20 absolute top-20 -right-40 -z-20 h-96 w-96 rounded-full blur-[120px]"
+    ></div>
+
     <!-- Hero Section -->
     <section class="space-y-8">
         <div class="space-y-4">
@@ -45,7 +62,7 @@
             <Button
                 variant="outline"
                 size="lg"
-                href="/components"
+                href="/components/button"
                 class="h-auto px-12 py-8 text-xl"
             >
                 View Components
@@ -53,8 +70,63 @@
         </div>
     </section>
 
+    <!-- Interactive Section -->
+    <section
+        class="animate-in fade-in slide-in-from-bottom-10 border-foreground bg-card shadow-brutalist relative overflow-hidden border-2 p-8 delay-700 duration-700 md:p-12"
+    >
+        <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
+            <div class="space-y-6">
+                <Badge variant="secondary" class="text-sm">Live Preview</Badge>
+                <h2 class="text-4xl font-black tracking-tighter uppercase md:text-5xl">
+                    Feel the <br /><span class="text-secondary italic">Standard</span>
+                </h2>
+                <p class="text-muted-foreground text-lg font-bold italic">
+                    All components are interactive by default, fully responsive, and follow the
+                    strictest accessibility standards while looking absolutely stunning.
+                </p>
+                <div class="flex gap-4">
+                    <div class="bg-success border-foreground h-4 w-4 border-2"></div>
+                    <div class="bg-warning border-foreground h-4 w-4 border-2"></div>
+                    <div class="bg-destructive border-foreground h-4 w-4 border-2"></div>
+                </div>
+            </div>
+            <div class="border-foreground bg-muted grid grid-cols-1 gap-6 border-2 p-6 md:p-10">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-black uppercase">Volume Control</span>
+                        <Badge>{sliderValue}%</Badge>
+                    </div>
+                    <Slider bind:value={sliderValue} max={100} step={1} />
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-black uppercase">System Status</span>
+                        <Switch bind:checked={systemStatus} />
+                    </div>
+                </div>
+                <div class="flex flex-col gap-6">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="bg-background border-foreground flex-1 border-2 p-4 font-mono text-sm font-bold"
+                        >
+                            npm install @neobr/svelte
+                        </div>
+                        <Button variant="outline" size="icon" class="h-14 w-14 shrink-0">
+                            <Icon icon={PackageIcon} />
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Decorative text -->
+        <div
+            class="text-foreground/5 pointer-events-none absolute -right-20 -bottom-10 text-9xl font-black uppercase italic select-none"
+        >
+            Brutal
+        </div>
+    </section>
+
     <!-- Features -->
     <section class="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <!-- ... features cards continue ... -->
         <Card
             class="bg-primary/10 hover:shadow-brutalist-hover transition-all hover:-translate-y-1"
         >

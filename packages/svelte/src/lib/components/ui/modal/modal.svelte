@@ -1,13 +1,44 @@
 <script lang="ts">
+    /**
+     * A modal dialog component with backdrop, focus trapping, and keyboard navigation.
+     * Supports various sizes and Neo-Brutalist styling.
+     *
+     * @example
+     * ```svelte
+     * <Modal bind:open={isOpen} title="Confirm Action" size="md">
+     *   <p>Are you sure?</p>
+     *   <Button onclick={() => isOpen = false}>Close</Button>
+     * </Modal>
+     * ```
+     */
     import { cn } from "../../../utils";
     import { fly, fade } from "svelte/transition";
     import { tick } from "svelte";
 
     type Props = {
+        /**
+         * Whether the modal is open. Can be bound.
+         * @default false
+         */
         open?: boolean;
+
+        /**
+         * Callback fired when the modal requests to close (e.g. backdrop click, Escape key).
+         * Not needed if you use `bind:open`.
+         */
         onClose?: () => void;
+
+        /**
+         * Optional title for the modal header.
+         */
         title?: string;
+
+        /**
+         * Size of the modal.
+         * @default "md"
+         */
         size?: "sm" | "md" | "lg" | "xl" | "full" | "auto";
+
         children?: import("svelte").Snippet;
     };
 
@@ -23,12 +54,12 @@
     let previousFocus: HTMLElement | null = null;
 
     const sizeClasses = {
-        sm: "max-w-sm max-h-[80vh]",
-        md: "max-w-lg max-h-[85vh]",
-        lg: "max-w-2xl max-h-[90vh]",
-        xl: "max-w-4xl max-h-[90vh]",
-        full: "max-w-[95vw] max-h-[95vh]",
-        auto: "max-w-[95vw] max-h-[95vh]",
+        sm: "min-w-[320px] max-w-sm min-h-[200px] max-h-[80vh]",
+        md: "min-w-[400px] max-w-lg min-h-[300px] max-h-[85vh]",
+        lg: "min-w-[600px] max-w-2xl min-h-[400px] max-h-[90vh]",
+        xl: "min-w-[800px] max-w-4xl min-h-[500px] max-h-[90vh]",
+        full: "min-w-[95vw] max-w-[95vw] min-h-[95vh] max-h-[95vh]",
+        auto: "w-auto h-auto max-w-[95vw] max-h-[95vh]",
     };
 
     function handleClose() {

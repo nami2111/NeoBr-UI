@@ -3,8 +3,9 @@
     import { cn } from "../../../utils";
     import Icon from "../icon/icon.svelte";
     import { Calendar01Icon, ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
+    import type { CompatibleDatePickerProps } from "../../../types/bits-ui-compat";
 
-    type Props = DatePickerPrimitive.RootProps & {
+    type Props = CompatibleDatePickerProps & {
         class?: string;
         label?: string;
     };
@@ -17,8 +18,7 @@
     }: Props = $props();
 </script>
 
-<!-- @ts-expect-error - Bits UI union types are too complex for Svelte 5 prop inference -->
-<DatePickerPrimitive.Root bind:value={value as any} {...rest}>
+<DatePickerPrimitive.Root bind:value {...rest}>
     <div class="text-foreground flex flex-col gap-1.5">
         {#if label}
             <DatePickerPrimitive.Label class="text-xs font-black tracking-tight uppercase">

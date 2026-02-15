@@ -3,6 +3,10 @@
     import type { HTMLButtonAttributes } from "svelte/elements";
     import { cn } from "../../../utils";
 
+    /**
+     * Button variants configuration using CVA.
+     * Defines styles for different visual variants, sizes, and the brutalist theme.
+     */
     const buttonVariants = cva(
         "inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
         {
@@ -45,8 +49,20 @@
 
     type Props = HTMLButtonAttributes &
         VariantProps<typeof buttonVariants> & {
+            /**
+             * Enable or disable the Neo-Brutalist styling (borders, shadows).
+             * @default true
+             */
             brutalist?: boolean;
+
+            /**
+             * If provided, renders as an anchor tag (`<a>`) instead of a button.
+             */
             href?: string;
+
+            /**
+             * Content to be rendered inside the button.
+             */
             children?: import("svelte").Snippet;
         };
 

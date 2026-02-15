@@ -21,6 +21,6 @@
     });
 </script>
 
-<div class={cn("w-full", className)} role="tablist" {...rest}>
+<div class={cn("w-full", className)} {...rest}>
     {@render children?.()}
 </div>

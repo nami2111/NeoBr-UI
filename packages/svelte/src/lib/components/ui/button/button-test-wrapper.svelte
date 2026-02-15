@@ -1,10 +1,17 @@
 <script lang="ts">
     import Button from "./button.svelte";
-    let { ...props } = $props();
+
+    let {
+        childrenText = "Click me",
+        href,
+        ...rest
+    }: {
+        childrenText?: string;
+        href?: string;
+        [key: string]: any;
+    } = $props();
 </script>
 
-<Button {...props}>
-    {#if props.childrenText}
-        {props.childrenText}
-    {/if}
+<Button {href} {...rest}>
+    {childrenText}
 </Button>

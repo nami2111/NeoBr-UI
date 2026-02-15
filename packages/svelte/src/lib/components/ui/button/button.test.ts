@@ -69,4 +69,24 @@ describe("Button component", () => {
         await rerender({ disabled: false, childrenText: "Submit" });
         expect(button).not.toBeDisabled();
     });
+
+    test("renders as link when href is provided", () => {
+        render(ButtonTestWrapper, { props: { href: "/test-link", childrenText: "Go to Test" } });
+        const link = screen.getByRole("link", { name: /go to test/i });
+        expect(link).toBeInTheDocument();
+        expect(link).toHaveAttribute("href", "/test-link");
+    });
+
+    test("applies brutalist styling", () => {
+        render(ButtonTestWrapper, { props: { brutalist: true, childrenText: "Brutalist" } });
+        const button = screen.getByRole("button", { name: /brutalist/i });
+        expect(button).toHaveClass("rounded-brutalist");
+    });
+
+    test("applies non-brutalist styling", () => {
+        render(ButtonTestWrapper, { props: { brutalist: false, childrenText: "Rounded" } });
+        const button = screen.getByRole("button", { name: /rounded/i });
+        expect(button).not.toHaveClass("rounded-brutalist");
+        expect(button).toHaveClass("rounded-md");
+    });
 });

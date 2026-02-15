@@ -35,7 +35,7 @@ NeoBr-UI uses Svelte 5 Runes for reactivity and Snippets for flexible compositio
 - **Layout**: Card, Separator
 - **Forms**: Input, Checkbox, RadioGroup, Slider, Switch, Form (validation helpers)
 - **Overlay**: Modal, DropdownMenu, Tooltip, Toaster (Toast notifications)
-- **Advanced**: Accordion, Tabs, Select, Avatar
+- **Advanced**: Accordion, Tabs, Select, Avatar, ErrorBoundary
 
 ## Styling
 
