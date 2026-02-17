@@ -1,5 +1,11 @@
 # @neobr/svelte
 
+## 1.0.10
+
+### Patch Changes
+
+- fix dependency
+
 ## 1.0.9
 
 ### Patch Changes
