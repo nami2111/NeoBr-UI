@@ -97,7 +97,7 @@ In `app.css` (Tailwind v4 style):
           secondary: "btn-brutalist bg-secondary text-secondary-foreground hover:bg-secondary-hover",
         },
         brutalist: {
-          true: "rounded-brutalist tracking-normal", // Use standard letter spacing
+          true: "rounded-brutalist tracking-[0.1em]", // Use wider letter spacing for a technical feel
           false: "rounded-md",
         }
       },
