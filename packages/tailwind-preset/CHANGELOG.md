@@ -1,5 +1,11 @@
 # @neobr/tailwind-preset
 
+## 1.0.5
+
+### Patch Changes
+
+- Fix critical bugs, improve accessibility, and modernize design system
+
 ## 1.0.4
 
 ### Patch Changes

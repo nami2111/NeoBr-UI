@@ -1,6 +1,6 @@
 {
     "name": "@neobr/svelte",
-    "version": "1.0.11",
+    "version": "1.0.12",
     "type": "module",
     "description": "Premium Neo-Brutalist Svelte 5 Component Library",
     "repository": {
@@ -296,7 +296,7 @@
         "@hugeicons/core-free-icons": "^4.0.0",
         "@hugeicons/svelte": "^1.1.2",
         "@internationalized/date": "^3.12.0",
-        "@neobr/tailwind-preset": "^1.0.4",
+        "@neobr/tailwind-preset": "^1.0.5",
         "bits-ui": "^2.16.3",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
