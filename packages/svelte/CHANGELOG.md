@@ -1,5 +1,11 @@
 # @neobr/svelte
 
+## 1.0.13
+
+### Patch Changes
+
+- update @neobr/svelte README with preset setup and examples
+
 ## 1.0.12
 
 ### Patch Changes
