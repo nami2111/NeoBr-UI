@@ -13,7 +13,7 @@
 <div
     role="tablist"
     class={cn(
-        "border-foreground bg-muted text-muted-foreground rounded-brutalist inline-flex h-12 items-center justify-center border-2 p-1",
+        "border-foreground bg-muted text-muted-foreground shadow-brutalist rounded-brutalist inline-flex h-12 items-center justify-center border-2 p-1",
         className,
     )}
     {...rest}

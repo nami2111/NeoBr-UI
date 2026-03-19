@@ -1,33 +1,32 @@
 <script lang="ts" module>
-  import { getContext, setContext } from "svelte";
-  import { writable, type Writable } from "svelte/store";
+    import { getContext, setContext } from "svelte";
 
-  const FORM_ITEM_ID = Symbol("FORM_ITEM_ID");
+    const FORM_ITEM_ID = Symbol("FORM_ITEM_ID");
 
-  export function getFormItemContext() {
-    return getContext<Writable<{ error?: string | boolean }>>(FORM_ITEM_ID);
-  }
+    export function getFormItemContext() {
+        return getContext<{ error: string | boolean | undefined }>(FORM_ITEM_ID);
+    }
 </script>
 
 <script lang="ts">
-  import { cn } from "../../../utils";
-  import type { HTMLAttributes } from "svelte/elements";
+    import { cn } from "../../../utils";
+    import type { HTMLAttributes } from "svelte/elements";
 
-  type Props = HTMLAttributes<HTMLDivElement> & {
-    error?: string | boolean;
-    children?: import('svelte').Snippet;
-  };
+    type Props = HTMLAttributes<HTMLDivElement> & {
+        error?: string | boolean;
+        children?: import("svelte").Snippet;
+    };
 
-  let { class: className, error = false, children, ...rest }: Props = $props();
+    let { class: className, error = false, children, ...rest }: Props = $props();
 
-  const errorStore = writable<{ error?: string | boolean }>({ error: undefined });
-  setContext(FORM_ITEM_ID, errorStore);
+    const errorState = $state<{ error: string | boolean | undefined }>({ error: undefined });
+    setContext(FORM_ITEM_ID, errorState);
 
-  $effect(() => {
-    errorStore.set({ error });
-  });
+    $effect(() => {
+        errorState.error = error;
+    });
 </script>
 
 <div class={cn("space-y-2", className)} {...rest}>
-  {@render children?.()}
+    {@render children?.()}
 </div>

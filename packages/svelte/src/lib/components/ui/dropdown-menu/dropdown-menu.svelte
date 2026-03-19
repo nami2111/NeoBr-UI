@@ -1,6 +1,7 @@
 <script lang="ts">
     import { cn } from "../../../utils";
     import { fade } from "svelte/transition";
+    import { tick } from "svelte";
 
     type Props = {
         open?: boolean;
@@ -9,47 +10,72 @@
     };
 
     let { open = $bindable(false), trigger, children }: Props = $props();
+    let menuContent = $state<HTMLElement>();
 
     function toggle() {
         open = !open;
     }
+
+    function close() {
+        open = false;
+    }
+
+    function handleKeydown(e: KeyboardEvent) {
+        if (!open) return;
+
+        if (e.key === "Escape") {
+            e.preventDefault();
+            close();
+            return;
+        }
+
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            e.preventDefault();
+            if (!menuContent) return;
+            const items = Array.from(
+                menuContent.querySelectorAll('[role="menuitem"]:not([data-disabled="true"])'),
+            ) as HTMLElement[];
+            if (items.length === 0) return;
+
+            const currentIndex = items.indexOf(document.activeElement as HTMLElement);
+            let nextIndex: number;
+
+            if (e.key === "ArrowDown") {
+                nextIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
+            } else {
+                nextIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
+            }
+
+            items[nextIndex].focus();
+        }
+    }
 </script>
 
+<svelte:window onkeydown={handleKeydown} />
+
 <div class="relative inline-block text-left">
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div
+    <button
+        type="button"
         onclick={toggle}
         class="cursor-pointer"
-        role="button"
-        tabindex="0"
         aria-haspopup="menu"
         aria-expanded={open}
-        onkeydown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                toggle();
-            }
-        }}
     >
         {@render trigger?.()}
-    </div>
+    </button>
 
     {#if open}
         <div
+            bind:this={menuContent}
             class="border-foreground bg-background shadow-brutalist rounded-brutalist absolute right-0 z-50 mt-2 w-56 origin-top-right border-2 focus:outline-none"
             transition:fade={{ duration: 100 }}
             role="menu"
             aria-orientation="vertical"
         >
-            <!-- svelte-ignore a11y_click_events_have_key_events -->
-            <!-- svelte-ignore a11y_no_static_element_interactions -->
-            <div class="py-1" onclick={() => (open = false)}>
+            <div class="py-1" onclick={close} role="none">
                 {@render children?.()}
             </div>
         </div>
-        <!-- svelte-ignore a11y_click_events_have_key_events -->
-        <!-- svelte-ignore a11y_no_static_element_interactions -->
-        <div class="fixed inset-0 z-40" onclick={() => (open = false)}></div>
+        <div class="fixed inset-0 z-40" onclick={close} role="presentation"></div>
     {/if}
 </div>

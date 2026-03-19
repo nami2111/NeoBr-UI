@@ -1,6 +1,7 @@
 <script lang="ts">
     import { cn } from "../../../utils";
     import { fly, fade } from "svelte/transition";
+    import { tick } from "svelte";
 
     type Props = {
         open?: boolean;
@@ -22,10 +23,74 @@
         ...rest
     }: Props = $props();
 
+    let sheetContent = $state<HTMLElement>();
+    let previousFocus: HTMLElement | null = null;
+
     function handleClose() {
         open = false;
         onClose?.();
     }
+
+    function getFocusableElements(element: HTMLElement): HTMLElement[] {
+        return Array.from(
+            element.querySelectorAll(
+                'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select',
+            ),
+        ) as HTMLElement[];
+    }
+
+    function handleKeydown(e: KeyboardEvent) {
+        if (!open) return;
+
+        if (e.key === "Escape") {
+            e.preventDefault();
+            handleClose();
+            return;
+        }
+
+        if (e.key === "Tab") {
+            if (!sheetContent) return;
+            const focusable = getFocusableElements(sheetContent);
+            if (focusable.length === 0) {
+                e.preventDefault();
+                return;
+            }
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (e.shiftKey) {
+                if (document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                }
+            } else {
+                if (document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        }
+    }
+
+    $effect(() => {
+        if (open) {
+            previousFocus = document.activeElement as HTMLElement;
+            tick().then(() => {
+                if (sheetContent) {
+                    const focusable = getFocusableElements(sheetContent);
+                    if (focusable.length > 0) {
+                        focusable[0].focus();
+                    } else {
+                        sheetContent.focus();
+                    }
+                }
+            });
+        } else if (previousFocus) {
+            previousFocus.focus();
+            previousFocus = null;
+        }
+    });
 
     const flyParams = $derived.by(() => {
         switch (side) {
@@ -54,27 +119,30 @@
     });
 </script>
 
+<svelte:window onkeydown={handleKeydown} />
+
 {#if open}
     <div class="fixed inset-0 z-50 flex items-center justify-center">
         <!-- Backdrop -->
-        <!-- svelte-ignore a11y_click_events_have_key_events -->
-        <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
             class="bg-foreground/30 fixed inset-0 backdrop-blur-sm transition-opacity"
             transition:fade={{ duration: 200 }}
             onclick={handleClose}
+            role="presentation"
         ></div>
 
         <!-- Sheet Content -->
         <div
+            bind:this={sheetContent}
             class={cn(
-                "bg-background shadow-impact border-foreground fixed z-50 flex flex-col gap-4 p-6 transition-all outline-none",
+                "bg-background shadow-brutalist border-foreground fixed z-50 flex flex-col gap-4 p-6 transition-all outline-none",
                 sideClasses,
                 className,
             )}
             transition:fly={flyParams}
             role="dialog"
             aria-modal="true"
+            tabindex="-1"
             {...rest}
         >
             <div class="flex items-center justify-between">
@@ -83,7 +151,7 @@
                 {/if}
                 <button
                     type="button"
-                    class="border-foreground hover:bg-muted rounded-sm border-2 p-1 transition-all active:translate-y-[2px]"
+                    class="border-foreground hover:bg-muted rounded-brutalist border-2 p-1 transition-all active:translate-y-[2px]"
                     onclick={handleClose}
                 >
                     <svg

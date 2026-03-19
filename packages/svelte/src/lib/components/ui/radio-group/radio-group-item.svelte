@@ -13,11 +13,13 @@
 
     let { value: itemValue, disabled = false, class: className, id, ...rest }: Props = $props();
 
+    const RADIO_CONTEXT = Symbol.for("radio-group");
+
     const ctx = getContext<{
         value: string;
         disabled: boolean;
         name?: string;
-    }>("radio-group");
+    }>(RADIO_CONTEXT);
 
     if (!ctx) {
         throw new Error("RadioGroupItem must be used within RadioGroup");

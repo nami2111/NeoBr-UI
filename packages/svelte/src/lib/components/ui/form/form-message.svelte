@@ -1,6 +1,7 @@
 <script lang="ts">
     import { cn } from "../../../utils";
     import { getFormItemContext } from "./form-item.svelte";
+
     type Props = {
         class?: string;
         children?: import("svelte").Snippet;
@@ -8,15 +9,15 @@
 
     let { class: className, children }: Props = $props();
 
-    const errorStore = getFormItemContext();
+    const errorState = getFormItemContext();
 </script>
 
 {#if children}
     <p class={cn("text-destructive text-sm font-bold", className)}>
         {@render children()}
     </p>
-{:else if $errorStore?.error && typeof $errorStore.error === "string"}
+{:else if errorState?.error && typeof errorState.error === "string"}
     <p class={cn("text-destructive text-sm font-bold", className)}>
-        {$errorStore.error}
+        {errorState.error}
     </p>
 {/if}

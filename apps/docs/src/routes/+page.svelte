@@ -38,23 +38,21 @@
     <section class="space-y-8">
         <div class="space-y-4">
             <h1
-                class="animate-in fade-in slide-in-from-top-10 text-6xl leading-[0.8] font-black tracking-tighter uppercase duration-700 md:text-8xl"
+                class="animate-slide-in-from-top text-6xl leading-[0.8] font-black tracking-tighter uppercase duration-700 md:text-8xl"
             >
                 Neo Brutalist <br />
                 <span class="text-primary text-stroke-2">Component</span> <br />
                 System
             </h1>
             <p
-                class="border-foreground animate-in fade-in slide-in-from-left-10 max-w-2xl border-l-4 py-2 pl-6 text-2xl font-bold delay-200 duration-700"
+                class="border-foreground animate-slide-in-from-left max-w-2xl border-l-4 py-2 pl-6 text-2xl font-bold delay-200 duration-700"
             >
                 A high-contrast, high-impact UI library built for speed and accessibility. Designed
                 with Svelte 5 runes.
             </p>
         </div>
 
-        <div
-            class="animate-in fade-in slide-in-from-bottom-10 flex flex-wrap gap-6 delay-500 duration-700"
-        >
+        <div class="animate-slide-in-from-bottom flex flex-wrap gap-6 delay-500 duration-700">
             <Button size="lg" href="/docs/installation" class="h-auto px-12 py-8 text-xl">
                 Get Started
                 <Icon icon={ArrowRight01Icon} class="ml-2 h-6 w-6" />
@@ -72,7 +70,7 @@
 
     <!-- Interactive Section -->
     <section
-        class="animate-in fade-in slide-in-from-bottom-10 border-foreground bg-card shadow-brutalist relative overflow-hidden border-2 p-8 delay-700 duration-700 md:p-12"
+        class="animate-slide-in-from-bottom border-foreground bg-card shadow-brutalist relative overflow-hidden border-2 p-8 delay-700 duration-700 md:p-12"
     >
         <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
             <div class="space-y-6">
@@ -182,7 +180,7 @@
         class="border-foreground bg-accent shadow-brutalist relative flex flex-col items-center space-y-6 overflow-hidden rounded-none border-2 p-12 text-center"
     >
         <div
-            class="bg-primary border-foreground absolute top-0 right-0 h-32 w-32 -translate-y-16 translate-x-16 -rotate-45 border-b-2 border-l-2"
+            class="bg-primary border-foreground absolute top-0 right-0 h-32 w-32 translate-x-16 -translate-y-16 -rotate-45 border-b-2 border-l-2"
         ></div>
         <h2 class="relative z-10 text-4xl font-black tracking-tighter uppercase md:text-5xl">
             Ready to build something bold?

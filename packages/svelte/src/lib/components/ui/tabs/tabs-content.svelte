@@ -1,36 +1,41 @@
 <script lang="ts">
-  import { getContext } from "svelte";
-  import { cn } from "../../../utils";
+    import { getContext } from "svelte";
+    import { cn } from "../../../utils";
 
-  type Props = {
-    value: string;
-    class?: string;
-    children?: import('svelte').Snippet;
-    [key: string]: any;
-  };
+    type Props = {
+        value: string;
+        class?: string;
+        children?: import("svelte").Snippet;
+        [key: string]: any;
+    };
 
-  let { value: contentValue, class: className, children, ...rest }: Props = $props();
+    let { value: contentValue, class: className, children, ...rest }: Props = $props();
 
-  const root = getContext<{ 
-    value: string | undefined; 
-  }>("tabs");
+    const TABS_CONTEXT = Symbol.for("tabs");
 
-  if (!root) {
-    throw new Error("TabsContent must be used within Tabs");
-  }
+    const root = getContext<{
+        value: string | undefined;
+    }>(TABS_CONTEXT);
 
-  let isActive = $derived(root.value === contentValue);
+    if (!root) {
+        throw new Error("TabsContent must be used within Tabs");
+    }
+
+    let isActive = $derived(root.value === contentValue);
 </script>
 
-{#if isActive}
-  <div
+<div
     class={cn(
-      "mt-4 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-      className
+        "ring-offset-background focus-visible:ring-ring mt-4 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+        !isActive && "hidden",
+        className,
     )}
     role="tabpanel"
+    aria-labelledby={`trigger-${contentValue}`}
+    id={`tabpanel-${contentValue}`}
+    tabindex="0"
+    hidden={!isActive}
     {...rest}
-  >
+>
     {@render children?.()}
-  </div>
-{/if}
+</div>

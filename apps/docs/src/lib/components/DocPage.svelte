@@ -8,7 +8,7 @@
     let { title, description, children }: Props = $props();
 </script>
 
-<div class="animate-in fade-in slide-in-from-bottom-4 space-y-8 duration-500">
+<div class="animate-slide-up space-y-8 duration-500">
     <div class="space-y-4">
         <h1 class="text-4xl font-black tracking-tighter uppercase md:text-5xl">
             {title}

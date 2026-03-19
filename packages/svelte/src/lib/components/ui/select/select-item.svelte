@@ -16,7 +16,7 @@
     {value}
     {disabled}
     class={cn(
-        "group data-[highlighted]:bg-primary data-[highlighted]:text-primary-foreground focus:bg-primary focus:text-primary-foreground relative flex w-full cursor-pointer items-center rounded-xs px-3 py-2 text-sm font-bold transition-colors outline-none select-none disabled:pointer-events-none disabled:opacity-50",
+        "group data-[highlighted]:bg-primary data-[highlighted]:text-primary-foreground focus:bg-primary focus:text-primary-foreground relative flex w-full cursor-pointer items-center rounded-sm px-3 py-2 text-sm font-bold transition-colors outline-none select-none disabled:pointer-events-none disabled:opacity-50",
         "data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground",
         className,
     )}

@@ -1,40 +1,47 @@
 <script lang="ts">
-  import { getContext } from "svelte";
-  import { cn } from "../../../utils";
+    import { getContext } from "svelte";
+    import { cn } from "../../../utils";
 
-  type Props = {
-    value: string;
-    class?: string;
-    children?: import('svelte').Snippet;
-    [key: string]: any;
-  };
+    type Props = {
+        value: string;
+        class?: string;
+        children?: import("svelte").Snippet;
+        [key: string]: any;
+    };
 
-  let { value: triggerValue, class: className, children, ...rest }: Props = $props();
+    let { value: triggerValue, class: className, children, ...rest }: Props = $props();
 
-  const root = getContext<{ 
-    value: string | undefined; 
-  }>("tabs");
+    const TABS_CONTEXT = Symbol.for("tabs");
 
-  if (!root) {
-    throw new Error("TabsTrigger must be used within Tabs");
-  }
+    const root = getContext<{
+        value: string | undefined;
+        registerPanel: (triggerValue: string) => string;
+    }>(TABS_CONTEXT);
 
-  let isActive = $derived(root.value === triggerValue);
+    if (!root) {
+        throw new Error("TabsTrigger must be used within Tabs");
+    }
+
+    let isActive = $derived(root.value === triggerValue);
+    let panelId = $derived(`tabpanel-${triggerValue}`);
 </script>
 
 <button
-  type="button"
-  class={cn(
-    "inline-flex items-center justify-center whitespace-nowrap px-3 py-1.5 text-sm font-bold ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-full rounded-brutalist",
-    isActive 
-      ? "bg-primary text-primary-foreground" 
-      : "hover:bg-accent hover:text-accent-foreground",
-    className
-  )}
-  onclick={() => (root.value = triggerValue)}
-  aria-selected={isActive}
-  role="tab"
-  {...rest}
+    type="button"
+    class={cn(
+        "rounded-brutalist ring-offset-background focus-visible:ring-ring inline-flex h-full items-center justify-center px-3 py-1.5 text-sm font-bold whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+        isActive
+            ? "bg-primary text-primary-foreground"
+            : "hover:bg-accent hover:text-accent-foreground",
+        className,
+    )}
+    onclick={() => (root.value = triggerValue)}
+    aria-selected={isActive}
+    aria-controls={panelId}
+    role="tab"
+    id={`trigger-${triggerValue}`}
+    tabindex={isActive ? 0 : -1}
+    {...rest}
 >
-  {@render children?.()}
+    {@render children?.()}
 </button>

@@ -165,7 +165,7 @@
                         </h2>
                     {/if}
                     <button
-                        class="btn-brutalist hover:bg-accent rounded-[var(--brutalist-radius)] p-1 transition-all"
+                        class="btn-brutalist hover:bg-accent rounded-brutalist p-1 transition-all"
                         onclick={handleClose}
                         aria-label="Close modal"
                     >

@@ -1,7 +1,7 @@
 /**
  * Form validation utilities using Zod schema validation.
  * Provides type-safe form handling with Neo-Brutalist styling.
- * 
+ *
  * @note This file uses .svelte.ts extension to enable Svelte 5 runes.
  */
 import { z } from "zod";
@@ -25,17 +25,17 @@ export type FormOptions<T extends z.ZodTypeAny> = {
 
 /**
  * Creates a reactive form state with Zod validation.
- * 
+ *
  * @example
  * ```svelte
  * <script>
  *   import { createFormState, z } from "@neobr/svelte/form";
- *   
+ *
  *   const schema = z.object({
  *     email: z.string().email("Invalid email"),
  *     password: z.string().min(8, "Password must be at least 8 characters")
  *   });
- *   
+ *
  *   const form = createFormState({
  *     schema,
  *     onSubmit: async (values) => {
@@ -43,7 +43,7 @@ export type FormOptions<T extends z.ZodTypeAny> = {
  *     }
  *   });
  * </script>
- * 
+ *
  * <form onsubmit={form.handleSubmit}>
  *   <FormItem>
  *     <FormLabel>Email</FormLabel>
@@ -55,8 +55,14 @@ export type FormOptions<T extends z.ZodTypeAny> = {
  * </form>
  * ```
  */
-export function createFormState<T extends z.AnyZodObject>(options: FormOptions<T>) {
-    const { schema, initialValues = {}, onSubmit, validateOnChange = true, validateOnBlur = true } = options;
+export function createFormState<T extends z.ZodObject>(options: FormOptions<T>) {
+    const {
+        schema,
+        initialValues = {},
+        onSubmit,
+        validateOnChange = true,
+        validateOnBlur = true,
+    } = options;
 
     // Initialize values with initialValues or empty strings for all fields in the schema
     // This avoids "props_invalid_value" error when binding undefined to components with fallbacks
@@ -90,7 +96,7 @@ export function createFormState<T extends z.AnyZodObject>(options: FormOptions<T
             return null;
         } catch (error) {
             if (error instanceof z.ZodError) {
-                return error.errors[0]?.message || "Invalid value";
+                return error.issues[0]?.message || "Invalid value";
             }
             return null;
         }
@@ -107,7 +113,7 @@ export function createFormState<T extends z.AnyZodObject>(options: FormOptions<T
             return true;
         } else {
             const newErrors: Partial<Record<keyof z.infer<T>, string>> = {};
-            for (const error of result.error.errors) {
+            for (const error of result.error.issues) {
                 const path = error.path[0] as keyof z.infer<T>;
                 if (!newErrors[path]) {
                     newErrors[path] = error.message;
@@ -213,12 +219,24 @@ export function createFormState<T extends z.AnyZodObject>(options: FormOptions<T
 
     return {
         // State
-        get values() { return values; },
-        get errors() { return errors; },
-        get touched() { return touched; },
-        get isValid() { return isValid; },
-        get isSubmitting() { return isSubmitting; },
-        get isDirty() { return isDirty; },
+        get values() {
+            return values;
+        },
+        get errors() {
+            return errors;
+        },
+        get touched() {
+            return touched;
+        },
+        get isValid() {
+            return isValid;
+        },
+        get isSubmitting() {
+            return isSubmitting;
+        },
+        get isDirty() {
+            return isDirty;
+        },
 
         // Methods
         handleBlur,

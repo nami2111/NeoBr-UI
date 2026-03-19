@@ -27,28 +27,11 @@
         [key: string]: any;
     };
 
-    let {
-        class: className,
-        variant = "default",
-        size = "default",
-        ...rest
-    }: Props = $props();
+    let { class: className, variant = "default", size = "default", ...rest }: Props = $props();
 </script>
 
-<div
-    class={cn(
-        "relative inline-block",
-        loadingVariants({ variant, size, className }),
-        className,
-    )}
-    {...rest}
->
-    <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-full w-full"
-    >
+<div class={cn("relative inline-block", loadingVariants({ variant, size, className }))} {...rest}>
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-full w-full">
         <!-- 4 Blocks with Staggered Tail Animation -->
         <rect
             x="2"

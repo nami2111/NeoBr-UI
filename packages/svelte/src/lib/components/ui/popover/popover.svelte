@@ -21,14 +21,31 @@
     function toggle() {
         open = !open;
     }
+
+    function close() {
+        open = false;
+    }
+
+    function handleKeydown(e: KeyboardEvent) {
+        if (open && e.key === "Escape") {
+            e.preventDefault();
+            close();
+        }
+    }
 </script>
 
+<svelte:window onkeydown={handleKeydown} />
+
 <div class={cn("relative inline-block text-left", className)}>
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div onclick={toggle} class="cursor-pointer">
+    <button
+        type="button"
+        onclick={toggle}
+        class="cursor-pointer"
+        aria-haspopup="dialog"
+        aria-expanded={open}
+    >
         {@render trigger?.()}
-    </div>
+    </button>
 
     {#if open}
         <div
@@ -37,11 +54,10 @@
                 contentClass,
             )}
             transition:fade={{ duration: 100 }}
+            role="dialog"
         >
             {@render children?.()}
         </div>
-        <!-- svelte-ignore a11y_click_events_have_key_events -->
-        <!-- svelte-ignore a11y_no_static_element_interactions -->
-        <div class="fixed inset-0 z-40" onclick={() => (open = false)}></div>
+        <div class="fixed inset-0 z-40" onclick={close} role="presentation"></div>
     {/if}
 </div>

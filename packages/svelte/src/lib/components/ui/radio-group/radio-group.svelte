@@ -2,6 +2,8 @@
     import { setContext } from "svelte";
     import { cn } from "../../../utils";
 
+    const RADIO_CONTEXT = Symbol.for("radio-group");
+
     type Props = {
         value?: string;
         disabled?: boolean;
@@ -19,8 +21,6 @@
         name,
         ...rest
     }: Props = $props();
-
-    const RADIO_CONTEXT = "radio-group";
 
     setContext(RADIO_CONTEXT, {
         get value() {

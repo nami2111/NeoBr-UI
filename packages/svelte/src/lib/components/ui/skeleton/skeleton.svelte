@@ -11,48 +11,39 @@
 
 <div
     class={cn(
-        "animate-pulse rounded-xs bg-muted/60 border-2 border-foreground/20 overflow-hidden relative",
+        "bg-muted/60 border-foreground/20 relative animate-pulse overflow-hidden rounded-sm border-2",
         className,
     )}
     {...rest}
 >
-    <div class="absolute inset-0 animate-skeleton-shimmer"></div>
+    <div class="animate-skeleton-shimmer absolute inset-0"></div>
 </div>
 
 <style>
     @keyframes skeleton-shimmer {
         0% {
             transform: translateX(-150%) skewX(-20deg);
+            opacity: 0.3;
+        }
+        50% {
+            opacity: 0.6;
         }
         100% {
             transform: translateX(150%) skewX(-20deg);
+            opacity: 0.3;
         }
     }
 
     .animate-skeleton-shimmer {
         position: absolute;
         inset: -100% -50%;
-        background: linear-gradient(
-            90deg,
-            transparent 0%,
-            transparent 35%,
-            rgba(255, 255, 255, 0.4) 50%,
-            transparent 65%,
-            transparent 100%
-        );
+        background-color: var(--color-foreground);
+        opacity: 0.08;
         animation: skeleton-shimmer 1.5s infinite ease-in-out;
     }
 
-    /* Dark mode adjustment */
-    :global([data-theme="dark"]) .animate-skeleton-shimmer {
-        background: linear-gradient(
-            90deg,
-            transparent 0%,
-            transparent 35%,
-            rgba(255, 255, 255, 0.15) 50%,
-            transparent 65%,
-            transparent 100%
-        );
+    :global(.dark) .animate-skeleton-shimmer {
+        opacity: 0.15;
     }
 
     /* Standard pulse for the container */

@@ -11,7 +11,9 @@
 
     let { value = $bindable(undefined), class: className, children, ...rest }: Props = $props();
 
-    setContext("tabs", {
+    const TABS_CONTEXT = Symbol.for("tabs");
+
+    setContext(TABS_CONTEXT, {
         get value() {
             return value;
         },

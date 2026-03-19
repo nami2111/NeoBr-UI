@@ -1,33 +1,37 @@
 <script lang="ts">
-  import { cn } from "../../../utils";
+    import { cn } from "../../../utils";
 
-  type Props = {
-    class?: string;
-    onclick?: () => void;
-    children?: import('svelte').Snippet;
-    [key: string]: any;
-  };
+    type Props = {
+        class?: string;
+        onclick?: () => void;
+        disabled?: boolean;
+        children?: import("svelte").Snippet;
+        [key: string]: any;
+    };
 
-  let props: Props = $props();
-  let { 
-    class: className, 
-    onclick = () => {}, 
-    children, 
-    ...rest 
-  } = props;
+    let {
+        class: className,
+        onclick = () => {},
+        disabled = false,
+        children,
+        ...rest
+    }: Props = $props();
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div
-  class={cn(
-    "flex cursor-pointer items-center px-4 py-2 text-sm font-bold hover:bg-accent hover:text-accent-foreground transition-colors",
-    className
-  )}
-  onclick={(e) => {
-    onclick();
-  }}
-  {...rest}
+<button
+    type="button"
+    role="menuitem"
+    tabindex="-1"
+    {disabled}
+    data-disabled={disabled}
+    class={cn(
+        "hover:bg-accent hover:text-accent-foreground flex w-full cursor-pointer items-center px-4 py-2 text-sm font-bold transition-colors disabled:pointer-events-none disabled:opacity-50",
+        className,
+    )}
+    onclick={(e) => {
+        onclick();
+    }}
+    {...rest}
 >
-  {@render children?.()}
-</div>
+    {@render children?.()}
+</button>

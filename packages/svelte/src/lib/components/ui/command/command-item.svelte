@@ -23,8 +23,7 @@
     const state = getCommandState();
 
     let isVisible = $derived(
-        !state?.search ||
-            (value || "").toLowerCase().includes(state.search.toLowerCase()),
+        !state?.search || (value || "").toLowerCase().includes(state.search.toLowerCase()),
     );
 
     function handleSelect() {
@@ -35,18 +34,16 @@
 </script>
 
 {#if isVisible}
-    <div
-        role="button"
-        tabindex="0"
+    <button
+        type="button"
         class={cn(
-            "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50",
+            "hover:bg-accent hover:text-accent-foreground relative flex w-full cursor-pointer items-center rounded-sm px-2 py-1.5 text-sm outline-none select-none disabled:pointer-events-none disabled:opacity-50",
             className,
         )}
-        data-disabled={disabled}
+        {disabled}
         onclick={handleSelect}
-        onkeydown={(e) => e.key === "Enter" && handleSelect()}
         {...rest}
     >
         {@render children?.()}
-    </div>
+    </button>
 {/if}

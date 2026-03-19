@@ -14,8 +14,6 @@
                 variant: {
                     default:
                         "btn-brutalist bg-primary text-primary-foreground hover:bg-primary-hover",
-                    primary:
-                        "btn-brutalist bg-primary text-primary-foreground hover:bg-primary-hover",
                     destructive:
                         "btn-brutalist bg-destructive text-destructive-foreground hover:bg-destructive-hover",
                     success:

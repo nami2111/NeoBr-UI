@@ -35,7 +35,7 @@
     }: Props = $props();
 
     const formItemError = getFormItemContext();
-    const hasError = $derived(error || !!$formItemError?.error);
+    const hasError = $derived(error || !!formItemError?.error);
 </script>
 
 <input

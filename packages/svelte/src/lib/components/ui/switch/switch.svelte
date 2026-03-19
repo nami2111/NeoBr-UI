@@ -1,30 +1,12 @@
 <script lang="ts">
     import { cn } from "../../../utils";
-    import { cva, type VariantProps } from "class-variance-authority";
-
-    const switchVariants = cva(
-        "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
-        {
-            variants: {
-                variant: {
-                    default: "bg-background data-[state=checked]:bg-primary",
-                    destructive: "bg-background data-[state=checked]:bg-destructive",
-                    success: "bg-background data-[state=checked]:bg-success",
-                    brutalist:
-                        "rounded-brutalist border-2 border-foreground bg-background data-[state=checked]:bg-primary shadow-brutalist",
-                },
-            },
-            defaultVariants: {
-                variant: "default",
-            },
-        },
-    );
 
     import type { HTMLButtonAttributes } from "svelte/elements";
 
     type Props = HTMLButtonAttributes & {
         checked?: boolean;
-        variant?: VariantProps<typeof switchVariants>["variant"];
+        variant?: "default" | "destructive" | "success";
+        brutalist?: boolean;
         onchange?: (checked: boolean) => void;
     };
 
@@ -33,9 +15,16 @@
         checked = $bindable(false),
         disabled = false,
         variant = "default",
+        brutalist = true,
         onchange,
         ...rest
     }: Props = $props();
+
+    const variantClasses = {
+        default: "data-[state=checked]:bg-primary",
+        destructive: "data-[state=checked]:bg-destructive",
+        success: "data-[state=checked]:bg-success",
+    };
 
     function toggle() {
         if (disabled) return;
@@ -57,7 +46,12 @@
     aria-checked={checked}
     data-state={checked ? "checked" : "unchecked"}
     {disabled}
-    class={cn(switchVariants({ variant }), className)}
+    class={cn(
+        "peer border-foreground bg-background focus-visible:ring-ring focus-visible:ring-offset-background inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+        variantClasses[variant],
+        brutalist && "rounded-brutalist shadow-brutalist",
+        className,
+    )}
     onclick={toggle}
     onkeydown={handleKeyDown}
     {...rest}

@@ -8,15 +8,10 @@
         error?: boolean | string;
     };
 
-    let {
-        class: className,
-        value = $bindable(""),
-        error = false,
-        ...rest
-    }: Props = $props();
+    let { class: className, value = $bindable(""), error = false, ...rest }: Props = $props();
 
     const formItemError = getFormItemContext();
-    const hasError = $derived(error || !!$formItemError?.error);
+    const hasError = $derived(error || !!formItemError?.error);
 </script>
 
 <textarea

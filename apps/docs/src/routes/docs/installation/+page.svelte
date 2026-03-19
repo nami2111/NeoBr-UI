@@ -96,7 +96,7 @@ body &#123;
 &lt;/script&gt;
 
 &lt;Card&gt;
-  &lt;Button variant="primary"&gt;Hello NeoBr!&lt;/Button&gt;
+  &lt;Button variant="default"&gt;Hello NeoBr!&lt;/Button&gt;
 &lt;/Card&gt;</code
                 >
             </pre>

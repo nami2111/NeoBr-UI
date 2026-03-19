@@ -18,21 +18,13 @@
         "tokens",
         "v4"
     ],
-    "main": "index.js",
     "exports": {
-        ".": "./index.js",
-        "./tokens": "./tokens.js",
         "./style": "./design-system.css"
     },
     "files": [
-        "index.js",
-        "tokens.js",
         "design-system.css"
     ],
     "peerDependencies": {
-        "tailwindcss": ">=3.0.0"
-    },
-    "dependencies": {
-        "tailwindcss-animate": "^1.0.7"
+        "tailwindcss": ">=4.0.0"
     }
 }

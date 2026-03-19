@@ -23,7 +23,9 @@
         value = type === "multiple" ? [] : "";
     }
 
-    setContext("toggle-group", {
+    const TOGGLE_GROUP_CONTEXT = Symbol.for("toggle-group");
+
+    setContext(TOGGLE_GROUP_CONTEXT, {
         get value() {
             return value;
         },

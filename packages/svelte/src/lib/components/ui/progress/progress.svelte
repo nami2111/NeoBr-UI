@@ -24,7 +24,7 @@
 
 <div
     class={cn(
-        "border-foreground bg-background shadow-brutalist relative h-6 w-full overflow-hidden rounded-sm border-2",
+        "border-foreground bg-background shadow-brutalist rounded-brutalist relative h-6 w-full overflow-hidden border-2",
         className,
     )}
     role="progressbar"

@@ -22,10 +22,10 @@
         </section>
 
         <section class="space-y-4">
-            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Brutalist Variant</h2>
-            <CodePreview code={`<Switch variant="brutalist" />`}>
+            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Brutalist Style</h2>
+            <CodePreview code={`<Switch brutalist={true} />`}>
                 <div class="flex items-center space-x-2">
-                    <Switch id="brutalist-switch" variant="brutalist" />
+                    <Switch id="brutalist-switch" brutalist={true} />
                     <Label for="brutalist-switch">Brutalist Mode</Label>
                 </div>
             </CodePreview>

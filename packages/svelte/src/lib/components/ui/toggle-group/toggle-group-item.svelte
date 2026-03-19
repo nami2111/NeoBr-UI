@@ -12,12 +12,12 @@
 
     let { value, class: className, children, ...rest }: Props = $props();
 
-    const context = getContext<any>("toggle-group");
+    const TOGGLE_GROUP_CONTEXT = Symbol.for("toggle-group");
+
+    const context = getContext<any>(TOGGLE_GROUP_CONTEXT);
 
     const pressed = $derived(
-        context.type === "single"
-            ? context.value === value
-            : context.value.includes(value),
+        context.type === "single" ? context.value === value : context.value.includes(value),
     );
 
     function handleToggle() {

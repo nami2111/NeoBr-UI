@@ -64,14 +64,19 @@
     /* Animation */
     --animate-fade-in: fade-in 0.3s ease-in-out;
     --animate-slide-up: slide-up 0.3s ease-out;
+    --animate-slide-in-from-top: slide-in-from-top 0.3s ease-out;
+    --animate-slide-in-from-bottom: slide-in-from-bottom 0.3s ease-out;
+    --animate-slide-in-from-left: slide-in-from-left 0.3s ease-out;
 
     @keyframes fade-in {
         from {
             opacity: 0;
+            transform: scale(0.95);
         }
 
         to {
             opacity: 1;
+            transform: scale(1);
         }
     }
 
@@ -86,6 +91,42 @@
             opacity: 1;
         }
     }
+
+    @keyframes slide-in-from-top {
+        from {
+            transform: translateY(-10px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slide-in-from-bottom {
+        from {
+            transform: translateY(10px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slide-in-from-left {
+        from {
+            transform: translateX(-10px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -93,6 +134,36 @@
 .dark {
     --color-background: oklch(14.5% 0.025 264);
     --color-foreground: oklch(98.5% 0.005 264);
+
+    /* Primary (Lavender) */
+    --color-primary: oklch(72.5% 0.12 270);
+    --color-primary-hover: oklch(78.5% 0.11 270);
+    --color-primary-active: oklch(66.5% 0.13 270);
+    --color-primary-foreground: oklch(12.5% 0.025 264);
+
+    /* Secondary (Peach) */
+    --color-secondary: oklch(75% 0.14 45);
+    --color-secondary-hover: oklch(80% 0.13 45);
+    --color-secondary-active: oklch(70% 0.15 45);
+    --color-secondary-foreground: oklch(12.5% 0.025 264);
+
+    /* Destructive (Red) */
+    --color-destructive: oklch(65% 0.2 15);
+    --color-destructive-hover: oklch(70% 0.19 15);
+    --color-destructive-active: oklch(60% 0.21 15);
+    --color-destructive-foreground: oklch(98.5% 0.005 264);
+
+    /* Success (Green) */
+    --color-success: oklch(75% 0.18 145);
+    --color-success-hover: oklch(80% 0.17 145);
+    --color-success-active: oklch(70% 0.19 145);
+    --color-success-foreground: oklch(12.5% 0.025 264);
+
+    /* Warning (Yellow) */
+    --color-warning: oklch(80% 0.14 90);
+    --color-warning-hover: oklch(85% 0.13 90);
+    --color-warning-active: oklch(75% 0.15 90);
+    --color-warning-foreground: oklch(12.5% 0.025 264);
 
     --color-card: oklch(18.5% 0.02 264);
     --color-card-foreground: oklch(98.5% 0.005 264);
@@ -105,30 +176,31 @@
 
     --color-border: oklch(98.5% 0.005 264);
     --color-input: oklch(25% 0.02 264);
+    --color-ring: oklch(72.5% 0.12 270);
     --color-shadow-color: oklch(98.5% 0.005 264);
 }
 
 /* Neo Brutalist Utility Patterns */
 @utility btn-brutalist {
-    @apply border-2 border-foreground shadow-brutalist transition-all rounded-brutalist cursor-pointer;
-    @apply hover:-translate-y-[2px] hover:shadow-brutalist-hover;
+    @apply border-foreground shadow-brutalist rounded-brutalist cursor-pointer border-2 transition-all;
+    @apply hover:shadow-brutalist-hover hover:-translate-y-[2px];
     @apply active:translate-y-[5px] active:shadow-none;
 }
 
 @utility container-brutalist {
-    @apply bg-background border-2 border-foreground shadow-brutalist p-6 rounded-brutalist;
+    @apply bg-background border-foreground shadow-brutalist rounded-brutalist border-2 p-6;
 }
 
-@utility h-brutalist {
-    @apply font-bold tracking-[0.1em] uppercase;
+@utility tracking-brutalist {
+    letter-spacing: 0.1em;
 }
 
 @utility card-brutalist {
-    @apply bg-card text-card-foreground border-2 border-foreground shadow-brutalist rounded-brutalist;
+    @apply bg-card text-card-foreground border-foreground shadow-brutalist rounded-brutalist border-2;
 }
 
 @utility input-brutalist {
-    @apply h-10 w-full border-2 border-foreground bg-background px-3 py-2 text-sm font-bold shadow-inner rounded-brutalist transition-colors;
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply border-foreground bg-background rounded-brutalist h-10 w-full border-2 px-3 py-2 text-sm font-bold shadow-inner transition-colors;
+    @apply focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none;
     @apply disabled:cursor-not-allowed disabled:opacity-50;
 }

@@ -11,7 +11,7 @@
 
 <Select.Content
     class={cn(
-        "card-brutalist text-foreground animate-in fade-in-0 zoom-in-95 shadow-brutalist absolute z-50 min-w-[8rem] overflow-hidden p-1",
+        "card-brutalist text-foreground animate-fade-in shadow-brutalist absolute z-50 min-w-[8rem] overflow-hidden p-1",
         className,
     )}
     sideOffset={8}
