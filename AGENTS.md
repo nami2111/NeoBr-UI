@@ -25,30 +25,49 @@ neobr-ui/
 
 ## Build & Sync Commands
 
-### Monorepo Management
+### Monorepo Management (Vite+)
+
+Powered by [Vite+](https://viteplus.dev) — unified toolchain replacing pnpm scripts, vitest, prettier, and turbo.
 
 ```bash
-pnpm install              # Install all dependencies
-pnpm build               # Build all packages
-pnpm test                # Test all packages
+vp install                  # Install all dependencies
+vp run -r build             # Build all packages (dependency order)
+vp run -r test              # Test all packages
+vp check                    # Format + lint + type-check (Oxfmt + Oxlint)
 ```
 
-### Package Filters (PNPM)
+### Package Filters
 
-Instead of `cd`-ing into directories, use the `--filter` (or `-f`) flag from the root:
+Instead of `cd`-ing into directories, use `--filter` or target packages directly:
 
-| Command | Shorthand | Description |
-| :--- | :--- | :--- |
-| `pnpm -F docs dev` | `pnpm --filter docs dev` | Run documentation dev server |
-| `pnpm -F @neobr/svelte test` | `pnpm --filter @neobr/svelte test` | Run library tests |
-| `pnpm -F @neobr/svelte add <pkg>` | | Add dependency to Svelte lib |
-| `pnpm -F docs build` | | Build only the documentation |
+| Command                               | Description                     |
+| :------------------------------------ | :------------------------------ |
+| `vp run --filter docs dev`            | Run documentation dev server    |
+| `vp run @neobr/svelte#test`           | Run library tests               |
+| `vp add --filter @neobr/svelte <pkg>` | Add dependency to Svelte lib    |
+| `vp run --filter docs build`          | Build only the documentation    |
+| `vp run -t @neobr/svelte#build`       | Build lib + its transitive deps |
 
 **Filter Cheat Sheet:**
-- `-F docs...`: Docs + its local dependencies (like `@neobr/svelte`).
-- `-F @neobr/svelte...`: Svelte lib + its dependants (like `docs`).
-- `-F "./packages/*"`: Run command for all packages in the `packages` directory.
 
+- `--filter docs...`: Docs + its local dependencies.
+- `--filter @neobr/svelte...`: Svelte lib + its dependants.
+- `--filter "./packages/*"`: All packages in `packages/` directory.
+- `-r`: Run recursively across all workspaces in dependency order.
+- `-t`: Run with all transitive dependencies.
+
+### Key Vite+ Commands
+
+| Command           | Replaces                    | Description                                |
+| :---------------- | :-------------------------- | :----------------------------------------- |
+| `vp dev`          | `vite dev`                  | Start dev server                           |
+| `vp build`        | `vite build`                | Production build                           |
+| `vp test`         | `vitest run`                | Run tests (use `vp run test` for monorepo) |
+| `vp check`        | `svelte-check` + `prettier` | Format, lint, type-check                   |
+| `vp fmt`          | `prettier`                  | Format only                                |
+| `vp lint`         | `oxlint`                    | Lint only                                  |
+| `vp pack`         | `svelte-package`            | Build library package                      |
+| `vp run <script>` | `pnpm run <script>`         | Run package.json scripts                   |
 
 ### Design System Sync (CRITICAL)
 
@@ -150,7 +169,7 @@ let doubled = $derived(count * 2);
 let { value = $bindable(0) } = $props();
 
 // Parent component
-<Slider bind:value={myValue} />
+<Slider bind:value={myValue} />;
 ```
 
 ## Brutalist Design Checklist
@@ -185,13 +204,16 @@ All interactive elements should support standard keyboard patterns:
 
 ### Component Test Structure
 
-Use `@testing-library/svelte` and `vitest`.
+Use `@testing-library/svelte` and `vite-plus/test`.
 
 ```typescript
-it('applies neo-brutalist styling', () => {
-    render(Button, { value: 'Click' });
-    const btn = screen.getByRole('button');
-    expect(btn).toHaveClass('btn-brutalist'); // Verify core utility
+import { render, screen } from "@testing-library/svelte";
+import { expect, it } from "vite-plus/test";
+
+it("applies neo-brutalist styling", () => {
+    render(Button, { value: "Click" });
+    const btn = screen.getByRole("button");
+    expect(btn).toHaveClass("btn-brutalist"); // Verify core utility
 });
 ```
 

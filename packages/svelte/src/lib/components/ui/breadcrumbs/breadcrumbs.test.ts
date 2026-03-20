@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/svelte";
-import { expect, test } from "vitest";
+import { expect, test } from "vite-plus/test";
 import BreadcrumbsTest from "./breadcrumbs-test.svelte";
 
 test("Breadcrumbs renders correct items", () => {

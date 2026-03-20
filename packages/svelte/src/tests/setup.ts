@@ -1,14 +1,14 @@
 import "@testing-library/jest-dom";
-import { vi, expect } from "vitest";
+import { vi, expect } from "vite-plus/test";
 import * as axeMatchers from "vitest-axe/matchers";
 import "vitest-axe/extend-expect";
 
 expect.extend(axeMatchers);
 
 // Mock matchMedia if needed
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
     writable: true,
-    value: vi.fn().mockImplementation(query => ({
+    value: vi.fn().mockImplementation((query) => ({
         matches: false,
         media: query,
         onchange: null,
@@ -35,9 +35,9 @@ if (!Element.prototype.animate) {
             commitStyles: vi.fn(),
             currentTime: 0,
             effect: null,
-            id: '',
+            id: "",
             pending: false,
-            playState: 'finished',
+            playState: "finished",
             playbackRate: 1,
             startTime: 0,
             timeline: null,
@@ -46,7 +46,7 @@ if (!Element.prototype.animate) {
             dispatchEvent: vi.fn(),
             ready: Promise.resolve(),
         };
-        // Svelte 5 often sets onfinish after the animate call. 
+        // Svelte 5 often sets onfinish after the animate call.
         // We trigger it in a microtask to allow Svelte to finish its business.
         Promise.resolve().then(() => {
             if (anim.onfinish) anim.onfinish();

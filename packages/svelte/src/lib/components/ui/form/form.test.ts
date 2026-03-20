@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/svelte";
-import { expect, test, describe } from "vitest";
+import { expect, test, describe } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import FormTestWrapper from "./form-test-wrapper.svelte";
 
@@ -9,8 +9,8 @@ describe("Form system", () => {
             props: {
                 label: "Username",
                 description: "Your public name",
-                placeholder: "neo"
-            }
+                placeholder: "neo",
+            },
         });
         const results = await axe(container);
         expect(results).toHaveNoViolations();
@@ -20,8 +20,8 @@ describe("Form system", () => {
             props: {
                 label: "Username",
                 description: "Pick a unique name.",
-                placeholder: "neo"
-            }
+                placeholder: "neo",
+            },
         });
 
         expect(screen.getByText("Username")).toBeInTheDocument();
@@ -33,8 +33,8 @@ describe("Form system", () => {
         render(FormTestWrapper, {
             props: {
                 error: "Invalid username",
-                label: "Username"
-            }
+                label: "Username",
+            },
         });
 
         expect(screen.getByText("Invalid username")).toBeInTheDocument();
@@ -44,8 +44,8 @@ describe("Form system", () => {
         const { container } = render(FormTestWrapper, {
             props: {
                 error: true,
-                placeholder: "test"
-            }
+                placeholder: "test",
+            },
         });
 
         const input = screen.getByPlaceholderText("test");
@@ -55,8 +55,8 @@ describe("Form system", () => {
     test("does not display error message when no error is provided", () => {
         render(FormTestWrapper, {
             props: {
-                label: "Username"
-            }
+                label: "Username",
+            },
         });
 
         expect(screen.queryByText("Invalid username")).not.toBeInTheDocument();

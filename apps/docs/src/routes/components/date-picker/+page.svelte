@@ -6,12 +6,12 @@
 
     let value = $state(today(getLocalTimeZone()));
 
-    const basicUsage = `<script lang="ts">
+    const basicUsage = "<" + `script lang="ts">
     import { DatePicker } from "@neobr/svelte";
     import { today, getLocalTimeZone } from "@internationalized/date";
 
     let value = $state(today(getLocalTimeZone()));
-<\/script>
+</` + `script>
 
 <DatePicker bind:value label="Pick a Date" />`;
 </script>

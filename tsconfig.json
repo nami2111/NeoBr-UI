@@ -5,9 +5,7 @@
         "target": "esnext",
         "baseUrl": ".",
         "paths": {
-            "@neobr/*": [
-                "packages/*"
-            ]
+            "@neobr/*": ["packages/*"]
         },
         "strict": true,
         "esModuleInterop": true,

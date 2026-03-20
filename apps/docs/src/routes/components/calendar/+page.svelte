@@ -6,12 +6,12 @@
 
     let value = $state(today(getLocalTimeZone()));
 
-    const basicUsage = `<script lang="ts">
+    const basicUsage = "<" + `script lang="ts">
     import { Calendar } from "@neobr/svelte";
     import { today, getLocalTimeZone } from "@internationalized/date";
 
     let value = $state(today(getLocalTimeZone()));
-<\/script>
+</` + `script>
 
 <Calendar type="single" bind:value />`;
 

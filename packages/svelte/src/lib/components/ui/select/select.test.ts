@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
-import { expect, test, describe } from "vitest";
+import { expect, test, describe } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import SelectTestWrapper from "./select-test-wrapper.svelte";
 

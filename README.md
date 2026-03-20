@@ -85,10 +85,14 @@ NeoBr-UI supports granular sub-path exports for optimal tree-shaking. Instead of
 
 ## 🛠 Development
 
+Powered by [Vite+](https://viteplus.dev) — unified toolchain for dev, build, test, lint, and format.
+
 ```bash
-pnpm install
-pnpm build
-pnpm --filter docs dev
+vp install                  # Install dependencies
+vp run --filter docs dev    # Start docs dev server
+vp run build                # Build all packages
+vp run test                 # Run all tests
+vp check                    # Format + lint + type-check
 ```
 
 ---

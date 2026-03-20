@@ -3,9 +3,9 @@
     import CodePreview from "../../../lib/components/CodePreview.svelte";
     import { Button, toast, Toaster } from "@neobr/svelte";
 
-    const usage = `<script>
+    const usage = "<" + `script>
     import { toast, Toaster } from "@neobr/svelte";
-<\/script>
+</` + `script>
 
 <Toaster />
 

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import TabsTestWrapper from "./tabs-test-wrapper.svelte";
 
@@ -28,7 +28,9 @@ describe("Tabs", () => {
 
         await waitFor(() => {
             expect(screen.getByText("Change your password here.")).toBeVisible();
-            expect(screen.queryByText("Make changes to your account here.")).not.toBeInTheDocument();
+            expect(
+                screen.queryByText("Make changes to your account here."),
+            ).not.toBeInTheDocument();
             expect(trigger2).toHaveAttribute("aria-selected", "true");
             expect(trigger2).toHaveClass("bg-primary");
         });

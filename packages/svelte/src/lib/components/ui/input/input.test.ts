@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/svelte";
-import { expect, test, describe, vi } from "vitest";
+import { expect, test, describe, vi } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import Input from "./input.svelte";
 

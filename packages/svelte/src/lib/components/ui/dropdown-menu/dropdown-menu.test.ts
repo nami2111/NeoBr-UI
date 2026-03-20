@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi } from "vite-plus/test";
 import DropdownMenuTestWrapper from "./dropdown-menu-test-wrapper.svelte";
 
 describe("DropdownMenu", () => {
