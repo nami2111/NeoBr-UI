@@ -73,10 +73,10 @@ Instead of `cd`-ing into directories, use `--filter` or target packages directly
 
 Vite+ has two ways to run checks, which serve different purposes:
 
-| Command | Tool | What it checks |
-| :--- | :--- | :--- |
-| `vp check` | Oxlint + Oxfmt | Format, lint (unused vars, imports, code style), type-check |
-| `vp run --filter @neobr/svelte check` | svelte-check | TypeScript/Svelte type errors only |
+| Command                               | Tool           | What it checks                                              |
+| :------------------------------------ | :------------- | :---------------------------------------------------------- |
+| `vp check`                            | Oxlint + Oxfmt | Format, lint (unused vars, imports, code style), type-check |
+| `vp run --filter @neobr/svelte check` | svelte-check   | TypeScript/Svelte type errors only                          |
 
 **Built-in commands use path-based targeting:**
 
@@ -98,13 +98,13 @@ vp run @neobr/svelte#check                    # Same as above, alternative synta
 
 **Quick Reference:**
 
-| Goal | Command |
-| :--- | :--- |
-| Lint all files | `vp lint` |
-| Lint one package | `vp lint packages/svelte` |
-| Fix auto-fixable issues | `vp check --fix` |
-| Check Svelte types only | `vp run --filter @neobr/svelte check` |
-| Full check (format + lint + types) | `vp check` |
+| Goal                               | Command                               |
+| :--------------------------------- | :------------------------------------ |
+| Lint all files                     | `vp lint`                             |
+| Lint one package                   | `vp lint packages/svelte`             |
+| Fix auto-fixable issues            | `vp check --fix`                      |
+| Check Svelte types only            | `vp run --filter @neobr/svelte check` |
+| Full check (format + lint + types) | `vp check`                            |
 
 ### Design System Sync (CRITICAL)
 
