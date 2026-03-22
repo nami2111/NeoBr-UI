@@ -69,6 +69,43 @@ Instead of `cd`-ing into directories, use `--filter` or target packages directly
 | `vp pack`         | `svelte-package`            | Build library package                      |
 | `vp run <script>` | `pnpm run <script>`         | Run package.json scripts                   |
 
+### Running Checks by Package
+
+Vite+ has two ways to run checks, which serve different purposes:
+
+| Command | Tool | What it checks |
+| :--- | :--- | :--- |
+| `vp check` | Oxlint + Oxfmt | Format, lint (unused vars, imports, code style), type-check |
+| `vp run --filter @neobr/svelte check` | svelte-check | TypeScript/Svelte type errors only |
+
+**Built-in commands use path-based targeting:**
+
+```bash
+vp lint packages/svelte                       # Oxlint on svelte package
+vp check packages/svelte                      # Format + lint + types on svelte package
+vp check packages/svelte/src/lib/components   # Target specific subdirectory
+vp check --fix packages/svelte                # Auto-fix issues
+vp check --no-lint packages/svelte            # Skip lint, format + types only
+```
+
+**`vp run` uses package-based filtering:**
+
+```bash
+vp run --filter @neobr/svelte check           # Runs svelte-check (TS types only)
+vp run -r lint                                # Run lint script in all packages
+vp run @neobr/svelte#check                    # Same as above, alternative syntax
+```
+
+**Quick Reference:**
+
+| Goal | Command |
+| :--- | :--- |
+| Lint all files | `vp lint` |
+| Lint one package | `vp lint packages/svelte` |
+| Fix auto-fixable issues | `vp check --fix` |
+| Check Svelte types only | `vp run --filter @neobr/svelte check` |
+| Full check (format + lint + types) | `vp check` |
+
 ### Design System Sync (CRITICAL)
 
 Whenever `packages/svelte/src/lib/styles/design-system.css` is modified, you **must** sync it to the preset:
