@@ -5,7 +5,7 @@
  * compatible with Svelte 5's prop inference system.
  */
 
-import type { AccordionRootProps, DatePickerRootProps, SelectRootProps } from "bits-ui";
+import type { AccordionRootProps, SelectRootProps } from "bits-ui";
 import type { DateValue } from "@internationalized/date";
 
 /**

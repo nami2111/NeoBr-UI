@@ -37,7 +37,7 @@ describe("Modal Component", () => {
     });
 
     it("closes and updates bound variable when close button is clicked", async () => {
-        const { component } = render(ModalTestWrapper, { props: { open: true } });
+        render(ModalTestWrapper, { props: { open: true } });
 
         const closeButton = screen.getByLabelText("Close modal");
         await fireEvent.click(closeButton);

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/svelte";
+import { render } from "@testing-library/svelte";
 import { expect, test } from "vite-plus/test";
 import { Skeleton } from "./index";
 

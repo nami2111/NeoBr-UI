@@ -32,7 +32,7 @@ describe("Input component", () => {
     });
 
     test("handles value binding", async () => {
-        const { component } = render(Input, { props: { value: "initial" } });
+        render(Input, { props: { value: "initial" } });
         const input = screen.getByDisplayValue("initial") as HTMLInputElement;
 
         expect(input.value).toBe("initial");

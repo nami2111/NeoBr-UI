@@ -41,7 +41,7 @@ describe("Form system", () => {
     });
 
     test("applies error styling to input when error is present", () => {
-        const { container } = render(FormTestWrapper, {
+        render(FormTestWrapper, {
             props: {
                 error: true,
                 placeholder: "test",
