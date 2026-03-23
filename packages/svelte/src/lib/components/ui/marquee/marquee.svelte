@@ -1,14 +1,14 @@
 <script lang="ts">
     import { cn } from "../../../utils";
 
-    interface Props {
-        class?: string;
+    import type { HTMLAttributes } from "svelte/elements";
+
+    interface Props extends HTMLAttributes<HTMLDivElement> {
         direction?: "left" | "right";
         speed?: number;
         pauseOnHover?: boolean;
         gap?: string;
         children?: import("svelte").Snippet;
-        [key: string]: any;
     }
 
     let {

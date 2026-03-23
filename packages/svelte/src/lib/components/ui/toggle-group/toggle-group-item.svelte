@@ -3,11 +3,10 @@
     import { cn } from "../../../utils";
     import Toggle from "../toggle/toggle.svelte";
 
-    type Props = {
+    import type { HTMLButtonAttributes } from "svelte/elements";
+
+    type Props = HTMLButtonAttributes & {
         value: string;
-        class?: string;
-        children?: import("svelte").Snippet;
-        [key: string]: any;
     };
 
     let { value, class: className, children, ...rest }: Props = $props();

@@ -1,10 +1,8 @@
 <script lang="ts">
     import { cn } from "../../../utils";
+    import type { HTMLAttributes } from "svelte/elements";
 
-    type Props = {
-        class?: string;
-        [key: string]: any;
-    };
+    type Props = HTMLAttributes<HTMLSpanElement>;
 
     let { class: className, ...rest }: Props = $props();
 </script>

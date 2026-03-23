@@ -1,12 +1,10 @@
 <script lang="ts">
     import { setContext } from "svelte";
     import { cn } from "../../../utils";
+    import type { HTMLAttributes } from "svelte/elements";
 
-    type Props = {
+    type Props = HTMLAttributes<HTMLDivElement> & {
         value?: string;
-        class?: string;
-        children?: import("svelte").Snippet;
-        [key: string]: any;
     };
 
     let { value = $bindable(undefined), class: className, children, ...rest }: Props = $props();

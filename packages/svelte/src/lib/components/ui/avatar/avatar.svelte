@@ -1,14 +1,13 @@
 <script lang="ts">
     import { cn } from "../../../utils";
+    import type { HTMLAttributes } from "svelte/elements";
 
-    type Props = {
+    type Props = HTMLAttributes<HTMLDivElement> & {
         src?: string;
         alt?: string;
         fallback?: string;
-        class?: string;
         size?: "sm" | "md" | "lg" | "xl";
         shape?: "circle" | "square";
-        [key: string]: any;
     };
 
     let {
@@ -38,7 +37,7 @@
 
 <div
     class={cn(
-        "border-foreground bg-muted relative flex shrink-0 overflow-hidden border-2 shadow-sm",
+        "border-foreground bg-muted relative flex shrink-0 overflow-hidden border-2 shadow-brutalist",
         sizes[size],
         shapes[shape],
         className,

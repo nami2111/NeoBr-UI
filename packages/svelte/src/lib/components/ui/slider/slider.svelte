@@ -1,15 +1,14 @@
 <script lang="ts">
     import { cn } from "../../../utils";
+    import type { HTMLAttributes } from "svelte/elements";
 
-    type Props = {
-        class?: string;
+    type Props = HTMLAttributes<HTMLDivElement> & {
         value?: number;
         min?: number;
         max?: number;
         step?: number;
         disabled?: boolean;
         onchange?: (value: number) => void;
-        [key: string]: any;
     };
 
     let {

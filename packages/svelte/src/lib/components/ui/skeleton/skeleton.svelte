@@ -1,15 +1,16 @@
 <script lang="ts">
     import { cn } from "../../../utils";
+    import type { HTMLAttributes } from "svelte/elements";
 
-    type Props = {
-        class?: string;
-        [key: string]: any;
-    };
+    type Props = HTMLAttributes<HTMLDivElement>;
 
     let { class: className, ...rest }: Props = $props();
 </script>
 
 <div
+    role="status"
+    aria-busy="true"
+    aria-label="Loading content"
     class={cn(
         "bg-muted/60 border-foreground/20 relative animate-pulse overflow-hidden rounded-sm border-2",
         className,

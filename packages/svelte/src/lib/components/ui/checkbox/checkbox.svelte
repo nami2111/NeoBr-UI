@@ -2,12 +2,12 @@
     import { scale } from "svelte/transition";
     import { cn } from "../../../utils";
 
-    type Props = {
+    import type { HTMLAttributes } from "svelte/elements";
+
+    type Props = HTMLAttributes<HTMLDivElement> & {
         checked?: boolean;
         disabled?: boolean;
-        class?: string;
         id?: string;
-        [key: string]: any;
     };
 
     let {

@@ -31,13 +31,6 @@
         checked = !checked;
         onchange?.(checked);
     }
-
-    function handleKeyDown(e: KeyboardEvent) {
-        if (e.key === " " || e.key === "Enter") {
-            e.preventDefault();
-            toggle();
-        }
-    }
 </script>
 
 <button
@@ -53,7 +46,6 @@
         className,
     )}
     onclick={toggle}
-    onkeydown={handleKeyDown}
     {...rest}
 >
     <span

@@ -1,16 +1,14 @@
 <script lang="ts">
     import { setContext } from "svelte";
     import { cn } from "../../../utils";
+    import type { HTMLAttributes } from "svelte/elements";
 
     const RADIO_CONTEXT = Symbol.for("radio-group");
 
-    type Props = {
+    type Props = HTMLAttributes<HTMLDivElement> & {
         value?: string;
         disabled?: boolean;
-        class?: string;
-        children?: import("svelte").Snippet;
         name?: string;
-        [key: string]: any;
     };
 
     let {
