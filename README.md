@@ -104,5 +104,5 @@ Distributed under the [MIT License](./LICENSE).
 ---
 
 <div align="center">
-  <sub>Built with 🖤 by the NeoBr-UI Contributors</sub>
+  <sub>Built with 🖤 </sub>
 </div>
