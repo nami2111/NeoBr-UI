@@ -8,7 +8,7 @@
     let { title, description, children }: Props = $props();
 </script>
 
-<div class="animate-slide-up space-y-8 duration-500 overflow-x-hidden">
+<div class="animate-slide-up space-y-6 duration-500 overflow-x-hidden pt-8">
     <div class="space-y-4">
         <h1 class="text-4xl font-black tracking-tighter uppercase md:text-5xl">
             {title}
@@ -21,7 +21,7 @@
         <div class="bg-primary border-foreground h-2 w-24 border-2"></div>
     </div>
 
-    <div class="pt-4">
+    <div>
         {@render children?.()}
     </div>
 </div>

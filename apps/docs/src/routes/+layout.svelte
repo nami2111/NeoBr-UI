@@ -114,7 +114,7 @@
             {/if}
 
             <!-- Main Content - with left padding for sidebar -->
-            <main class="flex-1 lg:pl-64 overflow-x-hidden p-6 md:p-10">
+            <main class="flex-1 lg:pl-64 p-6 md:p-10">
                 <div class="mx-auto max-w-4xl">
                     {@render children?.()}
                 </div>
@@ -122,7 +122,7 @@
         </div>
     {:else}
         <!-- No Sidebar Layout -->
-        <main class="flex-1 w-full max-w-5xl mx-auto">
+        <main class="flex-1 w-full max-w-5xl mx-auto p-6">
             {@render children?.()}
         </main>
     {/if}

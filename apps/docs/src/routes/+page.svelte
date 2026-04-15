@@ -3,12 +3,24 @@
     import { BentoGrid, BentoGridItem } from "@neobr/svelte";
     import { Slider, DatePicker } from "@neobr/svelte";
     import { today, getLocalTimeZone } from "@internationalized/date";
+    import { onMount } from "svelte";
 
     let copied = $state(false);
     let installCommand = "$ npm install @neobr/svelte";
     let sliderValue = $state(45);
     let username = $state("neobr");
     let dateValue = $state(today(getLocalTimeZone()));
+    let version = $state("");
+
+    onMount(async () => {
+        try {
+            const res = await fetch("/api/version");
+            const data = await res.json();
+            version = data.version;
+        } catch {
+            version = "1.0.0";
+        }
+    });
 
     function copyInstall() {
         navigator.clipboard.writeText(installCommand.replace("$ ", ""));
@@ -19,7 +31,7 @@
 
 <!-- Hero -->
 <section class="py-16 text-center">
-    <Badge class="mb-6">v1.0.0</Badge>
+    <Badge class="mb-6">v{version || "..."}</Badge>
     <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">
         NeoBr UI
     </h1>
@@ -53,11 +65,11 @@
 </section>
 
 <!-- Bento Grid -->
-<section class="py-8">
-    <h2 class="text-xl font-black uppercase mb-6 text-center">Components</h2>
-    <BentoGrid>
+<section class="py-8 overflow-x-hidden">
+    <h2 class="text-xl font-black uppercase mb-6 text-center px-4">Components</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4 md:px-0 max-w-4xl mx-auto auto-rows-[14rem] md:auto-rows-[18rem]">
         <BentoGridItem title="Button" description="Variants" class="md:col-span-2 h-full">
-            <div class="flex gap-2 justify-center items-center h-full">
+            <div class="flex gap-2 justify-center items-center h-full flex-wrap">
                 <Button>Primary</Button>
                 <Button variant="outline">Outline</Button>
                 <Button variant="secondary">Secondary</Button>
@@ -78,11 +90,11 @@
 
         <BentoGridItem title="Input" description="Form field" class="md:col-span-2 h-full">
             <div class="flex justify-center items-center h-full w-full">
-                <Form class="flex gap-2">
+                <Form class="flex gap-2 flex-wrap justify-center">
                     <Input placeholder="Username" bind:value={username} />
                     <Button type="submit">Submit</Button>
                 </Form>
             </div>
         </BentoGridItem>
-    </BentoGrid>
+    </div>
 </section>
