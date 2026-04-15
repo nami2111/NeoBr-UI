@@ -84,14 +84,14 @@
 </script>
 
 <aside class="bg-background flex w-64 flex-col overflow-hidden {className}">
-    <div class="border-foreground border-b-2 p-4">
+    <div class="border-foreground shrink-0 border-b-2 p-4">
         <Input
             placeholder="Search components..."
             bind:value={searchQuery}
             class="h-9 px-3 text-sm"
         />
     </div>
-    <ScrollArea class="h-full rounded-none border-0 border-r-2 shadow-none" orientation="vertical">
+    <ScrollArea class="flex-1 rounded-none border-0 border-r-2 shadow-none" orientation="vertical">
         <div class="space-y-8 p-6">
             {#each filteredSections as section}
                 <div class="space-y-3">

@@ -1,206 +1,162 @@
 <script lang="ts">
     import DocPage from "../../lib/components/DocPage.svelte";
-    import { Card, CardHeader, CardTitle, CardDescription } from "@neobr/svelte";
+    import { Card, CardHeader, CardTitle, CardDescription, Input, Badge, Icon } from "@neobr/svelte";
+    import { Search01Icon } from "@hugeicons/core-free-icons";
 
-    const components = [
+    const categories = [
         {
-            title: "Accordion",
-            description: "Vertically stacked interactive headings.",
-            href: "/components/accordion",
-        },
-        { title: "Alert", description: "Important messages for users.", href: "/components/alert" },
-        {
-            title: "Aspect Ratio",
-            description: "Displays content within a desired ratio.",
-            href: "/components/aspect-ratio",
-        },
-        {
-            title: "Avatar",
-            description: "An image element with a fallback for representing the user.",
-            href: "/components/avatar",
-        },
-        {
-            title: "Badge",
-            description: "Small label for status or category.",
-            href: "/components/badge",
+            title: "Forms",
+            items: [
+                { name: "Button", href: "/components/button", description: "Interactive elements for actions" },
+                { name: "Input", href: "/components/input", description: "Form input field" },
+                { name: "Checkbox", href: "/components/checkbox", description: "Toggle check states" },
+                { name: "Toggle", href: "/components/toggle", description: "Two-state button" },
+                { name: "Slider", href: "/components/slider", description: "Range selection" },
+                { name: "Textarea", href: "/components/textarea", description: "Multi-line text input" },
+                { name: "Select", href: "/components/select", description: "Dropdown selection" },
+                { name: "Radio Group", href: "/components/radio-group", description: "Single selection from options" },
+                { name: "Form", href: "/components/form", description: "Forms with validation" },
+                { name: "Label", href: "/components/label", description: "Accessible form labels" },
+            ]
         },
         {
-            title: "Bento Grid",
-            description: "Variable-sized grid system for stunning layouts.",
-            href: "/components/bento-grid",
+            title: "Layout",
+            items: [
+                { name: "Accordion", href: "/components/accordion", description: "Collapsible sections" },
+                { name: "Card", href: "/components/card", description: "Content container" },
+                { name: "Bento Grid", href: "/components/bento-grid", description: "Variable-sized grid" },
+                { name: "Collapsible", href: "/components/collapsible", description: "Expand/collapse panels" },
+                { name: "Separator", href: "/components/separator", description: "Visual divider" },
+                { name: "Aspect Ratio", href: "/components/aspect-ratio", description: "Content ratio container" },
+            ]
         },
         {
-            title: "Breadcrumbs",
-            description: "Displays the path to the current resource.",
-            href: "/components/breadcrumbs",
+            title: "Overlays",
+            items: [
+                { name: "Modal", href: "/components/modal", description: "Overlay window" },
+                { name: "Popover", href: "/components/popover", description: "Triggered content" },
+                { name: "Sheet", href: "/components/sheet", description: "Slide-in panel" },
+                { name: "Toast", href: "/components/toast", description: "Notification message" },
+                { name: "Tooltip", href: "/components/tooltip", description: "Hover information" },
+            ]
         },
         {
-            title: "Button",
-            description: "Interactive elements used for actions.",
-            href: "/components/button",
+            title: "Navigation",
+            items: [
+                { name: "Breadcrumbs", href: "/components/breadcrumbs", description: "Path navigation" },
+                { name: "Tabs", href: "/components/tabs", description: "Layered content" },
+                { name: "Pagination", href: "/components/pagination", description: "Page navigation" },
+                { name: "Link", href: "/components/link", description: "Text links" },
+            ]
         },
         {
-            title: "Calendar",
-            description: "Date selection component with raw aesthetic.",
-            href: "/components/calendar",
-        },
-        { title: "Card", description: "Flexible container for content.", href: "/components/card" },
-        {
-            title: "Checkbox",
-            description: "A control that allows the user to toggle check states.",
-            href: "/components/checkbox",
-        },
-        {
-            title: "Collapsible",
-            description: "Interactive component which expands/collapses a panel.",
-            href: "/components/collapsible",
+            title: "Feedback",
+            items: [
+                { name: "Alert", href: "/components/alert", description: "User messages" },
+                { name: "Badge", href: "/components/badge", description: "Status labels" },
+                { name: "Progress", href: "/components/progress", description: "Completion indicator" },
+                { name: "Loading", href: "/components/loading", description: "Spinner animation" },
+                { name: "Skeleton", href: "/components/skeleton", description: "Loading placeholder" },
+                { name: "Marquee", href: "/components/marquee", description: "Scrolling ticker" },
+            ]
         },
         {
-            title: "Command",
-            description: "Fast, composable command menu.",
-            href: "/components/command",
+            title: "Data Display",
+            items: [
+                { name: "Avatar", href: "/components/avatar", description: "User image" },
+                { name: "Calendar", href: "/components/calendar", description: "Date picker" },
+                { name: "Date Picker", href: "/components/date-picker", description: "Date selection" },
+                { name: "Table", href: "/components/table", description: "Data table" },
+                { name: "Scroll Area", href: "/components/scroll-area", description: "Custom scroll" },
+            ]
         },
         {
-            title: "Date Picker",
-            description: "Input field with calendar selection popover.",
-            href: "/components/date-picker",
-        },
-        {
-            title: "Dropdown Menu",
-            description: "Displays a menu of actions triggered by a button.",
-            href: "/components/dropdown-menu",
-        },
-        {
-            title: "Form",
-            description: "Building forms with validation.",
-            href: "/components/form",
-        },
-        { title: "Input", description: "Displays a form input field.", href: "/components/input" },
-        {
-            title: "Label",
-            description: "Accessible label for form controls.",
-            href: "/components/label",
-        },
-        { title: "Link", description: "Neo-brutalist text link.", href: "/components/link" },
-        { title: "Loading", description: "Animated loading spinner.", href: "/components/loading" },
-        {
-            title: "Marquee",
-            description: "A scrolling ticker for bold messaging.",
-            href: "/components/marquee",
-        },
-        {
-            title: "Modal",
-            description: "A window overlaid on the primary window.",
-            href: "/components/modal",
-        },
-        {
-            title: "Pagination",
-            description: "Navigation between pages.",
-            href: "/components/pagination",
-        },
-        {
-            title: "Popover",
-            description: "Rich content triggered by a button.",
-            href: "/components/popover",
-        },
-        {
-            title: "Progress",
-            description: "Displays completion progress of a task.",
-            href: "/components/progress",
-        },
-        {
-            title: "Radio Group",
-            description: "Set of checkable buttons where only one can be checked.",
-            href: "/components/radio-group",
-        },
-        {
-            title: "Scroll Area",
-            description: "Custom cross-browser scroll functionality.",
-            href: "/components/scroll-area",
-        },
-        {
-            title: "Select",
-            description: "List of options for user to pick from.",
-            href: "/components/select",
-        },
-        {
-            title: "Separator",
-            description: "Separates content visually.",
-            href: "/components/separator",
-        },
-        {
-            title: "Sheet",
-            description: "Complementary content that slides from side.",
-            href: "/components/sheet",
-        },
-        {
-            title: "Skeleton",
-            description: "Placeholder for loading content.",
-            href: "/components/skeleton",
-        },
-        { title: "Slider", description: "Range selection input.", href: "/components/slider" },
-        {
-            title: "Sticker",
-            description: "Decorative badge with random rotation.",
-            href: "/components/sticker",
-        },
-        { title: "Switch", description: "Binary on/off control.", href: "/components/switch" },
-        {
-            title: "Table",
-            description: "A responsive table for structured data.",
-            href: "/components/table",
-        },
-        { title: "Tabs", description: "Layered sections of content.", href: "/components/tabs" },
-        { title: "Textarea", description: "Multi-line text input.", href: "/components/textarea" },
-        {
-            title: "Toast",
-            description: "Succinct message after an action.",
-            href: "/components/toast",
-        },
-        { title: "Toggle", description: "Two-state button.", href: "/components/toggle" },
-        {
-            title: "Toggle Group",
-            description: "A set of toggle buttons.",
-            href: "/components/toggle-group",
-        },
-        {
-            title: "Tooltip",
-            description: "Information on hover or focus.",
-            href: "/components/tooltip",
-        },
-        {
-            title: "Window",
-            description: "A container mimicking classic OS windows.",
-            href: "/components/window",
+            title: "Advanced",
+            items: [
+                { name: "Dropdown Menu", href: "/components/dropdown-menu", description: "Action menu" },
+                { name: "Command", href: "/components/command", description: "Command palette" },
+                { name: "Switch", href: "/components/switch", description: "On/off toggle" },
+                { name: "Toggle Group", href: "/components/toggle-group", description: "Button group" },
+                { name: "Error Boundary", href: "/components/error-boundary", description: "Error handling" },
+                { name: "Sticker", href: "/components/sticker", description: "Decorative badge" },
+                { name: "Window", href: "/components/window", description: "OS window container" },
+            ]
         },
     ];
+
+    let searchQuery = $state("");
+
+    const filteredCategories = $derived(
+        categories
+            .map((category) => ({
+                ...category,
+                items: category.items.filter((item) =>
+                    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    item.description.toLowerCase().includes(searchQuery.toLowerCase())
+                ),
+            }))
+            .filter((category) => category.items.length > 0)
+    );
+
+    const totalComponents = $derived(
+        categories.reduce((sum, cat) => sum + cat.items.length, 0)
+    );
 </script>
 
-<DocPage title="Components" description="Explore our collection of neo-brutalist UI components.">
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {#each components as component}
-            <a href={component.href} class="group block font-mono hover:no-underline">
-                <Card
-                    class="group-hover:bg-primary/5 group-hover:shadow-brutalist-hover h-full transition-all group-hover:-translate-y-1"
-                >
-                    <CardHeader>
-                        <CardTitle
-                            class="group-hover:text-primary text-xl font-black tracking-tighter uppercase transition-colors"
-                        >
-                            {component.title}
-                        </CardTitle>
-                        <CardDescription class="text-foreground font-medium italic">
-                            {component.description}
-                        </CardDescription>
-                    </CardHeader>
-                </Card>
-            </a>
+<DocPage title="Components" description="Beautifully designed, accessible components built with Svelte 5.">
+    <div class="space-y-8 overflow-x-hidden">
+        <!-- Search Bar -->
+        <div class="relative max-w-md">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                <Icon icon={Search01Icon} class="h-5 w-5" />
+            </span>
+            <Input
+                placeholder="Search components..."
+                bind:value={searchQuery}
+                class="pl-10"
+            />
+        </div>
+
+        <!-- Component Count -->
+        <div class="flex items-center gap-2">
+            <Badge variant="secondary">{totalComponents} components</Badge>
+        </div>
+
+        <!-- Categories Grid -->
+        {#each filteredCategories as category}
+            <section class="space-y-4">
+                <h2 class="text-2xl font-black tracking-tighter uppercase border-b-2 border-foreground pb-2">
+                    {category.title}
+                    <span class="text-muted-foreground text-lg font-medium">({category.items.length})</span>
+                </h2>
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {#each category.items as item}
+                        <a href={item.href} class="group block font-mono hover:no-underline">
+                            <Card
+                                class="group-hover:bg-primary/5 group-hover:shadow-brutalist-hover h-full transition-all group-hover:-translate-y-1 cursor-pointer"
+                            >
+                                <CardHeader>
+                                    <CardTitle
+                                        class="group-hover:text-primary text-lg font-black uppercase tracking-tight transition-colors"
+                                    >
+                                        {item.name}
+                                    </CardTitle>
+                                    <CardDescription class="text-sm text-foreground font-medium">
+                                        {item.description}
+                                    </CardDescription>
+                                </CardHeader>
+                            </Card>
+                        </a>
+                    {/each}
+                </div>
+            </section>
         {/each}
 
-        <div
-            class="border-foreground/20 rounded-brutalist flex items-center justify-center border-2 border-dashed p-6 text-center"
-        >
-            <p class="text-muted-foreground font-bold italic">More components coming soon...</p>
-        </div>
+        {#if filteredCategories.length === 0}
+            <div class="flex flex-col items-center justify-center py-12">
+                <p class="text-muted-foreground text-xl font-bold italic">No components found</p>
+                <p class="text-muted-foreground text-sm">Try a different search term</p>
+            </div>
+        {/if}
     </div>
 </DocPage>
