@@ -96,13 +96,6 @@
             <!-- Desktop Sidebar - fixed position -->
             <Sidebar class="fixed top-16 left-0 hidden h-[calc(100vh-64px)] w-64 shrink-0 overflow-hidden lg:block" />
 
-            <!-- Mobile Menu Button -->
-            <div class="lg:hidden">
-                <Button variant="outline" size="sm" onclick={toggleMobileMenu}>
-                    <Icon icon={isMobileMenuOpen ? Cancel01Icon : Menu01Icon} class="h-5 w-5" />
-                </Button>
-            </div>
-
             <!-- Mobile Sidebar Overlay -->
             {#if isMobileMenuOpen}
                 <!-- svelte-ignore a11y_click_events_have_key_events -->
