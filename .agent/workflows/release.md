@@ -9,7 +9,7 @@ Follow these steps to release a new version of the packages in this monorepo.
 Whenever you make a change that deserves a version bump, run:
 
 ```bash
-pnpm changeset
+vp run changeset
 ```
 
 - Select the packages that were changed.
@@ -21,7 +21,7 @@ pnpm changeset
 When you are ready to prepare a release (e.g., at the end of a sprint or feature block), run:
 
 ```bash
-pnpm version-packages
+vp run version-packages
 ```
 
 This will:
@@ -38,9 +38,17 @@ Ensure the design system is synced before building for release:
 cp packages/svelte/src/lib/styles/design-system.css packages/tailwind-preset/design-system.css
 ```
 
-### 4. Publish to npm
+### 4. Build and verify
 
-To build, test, and publish all packages:
+```bash
+vp run build
+vp run test
+vp check
+```
+
+### 5. Publish to npm
+
+To publish all packages:
 
 ```bash
 cd packages/tailwind-preset

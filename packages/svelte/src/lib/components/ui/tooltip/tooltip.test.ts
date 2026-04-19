@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "vite-plus/test";
 import Tooltip from "./tooltip.svelte";
 
 describe("Tooltip", () => {
@@ -13,8 +13,11 @@ describe("Tooltip", () => {
         expect(screen.getByText("Helpful info")).toBeTruthy();
 
         await fireEvent.mouseLeave(trigger);
-        await waitFor(() => {
-            expect(screen.queryByText("Helpful info")).toBeNull();
-        }, { timeout: 2000 });
+        await waitFor(
+            () => {
+                expect(screen.queryByText("Helpful info")).toBeNull();
+            },
+            { timeout: 2000 },
+        );
     });
 });

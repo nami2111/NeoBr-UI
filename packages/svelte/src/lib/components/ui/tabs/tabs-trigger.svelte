@@ -2,11 +2,10 @@
     import { getContext } from "svelte";
     import { cn } from "../../../utils";
 
-    type Props = {
+    import type { HTMLButtonAttributes } from "svelte/elements";
+
+    type Props = HTMLButtonAttributes & {
         value: string;
-        class?: string;
-        children?: import("svelte").Snippet;
-        [key: string]: any;
     };
 
     let { value: triggerValue, class: className, children, ...rest }: Props = $props();

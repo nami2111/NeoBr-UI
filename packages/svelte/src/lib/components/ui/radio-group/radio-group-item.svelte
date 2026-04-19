@@ -3,12 +3,12 @@
     import { scale } from "svelte/transition";
     import { cn } from "../../../utils";
 
-    type Props = {
+    import type { HTMLAttributes } from "svelte/elements";
+
+    type Props = HTMLAttributes<HTMLDivElement> & {
         value: string;
         disabled?: boolean;
-        class?: string;
         id?: string;
-        [key: string]: any;
     };
 
     let { value: itemValue, disabled = false, class: className, id, ...rest }: Props = $props();
@@ -43,7 +43,7 @@
     />
     <div
         class={cn(
-            "border-foreground bg-background peer-focus-visible:ring-ring flex h-full w-full items-center justify-center rounded-full border-2 shadow-sm transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-disabled:opacity-50",
+            "border-foreground bg-background peer-focus-visible:ring-ring flex h-full w-full items-center justify-center rounded-full border-2 shadow-brutalist transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-disabled:opacity-50",
             isSelected && "border-primary",
         )}
     >

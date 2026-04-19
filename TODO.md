@@ -1,278 +1,363 @@
-# NeoBr-UI Improvement Plan
+# NeoBr-UI Documentation Website Redesign Plan
 
-Deep research findings and fix plan. Each issue includes location, problem description, and proposed fix.
+## Overview
 
----
-
-## Critical Bugs
-
-### 1. `tracking-brutalist` referenced but never defined
-
-**Location:** `packages/svelte/src/lib/components/ui/link/link.svelte:23`
-**Problem:** Link component uses `tracking-brutalist` utility class that doesn't exist in `design-system.css`. Silent failure — no letter-spacing applied.
-**Fix:** Add `@utility tracking-brutalist` to `design-system.css` with `letter-spacing: 0.1em` (matches the `brutalist` tracking used in Button's brutalist variant).
+Transform the current documentation site into a professional UI library website similar to shadcn/ui, base-ui, with:
+- **Homepage**: Marketing landing page (no sidebar, full-width)
+- **Components Gallery**: Grid-based component browser
+- **Documentation**: Separate docs section with sidebar
 
 ---
 
-### 2. `shadow-impact` referenced but never defined
+## Current State Analysis
 
-**Location:** `packages/svelte/src/lib/components/ui/sheet/sheet.svelte:71`
-**Problem:** Sheet uses `shadow-impact` class that doesn't exist in `design-system.css`. No shadow rendered.
-**Fix:** Replace `shadow-impact` with `shadow-brutalist` which is the correct defined utility, or add a new `shadow-impact` utility if a distinct shadow style is intended.
+### Route Structure (Before)
+```
+/                              → Homepage with hero + features + sidebar
+/docs                            → Redirect → /docs/installation
+/docs/introduction               → Introduction
+/docs/installation              → Installation guide
+/components                    → Component listing (redirects to accordion)
+/components/accordion          → Individual page
+/components/alert             → ...
+/components/*                 → Individual component pages
+```
+
+### Issues
+1. Homepage has sidebar - feels like docs page, not landing page
+2. No `/components` index - no central gallery
+3. `/components` route shows no content (likely redirect)
+4. No dedicated docs layout - sidebar on all pages
 
 ---
 
-### 3. `bg-glass` utility broken — OKLCH inside `rgb()`
+## Target Route Structure (After)
 
-**Location:** `apps/docs/src/app.css:34-37`
-**Problem:** `--color-background` resolves to `oklch(...)` but `bg-glass` wraps it in `rgb()`, producing invalid CSS.
-**Fix:** Replace with `color-mix()` or `oklch(from ...)` syntax:
-
-```css
-@utility bg-glass {
-    backdrop-filter: blur(8px);
-    background-color: oklch(from var(--color-background) l c h / 0.8);
-}
+```
+/                              → Homepage (landing, NO sidebar)
+/components                    → Components gallery INDEX (NEW)
+/components/accordion         → Individual component pages
+/components/*                 → ...
+/docs                         → Redirect → /docs/introduction
+/docs/+layout.svelte          → Docs layout WITH sidebar (NEW)
+/docs/introduction            → Introduction
+/docs/installation           → Installation guide
 ```
 
 ---
 
-### 4. Loading `className` applied twice
+## Implementation Tasks
 
-**Location:** `packages/svelte/src/lib/components/ui/loading/loading.svelte:41-42`
-**Problem:** `className` is passed through CVA AND manually through `cn()`, resulting in duplicate class application.
-**Fix:** Remove the redundant `className` spread — keep only the CVA output via `cn()`.
+### Phase 1: Create Docs Layout (Priority: HIGH)
 
----
+**File:** `src/routes/docs/+layout.svelte`
 
-### 5. Skeleton dark mode selector mismatch
+```svelte
+<!-- Copy from main layout but add sidebar -->
+<script>
+    import "../../lib/components/Sidebar.svelte";
+    import ThemeToggle from "../../lib/components/ThemeToggle.svelte";
+    import { Toaster, Button, Icon } from "@neobr/svelte";
+    import { Menu01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
 
-**Location:** `packages/svelte/src/lib/components/ui/skeleton/skeleton.svelte:47`
-**Problem:** Uses `[data-theme="dark"]` selector but design system uses `.dark` class. Shimmer animation won't trigger in dark mode.
-**Fix:** Change `[data-theme="dark"]` to `.dark` to match the design system's dark mode convention.
+    let { children } = $props();
+    let isMobileMenuOpen = $state(false);
+</script>
 
----
+<Toaster />
 
-## Design System Inconsistencies
+<div class="flex min-h-screen flex-col">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 flex h-16 items-center justify-between border-b-2 px-6">
+        <div class="flex items-center gap-4">
+            <Button variant="outline" size="sm" class="lg:hidden" onclick={toggleMobileMenu}>
+                <Icon icon={isMobileMenuOpen ? Cancel01Icon : Menu01Icon} />
+            </Button>
+            <a href="/" class="text-2xl font-black">NEOBR-UI</a>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="https://github.com/nami2111/NeoBr-UI" target="_blank">GitHub</a>
+            <ThemeToggle />
+        </div>
+    </header>
 
-### 6. Button `default` and `primary` variants are identical
+    <div class="flex flex-1">
+        <!-- Sidebar -->
+        <Sidebar class="sticky top-16 hidden h-[calc(100vh-64px)] shrink-0 lg:block" />
 
-**Location:** `packages/svelte/src/lib/components/ui/button/button.svelte:15-18`
-**Problem:** Both `default` and `primary` variants produce the exact same classes (`btn-brutalist bg-primary text-primary-foreground hover:bg-primary-hover`). Redundant.
-**Fix:** Either remove the `primary` variant (since `default` already uses primary colors) or differentiate them — e.g., `default` as a lighter/subtler style and `primary` as the bold brutalist style.
+        <!-- Mobile overlay -->
+        {#if isMobileMenuOpen}
+            <div class="fixed inset-0 z-40 bg-black/50 lg:hidden" onclick={toggleMobileMenu}></div>
+            <div class="fixed inset-y-0 left-0 z-50 w-64 lg:hidden">
+                <Sidebar class="h-full" />
+            </div>
+        {/if}
 
----
-
-### 7. `rounded-xs` is not a standard Tailwind class
-
-**Location:** `packages/svelte/src/lib/components/ui/select/select-item.svelte:19`, `packages/svelte/src/lib/components/ui/skeleton/skeleton.svelte:14`
-**Problem:** `rounded-xs` is not a recognized Tailwind utility. No rounding applied.
-**Fix:** Replace with a valid class — `rounded-sm` (2px) for minimal rounding, or `rounded-brutalist` for consistency.
-
----
-
-### 8. Progress uses `rounded-sm` instead of `rounded-brutalist`
-
-**Location:** `packages/svelte/src/lib/components/ui/progress/progress.svelte:27`
-**Problem:** Inconsistent with the design system's 12px brutalist rounding used everywhere else.
-**Fix:** Replace `rounded-sm` with `rounded-brutalist`.
-
----
-
-### 9. Switch `brutalist` implemented as CVA variant instead of boolean prop
-
-**Location:** `packages/svelte/src/lib/components/ui/switch/switch.svelte`
-**Problem:** Button, Badge, and Alert all use a `brutalist: true/false` boolean prop. Switch implements it as a CVA variant value — inconsistent API surface.
-**Fix:** Refactor Switch to use a separate `brutalist` boolean prop matching the pattern in Button/Badge/Alert.
-
----
-
-### 10. Label uses `font-medium`, FormLabel uses `font-bold`
-
-**Location:** `packages/svelte/src/lib/components/ui/label/label.svelte:22` vs `packages/svelte/src/lib/components/ui/form/form-label.svelte`
-**Problem:** Inconsistent font weight between Label and FormLabel.
-**Fix:** Standardize both to `font-bold` (matches the technical mono aesthetic).
-
----
-
-### 11. Skeleton uses `linear-gradient` — violates Neo-Brutalist principles
-
-**Location:** `packages/svelte/src/lib/components/ui/skeleton/skeleton.svelte:35`
-**Problem:** AGENTS.md specifies "zero gradients". Shimmer uses `linear-gradient` for its animation.
-**Fix:** Replace with a flat opacity-based pulse animation or solid-color sliding bar using `@keyframes` with `background-position` instead of gradient stops.
+        <!-- Main Content -->
+        <main class="mx-auto w-full max-w-5xl flex-1 p-6 md:p-10">
+            {@render children?.()}
+        </main>
+    </div>
+</div>
+```
 
 ---
 
-### 12. `h-brutalist` utility defined but unused
+### Phase 2: Redesign Homepage (Priority: HIGH)
 
-**Location:** `packages/svelte/src/lib/styles/design-system.css:122-124`
-**Problem:** No component references `h-brutalist`. It also forces `uppercase` which contradicts the AGENTS.md guideline of "avoid forced uppercase".
-**Fix:** Either remove it as dead code, or repurpose it without `uppercase` if heading utility is needed.
+**File:** `src/routes/+page.svelte`
 
----
+**New Sections:**
 
-### 13. Dark mode doesn't override semantic color tokens
+1. **Hero Section**
+   - Full-width, centered
+   - Title: "NeoBr UI: The Foundation for your Design System"
+   - Subtitle: "A set of beautifully designed components that you can customize, extend, and build on."
+   - Two CTAs: "Get Started", "View Components"
 
-**Location:** `packages/svelte/src/lib/styles/design-system.css:93-109`
-**Problem:** The `.dark` block only overrides 11 of 33+ color tokens. Missing: `primary`, `primary-hover`, `primary-active`, `primary-foreground`, `secondary` (and variants), `destructive` (and variants), `success` (and variants), `warning` (and variants), `ring`.
-**Fix:** Add dark mode overrides for all semantic colors. Use adjusted OKLCH values with higher lightness for better contrast on dark backgrounds. Sync to tailwind-preset.
+2. **Installation Section**
+   - Code block showing `npm install @neobr/svelte`
 
----
+3. **Features Grid**
+   - 3-4 cards: "Svelte 5 Powered", "Accessible", "Neo-Brutalist", "Open Source"
 
-## Accessibility Gaps
+4. **Interactive Preview**
+   - Live component demo (slider, switch, button, etc.)
 
-### 14. DropdownMenu: no keyboard navigation or proper trigger
+5. **All Components Preview**
+   - Grid showing key components
+   - "View All Components" link → `/components`
 
-**Location:** `packages/svelte/src/lib/components/ui/dropdown-menu/dropdown-menu.svelte`, `dropdown-menu-item.svelte`
-**Problem:** No arrow key navigation between items, no Escape to close, trigger is a `<div>` with `role="button"` instead of a real `<button>`, items are `<div>`s without `role="menuitem"`, multiple a11y suppression comments.
-**Fix:**
-
-- Replace trigger `<div>` with `<button>`
-- Add `role="menuitem"` and `tabindex="-1"` to items
-- Implement arrow key navigation (Up/Down to move focus between items)
-- Add Escape key handler to close menu
-- Remove `svelte-ignore a11y` comments
-
----
-
-### 15. Popover: missing ARIA attributes and keyboard support
-
-**Location:** `packages/svelte/src/lib/components/ui/popover/popover.svelte`
-**Problem:** No `aria-haspopup`, no `aria-expanded`, no Escape key to close, multiple a11y suppression comments.
-**Fix:**
-
-- Add `aria-haspopup="dialog"` and `aria-expanded={open}` to trigger
-- Add Escape key handler
-- Remove `svelte-ignore a11y` comments
+6. **CTA Section**
+   - "Ready to build something bold?"
+   - Link to installation
 
 ---
 
-### 16. Sheet: no Escape handling or focus trap
+### Phase 3: Create Components Gallery Index (Priority: HIGH)
 
-**Location:** `packages/svelte/src/lib/components/ui/sheet/sheet.svelte`
-**Problem:** Modal has Escape key handling and focus trap. Sheet has neither — inconsistent accessibility between overlay components.
-**Fix:**
+**File:** `src/routes/components/+page.svelte` (NEW)
 
-- Add Escape key handler (same pattern as Modal)
-- Add focus trap on open (same pattern as Modal)
-- Add focus restoration on close
+```svelte
+<script lang="ts">
+    import { Card, CardHeader, CardTitle, CardDescription, Badge, Input } from "@neobr/svelte";
+    import { Search01Icon, Icon } from "@hugeicons/core-free-icons";
+
+    // Component categories
+    const categories = [
+        {
+            title: "Forms",
+            items: [
+                { name: "Button", href: "/components/button", status: "stable" },
+                { name: "Input", href: "/components/input", status: "stable" },
+                { name: "Checkbox", href: "/components/checkbox", status: "stable" },
+                { name: "Toggle", href: "/components/toggle", status: "stable" },
+                { name: "Slider", href: "/components/slider", status: "stable" },
+                { name: "Textarea", href: "/components/textarea", status: "stable" },
+                { name: "Select", href: "/components/select", status: "stable" },
+                { name: "Radio Group", href: "/components/radio-group", status: "stable" },
+                { name: "Form", href: "/components/form", status: "stable" },
+            ]
+        },
+        {
+            title: "Layout",
+            items: [
+                { name: "Accordion", href: "/components/accordion" },
+                { name: "Card", href: "/components/card" },
+                { name: "Bento Grid", href: "/components/bento-grid" },
+                { name: "Collapsible", href: "/components/collapsible" },
+                { name: "Separator", href: "/components/separator" },
+                { name: "Aspect Ratio", href: "/components/aspect-ratio" },
+            ]
+        },
+        {
+            title: "Overlays",
+            items: [
+                { name: "Modal", href: "/components/modal" },
+                { name: "Popover", href: "/components/popover" },
+                { name: "Sheet", href: "/components/sheet" },
+                { name: "Toast", href: "/components/toast" },
+                { name: "Tooltip", href: "/components/tooltip" },
+            ]
+        },
+        {
+            title: "Navigation",
+            items: [
+                { name: "Breadcrumbs", href: "/components/breadcrumbs" },
+                { name: "Tabs", href: "/components/tabs" },
+                { name: "Pagination", href: "/components/pagination" },
+                { name: "Link", href: "/components/link" },
+            ]
+        },
+        {
+            title: "Feedback",
+            items: [
+                { name: "Alert", href: "/components/alert" },
+                { name: "Badge", href: "/components/badge" },
+                { name: "Progress", href: "/components/progress" },
+                { name: "Loading", href: "/components/loading" },
+                { name: "Skeleton", href: "/components/skeleton" },
+            ]
+        },
+        {
+            title: "Data Display",
+            items: [
+                { name: "Avatar", href: "/components/avatar" },
+                { name: "Calendar", href: "/components/calendar" },
+                { name: "Date Picker", href: "/components/date-picker" },
+                { name: "Table", href: "/components/table" },
+            ]
+        },
+    ];
+
+    let searchQuery = $state("");
+    let filteredCategories = $derived(
+        categories.map(cat => ({
+            ...cat,
+            items: cat.items.filter(item =>
+                item.name.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+        })).filter(cat => cat.items.length > 0)
+    );
+</script>
+
+<div class="space-y-10 py-10">
+    <!-- Header -->
+    <div class="text-center space-y-4">
+        <h1 class="text-5xl font-black tracking-tighter uppercase">Components</h1>
+        <p class="text-xl text-muted-foreground">
+            Beautifully designed, fully accessible components built with Svelte 5.
+        </p>
+    </div>
+
+    <!-- Search -->
+    <div class="mx-auto max-w-md">
+        <Input placeholder="Search components..." bind:value={searchQuery} />
+    </div>
+
+    <!-- Categories Grid -->
+    {#each filteredCategories as category}
+        <section class="space-y-4">
+            <h2 class="text-2xl font-black tracking-tighter uppercase">{category.title}</h2>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {#each category.items as item}
+                    <a href={item.href}>
+                        <Card class="hover:shadow-brutalist-hover transition-all hover:-translate-y-1">
+                            <CardHeader>
+                                <CardTitle class="text-lg font-black uppercase">{item.name}</CardTitle>
+                                <CardDescription>
+                                    {item.description || "A flexible and reusable component."}
+                                </CardDescription>
+                            </CardHeader>
+                        </Card>
+                    </a>
+                {/each}
+            </div>
+        </section>
+    {/each}
+</div>
+```
 
 ---
 
-### 17. Tabs: missing `aria-controls` and `aria-labelledby`
+### Phase 4: Update Main Layout for Homepage Only
 
-**Location:** `packages/svelte/src/lib/components/ui/tabs/tabs-trigger.svelte`, `tabs-content.svelte`
-**Problem:** Triggers lack `aria-controls` linking to panel IDs. Content panels lack `aria-labelledby` linking back to trigger IDs. Also, inactive panels are unmounted with `{#if}` instead of using `hidden` — destroys DOM state.
-**Fix:**
+**File:** `src/routes/+layout.svelte`
 
-- Generate unique IDs for triggers and panels
-- Add `aria-controls={panelId}` on triggers
-- Add `aria-labelledby={triggerId}` on content panels
-- Keep all panels in DOM, toggle `hidden` attribute instead of unmounting
+**Remove sidebar** - Currently shows sidebar on all pages. Should only show on docs pages now.
 
----
+**Modified structure:**
 
-### 18. Tooltip: `role="button"` on div, no `aria-describedby`
+```svelte
+<script>
+    import "../app.css";
+    import ThemeToggle from "../lib/components/ThemeToggle.svelte";
+    import { Toaster, Button, Icon } from "@neobr/svelte";
+    import { Menu01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
+    import { page } from "$app/state";
 
-**Location:** `packages/svelte/src/lib/components/ui/tooltip/tooltip.svelte:33`
-**Problem:** Wrapper uses `role="button"` on a `<div>` instead of a `<button>`. No `aria-describedby` linking tooltip content to trigger for screen readers.
-**Fix:**
+    let { children } = $props();
 
-- Replace `<div role="button">` with `<button>`
-- Add unique ID to tooltip content
-- Add `aria-describedby={tooltipId}` to trigger
+    // Show sidebar only on specific routes
+    const showSidebar = $derived(
+        page.url.pathname.startsWith("/docs") ||
+        page.url.pathname.startsWith("/components") && page.url.pathname !== "/components"
+    );
+</script>
 
----
+<!-- Only show header + sidebar if on docs/components pages -->
+{#if showSidebar}
+    <!-- Include sidebar layout -->
+{:else}
+    <!-- Homepage layout (no sidebar) -->
+{/if}
+```
 
-### 19. CommandItem: `role="button"` on div
-
-**Location:** `packages/svelte/src/lib/components/ui/command/command-item.svelte:39`
-**Problem:** Uses `<div role="button">` instead of a semantic `<button>` element.
-**Fix:** Replace `<div role="button">` with `<button>` element.
-
----
-
-### 20. Multiple `svelte-ignore a11y` suppression comments
-
-**Location:** `dropdown-menu.svelte`, `dropdown-menu-item.svelte`, `popover.svelte`
-**Problem:** Accessibility warnings suppressed instead of fixed. Hides real issues from linters.
-**Fix:** Address the underlying a11y issues (covered by #14 and #15), then remove the suppression comments.
+**Actually:** Better approach - keep the layout simple for homepage and use separate layouts per section (see Phase 1).
 
 ---
 
-## Architecture & Code Quality
+### Phase 5: Files to Modify Summary
 
-### 21. Form module mixes Svelte 4 stores with Svelte 5 runes
-
-**Location:** `packages/svelte/src/lib/components/ui/form/form-item.svelte:23`, `form-message.svelte:18`
-**Problem:** Uses `writable()` Svelte 4 store alongside `$state`/`$effect` runes. Inconsistent patterns.
-**Fix:** Migrate form context to use `$state` with getter/setter pattern (same as Collapsible's `COLLAPSIBLE_CONTEXT` which already does this correctly with Symbols).
-
----
-
-### 22. Date-picker duplicates calendar grid rendering
-
-**Location:** `packages/svelte/src/lib/components/ui/date-picker/date-picker.svelte:57-119`
-**Problem:** ~60 lines of calendar grid rendering duplicated from `calendar.svelte`. Code duplication.
-**Fix:** Extract the calendar grid into a shared internal component (e.g., `calendar-grid.svelte`) and import it in both Calendar and DatePicker.
+| File | Action | Priority |
+|------|-------|---------|
+| `src/routes/+page.svelte` | Redesign homepage | HIGH |
+| `src/routes/docs/+layout.svelte` | Create (NEW) | HIGH |
+| `src/routes/components/+page.svelte` | Create gallery index | HIGH |
+| `src/routes/+layout.svelte` | Simplify (homepage only) | MEDIUM |
+| `src/routes/components/[slug]/+page.svelte` | Check/update | LOW |
 
 ---
 
-### 23. String-based context keys instead of Symbols
+## Design System Tokens (Reference)
 
-**Location:** `tabs.svelte` (`"tabs"`), `radio-group.svelte` (`"radio-group"`), `toggle-group.svelte` (`"toggle-group"`)
-**Problem:** String keys can collide if consumer also uses `setContext("tabs", ...)`. Collapsible and Command already use Symbols correctly.
-**Fix:** Migrate tabs, radio-group, and toggle-group to Symbol-based context keys, consistent with collapsible and command.
+From `packages/svelte/src/lib/styles/design-system.css`
 
----
+### Colors (OKLCH)
+- `--color-primary`: Lavender/Blue
+- `--color-secondary`: Peach/Warm
+- `--color-accent`: Additional accent
+- `--color-background`: Clean off-white
+- `--color-foreground`: High-contrast dark
+- `--color-muted-foreground`: Muted text
 
-### 24. Legacy v3 preset files are dead code
+### Structural
+- `--radius-brutalist`: 12px
+- `--shadow-brutalist`: 0px 5px 0px 0px
+- `--shadow-brutalist-hover`: 0px 8px 0px 0px
 
-**Location:** `packages/tailwind-preset/index.js`, `packages/tailwind-preset/tokens.js`
-**Problem:** `index.js` exports a Tailwind v3-style config (`module.exports`, `darkMode: ['class']`, `require('tailwindcss-animate')`). `tokens.js` uses hex fallbacks and different variable names (`--primary` vs `--color-primary`). These are unused in the v4 CSS-first architecture but still exported from the package.
-**Fix:** Remove `index.js` and `tokens.js`. Update `package.json` exports to only export `./style` (the CSS file). The v4 `design-system.css` is the sole source of truth.
-
----
-
-### 25. `as any` casts for bits-ui type compatibility
-
-**Location:** `accordion.svelte:20,26`, `calendar.svelte`, `date-picker.svelte`, `select.svelte`
-**Problem:** `as any` casts used to work around bits-ui type incompatibilities with Svelte 5. Hides real type errors.
-**Fix:** Improve the type wrappers in `types/bits-ui-compat.ts` to properly map bits-ui generics to Svelte 5 `$bindable()` types, eliminating the need for `as any`.
-
----
-
-### 26. Sticker: `Math.random()` at module level
-
-**Location:** `packages/svelte/src/lib/components/ui/sticker/sticker.svelte:21`
-**Problem:** `Math.random()` is called once at module load time. All Sticker instances in the same render pass share the same rotation value.
-**Fix:** Move random rotation calculation into a `$derived` or `$state` so each component instance gets its own value.
+### Typography
+- Font: JetBrains Mono (primary)
+- Casing: Title Case for headings
 
 ---
 
-### 27. Aspect ratio uses padding-bottom hack
+## Implementation Order
 
-**Location:** `packages/svelte/src/lib/components/ui/aspect-ratio/aspect-ratio.svelte`
-**Problem:** Uses the old `padding-bottom` percentage hack for aspect ratio. Native CSS `aspect-ratio` property has 97%+ browser support.
-**Fix:** Replace with `style="aspect-ratio: {ratio}"` using the native CSS property.
-
----
-
-### 28. `animate-in`/`fade-in-0`/`zoom-in-95` are Tailwind v3 utilities
-
-**Location:** `packages/svelte/src/lib/components/ui/select/select-content.svelte:14`
-**Problem:** Uses `animate-in fade-in-0 zoom-in-95` which are Tailwind v3 animation utilities from `tailwindcss-animate`. These don't exist in Tailwind v4 without the plugin.
-**Fix:** Replace with the v4 animation tokens defined in `design-system.css` (`--animate-fade-in`, `--animate-slide-up`) or define new `@keyframes` in `design-system.css` for enter/exit animations and add corresponding utilities.
+1. **Create `src/routes/docs/+layout.svelte`** - Docs-specific layout with sidebar
+2. **Move Sidebar to docs layout** - Update sidebar import in docs layout
+3. **Simplify `src/routes/+layout.svelte`** - Remove sidebar logic
+4. **Redesign homepage** - Full marketing-style landing
+5. **Create components gallery** - Grid index page
 
 ---
 
-## Execution Order
+## shadcn/ui Reference Structure
 
-Fixes should be applied in this order to minimize conflicts:
+See: https://ui.shadcn.com
 
-1. **Phase 1 — Critical Bugs** (#1-5): Fix undefined classes, broken utilities, and dark mode selector
-2. **Phase 2 — Design System** (#6-13): Normalize tokens, variants, and complete dark mode
-3. **Phase 3 — Accessibility** (#14-20): Align all overlay/interactive components with Modal's a11y standard
-4. **Phase 4 — Architecture** (#21-28): Migrate patterns, remove dead code, fix types
+| Page | Content |
+|------|--------|
+| `/` | Hero, value props, installation code, components preview, CTA |
+| `/components` | Grid gallery with search, categorized components |
+| `/docs/introduction` | What is NeoBr-UI |
+| `/docs/installation` | npm install + setup |
+| `/components/button` | Individual component docs |
 
-After each phase: `cp packages/svelte/src/lib/styles/design-system.css packages/tailwind-preset/design-system.css && pnpm -F @neobr/svelte test`
+---
+
+## Done when:
+- [x] Homepage is full-width landing with no sidebar
+- [x] `/components` shows grid gallery of all components
+- [x] Docs pages have dedicated layout with sidebar
+- [x] Clean separation between homepage, docs, and components

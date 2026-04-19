@@ -4,10 +4,11 @@
 
     type Props = {
         class?: string;
-        [key: string]: any;
+        href?: string;
+        children?: import("svelte").Snippet;
     };
 
-    let { class: className, ...rest }: Props = $props();
+    let { class: className, children, ...rest }: Props = $props();
 </script>
 
 <PaginationLink

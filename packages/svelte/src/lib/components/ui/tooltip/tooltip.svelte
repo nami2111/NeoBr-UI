@@ -2,12 +2,13 @@
     import { fade, scale } from "svelte/transition";
     import { cn } from "../../../utils";
 
-    type Props = {
+    import type { HTMLButtonAttributes } from "svelte/elements";
+
+    type Props = HTMLButtonAttributes & {
         content: string;
         class?: string;
         position?: "top" | "bottom" | "left" | "right";
         children?: import("svelte").Snippet;
-        [key: string]: any;
     };
 
     let { content, class: className, position = "top", children, ...rest }: Props = $props();
@@ -42,7 +43,7 @@
             id={tooltipId}
             role="tooltip"
             class={cn(
-                "border-foreground bg-foreground text-background shadow-brutalist pointer-events-none absolute z-[100] rounded-xs border-2 px-3 py-1.5 text-xs font-bold whitespace-nowrap",
+                "border-foreground bg-foreground text-background shadow-brutalist pointer-events-none absolute z-[100] rounded-brutalist border-2 px-3 py-1.5 text-xs font-bold whitespace-nowrap",
                 positions[position],
                 className,
             )}

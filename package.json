@@ -1,27 +1,25 @@
 {
-  "name": "neobr-ui-monorepo",
-  "private": true,
-  "scripts": {
-    "sync:css": "cp packages/svelte/src/lib/styles/design-system.css packages/tailwind-preset/design-system.css",
-    "prebuild": "pnpm sync:css",
-    "build": "pnpm -r build",
-    "test": "pnpm -r test",
-    "lint": "pnpm -r lint",
-    "format": "prettier --write .",
-    "changeset": "changeset",
-    "version-packages": "changeset version",
-    "release": "pnpm build && pnpm test && changeset publish",
-    "dev": "pnpm --filter docs dev"
-  },
-  "devDependencies": {
-    "@changesets/cli": "^2.30.0",
-    "prettier": "^3.8.1",
-    "prettier-plugin-svelte": "^3.5.1",
-    "prettier-plugin-tailwindcss": "^0.7.2",
-    "turbo": "^2.8.17"
-  },
-  "packageManager": "pnpm@9.0.0",
-  "engines": {
-    "node": ">=18"
-  }
+    "name": "neobr-ui-monorepo",
+    "private": true,
+    "scripts": {
+        "sync:css": "cp packages/svelte/src/lib/styles/design-system.css packages/tailwind-preset/design-system.css",
+        "prebuild": "vp run sync:css",
+        "build": "vp run -r build",
+        "test": "vp run -r test",
+        "lint": "vp run -r lint",
+        "format": "vp fmt .",
+        "changeset": "changeset",
+        "version-packages": "changeset version",
+        "release": "vp run build && vp run test && changeset publish",
+        "dev": "vp run --filter docs dev",
+        "prepare": "vp config"
+    },
+    "devDependencies": {
+        "@changesets/cli": "^2.30.0",
+        "vite-plus": "catalog:"
+    },
+    "packageManager": "pnpm@9.5.0",
+    "engines": {
+        "node": ">=18"
+    }
 }

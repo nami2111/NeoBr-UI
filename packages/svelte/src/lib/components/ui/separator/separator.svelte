@@ -1,11 +1,10 @@
 <script lang="ts">
     import { cn } from "../../../utils";
+    import type { HTMLAttributes } from "svelte/elements";
 
-    type Props = {
+    type Props = HTMLAttributes<HTMLDivElement> & {
         orientation?: "horizontal" | "vertical";
         decorative?: boolean;
-        class?: string;
-        [key: string]: any;
     };
 
     let {

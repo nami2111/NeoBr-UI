@@ -2,13 +2,13 @@
     import { getCommandState } from "./command.svelte";
     import { cn } from "../../../utils";
 
-    type Props = {
+    import type { HTMLButtonAttributes } from "svelte/elements";
+
+    type Props = HTMLButtonAttributes & {
         class?: string;
         value?: string;
         onSelect?: (value: string) => void;
         children?: import("svelte").Snippet;
-        disabled?: boolean;
-        [key: string]: any;
     };
 
     let {

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi } from "vite-plus/test";
 import ErrorBoundaryTestWrapper from "./error-boundary-test-wrapper.svelte";
 
 describe("ErrorBoundary", () => {
@@ -10,7 +10,7 @@ describe("ErrorBoundary", () => {
 
     it("renders fallback UI when error occurs", async () => {
         // We need to suppress console.error as Vitest prints caught errors by default
-        const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
+        const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
         render(ErrorBoundaryTestWrapper, { props: { shouldThrow: true } });
 
@@ -26,7 +26,7 @@ describe("ErrorBoundary", () => {
     });
 
     it("calls onRetry when retry button clicked", async () => {
-        const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => { });
+        const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
         const onRetry = vi.fn();
 
         render(ErrorBoundaryTestWrapper, { props: { shouldThrow: true, onRetry } });

@@ -24,7 +24,7 @@ class ToastManager {
             id,
             type: "default",
             duration: 3000,
-            ...options
+            ...options,
         };
 
         this.#toasts.push(toast);

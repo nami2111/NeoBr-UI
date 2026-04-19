@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/svelte";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vite-plus/test";
 import Avatar from "./avatar.svelte";
 
 describe("Avatar", () => {
@@ -9,7 +9,7 @@ describe("Avatar", () => {
     });
 
     it("renders image and handles error by showing fallback", async () => {
-        const { component } = render(Avatar, { src: "valid.jpg", alt: "User" });
+        render(Avatar, { src: "valid.jpg", alt: "User" });
         const img = screen.getByRole("img");
         expect(img).toBeTruthy();
 

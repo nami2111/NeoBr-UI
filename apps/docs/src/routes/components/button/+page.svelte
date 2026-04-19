@@ -24,7 +24,9 @@
     Link Button
 </Button>`;
 
-    const brutalistExample = `<Button brutalist={false}>Rounded Button</Button>`;
+    const radiusExample = `<Button radius="brutalist">Brutalist</Button>
+<Button radius="soft">Soft</Button>
+<Button radius="rounded">Rounded</Button>`;
 </script>
 
 <DocPage title="Button" description="Displays a button or a component that looks like a button.">
@@ -67,11 +69,12 @@
         </section>
 
         <section class="space-y-4">
-            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Brutalist Prop</h2>
-            <CodePreview code={brutalistExample}>
+            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Radius</h2>
+            <CodePreview code={radiusExample}>
                 <div class="flex flex-wrap gap-4">
-                    <Button brutalist={true}>Brutalist</Button>
-                    <Button brutalist={false}>Rounded</Button>
+                    <Button radius="brutalist">Brutalist</Button>
+                    <Button radius="soft">Soft</Button>
+                    <Button radius="rounded">Rounded</Button>
                 </div>
             </CodePreview>
         </section>

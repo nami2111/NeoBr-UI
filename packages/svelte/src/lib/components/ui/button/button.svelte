@@ -3,100 +3,101 @@
     import type { HTMLButtonAttributes } from "svelte/elements";
     import { cn } from "../../../utils";
 
-    /**
-     * Button variants configuration using CVA.
-     * Defines styles for different visual variants, sizes, and the brutalist theme.
-     */
-    const buttonVariants = cva(
-        "inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
-        {
-            variants: {
-                variant: {
-                    default:
-                        "btn-brutalist bg-primary text-primary-foreground hover:bg-primary-hover",
-                    destructive:
-                        "btn-brutalist bg-destructive text-destructive-foreground hover:bg-destructive-hover",
-                    success:
-                        "btn-brutalist bg-success text-success-foreground hover:bg-success-hover",
-                    warning:
-                        "btn-brutalist bg-warning text-warning-foreground hover:bg-warning-hover",
-                    secondary:
-                        "btn-brutalist bg-secondary text-secondary-foreground hover:bg-secondary-hover",
-                    outline: "btn-brutalist border-2 bg-background hover:bg-accent",
-                    ghost: "hover:bg-accent hover:text-accent-foreground border-2 border-transparent",
-                    link: "text-primary underline-offset-4 hover:underline border-2 border-transparent",
-                },
-                size: {
-                    default: "h-10 px-4 py-2",
-                    sm: "h-9 px-3",
-                    lg: "h-11 px-8",
-                    icon: "h-10 w-10",
-                },
-                brutalist: {
-                    true: "rounded-brutalist tracking-[0.1em]",
-                    false: "rounded-md",
-                },
+/**
+ * Button variants configuration using CVA.
+ * Defines styles for different visual variants, sizes, and the brutalist theme.
+ */
+const buttonVariants = cva(
+    "inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
+    {
+        variants: {
+            variant: {
+                default:
+                    "bg-primary text-primary-foreground hover:bg-primary-hover border-2",
+                destructive:
+                    "bg-destructive text-destructive-foreground hover:bg-destructive-hover border-2",
+                success:
+                    "bg-success text-success-foreground hover:bg-success-hover border-2",
+                warning:
+                    "bg-warning text-warning-foreground hover:bg-warning-hover border-2",
+                secondary:
+                    "bg-secondary text-secondary-foreground hover:bg-secondary-hover border-2",
+                outline: "btn-brutalist border-2 bg-background hover:bg-accent",
+                ghost: "hover:bg-accent hover:text-accent-foreground border-2 border-transparent",
+                link: "text-primary underline-offset-4 hover:underline border-2 border-transparent",
             },
-            defaultVariants: {
-                variant: "default",
-                size: "default",
-                brutalist: true,
+            size: {
+                default: "h-10 px-4 py-2",
+                sm: "h-9 px-3",
+                lg: "h-11 px-8",
+                icon: "h-10 w-10",
+            },
+            radius: {
+                brutalist: "btn-brutalist rounded-none tracking-[0.1em]",
+                soft: "btn-brutalist-soft rounded-[6px] tracking-[0.1em]",
+                rounded: "btn-brutalist-rounded rounded-[12px] tracking-[0.1em]",
             },
         },
-    );
+        defaultVariants: {
+            variant: "default",
+            size: "default",
+            radius: "rounded",
+        },
+    },
+);
 
-    type Props = HTMLButtonAttributes &
-        VariantProps<typeof buttonVariants> & {
-            /**
-             * Enable or disable the Neo-Brutalist styling (borders, shadows).
-             * @default true
-             */
-            brutalist?: boolean;
+type Props = (HTMLButtonAttributes | { href?: string; target?: string; rel?: string }) &
+    VariantProps<typeof buttonVariants> & {
+        /**
+         * Button radius style: brutalist (sharp), soft (6px), or rounded (12px).
+         * @default "rounded"
+         */
+        radius?: "brutalist" | "soft" | "rounded";
 
-            /**
-             * If provided, renders as an anchor tag (`<a>`) instead of a button.
-             */
-            href?: string;
+        /**
+         * If provided, renders as an anchor tag (`<a>`) instead of a button.
+         */
+        href?: string;
 
-            /**
-             * Content to be rendered inside the button.
-             */
-            children?: import("svelte").Snippet;
-        };
+        /**
+         * Content to be rendered inside the button.
+         */
+        children?: import("svelte").Snippet;
+    };
 
-    let props: Props = $props();
+let props: Props = $props();
 
-    // Use $derived to create reactive computed values
-    let className = $derived(props.class);
-    let variant = $derived(props.variant ?? "default");
-    let size = $derived(props.size ?? "default");
-    let brutalist = $derived(props.brutalist ?? true);
-    let href = $derived(props.href);
-    let children = $derived(props.children);
+// Use $derived to create reactive computed values
+let className = $derived(props.class);
+let variant = $derived(props.variant ?? "default");
+let size = $derived(props.size ?? "default");
+let radius = $derived(props.radius ?? "rounded");
+let href = $derived(props.href);
+let children = $derived(props.children);
 
-    // Create reactive rest props by excluding the known props
-    let rest = $derived(
-        (() => {
-            const {
-                class: _,
-                variant: __,
-                size: ___,
-                brutalist: ____,
-                href: _____,
-                children: ______,
-                ...remaining
-            } = props;
-            return remaining;
-        })(),
-    );
+// Create reactive rest props by excluding the known props
+let rest = $derived(
+    (() => {
+        const {
+            class: _,
+            variant: __,
+            size: ___,
+            radius: ____,
+            href: _____,
+            children: ______,
+            ...remaining
+        } = props;
+        return remaining;
+    })(),
+);
 </script>
 
 {#if href}
-    <a {href} class={cn(buttonVariants({ variant, size, brutalist, className }))} {...rest as any}>
+    <a {href} class={cn(buttonVariants({ variant, size, radius, className }))} {...rest as any}>
         {@render children?.()}
     </a>
 {:else}
-    <button class={cn(buttonVariants({ variant, size, brutalist, className }))} {...rest}>
+    <button class={cn(buttonVariants({ variant, size, radius, className }))} {...rest}>
         {@render children?.()}
     </button>
 {/if}

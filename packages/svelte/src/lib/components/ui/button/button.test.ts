@@ -1,11 +1,13 @@
 import { render, screen, fireEvent } from "@testing-library/svelte";
-import { expect, test, describe, vi } from "vitest";
+import { expect, test, describe, vi } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import ButtonTestWrapper from "./button-test-wrapper.svelte";
 
 describe("Button component", () => {
     test("should have no accessibility violations", async () => {
-        const { container } = render(ButtonTestWrapper, { props: { childrenText: "Accessible Button" } });
+        const { container } = render(ButtonTestWrapper, {
+            props: { childrenText: "Accessible Button" },
+        });
         const results = await axe(container);
         expect(results).toHaveNoViolations();
     });
@@ -18,7 +20,9 @@ describe("Button component", () => {
     });
 
     test("renders different variants", () => {
-        const { rerender } = render(ButtonTestWrapper, { props: { variant: "destructive", childrenText: "Delete" } });
+        const { rerender } = render(ButtonTestWrapper, {
+            props: { variant: "destructive", childrenText: "Delete" },
+        });
         let button = screen.getByRole("button", { name: /delete/i });
         expect(button).toHaveClass("bg-destructive");
 
@@ -55,7 +59,7 @@ describe("Button component", () => {
 
     test("reacts to disabled prop changes", async () => {
         const { rerender } = render(ButtonTestWrapper, {
-            props: { disabled: false, childrenText: "Submit" }
+            props: { disabled: false, childrenText: "Submit" },
         });
 
         const button = screen.getByRole("button", { name: /submit/i });

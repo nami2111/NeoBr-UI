@@ -1,11 +1,9 @@
 <script lang="ts">
     import { cn } from "../../../utils";
+    import type { HTMLAttributes } from "svelte/elements";
 
-    type Props = {
+    type Props = HTMLAttributes<HTMLLabelElement> & {
         for?: string;
-        class?: string;
-        children?: import("svelte").Snippet;
-        [key: string]: any;
     };
 
     let { for: htmlFor, class: className, children, ...rest }: Props = $props();

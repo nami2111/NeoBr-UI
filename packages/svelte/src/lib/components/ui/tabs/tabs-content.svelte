@@ -2,11 +2,10 @@
     import { getContext } from "svelte";
     import { cn } from "../../../utils";
 
-    type Props = {
+    import type { HTMLAttributes } from "svelte/elements";
+
+    type Props = HTMLAttributes<HTMLDivElement> & {
         value: string;
-        class?: string;
-        children?: import("svelte").Snippet;
-        [key: string]: any;
     };
 
     let { value: contentValue, class: className, children, ...rest }: Props = $props();

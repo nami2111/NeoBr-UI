@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import AccordionTestWrapper from "./accordion-test-wrapper.svelte";
 

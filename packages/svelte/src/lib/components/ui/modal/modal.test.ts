@@ -1,11 +1,13 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import ModalTestWrapper from "./modal-test-wrapper.svelte";
 
 describe("Modal Component", () => {
     it("should have no accessibility violations when open", async () => {
-        const { container } = render(ModalTestWrapper, { props: { open: true, title: "Accessible Modal" } });
+        const { container } = render(ModalTestWrapper, {
+            props: { open: true, title: "Accessible Modal" },
+        });
         const results = await axe(container);
         expect(results).toHaveNoViolations();
     });
@@ -35,7 +37,7 @@ describe("Modal Component", () => {
     });
 
     it("closes and updates bound variable when close button is clicked", async () => {
-        const { component } = render(ModalTestWrapper, { props: { open: true } });
+        render(ModalTestWrapper, { props: { open: true } });
 
         const closeButton = screen.getByLabelText("Close modal");
         await fireEvent.click(closeButton);

@@ -1,7 +1,7 @@
 {
     "name": "@neobr/tailwind-preset",
-    "version": "1.0.5",
-    "description": "Premium Neo-Brutalist Tailwind CSS v4 Preset",
+    "version": "1.0.6",
+    "description": "Neo-Brutalist Tailwind CSS v4 Preset",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/nami2111/NeoBr-UI.git",

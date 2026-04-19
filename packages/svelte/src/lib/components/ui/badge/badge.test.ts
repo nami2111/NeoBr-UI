@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/svelte";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "vite-plus/test";
 import BadgeTestWrapper from "./badge-test-wrapper.svelte";
 
 describe("Badge", () => {

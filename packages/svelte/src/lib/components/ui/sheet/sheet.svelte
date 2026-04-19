@@ -3,14 +3,13 @@
     import { fly, fade } from "svelte/transition";
     import { tick } from "svelte";
 
-    type Props = {
+    import type { HTMLAttributes } from "svelte/elements";
+
+    type Props = HTMLAttributes<HTMLDivElement> & {
         open?: boolean;
         onClose?: () => void;
         side?: "left" | "right" | "top" | "bottom";
         title?: string;
-        class?: string;
-        children?: import("svelte").Snippet;
-        [key: string]: any;
     };
 
     let {

@@ -5,12 +5,8 @@
         "module": "esnext",
         "target": "esnext",
         "paths": {
-            "$lib": [
-                "./src/lib"
-            ],
-            "$lib/*": [
-                "./src/lib/*"
-            ]
+            "$lib": ["./src/lib"],
+            "$lib/*": ["./src/lib/*"]
         }
     },
     "include": [

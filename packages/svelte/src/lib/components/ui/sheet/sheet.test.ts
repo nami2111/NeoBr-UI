@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
-import { expect, test } from "vitest";
+import { expect, test } from "vite-plus/test";
 import SheetTest from "./sheet-test.svelte";
 
 test("Sheet toggles visibility", async () => {
@@ -17,7 +17,10 @@ test("Sheet toggles visibility", async () => {
     await fireEvent.click(closeBtn);
 
     // Svelte transition
-    await waitFor(() => {
-        expect(screen.queryByText("Test Sheet")).toBeNull();
-    }, { timeout: 2000 });
+    await waitFor(
+        () => {
+            expect(screen.queryByText("Test Sheet")).toBeNull();
+        },
+        { timeout: 2000 },
+    );
 });

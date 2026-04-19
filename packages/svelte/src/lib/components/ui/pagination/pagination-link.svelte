@@ -1,12 +1,11 @@
 <script lang="ts">
     import { cn } from "../../../utils";
     import { Button } from "../button";
+    import type { HTMLButtonAttributes } from "svelte/elements";
 
-    type Props = {
+    type Props = HTMLButtonAttributes & {
         isActive?: boolean;
-        class?: string;
-        children?: import("svelte").Snippet;
-        [key: string]: any;
+        href?: string;
     };
 
     let { isActive = false, class: className, children, ...rest }: Props = $props();

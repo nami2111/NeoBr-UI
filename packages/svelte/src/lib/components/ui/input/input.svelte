@@ -40,8 +40,7 @@
 
 <input
     {type}
-    {value}
-    oninput={(e) => (value = (e.target as HTMLInputElement).value)}
+    bind:value
     class={cn(
         "input-brutalist",
         hasError &&

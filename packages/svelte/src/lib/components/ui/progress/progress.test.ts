@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/svelte";
-import { expect, test } from "vitest";
+import { expect, test } from "vite-plus/test";
 import { Progress } from "./index";
 
 test("Progress renders with value", () => {

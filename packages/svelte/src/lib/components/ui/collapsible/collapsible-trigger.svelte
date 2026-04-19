@@ -2,10 +2,10 @@
     import { getCollapsibleState } from "./collapsible.svelte";
     import { cn } from "../../../utils";
 
-    type Props = {
-        class?: string;
+    import type { HTMLButtonAttributes } from "svelte/elements";
+
+    type Props = HTMLButtonAttributes & {
         children?: import("svelte").Snippet;
-        [key: string]: any;
     };
 
     let { class: className, children, ...rest }: Props = $props();

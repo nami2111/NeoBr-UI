@@ -28,7 +28,7 @@
         <div class={cn("relative w-full", className)}>
             <DatePickerPrimitive.Input
                 class={cn(
-                    "input-brutalist focus-within:shadow-brutalist-hover flex h-10 w-full items-center px-3 py-2 transition-all",
+                    "input-brutalist focus-within:shadow-brutalist-hover flex h-10 w-full items-center px-3 transition-all",
                     className,
                 )}
             >
@@ -36,15 +36,17 @@
                     {#each segments as { part, value: v }}
                         <DatePickerPrimitive.Segment
                             {part}
-                            class="focus:bg-primary focus:text-primary-foreground data-[placeholder]:text-muted-foreground rounded-[2px] px-0.5 tabular-nums transition-colors outline-none focus:outline-none"
+                            class="focus:bg-primary focus:text-primary-foreground data-[placeholder]:text-muted-foreground rounded-[2px] tabular-nums transition-colors outline-none focus:outline-none flex items-center justify-center"
                         >
                             {v}
                         </DatePickerPrimitive.Segment>
                     {/each}
                     <DatePickerPrimitive.Trigger
-                        class="text-muted-foreground hover:text-foreground ml-auto cursor-pointer transition-colors outline-none"
+                        class="text-muted-foreground hover:text-foreground ml-auto cursor-pointer transition-colors outline-none flex items-center justify-center"
                     >
-                        <Icon icon={Calendar01Icon} class="h-4 w-4" />
+                        <div class="flex items-center justify-center">
+                            <Icon icon={Calendar01Icon} class="h-5 w-5" />
+                        </div>
                     </DatePickerPrimitive.Trigger>
                 {/snippet}
             </DatePickerPrimitive.Input>

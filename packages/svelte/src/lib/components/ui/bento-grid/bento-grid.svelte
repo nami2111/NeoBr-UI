@@ -11,7 +11,7 @@
 
 <div
     class={cn(
-        "mx-auto grid max-w-7xl grid-cols-1 gap-4 md:auto-rows-[18rem] md:grid-cols-3",
+        "mx-auto grid max-w-7xl grid-cols-1 gap-4 auto-rows-[14rem] md:auto-rows-[18rem] md:grid-cols-3 overflow-x-hidden px-4 md:px-0",
         className,
     )}
     {...rest}

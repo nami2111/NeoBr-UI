@@ -1,5 +1,6 @@
 <script lang="ts">
     import DocPage from "../../../lib/components/DocPage.svelte";
+    import CodeBlock from "../../../lib/components/CodeBlock.svelte";
 </script>
 
 <DocPage title="Installation" description="Set up NeoBr-UI in your project and start building.">
@@ -21,20 +22,8 @@
                 Run the following command in your project root using your preferred package manager:
             </p>
             <div class="space-y-4">
-                <div class="border-foreground bg-muted border-2 p-6">
-                    <p class="text-muted-foreground mb-2 text-xs font-black uppercase">
-                        pnpm (recommended)
-                    </p>
-                    <code class="font-mono text-sm"
-                        >pnpm add @neobr/svelte @neobr/tailwind-preset</code
-                    >
-                </div>
-                <div class="border-foreground bg-muted border-2 p-6">
-                    <p class="text-muted-foreground mb-2 text-xs font-black uppercase">npm</p>
-                    <code class="font-mono text-sm"
-                        >npm install @neobr/svelte @neobr/tailwind-preset</code
-                    >
-                </div>
+                <CodeBlock code="pnpm add @neobr/svelte @neobr/tailwind-preset" />
+                <CodeBlock code="npm install @neobr/svelte @neobr/tailwind-preset" />
             </div>
         </section>
 
@@ -47,19 +36,14 @@
                     >app.css</code
                 >):
             </p>
-            <pre
-                class="border-foreground bg-muted text-foreground overflow-x-auto rounded-none border-2 p-6 font-mono text-sm leading-relaxed">
-<code
-                    >@import "tailwindcss";
+<CodeBlock code={`@import "tailwindcss";
 @import "@neobr/tailwind-preset/style";
 
 /* Optional: customize your design tokens */
-@theme &#123;
+@theme {
   --color-primary: #ffeb3b;
   --color-secondary: #ff5722;
-&#125;</code
-                >
-            </pre>
+}`} />
         </section>
 
         <section class="space-y-6">
@@ -73,33 +57,23 @@
                 or <strong>Outfit</strong>.
             </p>
             <p class="text-sm font-bold italic">Add this to your HTML head or CSS:</p>
-            <pre
-                class="border-foreground bg-muted text-foreground overflow-x-auto rounded-none border-2 p-6 font-mono text-sm leading-relaxed">
-<code
-                    >@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap');
+<CodeBlock code={`@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap');
 
-body &#123;
+body {
   font-family: 'Outfit', sans-serif;
-&#125;</code
-                >
-            </pre>
+}`} />
         </section>
 
         <section class="space-y-6">
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">4. Usage</h2>
             <p class="font-medium">Start using components in your Svelte pages:</p>
-            <pre
-                class="border-foreground bg-muted text-foreground overflow-x-auto rounded-none border-2 p-6 font-mono text-sm leading-relaxed">
-<code
-                    >&lt;script&gt;
-  import &#123; Button, Card &#125; from "@neobr/svelte";
-&lt;/script&gt;
+<CodeBlock code={`<script>
+  import { Button, Card } from "@neobr/svelte";
+</script>
 
-&lt;Card&gt;
-  &lt;Button variant="default"&gt;Hello NeoBr!&lt;/Button&gt;
-&lt;/Card&gt;</code
-                >
-            </pre>
+<Card>
+  <Button variant="default">Hello NeoBr!</Button>
+</Card>`} />
         </section>
     </div>
 </DocPage>
