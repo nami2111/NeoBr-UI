@@ -1,5 +1,13 @@
 # @neobr/svelte
 
+## 1.0.15
+
+### Patch Changes
+
+- replace brutalist prop with flexible radius option
+- Updated dependencies
+  - @neobr/tailwind-preset@1.0.6
+
 ## 1.0.14
 
 ### Patch Changes
