@@ -46,7 +46,7 @@ const buttonVariants = cva(
     },
 );
 
-type Props = HTMLButtonAttributes &
+type Props = (HTMLButtonAttributes | { href?: string; target?: string; rel?: string }) &
     VariantProps<typeof buttonVariants> & {
         /**
          * Button radius style: brutalist (sharp), soft (6px), or rounded (12px).
