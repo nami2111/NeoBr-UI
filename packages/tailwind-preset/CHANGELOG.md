@@ -1,5 +1,11 @@
 # @neobr/tailwind-preset
 
+## 1.1.0
+
+### Minor Changes
+
+- add7337: new SSR safety, scroll lock, z-index tokens, motion utils are new features
+
 ## 1.0.6
 
 ### Patch Changes
