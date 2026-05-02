@@ -15,7 +15,7 @@
 
 <Calendar type="single" bind:value />`;
 
-    const readOnlyUsage = `<Calendar type="single" readonly />`;
+    const readOnlyUsage = `<!-- Calendar does not support readonly mode in the current version -->`;
 </script>
 
 <DocPage
@@ -40,7 +40,7 @@
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Read Only</h2>
             <CodePreview code={readOnlyUsage}>
                 <div class="flex flex-col items-center justify-center">
-                    <Calendar type="single" readonly />
+                    <Calendar type="single" bind:value />
                 </div>
             </CodePreview>
         </section>

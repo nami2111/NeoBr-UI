@@ -1,6 +1,31 @@
 <script lang="ts">
     import DocPage from "../../../lib/components/DocPage.svelte";
     import CodeBlock from "../../../lib/components/CodeBlock.svelte";
+
+    const cssSetup = `@import "tailwindcss";
+@import "@neobr/tailwind-preset/style";
+
+/* Optional: customize your design tokens */
+@theme {
+  --color-primary: #ffeb3b;
+  --color-secondary: #ff5722;
+}`;
+
+    // Use string concatenation to avoid <script> inside template literal
+    const fontSetup = "<" + `link rel="preconnect" href="https://fonts.googleapis.com" />
+<` + `link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<` + `link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+    rel="stylesheet"
+/>`;
+
+    const usageExample = "<" + `script>
+  import { Button, Card } from "@neobr/svelte";
+</` + `script>
+
+<Card>
+  <Button variant="default">Hello NeoBr!</Button>
+</Card>`;
 </script>
 
 <DocPage title="Installation" description="Set up NeoBr-UI in your project and start building.">
@@ -36,14 +61,7 @@
                     >app.css</code
                 >):
             </p>
-<CodeBlock code={`@import "tailwindcss";
-@import "@neobr/tailwind-preset/style";
-
-/* Optional: customize your design tokens */
-@theme {
-  --color-primary: #ffeb3b;
-  --color-secondary: #ff5722;
-}`} />
+            <CodeBlock code={cssSetup} />
         </section>
 
         <section class="space-y-6">
@@ -51,29 +69,17 @@
                 3. Typography Setup
             </h2>
             <p class="font-medium">
-                Neo-Brutalism looks best with geometric sans-serif fonts. We recommend <strong
-                    >Inter</strong
-                >
-                or <strong>Outfit</strong>.
+                Neo-Brutalism uses <strong>JetBrains Mono</strong> as the primary typeface for its
+                technical, monospace aesthetic.
             </p>
-            <p class="text-sm font-bold italic">Add this to your HTML head or CSS:</p>
-<CodeBlock code={`@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap');
-
-body {
-  font-family: 'Outfit', sans-serif;
-}`} />
+            <p class="text-sm font-bold italic">Add this to your app.html head:</p>
+            <CodeBlock code={fontSetup} />
         </section>
 
         <section class="space-y-6">
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">4. Usage</h2>
             <p class="font-medium">Start using components in your Svelte pages:</p>
-<CodeBlock code={`<script>
-  import { Button, Card } from "@neobr/svelte";
-</script>
-
-<Card>
-  <Button variant="default">Hello NeoBr!</Button>
-</Card>`} />
+            <CodeBlock code={usageExample} />
         </section>
     </div>
 </DocPage>
