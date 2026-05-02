@@ -1,5 +1,11 @@
 # @neobr/tailwind-preset
 
+## 1.1.1
+
+### Patch Changes
+
+- Add z-index tokens and window component callbacks
+
 ## 1.1.0
 
 ### Minor Changes
