@@ -14,7 +14,7 @@
     let { content, class: className, position = "top", children, ...rest }: Props = $props();
 
     let visible = $state(false);
-    const tooltipId = `tooltip-${Math.random().toString(36).slice(2, 9)}`;
+    const tooltipId = `tooltip-${crypto.randomUUID()}`;
 
     const positions = {
         top: "-top-2 left-1/2 -translate-x-1/2 -translate-y-full mb-2",
@@ -43,10 +43,11 @@
             id={tooltipId}
             role="tooltip"
             class={cn(
-                "border-foreground bg-foreground text-background shadow-brutalist pointer-events-none absolute z-[100] rounded-brutalist border-2 px-3 py-1.5 text-xs font-bold whitespace-nowrap",
+                "border-foreground bg-foreground text-background shadow-brutalist pointer-events-none absolute rounded-brutalist border-2 px-3 py-1.5 text-xs font-bold whitespace-nowrap",
                 positions[position],
                 className,
             )}
+            style="z-index: var(--z-tooltip)"
             transition:scale={{ duration: 150, start: 0.9 }}
         >
             {content}

@@ -59,6 +59,21 @@
     --radius-brutalist-soft: 6px;
     --radius-brutalist-rounded: 12px;
 
+    /* Z-index scale */
+    --z-dropdown-backdrop: 39;
+    --z-dropdown: 40;
+    --z-modal-backdrop: 49;
+    --z-modal: 50;
+    --z-sheet: 55;
+    --z-popover-backdrop: 59;
+    --z-popover: 60;
+    --z-tooltip: 70;
+    --z-toast: 100;
+
+    /* Transitions */
+    --transition-brutalist: 150ms ease-in-out;
+    --transition-brutalist-slow: 300ms ease-in-out;
+
     /* Typography */
     --font-sans: "JetBrains Mono", monospace;
     --font-mono: "JetBrains Mono", monospace;
@@ -131,6 +146,16 @@
     }
 }
 
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 .dark {
@@ -184,25 +209,29 @@
 
 /* Neo Brutalist Utility Patterns */
 @utility btn-brutalist {
-    @apply border-foreground shadow-brutalist rounded-none cursor-pointer border-2 transition-all;
+    @apply border-foreground shadow-brutalist cursor-pointer border-2 transition-all;
+    border-radius: var(--radius-brutalist);
     @apply hover:shadow-brutalist-hover hover:-translate-y-[2px];
     @apply active:translate-y-[5px] active:shadow-none;
 }
 
 @utility btn-brutalist-soft {
-    @apply border-foreground shadow-brutalist rounded-[6px] cursor-pointer border-2 transition-all;
+    @apply border-foreground shadow-brutalist cursor-pointer border-2 transition-all;
+    border-radius: var(--radius-brutalist-soft);
     @apply hover:shadow-brutalist-hover hover:-translate-y-[2px];
     @apply active:translate-y-[5px] active:shadow-none;
 }
 
 @utility btn-brutalist-rounded {
-    @apply border-foreground shadow-brutalist rounded-[12px] cursor-pointer border-2 transition-all;
+    @apply border-foreground shadow-brutalist cursor-pointer border-2 transition-all;
+    border-radius: var(--radius-brutalist-rounded);
     @apply hover:shadow-brutalist-hover hover:-translate-y-[2px];
     @apply active:translate-y-[5px] active:shadow-none;
 }
 
 @utility container-brutalist {
-    @apply bg-background border-foreground shadow-brutalist rounded-none border-2 p-6;
+    @apply bg-background border-foreground shadow-brutalist border-2 p-6;
+    border-radius: var(--radius-brutalist);
 }
 
 @utility tracking-brutalist {
@@ -210,11 +239,13 @@
 }
 
 @utility card-brutalist {
-    @apply bg-card text-card-foreground border-foreground shadow-brutalist rounded-none border-2;
+    @apply bg-card text-card-foreground border-foreground shadow-brutalist border-2;
+    border-radius: var(--radius-brutalist);
 }
 
 @utility input-brutalist {
-    @apply border-foreground bg-background rounded-[12px] h-10 w-full border-2 px-3 py-2 text-sm font-bold shadow-inner transition-colors;
+    @apply border-foreground bg-background h-10 w-full border-2 px-3 py-2 text-sm font-bold shadow-inner transition-colors;
+    border-radius: var(--radius-brutalist-rounded);
     @apply focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none;
     @apply disabled:cursor-not-allowed disabled:opacity-50;
 }

@@ -13,7 +13,7 @@ test("Sheet toggles visibility", async () => {
     expect(screen.getByText("Test Sheet")).toBeDefined();
     expect(screen.getByText("Sheet Content")).toBeDefined();
 
-    const closeBtn = screen.getByRole("button", { name: /close/i });
+    const closeBtn = screen.getByRole("button", { name: "Close" });
     await fireEvent.click(closeBtn);
 
     // Svelte transition

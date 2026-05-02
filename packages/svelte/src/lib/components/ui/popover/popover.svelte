@@ -1,5 +1,6 @@
 <script lang="ts">
     import { cn } from "../../../utils";
+    import { isBrowser } from "../../../utils/browser";
     import { fade } from "svelte/transition";
 
     type Props = {
@@ -27,7 +28,9 @@
     }
 
     function handleKeydown(e: KeyboardEvent) {
-        if (open && e.key === "Escape") {
+        if (!isBrowser || !open) return;
+
+        if (e.key === "Escape") {
             e.preventDefault();
             close();
         }
@@ -50,14 +53,20 @@
     {#if open}
         <div
             class={cn(
-                "border-foreground bg-background shadow-brutalist rounded-brutalist absolute z-50 mt-2 min-w-[200px] border-2 p-4",
+                "border-foreground bg-background shadow-brutalist rounded-brutalist absolute mt-2 min-w-[200px] border-2 p-4",
                 contentClass,
             )}
+            style="z-index: var(--z-popover)"
             transition:fade={{ duration: 100 }}
             role="dialog"
         >
             {@render children?.()}
         </div>
-        <div class="fixed inset-0 z-40" onclick={close} role="presentation"></div>
+        <div
+            class="fixed inset-0"
+            style="z-index: var(--z-popover-backdrop)"
+            onclick={close}
+            role="presentation"
+        ></div>
     {/if}
 </div>

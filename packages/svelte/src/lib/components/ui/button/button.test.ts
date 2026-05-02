@@ -82,15 +82,14 @@ describe("Button component", () => {
     });
 
     test("applies brutalist styling", () => {
-        render(ButtonTestWrapper, { props: { brutalist: true, childrenText: "Brutalist" } });
+        render(ButtonTestWrapper, { props: { radius: "brutalist", childrenText: "Brutalist" } });
         const button = screen.getByRole("button", { name: /brutalist/i });
-        expect(button).toHaveClass("rounded-brutalist");
+        expect(button).toHaveClass("btn-brutalist");
     });
 
     test("applies non-brutalist styling", () => {
-        render(ButtonTestWrapper, { props: { brutalist: false, childrenText: "Rounded" } });
+        render(ButtonTestWrapper, { props: { radius: "rounded", childrenText: "Rounded" } });
         const button = screen.getByRole("button", { name: /rounded/i });
-        expect(button).not.toHaveClass("rounded-brutalist");
-        expect(button).toHaveClass("rounded-md");
+        expect(button).toHaveClass("btn-brutalist-rounded");
     });
 });

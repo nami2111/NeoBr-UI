@@ -1,5 +1,8 @@
 <script lang="ts">
     import { cn } from "../../../utils";
+    import { isBrowser } from "../../../utils/browser";
+    import { useScrollLock } from "../../../utils/scroll-lock.svelte";
+    import { TRANSITION_BRUTALIST_SLOW } from "../../../utils/motion";
     import { fly, fade } from "svelte/transition";
     import { tick } from "svelte";
 
@@ -24,6 +27,7 @@
 
     let sheetContent = $state<HTMLElement>();
     let previousFocus: HTMLElement | null = null;
+    const { lock: scrollLock, unlock: scrollUnlock } = useScrollLock();
 
     function handleClose() {
         open = false;
@@ -39,7 +43,7 @@
     }
 
     function handleKeydown(e: KeyboardEvent) {
-        if (!open) return;
+        if (!isBrowser || !open) return;
 
         if (e.key === "Escape") {
             e.preventDefault();
@@ -73,7 +77,10 @@
     }
 
     $effect(() => {
+        if (!isBrowser) return;
+
         if (open) {
+            scrollLock();
             previousFocus = document.activeElement as HTMLElement;
             tick().then(() => {
                 if (sheetContent) {
@@ -85,22 +92,25 @@
                     }
                 }
             });
-        } else if (previousFocus) {
-            previousFocus.focus();
-            previousFocus = null;
+        } else {
+            scrollUnlock();
+            if (previousFocus) {
+                previousFocus.focus();
+                previousFocus = null;
+            }
         }
     });
 
     const flyParams = $derived.by(() => {
         switch (side) {
             case "top":
-                return { y: -200, duration: 300 };
+                return { y: -200, ...TRANSITION_BRUTALIST_SLOW };
             case "bottom":
-                return { y: 200, duration: 300 };
+                return { y: 200, ...TRANSITION_BRUTALIST_SLOW };
             case "left":
-                return { x: -200, duration: 300 };
+                return { x: -200, ...TRANSITION_BRUTALIST_SLOW };
             case "right":
-                return { x: 200, duration: 300 };
+                return { x: 200, ...TRANSITION_BRUTALIST_SLOW };
         }
     });
 
@@ -121,23 +131,31 @@
 <svelte:window onkeydown={handleKeydown} />
 
 {#if open}
-    <div class="fixed inset-0 z-50 flex items-center justify-center">
+    <div
+        class="fixed inset-0 flex items-center justify-center"
+        style="z-index: var(--z-sheet)"
+    >
         <!-- Backdrop -->
         <div
             class="bg-foreground/30 fixed inset-0 backdrop-blur-sm transition-opacity"
+            style="z-index: var(--z-sheet)"
             transition:fade={{ duration: 200 }}
             onclick={handleClose}
-            role="presentation"
+            onkeydown={(e) => e.key === "Enter" && handleClose()}
+            role="button"
+            tabindex="-1"
+            aria-label="Close sheet backdrop"
         ></div>
 
         <!-- Sheet Content -->
         <div
             bind:this={sheetContent}
             class={cn(
-                "bg-background shadow-brutalist border-foreground fixed z-50 flex flex-col gap-4 p-6 transition-all outline-none",
+                "bg-background shadow-brutalist border-foreground fixed flex flex-col gap-4 p-6 transition-all outline-none",
                 sideClasses,
                 className,
             )}
+            style="z-index: var(--z-sheet)"
             transition:fly={flyParams}
             role="dialog"
             aria-modal="true"

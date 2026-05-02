@@ -1,3 +1,5 @@
+import { isBrowser } from "../../../utils/browser";
+
 type ToastType = "default" | "success" | "error" | "warning";
 
 export interface ToastOptions {
@@ -19,7 +21,7 @@ class ToastManager {
     }
 
     add(options: ToastOptions) {
-        const id = Math.random().toString(36).substring(2, 9);
+        const id = crypto.randomUUID();
         const toast: ToastItem = {
             id,
             type: "default",
@@ -29,7 +31,7 @@ class ToastManager {
 
         this.#toasts.push(toast);
 
-        if (toast.duration !== Infinity) {
+        if (isBrowser && toast.duration !== Infinity) {
             setTimeout(() => {
                 this.dismiss(id);
             }, toast.duration);

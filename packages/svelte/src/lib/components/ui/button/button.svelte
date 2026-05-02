@@ -41,7 +41,7 @@ const buttonVariants = cva(
         defaultVariants: {
             variant: "default",
             size: "default",
-            radius: "rounded",
+            radius: "brutalist",
         },
     },
 );
@@ -50,7 +50,7 @@ type Props = (HTMLButtonAttributes | { href?: string; target?: string; rel?: str
     VariantProps<typeof buttonVariants> & {
         /**
          * Button radius style: brutalist (sharp), soft (6px), or rounded (12px).
-         * @default "rounded"
+         * @default "brutalist"
          */
         radius?: "brutalist" | "soft" | "rounded";
 
@@ -63,33 +63,23 @@ type Props = (HTMLButtonAttributes | { href?: string; target?: string; rel?: str
          * Content to be rendered inside the button.
          */
         children?: import("svelte").Snippet;
+
+        /**
+         * Additional CSS classes.
+         */
+        class?: string;
+        [key: string]: any;
     };
 
-let props: Props = $props();
-
-// Use $derived to create reactive computed values
-let className = $derived(props.class);
-let variant = $derived(props.variant ?? "default");
-let size = $derived(props.size ?? "default");
-let radius = $derived(props.radius ?? "rounded");
-let href = $derived(props.href);
-let children = $derived(props.children);
-
-// Create reactive rest props by excluding the known props
-let rest = $derived(
-    (() => {
-        const {
-            class: _,
-            variant: __,
-            size: ___,
-            radius: ____,
-            href: _____,
-            children: ______,
-            ...remaining
-        } = props;
-        return remaining;
-    })(),
-);
+let {
+    class: className,
+    variant = "default",
+    size = "default",
+    radius = "brutalist",
+    href,
+    children,
+    ...rest
+}: Props = $props();
 </script>
 
 {#if href}

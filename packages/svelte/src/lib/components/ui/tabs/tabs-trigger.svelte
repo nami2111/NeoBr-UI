@@ -14,7 +14,6 @@
 
     const root = getContext<{
         value: string | undefined;
-        registerPanel: (triggerValue: string) => string;
     }>(TABS_CONTEXT);
 
     if (!root) {

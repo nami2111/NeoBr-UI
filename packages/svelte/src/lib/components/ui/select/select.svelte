@@ -25,7 +25,6 @@
         disabled?: boolean;
 
         children?: import("svelte").Snippet;
-        [key: string]: any;
     };
 
     let {
