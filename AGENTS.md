@@ -180,7 +180,7 @@ All semantic colors should use OKLCH for better responsiveness and consistency.
 
 ### Structural Tokens
 
-- `--radius-brutalist`: **12px** (Standard rounding for buttons/cards)
+- `--radius-brutalist`: **0px** (Standard for buttons/cards — sharp Neo-Brutalist default)
 - `--shadow-brutalist`: **0px 5px 0px 0px** (Centered bottom shadow, no horizontal offset)
 - `--shadow-brutalist-hover`: **0px 8px 0px 0px** (Deepened bottom shadow)
 
@@ -213,7 +213,7 @@ let { value = $bindable(0) } = $props();
 
 - [ ] **Centered Shadows** - Shadows must be `0px` horizontal offset.
 - [ ] **Technical Font** - Ensure `JetBrains Mono` is loaded and applied.
-- [ ] **Consistent Rounding** - Use `rounded-brutalist` (12px).
+- [ ] **Consistent Rounding** - Use `rounded-brutalist` (0px sharp default).
 - [ ] **Shadow Usage** - Don't over-shadow; keep smaller elements like slider handles clean (border-only).
 - [ ] **High Contrast** - Minimum black borders (`border-2` or thicker).
 - [ ] **Micro-Interactions** - Use `cursor-pointer` and subtle `-translate-y-[2px]` on hover.
