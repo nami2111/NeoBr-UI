@@ -99,6 +99,14 @@
                 previousFocus = null;
             }
         }
+
+        return () => {
+            scrollUnlock();
+            if (previousFocus) {
+                previousFocus.focus();
+                previousFocus = null;
+            }
+        };
     });
 
     const flyParams = $derived.by(() => {

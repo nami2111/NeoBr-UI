@@ -16,6 +16,17 @@
     let visible = $state(false);
     const tooltipId = `tooltip-${crypto.randomUUID()}`;
 
+    function close() {
+        visible = false;
+    }
+
+    function handleKeydown(e: KeyboardEvent) {
+        if (e.key === "Escape" && visible) {
+            e.preventDefault();
+            close();
+        }
+    }
+
     const positions = {
         top: "-top-2 left-1/2 -translate-x-1/2 -translate-y-full mb-2",
         bottom: "-bottom-2 left-1/2 -translate-x-1/2 translate-y-full mt-2",
@@ -23,6 +34,8 @@
         right: "top-1/2 -right-2 translate-x-full -translate-y-1/2 ml-2",
     };
 </script>
+
+<svelte:window onkeydown={handleKeydown} />
 
 <div class="relative inline-block">
     <button

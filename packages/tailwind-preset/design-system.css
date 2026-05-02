@@ -58,12 +58,13 @@
     --radius-brutalist: 0px;
     --radius-brutalist-soft: 6px;
     --radius-brutalist-rounded: 12px;
+    --separator-width: 3px;
 
     /* Z-index scale */
-    --z-dropdown-backdrop: 39;
-    --z-dropdown: 40;
-    --z-select-backdrop: 39;
-    --z-select: 40;
+    --z-dropdown-backdrop: 40;
+    --z-dropdown: 41;
+    --z-select-backdrop: 38;
+    --z-select: 39;
     --z-modal-backdrop: 49;
     --z-modal: 50;
     --z-sheet-backdrop: 54;
@@ -145,6 +146,33 @@
         to {
             transform: translateX(0);
             opacity: 1;
+        }
+    }
+
+    @keyframes neobr-tail {
+        0% {
+            opacity: 0;
+        }
+        5% {
+            opacity: 1;
+        }
+        25% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
+    @keyframes marquee-scroll {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(calc(-100% - var(--gap)));
         }
     }
 }
@@ -255,4 +283,16 @@
     border-radius: var(--radius-brutalist-rounded);
     @apply focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none;
     @apply disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+@utility animate-marquee {
+    animation: marquee-scroll var(--duration) linear infinite;
+}
+
+@utility animate-marquee-reverse {
+    animation: marquee-scroll var(--duration) linear infinite reverse;
+}
+
+@utility animate-neobr-tail {
+    animation: neobr-tail 0.8s infinite;
 }

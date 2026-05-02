@@ -35,25 +35,6 @@
         )}
     >
         {@render children?.()}
-        {@render children?.()}
+        <span aria-hidden="true">{@render children?.()}</span>
     </div>
 </div>
-
-<style>
-    @keyframes marquee {
-        from {
-            transform: translateX(0);
-        }
-        to {
-            transform: translateX(calc(-100% - var(--gap)));
-        }
-    }
-
-    :global(.animate-marquee) {
-        animation: marquee var(--duration) linear infinite;
-    }
-
-    :global(.animate-marquee-reverse) {
-        animation: marquee var(--duration) linear infinite reverse;
-    }
-</style>

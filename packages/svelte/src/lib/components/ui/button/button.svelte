@@ -68,7 +68,6 @@ type Props = (HTMLButtonAttributes | { href?: string; target?: string; rel?: str
          * Additional CSS classes.
          */
         class?: string;
-        [key: string]: any;
     };
 
 let {
