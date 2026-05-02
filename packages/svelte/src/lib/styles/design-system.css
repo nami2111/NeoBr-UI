@@ -62,8 +62,11 @@
     /* Z-index scale */
     --z-dropdown-backdrop: 39;
     --z-dropdown: 40;
+    --z-select-backdrop: 39;
+    --z-select: 40;
     --z-modal-backdrop: 49;
     --z-modal: 50;
+    --z-sheet-backdrop: 54;
     --z-sheet: 55;
     --z-popover-backdrop: 59;
     --z-popover: 60;
@@ -240,6 +243,10 @@
 
 @utility card-brutalist {
     @apply bg-card text-card-foreground border-foreground shadow-brutalist border-2;
+    border-radius: var(--radius-brutalist);
+}
+
+@utility rounded-brutalist {
     border-radius: var(--radius-brutalist);
 }
 

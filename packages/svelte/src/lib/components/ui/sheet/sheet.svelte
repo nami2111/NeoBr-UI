@@ -138,7 +138,7 @@
         <!-- Backdrop -->
         <div
             class="bg-foreground/30 fixed inset-0 backdrop-blur-sm transition-opacity"
-            style="z-index: var(--z-sheet)"
+            style="z-index: var(--z-sheet-backdrop)"
             transition:fade={{ duration: 200 }}
             onclick={handleClose}
             onkeydown={(e) => e.key === "Enter" && handleClose()}

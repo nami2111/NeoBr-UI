@@ -53,9 +53,13 @@
         </div>
         <DatePickerPrimitive.Content
             sideOffset={6}
-            class="border-foreground bg-background shadow-brutalist rounded-brutalist z-50 mt-2 border-2 p-4"
+            class="border-foreground bg-background shadow-brutalist rounded-brutalist mt-2 border-2 p-4"
+            style="z-index: var(--z-popover)"
         >
             <DatePickerPrimitive.Calendar>
+                <!-- NOTE: Calendar grid rendering is duplicated between this component and calendar.svelte.
+                     Deduplication requires extracting shared rendering that accepts bits-ui primitives
+                     (DatePicker.Calendar.Grid vs Calendar.Grid) as props while preserving context inheritance. -->
                 {#snippet children({ months, weekdays })}
                     <DatePickerPrimitive.Header class="flex items-center justify-between pb-4">
                         <DatePickerPrimitive.PrevButton
