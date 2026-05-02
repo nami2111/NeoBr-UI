@@ -1,5 +1,11 @@
 # @neobr/tailwind-preset
 
+## 1.1.2
+
+### Patch Changes
+
+- Refactor animations to CSS utilities and add effect cleanup
+
 ## 1.1.1
 
 ### Patch Changes
