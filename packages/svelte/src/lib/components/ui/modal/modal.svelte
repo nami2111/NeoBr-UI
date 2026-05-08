@@ -12,8 +12,13 @@
      * ```
      */
     import { cn } from "../../../utils";
+    import { isBrowser } from "../../../utils/browser";
+    import { useScrollLock } from "../../../utils/scroll-lock.svelte";
+    import { TRANSITION_BRUTALIST_SLOW } from "../../../utils/motion";
     import { fly, fade } from "svelte/transition";
     import { tick } from "svelte";
+    import Icon from "../icon/icon.svelte";
+    import { Cancel01Icon } from "@hugeicons/core-free-icons";
 
     type Props = {
         /**
@@ -52,6 +57,7 @@
 
     let modalContent = $state<HTMLElement>();
     let previousFocus: HTMLElement | null = null;
+    const { lock: scrollLock, unlock: scrollUnlock } = useScrollLock();
 
     const sizeClasses = {
         sm: "min-w-[320px] max-w-sm min-h-[200px] max-h-[80vh]",
@@ -76,7 +82,7 @@
     }
 
     function handleKeydown(e: KeyboardEvent) {
-        if (!open) return;
+        if (!isBrowser || !open) return;
 
         if (e.key === "Escape") {
             e.preventDefault();
@@ -110,7 +116,10 @@
     }
 
     $effect(() => {
+        if (!isBrowser) return;
+
         if (open) {
+            scrollLock();
             previousFocus = document.activeElement as HTMLElement;
             tick().then(() => {
                 if (modalContent) {
@@ -122,10 +131,21 @@
                     }
                 }
             });
-        } else if (previousFocus) {
-            previousFocus.focus();
-            previousFocus = null;
+        } else {
+            scrollUnlock();
+            if (previousFocus) {
+                previousFocus.focus();
+                previousFocus = null;
+            }
         }
+
+        return () => {
+            scrollUnlock();
+            if (previousFocus) {
+                previousFocus.focus();
+                previousFocus = null;
+            }
+        };
     });
 </script>
 
@@ -133,28 +153,33 @@
 
 {#if open}
     <div
-        class="fixed inset-0 z-50 flex items-center justify-center p-4"
+        class="fixed inset-0 flex items-center justify-center p-4"
+        style="z-index: var(--z-modal)"
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? "modal-title" : undefined}
     >
         <!-- Backdrop -->
-        <!-- svelte-ignore a11y_click_events_have_key_events -->
-        <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
             class="bg-foreground/30 fixed inset-0 backdrop-blur-sm"
+            style="z-index: var(--z-modal-backdrop)"
             transition:fade={{ duration: 200 }}
             onclick={handleClose}
+            onkeydown={(e) => e.key === "Enter" && handleClose()}
+            role="button"
+            tabindex="-1"
+            aria-label="Close modal backdrop"
         ></div>
 
         <!-- Modal Content -->
         <div
             bind:this={modalContent}
             class={cn(
-                "card-brutalist relative z-50 w-full overflow-auto p-6 outline-none",
+                "card-brutalist relative w-full overflow-auto p-6 outline-none",
                 sizeClasses[size],
             )}
-            transition:fly={{ y: 20, duration: 300 }}
+            style="z-index: var(--z-modal)"
+            transition:fly={{ y: 20, ...TRANSITION_BRUTALIST_SLOW }}
             tabindex="-1"
         >
             <div class="flex flex-col space-y-2">
@@ -169,18 +194,7 @@
                         onclick={handleClose}
                         aria-label="Close modal"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="3"
-                        >
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
+                        <Icon icon={Cancel01Icon} class="h-4 w-4" />
                     </button>
                 </div>
                 <div class="pt-4">

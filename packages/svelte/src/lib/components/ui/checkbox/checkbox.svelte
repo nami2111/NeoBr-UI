@@ -1,10 +1,9 @@
 <script lang="ts">
     import { scale } from "svelte/transition";
     import { cn } from "../../../utils";
+    import type { HTMLInputAttributes } from "svelte/elements";
 
-    import type { HTMLAttributes } from "svelte/elements";
-
-    type Props = HTMLAttributes<HTMLDivElement> & {
+    type Props = Omit<HTMLInputAttributes, "type"> & {
         checked?: boolean;
         disabled?: boolean;
         id?: string;

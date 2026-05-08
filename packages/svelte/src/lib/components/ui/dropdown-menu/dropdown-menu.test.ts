@@ -45,7 +45,7 @@ describe("DropdownMenu", () => {
 
         // The backdrop is the fixed inset-0 div
         // It's the last child usually or has z-40
-        const backdrop = container.querySelector(".fixed.inset-0.z-40");
+        const backdrop = container.querySelector(".fixed.inset-0[role='presentation']");
         if (!backdrop) throw new Error("Backdrop not found");
 
         await fireEvent.click(backdrop);

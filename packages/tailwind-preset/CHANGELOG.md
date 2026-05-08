@@ -1,5 +1,23 @@
 # @neobr/tailwind-preset
 
+## 1.1.2
+
+### Patch Changes
+
+- Refactor animations to CSS utilities and add effect cleanup
+
+## 1.1.1
+
+### Patch Changes
+
+- Add z-index tokens and window component callbacks
+
+## 1.1.0
+
+### Minor Changes
+
+- add7337: new SSR safety, scroll lock, z-index tokens, motion utils are new features
+
 ## 1.0.6
 
 ### Patch Changes

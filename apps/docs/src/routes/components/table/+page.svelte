@@ -37,6 +37,26 @@
         </TableRow>
     </TableBody>
 </Table>`;
+
+    const footerExample = `<Table>
+    <TableCaption>Monthly revenue breakdown.</TableCaption>
+    <TableHeader>
+        <TableRow>
+            <TableHead>Month</TableHead>
+            <TableHead class="text-right">Revenue</TableHead>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableCell>January</TableCell>
+            <TableCell class="text-right">$12,400</TableCell>
+        </TableRow>
+        <TableRow>
+            <TableCell>February</TableCell>
+            <TableCell class="text-right">$14,200</TableCell>
+        </TableRow>
+    </TableBody>
+</Table>`;
 </script>
 
 <DocPage title="Table" description="A responsive table component for structured data.">
@@ -72,6 +92,31 @@
                             <TableCell><Badge variant="destructive">Unpaid</Badge></TableCell>
                             <TableCell>Bank Transfer</TableCell>
                             <TableCell class="text-right">$350.00</TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </CodePreview>
+        </section>
+
+        <section class="space-y-4">
+            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Simple Data Table</h2>
+            <CodePreview code={footerExample}>
+                <Table>
+                    <TableCaption>Monthly revenue breakdown.</TableCaption>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Month</TableHead>
+                            <TableHead class="text-right">Revenue</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        <TableRow>
+                            <TableCell>January</TableCell>
+                            <TableCell class="text-right">$12,400</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>February</TableCell>
+                            <TableCell class="text-right">$14,200</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>

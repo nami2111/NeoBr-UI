@@ -1,5 +1,32 @@
 # @neobr/svelte
 
+## 1.1.2
+
+### Patch Changes
+
+- Refactor animations to CSS utilities and add effect cleanup
+- Updated dependencies
+  - @neobr/tailwind-preset@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- Add z-index tokens and window component callbacks
+- Updated dependencies
+  - @neobr/tailwind-preset@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- add7337: new SSR safety, scroll lock, z-index tokens, motion utils are new features
+
+### Patch Changes
+
+- Updated dependencies [add7337]
+  - @neobr/tailwind-preset@1.1.0
+
 ## 1.0.15
 
 ### Patch Changes

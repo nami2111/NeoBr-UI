@@ -14,7 +14,18 @@
     let { content, class: className, position = "top", children, ...rest }: Props = $props();
 
     let visible = $state(false);
-    const tooltipId = `tooltip-${Math.random().toString(36).slice(2, 9)}`;
+    const tooltipId = `tooltip-${crypto.randomUUID()}`;
+
+    function close() {
+        visible = false;
+    }
+
+    function handleKeydown(e: KeyboardEvent) {
+        if (e.key === "Escape" && visible) {
+            e.preventDefault();
+            close();
+        }
+    }
 
     const positions = {
         top: "-top-2 left-1/2 -translate-x-1/2 -translate-y-full mb-2",
@@ -23,6 +34,8 @@
         right: "top-1/2 -right-2 translate-x-full -translate-y-1/2 ml-2",
     };
 </script>
+
+<svelte:window onkeydown={handleKeydown} />
 
 <div class="relative inline-block">
     <button
@@ -43,10 +56,11 @@
             id={tooltipId}
             role="tooltip"
             class={cn(
-                "border-foreground bg-foreground text-background shadow-brutalist pointer-events-none absolute z-[100] rounded-brutalist border-2 px-3 py-1.5 text-xs font-bold whitespace-nowrap",
+                "border-foreground bg-foreground text-background shadow-brutalist pointer-events-none absolute rounded-brutalist border-2 px-3 py-1.5 text-xs font-bold whitespace-nowrap",
                 positions[position],
                 className,
             )}
+            style="z-index: var(--z-tooltip)"
             transition:scale={{ duration: 150, start: 0.9 }}
         >
             {content}

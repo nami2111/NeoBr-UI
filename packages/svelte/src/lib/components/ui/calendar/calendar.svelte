@@ -19,6 +19,9 @@
     {...rest as any}
 >
     {#snippet children({ months, weekdays })}
+        <!-- NOTE: Calendar grid rendering is duplicated between this component and date-picker.svelte.
+             Deduplication requires extracting shared rendering that accepts bits-ui primitives
+             (Calendar.Grid vs DatePicker.Calendar.Grid) as props while preserving context inheritance. -->
         <CalendarPrimitive.Header class="flex items-center justify-between pb-4">
             <CalendarPrimitive.PrevButton
                 class="btn-brutalist flex h-8 w-8 items-center justify-center p-0"

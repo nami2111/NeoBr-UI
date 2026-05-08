@@ -44,3 +44,4 @@ export * from "./components/ui/tooltip";
 export * from "./components/ui/window";
 
 export * from "./utils";
+export { isBrowser } from "./utils/browser";

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { cn } from "../../../utils";
+    import { isBrowser } from "../../../utils/browser";
     import { fade } from "svelte/transition";
-    import { tick } from "svelte";
 
     type Props = {
         open?: boolean;
@@ -21,7 +21,7 @@
     }
 
     function handleKeydown(e: KeyboardEvent) {
-        if (!open) return;
+        if (!isBrowser || !open) return;
 
         if (e.key === "Escape") {
             e.preventDefault();
@@ -67,7 +67,8 @@
     {#if open}
         <div
             bind:this={menuContent}
-            class="border-foreground bg-background shadow-brutalist rounded-brutalist absolute right-0 z-50 mt-2 w-56 origin-top-right border-2 focus:outline-none"
+            class="border-foreground bg-background shadow-brutalist rounded-brutalist absolute right-0 mt-2 w-56 origin-top-right border-2 focus:outline-none"
+            style="z-index: var(--z-dropdown)"
             transition:fade={{ duration: 100 }}
             role="menu"
             aria-orientation="vertical"
@@ -76,6 +77,11 @@
                 {@render children?.()}
             </div>
         </div>
-        <div class="fixed inset-0 z-40" onclick={close} role="presentation"></div>
+        <div
+            class="fixed inset-0"
+            style="z-index: var(--z-dropdown-backdrop)"
+            onclick={close}
+            role="presentation"
+        ></div>
     {/if}
 </div>

@@ -78,27 +78,3 @@
         />
     </svg>
 </div>
-
-<style>
-    @keyframes neobr-tail {
-        0% {
-            opacity: 0;
-        }
-        5% {
-            opacity: 1;
-        }
-        25% {
-            opacity: 1;
-        }
-        50% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
-
-    :global(.animate-neobr-tail) {
-        animation: neobr-tail 0.8s infinite;
-    }
-</style>

@@ -1,7 +1,5 @@
 <script lang="ts">
-    import { Button, Badge, Card, CardContent, Input, Form } from "@neobr/svelte";
-    import { BentoGrid, BentoGridItem } from "@neobr/svelte";
-    import { Slider, DatePicker } from "@neobr/svelte";
+    import { Button, Badge, Card, CardContent, Input, Form, BentoGrid, BentoGridItem, Slider, DatePicker } from "@neobr/svelte";
     import { today, getLocalTimeZone } from "@internationalized/date";
     import { onMount } from "svelte";
 
