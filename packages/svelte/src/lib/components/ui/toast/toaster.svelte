@@ -1,7 +1,7 @@
 <script lang="ts">
     import { flip } from "svelte/animate";
     import { fly } from "svelte/transition";
-    import { toast } from "./toast.svelte.js";
+    import { toast } from "./toast-state.svelte.js";
     import Toast from "./toast.svelte";
 </script>
 

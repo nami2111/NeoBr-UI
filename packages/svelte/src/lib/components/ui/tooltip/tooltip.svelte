@@ -14,7 +14,8 @@
     let { content, class: className, position = "top", children, ...rest }: Props = $props();
 
     let visible = $state(false);
-    const tooltipId = `tooltip-${crypto.randomUUID()}`;
+    const tooltipUid = $props.id();
+    const tooltipId = `tooltip-${tooltipUid}`;
 
     function close() {
         visible = false;

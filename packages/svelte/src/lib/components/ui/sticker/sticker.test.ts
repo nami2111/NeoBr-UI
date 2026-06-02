@@ -86,10 +86,10 @@ describe("Sticker component", () => {
         expect(sticker.style.transform).toBe("rotate(15deg)");
     });
 
-    it("applies random rotation by default", () => {
+    it("applies deterministic zero rotation by default", () => {
         const { container } = render(StickerTestWrapper);
         const sticker = container.firstChild as HTMLElement;
-        expect(sticker.style.transform).toMatch(/rotate\(-?\d+deg\)/);
+        expect(sticker.style.transform).toBe("rotate(0deg)");
     });
 
     it("has uppercase text styling", () => {

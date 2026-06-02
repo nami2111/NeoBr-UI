@@ -267,9 +267,19 @@
     },
     "files": [
         "dist",
-        "src",
+        "src/lib",
         "!dist/**/*.test.*",
-        "!dist/**/*.spec.*"
+        "!dist/**/*.spec.*",
+        "!dist/**/*test-wrapper*",
+        "!dist/**/*test-helper*",
+        "!dist/**/*-test.svelte*",
+        "!dist/tests/**",
+        "!src/**/*.test.*",
+        "!src/**/*.spec.*",
+        "!src/tests/**",
+        "!src/**/*test-wrapper*",
+        "!src/**/*test-helper*",
+        "!src/**/*-test.svelte*"
     ],
     "peerDependencies": {
         "svelte": "^4.0.0 || ^5.0.0"

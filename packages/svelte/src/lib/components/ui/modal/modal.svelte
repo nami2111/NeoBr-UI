@@ -57,6 +57,8 @@
 
     let modalContent = $state<HTMLElement>();
     let previousFocus: HTMLElement | null = null;
+    const modalId = $props.id();
+    let titleId = $derived(title ? `modal-title-${modalId}` : undefined);
     const { lock: scrollLock, unlock: scrollUnlock } = useScrollLock();
 
     const sizeClasses = {
@@ -157,7 +159,7 @@
         style="z-index: var(--z-modal)"
         role="dialog"
         aria-modal="true"
-        aria-labelledby={title ? "modal-title" : undefined}
+        aria-labelledby={titleId}
     >
         <!-- Backdrop -->
         <div
@@ -185,7 +187,7 @@
             <div class="flex flex-col space-y-2">
                 <div class="flex items-center justify-between">
                     {#if title}
-                        <h2 id="modal-title" class="text-lg font-bold tracking-tight">
+                        <h2 id={titleId} class="text-lg font-bold tracking-tight">
                             {title}
                         </h2>
                     {/if}

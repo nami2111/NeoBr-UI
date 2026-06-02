@@ -1,5 +1,5 @@
 import { expect, describe, it } from "vite-plus/test";
-import { toast } from "./toast.svelte.js";
+import { toast } from "./toast-state.svelte.js";
 
 describe("Toast manager", () => {
     it("adds a toast and returns an id", () => {

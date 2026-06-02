@@ -6,7 +6,7 @@
 
 - Refactor animations to CSS utilities and add effect cleanup
 - Updated dependencies
-  - @neobr/tailwind-preset@1.1.2
+    - @neobr/tailwind-preset@1.1.2
 
 ## 1.1.1
 
@@ -14,7 +14,7 @@
 
 - Add z-index tokens and window component callbacks
 - Updated dependencies
-  - @neobr/tailwind-preset@1.1.1
+    - @neobr/tailwind-preset@1.1.1
 
 ## 1.1.0
 
@@ -25,7 +25,7 @@
 ### Patch Changes
 
 - Updated dependencies [add7337]
-  - @neobr/tailwind-preset@1.1.0
+    - @neobr/tailwind-preset@1.1.0
 
 ## 1.0.15
 
@@ -33,7 +33,7 @@
 
 - replace brutalist prop with flexible radius option
 - Updated dependencies
-  - @neobr/tailwind-preset@1.0.6
+    - @neobr/tailwind-preset@1.0.6
 
 ## 1.0.14
 
@@ -53,7 +53,7 @@
 
 - Fix critical bugs, improve accessibility, and modernize design system
 - Updated dependencies
-  - @neobr/tailwind-preset@1.0.5
+    - @neobr/tailwind-preset@1.0.5
 
 ## 1.0.11
 
@@ -96,7 +96,7 @@
 ### Patch Changes
 
 - Updated dependencies
-  - @neobr/tailwind-preset@1.0.4
+    - @neobr/tailwind-preset@1.0.4
 
 ## 1.0.4
 
@@ -110,7 +110,7 @@
 
 - Improvements of Critical Accessibility Gaps and Testing Coverage
 - Updated dependencies
-  - @neobr/tailwind-preset@1.0.3
+    - @neobr/tailwind-preset@1.0.3
 
 ## 1.0.2
 
@@ -118,18 +118,17 @@
 
 - Added Command Palette, ScrollArea, Collapsible, and AspectRatio components.
 - Updated dependencies
-  - @neobr/tailwind-preset@1.0.2
+    - @neobr/tailwind-preset@1.0.2
 
 ## 1.0.1
 
 ### Patch Changes
 
 - Initial release of the NeoBr-UI component library and Tailwind preset.
-
-  - Core Svelte 5 components with Neo-Brutalist design.
-  - Tailwind v4 compatible design system and preset.
-  - HugeIcons integration.
-  - Accessible and performant base components.
+    - Core Svelte 5 components with Neo-Brutalist design.
+    - Tailwind v4 compatible design system and preset.
+    - HugeIcons integration.
+    - Accessible and performant base components.
 
 - Updated dependencies
-  - @neobr/tailwind-preset@1.0.1
+    - @neobr/tailwind-preset@1.0.1

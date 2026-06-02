@@ -1,5 +1,5 @@
-import { render, screen, fireEvent } from "@testing-library/svelte";
-import { expect, test, describe, vi } from "vite-plus/test";
+import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
+import { expect, test, describe } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import CommandTestWrapper from "./command-test-wrapper.svelte";
 
@@ -57,8 +57,28 @@ describe("Command component", () => {
         expect(screen.getByText("Suggestions")).toBeInTheDocument();
     });
 
-    test("renders empty state", () => {
+    test("does not render empty state while populated", async () => {
         render(CommandTestWrapper);
-        expect(screen.getByText("No results found.")).toBeInTheDocument();
+        expect(screen.queryByText("No results found.")).not.toBeInTheDocument();
+
+        const input = screen.getByPlaceholderText("Type a command or search...");
+        await fireEvent.input(input, { target: { value: "cal" } });
+
+        await waitFor(() => {
+            expect(screen.getByText("Calendar")).toBeInTheDocument();
+            expect(screen.queryByText("No results found.")).not.toBeInTheDocument();
+        });
+    });
+
+    test("renders empty state only when search has no matches", async () => {
+        render(CommandTestWrapper);
+        const input = screen.getByPlaceholderText("Type a command or search...");
+
+        await fireEvent.input(input, { target: { value: "missing" } });
+
+        await waitFor(() => {
+            expect(screen.queryByText("Calendar")).not.toBeInTheDocument();
+            expect(screen.getByText("No results found.")).toBeInTheDocument();
+        });
     });
 });

@@ -16,7 +16,6 @@
         "src/**/*.ts",
         "src/**/*.js",
         "src/**/*.svelte",
-        "svelte.config.js",
         "vite.config.ts"
     ]
 }

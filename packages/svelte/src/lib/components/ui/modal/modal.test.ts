@@ -89,4 +89,18 @@ describe("Modal Component", () => {
         // Check if focus is within modal
         expect(modal.contains(document.activeElement)).toBe(true);
     });
+
+    it("uses unique title IDs for simultaneous modals", () => {
+        render(ModalTestWrapper, { props: { open: true, title: "First Modal" } });
+        render(ModalTestWrapper, { props: { open: true, title: "Second Modal" } });
+
+        const dialogs = screen.getAllByRole("dialog");
+        const labelledBy = dialogs.map((dialog) => dialog.getAttribute("aria-labelledby"));
+
+        expect(labelledBy[0]).toBeTruthy();
+        expect(labelledBy[1]).toBeTruthy();
+        expect(labelledBy[0]).not.toBe(labelledBy[1]);
+        expect(document.getElementById(labelledBy[0] ?? "")).toBeInTheDocument();
+        expect(document.getElementById(labelledBy[1] ?? "")).toBeInTheDocument();
+    });
 });

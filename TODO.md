@@ -6,14 +6,14 @@ This plan replaces the previous deleted TODO with current findings from source r
 
 ## Current Baseline
 
-- `vp run --filter @neobr/svelte test`: passes, 44 test files / 258 tests.
-- `vp run --filter @neobr/svelte check`: passes with 1 warning about `toast.svelte.ts` generating an overlapping `toast.svelte.js`.
-- `vp run --filter docs check`: passes with 1 generated-file warning for `svelte.config.js`.
+- `vp run --filter @neobr/svelte test`: passes, 44 test files / 261 tests.
+- `vp run --filter @neobr/svelte check`: passes with 0 warnings.
+- `vp run --filter docs check`: passes with 0 warnings.
 - `vp run --filter docs build`: passes.
 - `vp run --filter @neobr/svelte build`: passes.
-- `vp check packages/svelte`: fails because it scans generated `.svelte-kit/__package__` and `dist` artifacts.
-- `vp check packages/svelte/src/lib`: source formatting passes, but test files have 5 unused-import lint warnings.
-- `npm pack --dry-run --json --cache /tmp/neobr-npm-cache`: confirms the package currently ships source tests, test wrappers, and generated test wrapper files.
+- `vp check packages/svelte`: passes.
+- `vp check packages/svelte/src/lib`: passes with 0 warnings.
+- `npm pack --dry-run --json --cache /tmp/neobr-npm-cache`: package file list contains no tests, test wrappers, `.svelte-kit`, or generated test internals.
 
 ## Context Map
 
@@ -28,7 +28,7 @@ This plan replaces the previous deleted TODO with current findings from source r
 
 ## P0 - Fix Confirmed Behavior Bugs
 
-### 1. Command empty state is always rendered
+### 1. Command empty state is always rendered ✅ Done
 
 Evidence:
 - `packages/svelte/src/lib/components/ui/command/command-empty.svelte:10` renders a visible div unconditionally.
@@ -45,7 +45,7 @@ Verification:
 - `vp run --filter @neobr/svelte test -- command`
 - `vp run --filter docs build`
 
-### 2. Tooltip and sticker can hydrate with different markup/styles
+### 2. Tooltip and sticker can hydrate with different markup/styles ✅ Code fixed / ⚠️ SSR hydration tests still optional
 
 Evidence:
 - `tooltip.svelte:17` uses `crypto.randomUUID()` during component setup for an ARIA ID.
@@ -61,7 +61,7 @@ Verification:
 - Add a server-render + hydrate test that fails on ID/style mismatch.
 - `vp run --filter @neobr/svelte test -- tooltip sticker`
 
-### 3. Modal title ID is duplicated across simultaneous modals
+### 3. Modal title ID is duplicated across simultaneous modals ✅ Done
 
 Evidence:
 - `modal.svelte:160` references `"modal-title"`.
@@ -78,7 +78,7 @@ Verification:
 
 ## P1 - Fix Package And Tooling Hygiene
 
-### 4. npm package ships tests and test wrappers
+### 4. npm package ships tests and test wrappers ✅ Package fixed / ⚠️ CI guard still optional
 
 Evidence:
 - `packages/svelte/package.json:268` includes both `dist` and `src`.
@@ -100,7 +100,7 @@ Verification:
 - `vp run --filter @neobr/svelte build`
 - `npm pack --dry-run --json --cache /tmp/neobr-npm-cache`
 
-### 5. Full package check scans generated artifacts and fails
+### 5. Full package check scans generated artifacts and fails ✅ Done
 
 Evidence:
 - `vp check packages/svelte` fails on `.svelte-kit/__package__` and `dist` formatting issues after build.
@@ -115,7 +115,7 @@ Verification:
 - `vp check packages/svelte`
 - `vp check packages/svelte/src/lib`
 
-### 6. Svelte-check warnings point at generated name collisions
+### 6. Svelte-check warnings point at generated name collisions ✅ Done
 
 Evidence:
 - Library check warns that `toast.svelte.ts` would generate `toast.svelte.js` and collide with another input.
@@ -211,7 +211,7 @@ Plan:
 - Prefer design-system z-index tokens in docs app where they represent global layers.
 - Add a smoke test or axe pass for docs layout/mobile menu.
 
-### 12. Clean unused imports in tests
+### 12. Clean unused imports in tests ✅ Done
 
 Evidence:
 - `vp check packages/svelte/src/lib` reports unused imports in several tests (`vi`, `screen`).

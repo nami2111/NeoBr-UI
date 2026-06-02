@@ -14,6 +14,8 @@
 
     const root = getContext<{
         value: string | undefined;
+        getTriggerId: (value: string) => string;
+        getPanelId: (value: string) => string;
     }>(TABS_CONTEXT);
 
     if (!root) {
@@ -21,7 +23,8 @@
     }
 
     let isActive = $derived(root.value === triggerValue);
-    let panelId = $derived(`tabpanel-${triggerValue}`);
+    let triggerId = $derived(root.getTriggerId(triggerValue));
+    let panelId = $derived(root.getPanelId(triggerValue));
 </script>
 
 <button
@@ -37,7 +40,7 @@
     aria-selected={isActive}
     aria-controls={panelId}
     role="tab"
-    id={`trigger-${triggerValue}`}
+    id={triggerId}
     tabindex={isActive ? 0 : -1}
     {...rest}
 >

@@ -21,10 +21,19 @@
     }: Props = $props();
 
     const state = getCommandState();
+    const itemId = $props.id();
 
-    let isVisible = $derived(
-        !state?.search || (value || "").toLowerCase().includes(state.search.toLowerCase()),
-    );
+    let normalizedValue = $derived((value || "").toLowerCase());
+    let normalizedSearch = $derived(state?.search.trim().toLowerCase() ?? "");
+    let isVisible = $derived(!normalizedSearch || normalizedValue.includes(normalizedSearch));
+
+    $effect(() => {
+        state?.upsertItem(itemId, value || "");
+
+        return () => {
+            state?.unregisterItem(itemId);
+        };
+    });
 
     function handleSelect() {
         if (!disabled && value) {

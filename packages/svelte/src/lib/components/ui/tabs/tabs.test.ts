@@ -40,4 +40,26 @@ describe("Tabs", () => {
         expect(trigger).toHaveClass("bg-primary");
         expect(trigger).toHaveClass("text-primary-foreground");
     });
+
+    it("uses unique trigger and panel IDs across tab groups", () => {
+        render(TabsTestWrapper, { props: { value: "tab1" } });
+        render(TabsTestWrapper, { props: { value: "tab1" } });
+
+        const tabs = screen.getAllByRole("tab");
+        const panels = Array.from(document.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+        const ids = [...tabs, ...panels].map((element) => element.id);
+
+        expect(ids).toHaveLength(8);
+        expect(new Set(ids).size).toBe(ids.length);
+
+        for (const tab of tabs) {
+            expect(document.getElementById(tab.getAttribute("aria-controls") ?? "")).toBeTruthy();
+        }
+
+        for (const panel of panels) {
+            expect(
+                document.getElementById(panel.getAttribute("aria-labelledby") ?? ""),
+            ).toBeTruthy();
+        }
+    });
 });

@@ -12,6 +12,6 @@ export default defineConfig({
         tabWidth: 4,
         sortTailwindcss: {},
         sortPackageJson: false,
-        ignorePatterns: [],
+        ignorePatterns: ["**/dist/**", "**/.svelte-kit/**", "**/build/**"],
     },
 });

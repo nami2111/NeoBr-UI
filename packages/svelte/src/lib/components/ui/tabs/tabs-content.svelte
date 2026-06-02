@@ -14,6 +14,8 @@
 
     const root = getContext<{
         value: string | undefined;
+        getTriggerId: (value: string) => string;
+        getPanelId: (value: string) => string;
     }>(TABS_CONTEXT);
 
     if (!root) {
@@ -21,6 +23,8 @@
     }
 
     let isActive = $derived(root.value === contentValue);
+    let triggerId = $derived(root.getTriggerId(contentValue));
+    let panelId = $derived(root.getPanelId(contentValue));
 </script>
 
 <div
@@ -30,8 +34,8 @@
         className,
     )}
     role="tabpanel"
-    aria-labelledby={`trigger-${contentValue}`}
-    id={`tabpanel-${contentValue}`}
+    aria-labelledby={triggerId}
+    id={panelId}
     tabindex="0"
     hidden={!isActive}
     {...rest}
