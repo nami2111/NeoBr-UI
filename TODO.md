@@ -264,7 +264,7 @@ Verification:
 
 ## P4 - Docs And Maintenance Cleanup
 
-### 11. Remove docs a11y suppressions and hard-coded layering where practical
+### 11. Remove docs a11y suppressions and hard-coded layering where practical ✅ Done
 
 Evidence:
 
@@ -276,6 +276,18 @@ Plan:
 - Use a semantic button or add keyboard handling/ARIA to the mobile overlay.
 - Prefer design-system z-index tokens in docs app where they represent global layers.
 - Add a smoke test or axe pass for docs layout/mobile menu.
+
+Completed:
+
+- Replaced the mobile overlay `div` plus Svelte a11y suppressions with an accessible `button` backdrop.
+- Replaced docs layout hard-coded layer classes (`z-[60]`, `z-50`, `z-40`) with design-system z-index CSS variables.
+- Verified the docs layout has no remaining `svelte-ignore` or hard-coded numeric z-index utilities.
+
+Verification:
+
+- `vp run --filter docs check`
+- `vp run --filter docs build`
+- `rg -n "svelte-ignore|z-\\[|z-[0-9]" apps/docs/src/routes/+layout.svelte`
 
 ### 12. Clean unused imports in tests ✅ Done
 
