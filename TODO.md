@@ -239,7 +239,7 @@ Verification:
 - `vp run --filter @neobr/svelte test -- form`
 - `vp run --filter @neobr/svelte check`
 
-### 10. Normalize motion tokens in component transitions
+### 10. Normalize motion tokens in component transitions ✅ Done
 
 Evidence:
 
@@ -250,9 +250,17 @@ Plan:
 - Replace inline transition configs in Checkbox, RadioGroupItem, Tooltip, DropdownMenu, Popover, Modal backdrop, Sheet backdrop, and Collapsible with motion utilities where behavior should be consistent.
 - Keep exceptions documented when a component needs a distinct duration.
 
+Completed:
+
+- Added fast and backdrop motion tokens alongside the existing default/slow tokens.
+- Replaced inline transition durations in Checkbox, RadioGroupItem, Tooltip, DropdownMenu, Popover, Modal backdrop, Sheet backdrop, Collapsible, and Toast animations.
+- Verified no remaining inline `duration: <number>` transition configs in `components/ui`.
+
 Verification:
 
 - `rg -n "transition:.*duration|duration: [0-9]+" packages/svelte/src/lib/components/ui`
+- `vp run --filter @neobr/svelte test -- checkbox radio-group tooltip dropdown-menu popover collapsible modal sheet toast`
+- `vp run --filter @neobr/svelte check`
 
 ## P4 - Docs And Maintenance Cleanup
 

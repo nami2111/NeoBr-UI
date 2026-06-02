@@ -1,6 +1,9 @@
 <script lang="ts">
     import { cn } from "../../../utils";
-    import { TRANSITION_BRUTALIST_SLOW } from "../../../utils/motion";
+    import {
+        TRANSITION_BRUTALIST_BACKDROP,
+        TRANSITION_BRUTALIST_SLOW,
+    } from "../../../utils/motion";
     import { useOverlayController } from "../../../utils/overlay.svelte";
     import { fly, fade } from "svelte/transition";
 
@@ -74,7 +77,7 @@
         <div
             class="bg-foreground/30 fixed inset-0 backdrop-blur-sm transition-opacity"
             style="z-index: var(--z-sheet-backdrop)"
-            transition:fade={{ duration: 200 }}
+            transition:fade={TRANSITION_BRUTALIST_BACKDROP}
             onclick={handleClose}
             onkeydown={(e) => e.key === "Enter" && handleClose()}
             role="button"

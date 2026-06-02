@@ -12,7 +12,10 @@
      * ```
      */
     import { cn } from "../../../utils";
-    import { TRANSITION_BRUTALIST_SLOW } from "../../../utils/motion";
+    import {
+        TRANSITION_BRUTALIST_BACKDROP,
+        TRANSITION_BRUTALIST_SLOW,
+    } from "../../../utils/motion";
     import { useOverlayController } from "../../../utils/overlay.svelte";
     import { fly, fade } from "svelte/transition";
     import Icon from "../icon/icon.svelte";
@@ -92,7 +95,7 @@
         <div
             class="bg-foreground/30 fixed inset-0 backdrop-blur-sm"
             style="z-index: var(--z-modal-backdrop)"
-            transition:fade={{ duration: 200 }}
+            transition:fade={TRANSITION_BRUTALIST_BACKDROP}
             onclick={handleClose}
             onkeydown={(e) => e.key === "Enter" && handleClose()}
             role="button"

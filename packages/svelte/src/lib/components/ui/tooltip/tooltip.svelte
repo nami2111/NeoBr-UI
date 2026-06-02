@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { fade, scale } from "svelte/transition";
+    import { scale } from "svelte/transition";
     import { cn } from "../../../utils";
+    import { TRANSITION_BRUTALIST } from "../../../utils/motion";
 
     import type { HTMLButtonAttributes } from "svelte/elements";
 
@@ -62,7 +63,7 @@
                 className,
             )}
             style="z-index: var(--z-tooltip)"
-            transition:scale={{ duration: 150, start: 0.9 }}
+            transition:scale={{ start: 0.9, ...TRANSITION_BRUTALIST }}
         >
             {content}
         </div>

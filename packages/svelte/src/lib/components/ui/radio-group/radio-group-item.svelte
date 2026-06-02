@@ -2,6 +2,7 @@
     import { getContext } from "svelte";
     import { scale } from "svelte/transition";
     import { cn } from "../../../utils";
+    import { TRANSITION_BRUTALIST } from "../../../utils/motion";
 
     import type { HTMLAttributes } from "svelte/elements";
 
@@ -48,7 +49,7 @@
         )}
     >
         {#if isSelected}
-            <div class="bg-primary h-3 w-3 rounded-full" transition:scale={{ duration: 150 }}></div>
+            <div class="bg-primary h-3 w-3 rounded-full" transition:scale={TRANSITION_BRUTALIST}></div>
         {/if}
     </div>
 </div>

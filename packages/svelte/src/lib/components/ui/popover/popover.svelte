@@ -1,6 +1,7 @@
 <script lang="ts">
     import { cn } from "../../../utils";
     import { isBrowser } from "../../../utils/browser";
+    import { TRANSITION_BRUTALIST_FAST } from "../../../utils/motion";
     import { fade } from "svelte/transition";
 
     type Props = {
@@ -57,7 +58,7 @@
                 contentClass,
             )}
             style="z-index: var(--z-popover)"
-            transition:fade={{ duration: 100 }}
+            transition:fade={TRANSITION_BRUTALIST_FAST}
             role="dialog"
         >
             {@render children?.()}

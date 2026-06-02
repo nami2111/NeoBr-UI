@@ -1,6 +1,10 @@
 <script lang="ts">
     import { flip } from "svelte/animate";
     import { fly } from "svelte/transition";
+    import {
+        TRANSITION_BRUTALIST_BACKDROP,
+        TRANSITION_BRUTALIST_SLOW,
+    } from "../../../utils/motion";
     import { toast } from "./toast-state.svelte.js";
     import Toast from "./toast.svelte";
 </script>
@@ -11,9 +15,9 @@
 >
     {#each toast.toasts as item (item.id)}
         <div
-            animate:flip={{ duration: 300 }}
-            in:fly={{ x: 100, duration: 300 }}
-            out:fly={{ x: 100, duration: 200 }}
+            animate:flip={TRANSITION_BRUTALIST_SLOW}
+            in:fly={{ x: 100, ...TRANSITION_BRUTALIST_SLOW }}
+            out:fly={{ x: 100, ...TRANSITION_BRUTALIST_BACKDROP }}
         >
             <Toast {item} />
         </div>

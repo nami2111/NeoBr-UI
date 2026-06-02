@@ -1,6 +1,7 @@
 <script lang="ts">
     import { cn } from "../../../utils";
     import { isBrowser } from "../../../utils/browser";
+    import { TRANSITION_BRUTALIST_FAST } from "../../../utils/motion";
     import { fade } from "svelte/transition";
 
     type Props = {
@@ -69,7 +70,7 @@
             bind:this={menuContent}
             class="border-foreground bg-background shadow-brutalist rounded-brutalist absolute right-0 mt-2 w-56 origin-top-right border-2 focus:outline-none"
             style="z-index: var(--z-dropdown)"
-            transition:fade={{ duration: 100 }}
+            transition:fade={TRANSITION_BRUTALIST_FAST}
             role="menu"
             aria-orientation="vertical"
         >
