@@ -2,13 +2,18 @@
     import { Select } from "bits-ui";
     import { cn } from "../../../utils";
 
-    type Props = Select.TriggerProps & {
+    type Props = Omit<Select.TriggerProps, "children"> & {
         class?: string;
         placeholder?: string;
-        children?: import("svelte").Snippet;
+        children?: import("svelte").Snippet<[]>;
     };
 
-    let { class: className, placeholder = "Select an option", children, ...rest }: Props = $props();
+    let {
+        class: className,
+        placeholder = "Select an option",
+        children: triggerChildren,
+        ...rest
+    }: Props = $props();
 </script>
 
 <Select.Trigger
@@ -18,13 +23,19 @@
     )}
     {...rest}
 >
-    <span class="pointer-events-none truncate">
-        {#if children}
-            {@render children()}
-        {:else}
-            {placeholder}
-        {/if}
-    </span>
+    <Select.Value class="pointer-events-none truncate">
+        {#snippet children({ selection })}
+            {#if triggerChildren}
+                {@render triggerChildren()}
+            {:else if selection.type === "single" && selection.selected}
+                {selection.selected.label}
+            {:else if selection.type === "multiple" && selection.selected.length > 0}
+                {selection.selected.map((item) => item.label).join(", ")}
+            {:else}
+                {placeholder}
+            {/if}
+        {/snippet}
+    </Select.Value>
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"

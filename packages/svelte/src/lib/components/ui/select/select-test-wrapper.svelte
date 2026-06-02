@@ -14,11 +14,11 @@
     let { value = $bindable(), type = "single", disabled = false, items = [] }: Props = $props();
 </script>
 
-<Select bind:value {type} {disabled}>
+<Select bind:value {type} {disabled} {items}>
     <SelectTrigger placeholder="Select an option" />
     <SelectContent>
-        {#each items as item}
-            <SelectItem value={item.value}>{item.label}</SelectItem>
+        {#each items as item (item.value)}
+            <SelectItem value={item.value} label={item.label}>{item.label}</SelectItem>
         {/each}
     </SelectContent>
 </Select>

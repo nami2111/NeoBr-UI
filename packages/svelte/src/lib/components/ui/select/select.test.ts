@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/svelte";
+import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
 import { expect, test, describe } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import SelectTestWrapper from "./select-test-wrapper.svelte";
@@ -9,6 +9,15 @@ describe("Select component", () => {
         { value: "option2", label: "Option 2" },
         { value: "option3", label: "Option 3" },
     ];
+
+    async function openSelect(trigger: HTMLElement) {
+        await fireEvent.pointerDown(trigger, {
+            button: 0,
+            ctrlKey: false,
+            pointerId: 1,
+            pointerType: "mouse",
+        });
+    }
 
     test("should have no accessibility violations", async () => {
         const { container } = render(SelectTestWrapper, { props: { items: testItems } });
@@ -23,15 +32,11 @@ describe("Select component", () => {
         expect(trigger).toHaveTextContent("Select an option");
     });
 
-    /*
-    TODO: Interaction tests fail in JSDOM with bits-ui currently. 
-    Likely requires user-event or specific pointer event handling not fully supported in simple JSDOM setup without careful configuration.
-    
-    test("opens dropdown when trigger is clicked", async () => {
+    test("opens dropdown from pointer interaction", async () => {
         render(SelectTestWrapper, { props: { items: testItems } });
         const trigger = screen.getByRole("button");
 
-        await fireEvent.click(trigger);
+        await openSelect(trigger);
 
         await waitFor(() => {
             expect(screen.getByText("Option 1")).toBeInTheDocument();
@@ -40,26 +45,19 @@ describe("Select component", () => {
         });
     });
 
-    test("selects an option when clicked", async () => {
-        const { component } = render(SelectTestWrapper, { props: { items: testItems } });
+    test("selects an option from pointer interaction", async () => {
+        render(SelectTestWrapper, { props: { items: testItems } });
         const trigger = screen.getByRole("button");
 
-        await fireEvent.click(trigger);
+        await openSelect(trigger);
+        const option1 = await screen.findByText("Option 1");
 
-        await waitFor(() => {
-            const option1 = screen.getByText("Option 1");
-            expect(option1).toBeInTheDocument();
-        });
+        await fireEvent.pointerUp(option1, { button: 0, pointerId: 1, pointerType: "mouse" });
 
-        const option1 = screen.getByText("Option 1");
-        await fireEvent.click(option1);
-
-        // Check if value is updated (you may need to adjust based on actual implementation)
         await waitFor(() => {
             expect(trigger).toHaveTextContent("Option 1");
         });
     });
-    */
 
     test("is disabled when disabled prop is true", () => {
         render(SelectTestWrapper, { props: { items: testItems, disabled: true } });
@@ -67,18 +65,16 @@ describe("Select component", () => {
         expect(trigger).toBeDisabled();
     });
 
-    /*
     test("supports single selection mode", async () => {
         render(SelectTestWrapper, { props: { items: testItems, type: "single" } });
         const trigger = screen.getByRole("button");
 
-        await fireEvent.click(trigger);
+        await openSelect(trigger);
 
         await waitFor(() => {
             expect(screen.getByText("Option 1")).toBeInTheDocument();
         });
     });
-    */
 
     test("displays placeholder when no value selected", () => {
         render(SelectTestWrapper, { props: { items: testItems } });
@@ -86,25 +82,19 @@ describe("Select component", () => {
         expect(trigger).toHaveTextContent("Select an option");
     });
 
-    /*
-    test("closes dropdown when clicking outside", async () => {
-        const { container } = render(SelectTestWrapper, { props: { items: testItems } });
+    test("closes dropdown from Escape key", async () => {
+        render(SelectTestWrapper, { props: { items: testItems } });
         const trigger = screen.getByRole("button");
 
-        await fireEvent.click(trigger);
+        await openSelect(trigger);
+        expect(await screen.findByText("Option 1")).toBeInTheDocument();
+
+        await fireEvent.keyDown(trigger, { key: "Escape" });
 
         await waitFor(() => {
-            expect(screen.getByText("Option 1")).toBeInTheDocument();
+            expect(screen.queryByText("Option 1")).not.toBeInTheDocument();
         });
-
-        // Click outside
-        await fireEvent.click(container);
-
-        await waitFor(() => {
-            expect(screen.queryByText("Option 1")).not.toBeVisible();
-        }, { timeout: 1000 });
     });
-    */
 
     test("applies custom className to trigger", () => {
         render(SelectTestWrapper, { props: { items: testItems } });
@@ -113,12 +103,10 @@ describe("Select component", () => {
         expect(trigger).toHaveClass("shadow-brutalist");
     });
 
-    /*
-    test("handles keyboard navigation", async () => {
+    test("opens dropdown from keyboard interaction", async () => {
         render(SelectTestWrapper, { props: { items: testItems } });
         const trigger = screen.getByRole("button");
 
-        // Open with Enter key
         trigger.focus();
         await fireEvent.keyDown(trigger, { key: "Enter" });
 
@@ -126,5 +114,4 @@ describe("Select component", () => {
             expect(screen.getByText("Option 1")).toBeInTheDocument();
         });
     });
-    */
 });

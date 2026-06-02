@@ -6,7 +6,7 @@ This is a new audit after the previous TODO was completed and committed. It focu
 
 ## Current Baseline
 
-- `vp run --filter @neobr/svelte test`: passes, 44 test files / 278 tests.
+- `vp run --filter @neobr/svelte test`: passes, 44 test files / 283 tests.
 - `vp run --filter @neobr/svelte check`: passes with 0 warnings.
 - `vp run --filter @neobr/svelte build`: passes.
 - `vp run --filter @neobr/svelte pack:check`: passes, package file list clean.
@@ -21,7 +21,7 @@ This is a new audit after the previous TODO was completed and committed. It focu
 | Remaining ad hoc context       | `tabs/*`, `radio-group/*`                                                                              | ✅ Done: Tabs and RadioGroup now use typed `createContext` modules with misuse tests.                      |
 | Public API typing              | `button.svelte`, `icon.svelte`, `input.svelte`, `accordion.svelte`, `calendar.svelte`, `select.svelte` | ✅ Done: public component sources no longer use broad `any`; Bits UI wrappers use constrained casts.       |
 | Bits UI wrappers               | `accordion.svelte`, `calendar.svelte`, `select.svelte`, `types/bits-ui-compat.ts`                      | ✅ Done: wrappers keep union-mode API while avoiding broad `any`; deeper overload design remains optional. |
-| Select test coverage           | `select.test.ts`, `select-test-wrapper.svelte`                                                         | Interaction tests are commented out, leaving open/select/keyboard behavior under-tested.                   |
+| Select test coverage           | `select.test.ts`, `select-test-wrapper.svelte`                                                         | ✅ Done: restored JSDOM-supported open/select/Escape/keyboard interaction coverage.                        |
 | Overlay internals              | `utils/overlay.svelte.ts`, `modal.svelte`, `sheet.svelte`, `dropdown-menu.svelte`                      | Autofixer repeatedly flags `bind:this` and complex `$effect` cleanup patterns.                             |
 | SvelteKit package warning      | `packages/svelte/tsconfig.json`, `svelte.config.js`                                                    | Checks/builds pass but print recurring `tsconfig.json should extend ./.svelte-kit/tsconfig.json` warnings. |
 | Calendar rendering duplication | `calendar.svelte`, `date-picker.svelte`                                                                | Calendar grid rendering is duplicated and already documented inline.                                       |
@@ -98,23 +98,23 @@ Verification:
 
 ## P2 - Test Coverage And Tooling Hygiene
 
-### 4. Restore Select interaction tests
+### 4. Restore Select interaction tests ✅ Done
 
 Evidence:
 
-- `select/select.test.ts` has a large commented-out block with `TODO: Interaction tests fail in JSDOM with bits-ui currently`.
-- Current Select tests only cover closed/default/disabled/placeholder/class behavior.
+- `select/select.test.ts` had a large commented-out block with `TODO: Interaction tests fail in JSDOM with bits-ui currently`.
+- Current Select tests only covered closed/default/disabled/placeholder/class behavior.
 
 Plan:
 
-- Try `@testing-library/user-event` or more complete pointer/keyboard event setup for Bits UI interactions.
-- If JSDOM remains unsuitable, add a small browser-level test harness or document that Select interaction coverage is deferred to e2e.
-- Cover open, select option, close on outside click, and keyboard navigation.
+- Added a pointer-capture polyfill for Bits UI pointer interactions in JSDOM.
+- Restored JSDOM-supported interaction tests for pointer open, pointer select, single mode open, Escape close, and keyboard open.
+- Fixed selected-label rendering by using `Select.Value`, passing item labels, and forwarding `items` into the root wrapper. Outside-click dismissal still needs browser/e2e coverage because Bits UI's dismissible-layer outside interaction does not close reliably under this JSDOM setup.
 
 Verification:
 
-- `vp run --filter @neobr/svelte test -- select`
-- Optional browser/e2e command if introduced.
+- `vp run --filter @neobr/svelte test -- select` ✅ 44 files / 283 tests
+- Browser/e2e outside-click coverage remains optional future work.
 
 ### 5. Reduce recurring SvelteKit tsconfig warning noise
 
