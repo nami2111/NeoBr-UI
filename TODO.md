@@ -6,7 +6,7 @@ This plan replaces the previous deleted TODO with current findings from source r
 
 ## Current Baseline
 
-- `vp run --filter @neobr/svelte test`: passes, 44 test files / 265 tests.
+- `vp run --filter @neobr/svelte test`: passes, 44 test files / 268 tests.
 - `vp run --filter @neobr/svelte check`: passes with 0 warnings.
 - `vp run --filter docs check`: passes with 0 warnings.
 - `vp run --filter docs build`: passes.
@@ -209,7 +209,7 @@ Verification:
 
 ## P3 - Tighten Public Utility Interfaces
 
-### 9. Harden `createFormState`
+### 9. Harden `createFormState` ✅ Done
 
 Evidence:
 
@@ -224,9 +224,20 @@ Plan:
 - Add unit tests for validation timing, reset isolation, async submit failure, nested errors, default values, and `validateOnChange`/`validateOnBlur`.
 - Decide whether empty-string defaults are always correct, especially for number/boolean/date fields.
 
+Completed:
+
+- Constrained `createFormState` to `z.ZodObject<z.ZodRawShape>` and removed `any` usage.
+- Centralized field-name/error/touched typing.
+- Cloned initial values for setup/reset so nested values do not share references.
+- Cloned submitted values before passing them to `onSubmit`.
+- Added `submitError` state and hardened async submit failures so `isSubmitting` always clears without unhandled submit rejections.
+- Kept the existing empty-string default for missing fields as the current bindable text-input behavior.
+- Added tests for validate-on-change, nested error reporting, reset isolation, submit cloning, and async submit failure cleanup.
+
 Verification:
 
 - `vp run --filter @neobr/svelte test -- form`
+- `vp run --filter @neobr/svelte check`
 
 ### 10. Normalize motion tokens in component transitions
 

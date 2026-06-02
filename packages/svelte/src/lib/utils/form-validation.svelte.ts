@@ -6,19 +6,26 @@
  */
 import { z } from "zod";
 
-export type FormState<T extends z.ZodTypeAny> = {
-    values: z.infer<T>;
-    errors: Partial<Record<keyof z.infer<T>, string>>;
-    touched: Partial<Record<keyof z.infer<T>, boolean>>;
+type FormSchema = z.ZodObject<z.ZodRawShape>;
+type FormValues<T extends FormSchema> = z.infer<T>;
+type FormFieldName<T extends FormSchema> = Extract<keyof FormValues<T>, string>;
+type FormFieldErrors<T extends FormSchema> = Partial<Record<FormFieldName<T>, string>>;
+type FormTouched<T extends FormSchema> = Partial<Record<FormFieldName<T>, boolean>>;
+
+export type FormState<T extends FormSchema> = {
+    values: FormValues<T>;
+    errors: FormFieldErrors<T>;
+    touched: FormTouched<T>;
     isValid: boolean;
     isSubmitting: boolean;
     isDirty: boolean;
+    submitError: unknown;
 };
 
-export type FormOptions<T extends z.ZodTypeAny> = {
+export type FormOptions<T extends FormSchema> = {
     schema: T;
-    initialValues?: Partial<z.infer<T>>;
-    onSubmit: (values: z.infer<T>) => void | Promise<void>;
+    initialValues?: Partial<FormValues<T>>;
+    onSubmit: (values: FormValues<T>) => void | Promise<void>;
     validateOnChange?: boolean;
     validateOnBlur?: boolean;
 };
@@ -43,19 +50,9 @@ export type FormOptions<T extends z.ZodTypeAny> = {
  *     }
  *   });
  * </script>
- *
- * <form onsubmit={form.handleSubmit}>
- *   <FormItem>
- *     <FormLabel>Email</FormLabel>
- *     <Input bind:value={form.values.email} onblur={() => form.handleBlur("email")} />
- *     {#if form.errors.email}
- *       <FormMessage error>{form.errors.email}</FormMessage>
- *     {/if}
- *   </FormItem>
- * </form>
  * ```
  */
-export function createFormState<T extends z.ZodObject>(options: FormOptions<T>) {
+export function createFormState<T extends FormSchema>(options: FormOptions<T>) {
     const {
         schema,
         initialValues = {},
@@ -64,70 +61,65 @@ export function createFormState<T extends z.ZodObject>(options: FormOptions<T>) 
         validateOnBlur = true,
     } = options;
 
-    // Initialize values with initialValues or empty strings for all fields in the schema
-    // This avoids "props_invalid_value" error when binding undefined to components with fallbacks
-    const initialData = { ...(initialValues as any) };
-    const shape = (schema as any).shape || {};
-    for (const key in shape) {
-        if (initialData[key] === undefined) {
-            initialData[key] = "";
-        }
-    }
+    const shape = schema.shape;
+    const fieldNames = Object.keys(shape) as FormFieldName<T>[];
+    const createInitialValues = () => {
+        const next = cloneValue(initialValues) as Partial<FormValues<T>> & Record<string, unknown>;
+        const nextByKey = next as Record<string, unknown>;
 
-    // Initialize state with runes
-    let values = $state<z.infer<T>>(initialData as z.infer<T>);
-    let errors = $state<Partial<Record<keyof z.infer<T>, string>>>({});
-    let touched = $state<Partial<Record<keyof z.infer<T>, boolean>>>({});
+        // Keep current ergonomic default for bindable text inputs while avoiding shared refs.
+        for (const key of fieldNames) {
+            if (nextByKey[key] === undefined) nextByKey[key] = "";
+        }
+
+        return next as FormValues<T>;
+    };
+
+    let values = $state<FormValues<T>>(createInitialValues());
+    let errors = $state<FormFieldErrors<T>>({});
+    let touched = $state<FormTouched<T>>({});
     let isSubmitting = $state(false);
     let isDirty = $state(false);
+    let submitError = $state<unknown>(null);
 
-    // Derived state
     let isValid = $derived(Object.keys(errors).length === 0);
 
-    /**
-     * Validates a single field by name
-     */
-    function validateField(name: keyof z.infer<T>): string | null {
+    function validateField(name: FormFieldName<T>): string | null {
         try {
-            const fieldSchema = (schema.shape as any)?.[name as string];
-            if (fieldSchema) {
-                fieldSchema.parse(values[name]);
-            }
+            const fieldSchema = shape[name] as z.ZodType | undefined;
+            if (fieldSchema) fieldSchema.parse(values[name]);
             return null;
         } catch (error) {
             if (error instanceof z.ZodError) {
                 return error.issues[0]?.message || "Invalid value";
             }
+
             return null;
         }
     }
 
-    /**
-     * Validates all fields in the form
-     */
     function validateAll(): boolean {
         const result = schema.safeParse(values);
 
         if (result.success) {
             errors = {};
             return true;
-        } else {
-            const newErrors: Partial<Record<keyof z.infer<T>, string>> = {};
-            for (const error of result.error.issues) {
-                const path = error.path[0] as keyof z.infer<T>;
-                if (!newErrors[path]) {
-                    newErrors[path] = error.message;
-                }
-            }
-            errors = newErrors;
-            return false;
         }
+
+        const newErrors: FormFieldErrors<T> = {};
+        for (const issue of result.error.issues) {
+            const path = issue.path[0];
+            if (typeof path !== "string") continue;
+
+            const field = path as FormFieldName<T>;
+            if (!newErrors[field]) newErrors[field] = issue.message;
+        }
+
+        errors = newErrors;
+        return false;
     }
 
-    /**
-     * Handles field blur event
-     */
-    function handleBlur(name: keyof z.infer<T>): void {
+    function handleBlur(name: FormFieldName<T>): void {
         touched[name] = true;
 
         if (validateOnBlur) {
@@ -140,14 +132,11 @@ export function createFormState<T extends z.ZodObject>(options: FormOptions<T>) 
         }
     }
 
-    /**
-     * Handles input change event
-     */
-    function handleChange(name: keyof z.infer<T>, value: unknown): void {
-        values[name] = value as z.infer<T>[keyof z.infer<T>];
+    function handleChange(name: FormFieldName<T>, value: FormValues<T>[FormFieldName<T>]): void {
+        values[name] = value;
         isDirty = true;
 
-        if (validateOnChange && touched[name]) {
+        if (validateOnChange) {
             const error = validateField(name);
             if (error) {
                 errors[name] = error;
@@ -157,68 +146,53 @@ export function createFormState<T extends z.ZodObject>(options: FormOptions<T>) 
         }
     }
 
-    /**
-     * Sets a field value programmatically
-     */
-    function setFieldValue(name: keyof z.infer<T>, value: z.infer<T>[keyof z.infer<T>]): void {
+    function setFieldValue(name: FormFieldName<T>, value: FormValues<T>[FormFieldName<T>]): void {
         values[name] = value;
         isDirty = true;
     }
 
-    /**
-     * Sets a field error programmatically
-     */
-    function setFieldError(name: keyof z.infer<T>, error: string): void {
+    function setFieldError(name: FormFieldName<T>, error: string): void {
         errors[name] = error;
     }
 
-    /**
-     * Clears a field error
-     */
-    function clearFieldError(name: keyof z.infer<T>): void {
+    function clearFieldError(name: FormFieldName<T>): void {
         delete errors[name];
     }
 
-    /**
-     * Resets the form to initial values
-     */
     function reset(): void {
-        values = initialData as z.infer<T>;
+        values = createInitialValues();
         errors = {};
         touched = {};
         isSubmitting = false;
         isDirty = false;
+        submitError = null;
     }
 
-    /**
-     * Form submit handler
-     */
     async function handleSubmit(event: Event): Promise<void> {
         event.preventDefault();
 
         isSubmitting = true;
+        submitError = null;
 
-        // Mark all fields as touched
-        const allFields = Object.keys(schema.shape || {}) as (keyof z.infer<T>)[];
-        for (const field of allFields) {
+        for (const field of fieldNames) {
             touched[field] = true;
         }
 
-        // Validate all fields
         if (!validateAll()) {
             isSubmitting = false;
             return;
         }
 
         try {
-            await onSubmit(values);
+            await onSubmit(cloneValue(values));
+        } catch (error) {
+            submitError = error;
         } finally {
             isSubmitting = false;
         }
     }
 
     return {
-        // State
         get values() {
             return values;
         },
@@ -237,8 +211,9 @@ export function createFormState<T extends z.ZodObject>(options: FormOptions<T>) 
         get isDirty() {
             return isDirty;
         },
-
-        // Methods
+        get submitError() {
+            return submitError;
+        },
         handleBlur,
         handleChange,
         handleSubmit,
@@ -249,6 +224,16 @@ export function createFormState<T extends z.ZodObject>(options: FormOptions<T>) 
         validateAll,
         reset,
     };
+}
+
+function cloneValue<T>(value: T): T {
+    try {
+        if (typeof structuredClone === "function") return structuredClone(value);
+    } catch {
+        // Svelte proxies cannot be cloned structurally; fall back to JSON for plain data.
+    }
+
+    return JSON.parse(JSON.stringify(value)) as T;
 }
 
 // Re-export zod for convenience

@@ -1,7 +1,8 @@
-import { render, screen } from "@testing-library/svelte";
-import { expect, test, describe } from "vite-plus/test";
+import { fireEvent, render, screen, waitFor } from "@testing-library/svelte";
+import { expect, test, describe, vi } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import FormTestWrapper from "./form-test-wrapper.svelte";
+import FormStateTestWrapper from "./form-state-test-wrapper.svelte";
 
 describe("Form system", () => {
     test("should have no accessibility violations", async () => {
@@ -60,5 +61,63 @@ describe("Form system", () => {
         });
 
         expect(screen.queryByText("Invalid username")).not.toBeInTheDocument();
+    });
+});
+
+describe("createFormState", () => {
+    test("validates changes and nested field errors", async () => {
+        render(FormStateTestWrapper);
+
+        await fireEvent.click(screen.getByText("Invalid Email"));
+        expect(screen.getByTestId("email-error")).toHaveTextContent("Invalid email");
+        expect(screen.getByTestId("is-dirty")).toHaveTextContent("true");
+        expect(screen.getByTestId("is-valid")).toHaveTextContent("false");
+
+        await fireEvent.click(screen.getByText("Invalid Profile"));
+        await fireEvent.click(screen.getByText("Validate All"));
+        expect(screen.getByTestId("profile-error")).toHaveTextContent("Name is too short");
+    });
+
+    test("reset restores cloned initial values without sharing references", async () => {
+        render(FormStateTestWrapper);
+
+        await fireEvent.click(screen.getByText("Mutate Profile"));
+        expect(screen.getByTestId("profile-name")).toHaveTextContent("Mutated");
+        expect(screen.getByTestId("initial-profile-name")).toHaveTextContent("Neo");
+
+        await fireEvent.click(screen.getByText("Reset"));
+        expect(screen.getByTestId("profile-name")).toHaveTextContent("Neo");
+        expect(screen.getByTestId("is-dirty")).toHaveTextContent("false");
+        expect(screen.getByTestId("email-error")).toHaveTextContent("");
+    });
+
+    test("submits cloned valid values and clears submitting after async failure", async () => {
+        const onSubmit = vi.fn(async (_values: unknown) => {
+            await Promise.resolve();
+            throw new Error("submit failed");
+        });
+
+        render(FormStateTestWrapper, { props: { onSubmit } });
+        await fireEvent.click(screen.getByText("Submit"));
+
+        await waitFor(() => {
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+        });
+        await waitFor(() => {
+            expect(screen.getByTestId("is-submitting")).toHaveTextContent("false");
+        });
+        expect(screen.getByTestId("submit-error")).toHaveTextContent("submit failed");
+
+        const submittedValues = onSubmit.mock.calls[0]?.[0] as unknown as {
+            email: string;
+            profile: { name: string };
+        };
+        expect(submittedValues).toEqual({
+            email: "neo@example.com",
+            profile: { name: "Neo" },
+        });
+
+        submittedValues.profile.name = "Changed by submit handler";
+        expect(screen.getByTestId("profile-name")).toHaveTextContent("Neo");
     });
 });
