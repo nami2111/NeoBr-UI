@@ -1,10 +1,10 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
+import { render as renderClient, screen, fireEvent, waitFor } from "@testing-library/svelte";
 import { describe, it, expect } from "vite-plus/test";
 import Tooltip from "./tooltip.svelte";
 
 describe("Tooltip", () => {
     it("shows content on mouse enter and hides on mouse leave", async () => {
-        render(Tooltip, { content: "Helpful info" });
+        renderClient(Tooltip, { content: "Helpful info" });
 
         const trigger = screen.getByRole("button");
         expect(screen.queryByText("Helpful info")).toBeNull();
@@ -19,5 +19,15 @@ describe("Tooltip", () => {
             },
             { timeout: 2000 },
         );
+    });
+
+    it("uses a stable described-by relationship when initially open", () => {
+        renderClient(Tooltip, { content: "Initial info", open: true });
+
+        const trigger = screen.getByRole("button");
+        const tooltip = screen.getByRole("tooltip");
+
+        expect(tooltip.id).toBeTruthy();
+        expect(trigger).toHaveAttribute("aria-describedby", tooltip.id);
     });
 });

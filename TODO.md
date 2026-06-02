@@ -6,7 +6,7 @@ This plan replaces the previous deleted TODO with current findings from source r
 
 ## Current Baseline
 
-- `vp run --filter @neobr/svelte test`: passes, 44 test files / 268 tests.
+- `vp run --filter @neobr/svelte test`: passes, 44 test files / 269 tests.
 - `vp run --filter @neobr/svelte check`: passes with 0 warnings.
 - `vp run --filter docs check`: passes with 0 warnings.
 - `vp run --filter docs build`: passes.
@@ -48,7 +48,7 @@ Verification:
 - `vp run --filter @neobr/svelte test -- command`
 - `vp run --filter docs build`
 
-### 2. Tooltip and sticker can hydrate with different markup/styles ✅ Code fixed / ⚠️ SSR hydration tests still optional
+### 2. Tooltip and sticker can hydrate with different markup/styles ✅ Code fixed / ⚠️ dedicated SSR harness still optional
 
 Evidence:
 
@@ -62,10 +62,17 @@ Plan:
 - Make `Sticker` deterministic by default. Prefer `rotation={0}` or derive a stable pseudo-random rotation from `$props.id()` only if the visual jitter is worth preserving.
 - Add SSR/hydration tests for Tooltip and Sticker, not just JSDOM interaction tests.
 
+Completed:
+
+- Replaced non-deterministic setup values in Tooltip and Sticker.
+- Added a bindable `open` prop to Tooltip so initially visible tooltips can be rendered deterministically.
+- Added a regression test that verifies the initially open Tooltip keeps a stable `aria-describedby` ↔ tooltip ID relationship.
+- Kept Sticker's deterministic default rotation test.
+
 Verification:
 
-- Add a server-render + hydrate test that fails on ID/style mismatch.
 - `vp run --filter @neobr/svelte test -- tooltip sticker`
+- `vp run --filter @neobr/svelte check`
 
 ### 3. Modal title ID is duplicated across simultaneous modals ✅ Done
 

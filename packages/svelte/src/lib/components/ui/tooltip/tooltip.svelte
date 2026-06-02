@@ -9,21 +9,27 @@
         content: string;
         class?: string;
         position?: "top" | "bottom" | "left" | "right";
+        open?: boolean;
         children?: import("svelte").Snippet;
     };
 
-    let { content, class: className, position = "top", children, ...rest }: Props = $props();
-
-    let visible = $state(false);
+    let {
+        content,
+        class: className,
+        position = "top",
+        open = $bindable(false),
+        children,
+        ...rest
+    }: Props = $props();
     const tooltipUid = $props.id();
     const tooltipId = `tooltip-${tooltipUid}`;
 
     function close() {
-        visible = false;
+        open = false;
     }
 
     function handleKeydown(e: KeyboardEvent) {
-        if (e.key === "Escape" && visible) {
+        if (e.key === "Escape" && open) {
             e.preventDefault();
             close();
         }
@@ -43,17 +49,17 @@
     <button
         type="button"
         class="cursor-pointer"
-        aria-describedby={visible ? tooltipId : undefined}
-        onmouseenter={() => (visible = true)}
-        onmouseleave={() => (visible = false)}
-        onfocusin={() => (visible = true)}
-        onfocusout={() => (visible = false)}
+        aria-describedby={open ? tooltipId : undefined}
+        onmouseenter={() => (open = true)}
+        onmouseleave={() => (open = false)}
+        onfocusin={() => (open = true)}
+        onfocusout={() => (open = false)}
         {...rest}
     >
         {@render children?.()}
     </button>
 
-    {#if visible}
+    {#if open}
         <div
             id={tooltipId}
             role="tooltip"
