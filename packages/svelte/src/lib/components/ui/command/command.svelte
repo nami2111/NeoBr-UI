@@ -1,27 +1,6 @@
-<script lang="ts" module>
-    import { setContext, getContext } from "svelte";
-
-    const COMMAND_CONTEXT = Symbol("COMMAND_CONTEXT");
-
-    export type CommandState = {
-        search: string;
-        visibleCount: number;
-        onSearch: (value: string) => void;
-        upsertItem: (id: string, value: string) => void;
-        unregisterItem: (id: string) => void;
-    };
-
-    export function setCommandState(state: CommandState) {
-        setContext(COMMAND_CONTEXT, state);
-    }
-
-    export function getCommandState() {
-        return getContext<CommandState>(COMMAND_CONTEXT);
-    }
-</script>
-
 <script lang="ts">
     import { cn } from "../../../utils";
+    import { setCommandState } from "./command-context";
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement>;

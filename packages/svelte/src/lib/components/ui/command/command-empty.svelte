@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getCommandState } from "./command.svelte";
+    import { getCommandState } from "./command-context";
     import { cn } from "../../../utils";
     import type { HTMLAttributes } from "svelte/elements";
 

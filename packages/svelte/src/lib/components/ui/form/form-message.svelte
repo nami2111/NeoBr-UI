@@ -1,6 +1,6 @@
 <script lang="ts">
     import { cn } from "../../../utils";
-    import { getFormItemContext } from "./form-item.svelte";
+    import { getFormItemContext } from "./form-context";
 
     type Props = {
         class?: string;

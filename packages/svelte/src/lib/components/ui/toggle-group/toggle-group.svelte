@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { setContext } from "svelte";
     import { cn } from "../../../utils";
+    import { setToggleGroupState, type ToggleGroupType } from "./toggle-group-context";
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
         value?: string | string[];
-        type?: "single" | "multiple";
+        type?: ToggleGroupType;
     };
 
     let {
@@ -16,29 +16,23 @@
         ...rest
     }: Props = $props();
 
-    if (value === undefined) {
-        // svelte-ignore state_referenced_locally
-        value = type === "multiple" ? [] : "";
-    }
-
-    const TOGGLE_GROUP_CONTEXT = Symbol.for("toggle-group");
-
-    setContext(TOGGLE_GROUP_CONTEXT, {
+    setToggleGroupState({
         get value() {
-            return value;
+            return value ?? (type === "multiple" ? [] : "");
         },
         get type() {
             return type;
         },
-        setValue: (v: string) => {
-            const currentType = type;
-            if (currentType === "single") {
-                value = value === v ? "" : v;
-            } else if (Array.isArray(value)) {
-                if (value.includes(v)) {
-                    value = value.filter((i) => i !== v);
+        setValue: (nextValue: string) => {
+            if (type === "single") {
+                value = value === nextValue ? "" : nextValue;
+            } else {
+                const selectedValues = Array.isArray(value) ? value : [];
+
+                if (selectedValues.includes(nextValue)) {
+                    value = selectedValues.filter((item) => item !== nextValue);
                 } else {
-                    value = [...value, v];
+                    value = [...selectedValues, nextValue];
                 }
             }
         },

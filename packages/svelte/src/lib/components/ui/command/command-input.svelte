@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getCommandState } from "./command.svelte";
+    import { getCommandState } from "./command-context";
     import { cn } from "../../../utils";
     import { Search01Icon } from "@hugeicons/core-free-icons";
     import Icon from "../icon/icon.svelte";

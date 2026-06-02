@@ -9,7 +9,7 @@
      */
     import { cn } from "../../../utils";
     import type { HTMLInputAttributes } from "svelte/elements";
-    import { getFormItemContext } from "../form/form-item.svelte";
+    import { getFormItemContext } from "../form/form-context";
 
     type Props = HTMLInputAttributes & {
         /**

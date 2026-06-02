@@ -1,27 +1,6 @@
-<script lang="ts" module>
-    import { setContext, getContext } from "svelte";
-
-    const COLLAPSIBLE_CONTEXT = Symbol("COLLAPSIBLE_CONTEXT");
-
-    export function setCollapsibleState(state: {
-        open: boolean;
-        toggle: () => void;
-        disabled: boolean;
-    }) {
-        setContext(COLLAPSIBLE_CONTEXT, state);
-    }
-
-    export function getCollapsibleState() {
-        return getContext<{
-            open: boolean;
-            toggle: () => void;
-            disabled: boolean;
-        }>(COLLAPSIBLE_CONTEXT);
-    }
-</script>
-
 <script lang="ts">
     import { cn } from "../../../utils";
+    import { setCollapsibleState } from "./collapsible-context";
 
     type Props = {
         open?: boolean;
