@@ -2,6 +2,9 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
 import { expect, test, describe } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import CommandTestWrapper from "./command-test-wrapper.svelte";
+import CommandInput from "./command-input.svelte";
+import CommandItem from "./command-item.svelte";
+import CommandEmpty from "./command-empty.svelte";
 
 describe("Command component", () => {
     test("should have no accessibility violations", async () => {
@@ -80,5 +83,18 @@ describe("Command component", () => {
             expect(screen.queryByText("Calendar")).not.toBeInTheDocument();
             expect(screen.getByText("No results found.")).toBeInTheDocument();
         });
+    });
+
+    test("subcomponents support deliberate standalone fallback behavior", async () => {
+        render(CommandInput, { props: { placeholder: "Standalone command" } });
+        const input = screen.getByPlaceholderText("Standalone command");
+        await fireEvent.input(input, { target: { value: "query" } });
+        expect(input).toHaveValue("query");
+
+        render(CommandItem, { props: { value: "standalone", "aria-label": "Standalone item" } });
+        expect(screen.getByRole("button", { name: "Standalone item" })).toBeInTheDocument();
+
+        const { container } = render(CommandEmpty);
+        expect(container.children).toHaveLength(0);
     });
 });

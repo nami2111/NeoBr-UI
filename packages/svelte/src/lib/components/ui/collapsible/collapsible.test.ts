@@ -2,6 +2,8 @@ import { render, screen, fireEvent } from "@testing-library/svelte";
 import { expect, test, describe } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import CollapsibleTestWrapper from "./collapsible-test-wrapper.svelte";
+import CollapsibleTrigger from "./collapsible-trigger.svelte";
+import CollapsibleContent from "./collapsible-content.svelte";
 
 describe("Collapsible component", () => {
     test("should have no accessibility violations", async () => {
@@ -66,5 +68,16 @@ describe("Collapsible component", () => {
         expect(trigger).toBeDisabled();
         await fireEvent.click(trigger);
         expect(screen.queryByText("Collapsible content")).not.toBeInTheDocument();
+    });
+
+    test("subcomponents support deliberate standalone fallback behavior", () => {
+        render(CollapsibleTrigger, { props: { "aria-label": "Standalone trigger" } });
+        const trigger = screen.getByRole("button", { name: "Standalone trigger" });
+        expect(trigger).toBeInTheDocument();
+        expect(trigger).not.toBeDisabled();
+        expect(trigger).not.toHaveAttribute("aria-expanded");
+
+        const { container } = render(CollapsibleContent);
+        expect(container.children).toHaveLength(0);
     });
 });

@@ -3,6 +3,7 @@ import { expect, test, describe, vi } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import FormTestWrapper from "./form-test-wrapper.svelte";
 import FormStateTestWrapper from "./form-state-test-wrapper.svelte";
+import FormMessage from "./form-message.svelte";
 
 describe("Form system", () => {
     test("should have no accessibility violations", async () => {
@@ -61,6 +62,11 @@ describe("Form system", () => {
         });
 
         expect(screen.queryByText("Invalid username")).not.toBeInTheDocument();
+    });
+
+    test("message supports deliberate standalone fallback behavior", () => {
+        const { container } = render(FormMessage);
+        expect(container.children).toHaveLength(0);
     });
 });
 

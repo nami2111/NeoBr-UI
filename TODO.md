@@ -6,7 +6,7 @@ This plan replaces the previous deleted TODO with current findings from source r
 
 ## Current Baseline
 
-- `vp run --filter @neobr/svelte test`: passes, 44 test files / 269 tests.
+- `vp run --filter @neobr/svelte test`: passes, 44 test files / 272 tests.
 - `vp run --filter @neobr/svelte check`: passes with 0 warnings.
 - `vp run --filter docs check`: passes with 0 warnings.
 - `vp run --filter docs build`: passes.
@@ -162,7 +162,7 @@ Verification:
 
 ## P2 - Deepen Compound Component Modules
 
-### 7. Replace ad hoc context seams with typed Svelte 5 context modules ✅ Core modules done / ⚠️ broader misuse tests still optional
+### 7. Replace ad hoc context seams with typed Svelte 5 context modules ✅ Done
 
 Evidence:
 
@@ -189,6 +189,7 @@ Completed:
 - Removed `getContext<any>` from ToggleGroupItem.
 - Kept deliberate standalone fallback behavior for Command, Collapsible, Form/Input, and Textarea consumers.
 - Added a ToggleGroupItem misuse test for the root-provider error path.
+- Added standalone fallback tests for Command, Collapsible, and Form subcomponents.
 
 ### 8. Refactor focus trap and scroll-lock into a reusable overlay module ✅ Modal/Sheet done / ⚠️ Popover/Dropdown evaluation still optional
 
