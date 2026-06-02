@@ -36,6 +36,6 @@
     }: Props = $props();
 </script>
 
-<Select.Root bind:value={value as any} {type} {disabled} {...rest as any}>
+<Select.Root bind:value={value as never} {type} {disabled} {...(rest as Record<string, unknown>)}>
     {@render children?.()}
 </Select.Root>

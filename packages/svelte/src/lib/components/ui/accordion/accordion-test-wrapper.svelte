@@ -6,7 +6,7 @@
         value = $bindable(),
     }: {
         type?: "single" | "multiple";
-        value?: any;
+        value?: string | string[];
     } = $props();
 </script>
 

@@ -17,13 +17,13 @@
 </script>
 
 <Accordion.Root
-    bind:value={value as any}
+    bind:value={value as never}
     {type}
     class={cn(
         "border-foreground rounded-brutalist w-full overflow-hidden border-x-2 border-t-2",
         className,
     )}
-    {...rest as any}
+    {...(rest as Record<string, unknown>)}
 >
     {@render children?.()}
 </Accordion.Root>

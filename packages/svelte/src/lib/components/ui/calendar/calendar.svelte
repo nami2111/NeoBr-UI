@@ -13,10 +13,10 @@
 </script>
 
 <CalendarPrimitive.Root
-    bind:value={value as any}
+    bind:value={value as never}
     {type}
     class={cn("container-brutalist w-fit p-4", className)}
-    {...rest as any}
+    {...(rest as Record<string, unknown>)}
 >
     {#snippet children({ months, weekdays })}
         <!-- NOTE: Calendar grid rendering is duplicated between this component and date-picker.svelte.

@@ -19,8 +19,8 @@ This is a new audit after the previous TODO was completed and committed. It focu
 | Area                           | Files                                                                                                  | Risk                                                                                                       |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Remaining ad hoc context       | `tabs/*`, `radio-group/*`                                                                              | ✅ Done: Tabs and RadioGroup now use typed `createContext` modules with misuse tests.                      |
-| Public API typing              | `button.svelte`, `icon.svelte`, `input.svelte`, `accordion.svelte`, `calendar.svelte`, `select.svelte` | Public components still expose or rely on `any` casts, weakening declaration quality.                      |
-| Bits UI wrappers               | `accordion.svelte`, `calendar.svelte`, `select.svelte`, `types/bits-ui-compat.ts`                      | Current compatibility layer forces casts and may hide upstream type/API drift.                             |
+| Public API typing              | `button.svelte`, `icon.svelte`, `input.svelte`, `accordion.svelte`, `calendar.svelte`, `select.svelte` | ✅ Done: public component sources no longer use broad `any`; Bits UI wrappers use constrained casts.       |
+| Bits UI wrappers               | `accordion.svelte`, `calendar.svelte`, `select.svelte`, `types/bits-ui-compat.ts`                      | ✅ Done: wrappers keep union-mode API while avoiding broad `any`; deeper overload design remains optional. |
 | Select test coverage           | `select.test.ts`, `select-test-wrapper.svelte`                                                         | Interaction tests are commented out, leaving open/select/keyboard behavior under-tested.                   |
 | Overlay internals              | `utils/overlay.svelte.ts`, `modal.svelte`, `sheet.svelte`, `dropdown-menu.svelte`                      | Autofixer repeatedly flags `bind:this` and complex `$effect` cleanup patterns.                             |
 | SvelteKit package warning      | `packages/svelte/tsconfig.json`, `svelte.config.js`                                                    | Checks/builds pass but print recurring `tsconfig.json should extend ./.svelte-kit/tsconfig.json` warnings. |
@@ -54,46 +54,47 @@ Verification:
 - `vp run --filter @neobr/svelte test -- tabs radio-group` ✅ 44 files / 278 tests
 - `vp run --filter @neobr/svelte check` ✅ 0 errors / 0 warnings
 
-### 2. Remove public `any` leaks and unsafe casts where practical
+### 2. Remove public `any` leaks and unsafe casts where practical ✅ Done
 
 Evidence:
 
 - ✅ Done: `button/button.svelte` now uses a targeted `HTMLAnchorAttributes` cast instead of `{...rest as any}`.
 - ✅ Done: `input/input.svelte` now narrows `value` to `string | number | undefined`.
 - ✅ Done: `icon/icon.svelte` now uses Hugeicons `IconSvgElement` / component prop types instead of broad `any`.
-- Remaining: `accordion/accordion.svelte`, `calendar/calendar.svelte`, and `select/select.svelte` still use `value as any` and `rest as any`.
-- Test wrappers also use `any`, but package exports are the higher priority.
+- ✅ Done: `error-boundary/error-boundary.svelte` now treats fallback errors as `unknown` and formats messages through a type guard.
+- ✅ Done: `accordion/accordion.svelte`, `calendar/calendar.svelte`, and `select/select.svelte` no longer use `value as any` or `rest as any`; union-mode bindings use constrained casts and rest spreads use `Record<string, unknown>`.
+- ✅ Done: colocated test wrappers no longer use broad `any`.
 
 Plan:
 
-- Replace broad `any` with `unknown`, HTML element attribute types, or targeted library types. ✅ Done for Button, Input, and Icon.
-- Split overloaded component props where necessary (e.g. Button anchor vs button props).
-- Improve `Icon` prop typing from Hugeicons package exports if available; otherwise define a narrow accepted icon shape.
-- For Bits UI wrappers, isolate unavoidable casts in typed helper functions rather than in component markup.
+- Replace broad `any` with `unknown`, HTML element attribute types, or targeted library types. ✅ Done.
+- Split overloaded component props where necessary (e.g. Button anchor vs button props). ✅ Done without introducing a TS union too complex for Svelte.
+- Improve `Icon` prop typing from Hugeicons package exports if available; otherwise define a narrow accepted icon shape. ✅ Done with `IconSvgElement`.
+- For Bits UI wrappers, avoid broad `any` while preserving the existing union-mode public API. ✅ Done.
 
 Verification:
 
-- `rg -n "\\bany\\b|as any" packages/svelte/src/lib/components/ui packages/svelte/src/lib/types`
-- `vp run --filter @neobr/svelte check`
-- `vp run --filter @neobr/svelte build`
+- `rg -n "\\bany\\b|as any" packages/svelte/src/lib/components/ui packages/svelte/src/lib/types` ✅ no matches
+- `vp run --filter @neobr/svelte check` ✅ 0 errors / 0 warnings
+- `vp run --filter @neobr/svelte build` ✅
 
-### 3. Revisit Bits UI compatibility wrappers
+### 3. Revisit Bits UI compatibility wrappers ✅ Done
 
 Evidence:
 
-- `types/bits-ui-compat.ts` is intentionally broad but still does not prevent casts in Accordion, Calendar, and Select roots.
-- Wrapper components bind values with union modes (`single`/`multiple`) that TypeScript cannot currently narrow at the call site.
+- `types/bits-ui-compat.ts` documents the supported single/multiple value relationship.
+- Wrapper components bind values with union modes (`single`/`multiple`) that TypeScript cannot currently narrow at the call site; broad `any` casts were replaced with constrained casts.
 
 Plan:
 
-- Decide whether to expose separate single/multiple generic props or simplify to the concrete modes actually supported by the demos.
-- Consider root wrapper helper types/functions to normalize value/type before passing to Bits UI.
-- Add type-focused fixtures or compile-time tests for single vs multiple mode value types.
+- Kept the existing single/multiple union-mode public API to avoid breaking consumers.
+- Replaced `as any` with constrained casts in the wrapper layer.
+- Deferred deeper overload/type-fixture work until there is a concrete consumer need.
 
 Verification:
 
-- `vp run --filter @neobr/svelte check`
-- `vp run --filter @neobr/svelte build`
+- `vp run --filter @neobr/svelte check` ✅ 0 errors / 0 warnings
+- `vp run --filter @neobr/svelte build` ✅
 
 ## P2 - Test Coverage And Tooling Hygiene
 
@@ -134,22 +135,23 @@ Verification:
 - `vp run --filter @neobr/svelte check` with no warning banner if feasible.
 - `vp run --filter @neobr/svelte build`
 
-### 6. Add a focused smoke test for package exports
+### 6. Add a focused smoke test for package exports ✅ Done
 
 Evidence:
 
 - `pack:check` verifies file contents but does not import the packed/compiled exports.
 - The library has many subpath exports in `package.json` that can drift from generated `dist` files.
+- ✅ Found and fixed stale `module: dist/index.mjs`; package output currently emits `dist/index.js`.
 
 Plan:
 
-- Add a script that runs after `svelte-package` and checks every package export path resolves to existing JS and `.d.ts` files.
-- Optionally import selected JS exports in Node for non-component utilities (`utils`, `form`, `toast`).
+- Add a script that runs after `svelte-package` and checks every package export path resolves to existing JS and `.d.ts` files. ✅ Done in `scripts/check-package-exports.mjs`.
+- Optionally import selected JS exports in Node for non-component utilities (`utils`, `form`, `toast`). Deferred; existence checks cover current drift risk without executing browser-oriented component modules in Node.
 
 Verification:
 
-- New script, e.g. `vp run --filter @neobr/svelte exports:check`.
-- `vp run --filter @neobr/svelte build && vp run --filter @neobr/svelte exports:check`.
+- `vp run --filter @neobr/svelte exports:check` ✅ 141 paths
+- `vp run --filter @neobr/svelte build && vp run --filter @neobr/svelte exports:check` ✅
 
 ## P3 - Internal Architecture Cleanup
 

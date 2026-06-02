@@ -1,13 +1,12 @@
 <script lang="ts">
     import Badge from "./badge.svelte";
+    import type { ComponentProps } from "svelte";
 
-    let {
-        text = "Default Content",
-        ...rest
-    }: {
+    type Props = ComponentProps<typeof Badge> & {
         text?: string;
-        [key: string]: any;
-    } = $props();
+    };
+
+    let { text = "Default Content", ...rest }: Props = $props();
 </script>
 
 <Badge {...rest}>

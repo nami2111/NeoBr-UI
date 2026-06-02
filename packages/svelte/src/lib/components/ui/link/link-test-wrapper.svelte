@@ -1,7 +1,12 @@
 <script lang="ts">
     import Link from "./link.svelte";
+    import type { ComponentProps } from "svelte";
 
-    let { text = "Link", ...rest }: { text?: string; [key: string]: any } = $props();
+    type Props = ComponentProps<typeof Link> & {
+        text?: string;
+    };
+
+    let { text = "Link", ...rest }: Props = $props();
 </script>
 
 <Link {...rest}>{text}</Link>

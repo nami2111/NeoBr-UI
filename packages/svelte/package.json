@@ -21,7 +21,7 @@
         "shadcn-svelte"
     ],
     "main": "dist/index.js",
-    "module": "dist/index.mjs",
+    "module": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
         "build": "svelte-package",
@@ -32,7 +32,8 @@
         "format": "vp fmt .",
         "test": "vp test run",
         "test:watch": "vp test",
-        "pack:check": "node scripts/check-package-files.mjs"
+        "pack:check": "node scripts/check-package-files.mjs",
+        "exports:check": "node scripts/check-package-exports.mjs"
     },
     "exports": {
         ".": {

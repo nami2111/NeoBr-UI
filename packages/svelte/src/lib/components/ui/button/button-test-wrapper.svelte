@@ -1,15 +1,12 @@
 <script lang="ts">
     import Button from "./button.svelte";
+    import type { ComponentProps } from "svelte";
 
-    let {
-        childrenText = "Click me",
-        href,
-        ...rest
-    }: {
+    type Props = ComponentProps<typeof Button> & {
         childrenText?: string;
-        href?: string;
-        [key: string]: any;
-    } = $props();
+    };
+
+    let { childrenText = "Click me", href, ...rest }: Props = $props();
 </script>
 
 <Button {href} {...rest}>
