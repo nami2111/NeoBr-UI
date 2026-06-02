@@ -1,6 +1,10 @@
 import { render, screen } from "@testing-library/svelte";
+import { hydrate, unmount } from "svelte";
 import { expect, describe, it } from "vite-plus/test";
+import { serverRenderSvelte } from "../../../../tests/ssr";
+import Sticker from "./sticker.svelte";
 import StickerTestWrapper from "./sticker-test-wrapper.svelte";
+import stickerSource from "./sticker.svelte?raw";
 
 describe("Sticker component", () => {
     it("renders with default props", () => {
@@ -90,6 +94,23 @@ describe("Sticker component", () => {
         const { container } = render(StickerTestWrapper);
         const sticker = container.firstChild as HTMLElement;
         expect(sticker.style.transform).toBe("rotate(0deg)");
+    });
+
+    it("hydrates with deterministic default rotation", async () => {
+        const container = document.createElement("div");
+        container.innerHTML = await serverRenderSvelte(stickerSource, "sticker.svelte");
+        document.body.appendChild(container);
+
+        const serverSticker = container.querySelector<HTMLElement>(".inline-block");
+        expect(serverSticker?.style.transform).toBe("rotate(0deg)");
+
+        const component = hydrate(Sticker, { target: container });
+
+        const clientSticker = container.querySelector<HTMLElement>(".inline-block");
+        expect(clientSticker?.style.transform).toBe("rotate(0deg)");
+
+        unmount(component);
+        container.remove();
     });
 
     it("has uppercase text styling", () => {

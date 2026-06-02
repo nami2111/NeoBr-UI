@@ -6,7 +6,7 @@ This plan replaces the previous deleted TODO with current findings from source r
 
 ## Current Baseline
 
-- `vp run --filter @neobr/svelte test`: passes, 44 test files / 274 tests.
+- `vp run --filter @neobr/svelte test`: passes, 44 test files / 275 tests.
 - `vp run --filter @neobr/svelte check`: passes with 0 warnings.
 - `vp run --filter docs check`: passes with 0 warnings.
 - `vp run --filter docs build`: passes.
@@ -48,7 +48,7 @@ Verification:
 - `vp run --filter @neobr/svelte test -- command`
 - `vp run --filter docs build`
 
-### 2. Tooltip and sticker can hydrate with different markup/styles ✅ Code fixed / ⚠️ dedicated SSR harness still optional
+### 2. Tooltip and sticker can hydrate with different markup/styles ✅ Done
 
 Evidence:
 
@@ -66,8 +66,9 @@ Completed:
 
 - Replaced non-deterministic setup values in Tooltip and Sticker.
 - Added a bindable `open` prop to Tooltip so initially visible tooltips can be rendered deterministically.
-- Added a regression test that verifies the initially open Tooltip keeps a stable `aria-describedby` ↔ tooltip ID relationship.
-- Kept Sticker's deterministic default rotation test.
+- Added a lightweight SSR render helper for tests that compiles Svelte components with `generate: "server"`.
+- Added SSR + hydrate regression coverage for initially open Tooltip ID stability.
+- Added SSR + hydrate regression coverage for Sticker's deterministic default rotation.
 
 Verification:
 

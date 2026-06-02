@@ -1,6 +1,9 @@
 import { render as renderClient, screen, fireEvent, waitFor } from "@testing-library/svelte";
+import { hydrate, unmount } from "svelte";
 import { describe, it, expect } from "vite-plus/test";
+import { serverRenderSvelte } from "../../../../tests/ssr";
 import Tooltip from "./tooltip.svelte";
+import tooltipSource from "./tooltip.svelte?raw";
 
 describe("Tooltip", () => {
     it("shows content on mouse enter and hides on mouse leave", async () => {
@@ -21,13 +24,25 @@ describe("Tooltip", () => {
         );
     });
 
-    it("uses a stable described-by relationship when initially open", () => {
-        renderClient(Tooltip, { content: "Initial info", open: true });
+    it("hydrates with a stable tooltip ID when initially open", async () => {
+        const props = { content: "Initial info", open: true };
+        const container = document.createElement("div");
+        container.innerHTML = await serverRenderSvelte(tooltipSource, "tooltip.svelte", props);
+        document.body.appendChild(container);
 
-        const trigger = screen.getByRole("button");
-        const tooltip = screen.getByRole("tooltip");
+        const serverTrigger = container.querySelector<HTMLButtonElement>("button");
+        const serverTooltip = container.querySelector<HTMLElement>("[role='tooltip']");
+        expect(serverTooltip?.id).toBeTruthy();
+        expect(serverTrigger).toHaveAttribute("aria-describedby", serverTooltip?.id);
 
-        expect(tooltip.id).toBeTruthy();
-        expect(trigger).toHaveAttribute("aria-describedby", tooltip.id);
+        const component = hydrate(Tooltip, { target: container, props });
+
+        const clientTrigger = container.querySelector<HTMLButtonElement>("button");
+        const clientTooltip = container.querySelector<HTMLElement>("[role='tooltip']");
+        expect(clientTooltip?.id).toBe(serverTooltip?.id);
+        expect(clientTrigger).toHaveAttribute("aria-describedby", serverTooltip?.id);
+
+        unmount(component);
+        container.remove();
     });
 });
