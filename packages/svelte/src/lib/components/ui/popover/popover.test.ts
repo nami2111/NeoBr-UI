@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/svelte";
+import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
 import { expect, test, describe } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import PopoverTestWrapper from "./popover-test-wrapper.svelte";
@@ -67,5 +67,22 @@ describe("Popover component", () => {
         });
         const wrapper = container.firstChild as HTMLElement;
         expect(wrapper).toHaveClass("custom-popover");
+    });
+
+    test("only closes the top stacked popover on Escape", async () => {
+        render(PopoverTestWrapper);
+        render(PopoverTestWrapper);
+
+        const triggers = screen.getAllByRole("button", { name: /open popover/i });
+        await fireEvent.click(triggers[0]);
+        await fireEvent.click(triggers[1]);
+
+        expect(screen.getAllByText("Popover content")).toHaveLength(2);
+
+        await fireEvent.keyDown(window, { key: "Escape" });
+
+        await waitFor(() => {
+            expect(screen.getAllByText("Popover content")).toHaveLength(1);
+        });
     });
 });

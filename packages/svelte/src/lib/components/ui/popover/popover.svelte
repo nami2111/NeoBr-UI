@@ -1,7 +1,7 @@
 <script lang="ts">
     import { cn } from "../../../utils";
-    import { isBrowser } from "../../../utils/browser";
     import { TRANSITION_BRUTALIST_FAST } from "../../../utils/motion";
+    import { useDismissableOverlay } from "../../../utils/overlay.svelte";
     import { fade } from "svelte/transition";
 
     type Props = {
@@ -28,17 +28,13 @@
         open = false;
     }
 
-    function handleKeydown(e: KeyboardEvent) {
-        if (!isBrowser || !open) return;
-
-        if (e.key === "Escape") {
-            e.preventDefault();
-            close();
-        }
-    }
+    const overlay = useDismissableOverlay({
+        open: () => open,
+        close,
+    });
 </script>
 
-<svelte:window onkeydown={handleKeydown} />
+<svelte:window onkeydown={overlay.handleKeydown} />
 
 <div class={cn("relative inline-block text-left", className)}>
     <button

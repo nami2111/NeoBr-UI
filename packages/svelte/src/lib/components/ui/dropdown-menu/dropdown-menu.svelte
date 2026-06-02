@@ -2,6 +2,7 @@
     import { cn } from "../../../utils";
     import { isBrowser } from "../../../utils/browser";
     import { TRANSITION_BRUTALIST_FAST } from "../../../utils/motion";
+    import { useDismissableOverlay } from "../../../utils/overlay.svelte";
     import { fade } from "svelte/transition";
 
     type Props = {
@@ -21,16 +22,17 @@
         open = false;
     }
 
-    function handleKeydown(e: KeyboardEvent) {
-        if (!isBrowser || !open) return;
+    const overlay = useDismissableOverlay({
+        open: () => open,
+        close,
+    });
 
-        if (e.key === "Escape") {
-            e.preventDefault();
-            close();
-            return;
-        }
+    function handleKeydown(e: KeyboardEvent) {
+        overlay.handleKeydown(e);
+        if (!isBrowser || !open || !overlay.isTopOverlay()) return;
 
         if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            e.stopImmediatePropagation();
             e.preventDefault();
             if (!menuContent) return;
             const items = Array.from(

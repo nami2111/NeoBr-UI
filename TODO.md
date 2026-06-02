@@ -6,7 +6,7 @@ This plan replaces the previous deleted TODO with current findings from source r
 
 ## Current Baseline
 
-- `vp run --filter @neobr/svelte test`: passes, 44 test files / 272 tests.
+- `vp run --filter @neobr/svelte test`: passes, 44 test files / 274 tests.
 - `vp run --filter @neobr/svelte check`: passes with 0 warnings.
 - `vp run --filter docs check`: passes with 0 warnings.
 - `vp run --filter docs build`: passes.
@@ -191,7 +191,7 @@ Completed:
 - Added a ToggleGroupItem misuse test for the root-provider error path.
 - Added standalone fallback tests for Command, Collapsible, and Form subcomponents.
 
-### 8. Refactor focus trap and scroll-lock into a reusable overlay module ✅ Modal/Sheet done / ⚠️ Popover/Dropdown evaluation still optional
+### 8. Refactor focus trap and scroll-lock into a reusable overlay module ✅ Done
 
 Evidence:
 
@@ -214,11 +214,13 @@ Completed:
 - Added `utils/overlay.svelte.ts` for shared scroll locking, focus capture/restoration, Escape close, Tab loop, and cleanup.
 - Added overlay stack tracking so only the top overlay handles Escape and scroll remains locked until the final overlay closes.
 - Reused the controller from Modal and Sheet.
-- Added tests for stacked Modal scroll locking, topmost Escape handling, and Sheet Escape handling.
+- Added a lightweight dismissable overlay controller for non-modal Popover and DropdownMenu behavior without scroll locking.
+- Shared overlay stack ordering across modal and non-modal overlays so only the top overlay handles Escape.
+- Added tests for stacked Modal scroll locking, topmost Escape handling, Sheet Escape handling, and stacked Popover/DropdownMenu Escape ordering.
 
 Verification:
 
-- `vp run --filter @neobr/svelte test -- modal sheet`
+- `vp run --filter @neobr/svelte test -- dropdown-menu popover modal sheet`
 - `vp run --filter @neobr/svelte check`
 
 ## P3 - Tighten Public Utility Interfaces

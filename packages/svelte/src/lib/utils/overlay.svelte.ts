@@ -17,6 +17,11 @@ type OverlayControllerOptions = {
     close: () => void;
 };
 
+type DismissableOverlayOptions = {
+    open: () => boolean;
+    close: () => void;
+};
+
 const overlayStack: symbol[] = [];
 
 export function useOverlayController(options: OverlayControllerOptions) {
@@ -82,6 +87,7 @@ export function useOverlayController(options: OverlayControllerOptions) {
 
         if (event.key === "Escape") {
             event.preventDefault();
+            event.stopImmediatePropagation();
             options.close();
             return;
         }
@@ -102,9 +108,11 @@ export function useOverlayController(options: OverlayControllerOptions) {
 
         if (event.shiftKey && document.activeElement === first) {
             event.preventDefault();
+            event.stopImmediatePropagation();
             last.focus();
         } else if (!event.shiftKey && document.activeElement === last) {
             event.preventDefault();
+            event.stopImmediatePropagation();
             first.focus();
         }
     }
@@ -128,5 +136,56 @@ export function useOverlayController(options: OverlayControllerOptions) {
 
     return {
         handleKeydown,
+        isTopOverlay,
+    };
+}
+
+export function useDismissableOverlay(options: DismissableOverlayOptions) {
+    const overlayId = Symbol("dismissable-overlay");
+    let active = false;
+
+    function isTopOverlay() {
+        return overlayStack[overlayStack.length - 1] === overlayId;
+    }
+
+    function activate() {
+        if (active) return;
+
+        active = true;
+        overlayStack.push(overlayId);
+    }
+
+    function cleanup() {
+        if (!active) return;
+
+        active = false;
+        const index = overlayStack.indexOf(overlayId);
+        if (index !== -1) overlayStack.splice(index, 1);
+    }
+
+    function handleKeydown(event: KeyboardEvent) {
+        if (!isBrowser || !options.open() || !isTopOverlay()) return;
+        if (event.key !== "Escape") return;
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        options.close();
+    }
+
+    $effect(() => {
+        if (!isBrowser) return;
+
+        if (!options.open()) {
+            cleanup();
+            return;
+        }
+
+        activate();
+        return cleanup;
+    });
+
+    return {
+        handleKeydown,
+        isTopOverlay,
     };
 }
