@@ -1,456 +1,245 @@
-# NeoBr-UI Quality Remediation Plan
+# NeoBr-UI Improvement TODO
+
+Fresh audit date: 2026-06-02
+
+This plan replaces the previous deleted TODO with current findings from source review, Svelte docs, Svelte MCP autofixer, package checks, tests, docs build, and `npm pack --dry-run`.
+
+## Current Baseline
+
+- `vp run --filter @neobr/svelte test`: passes, 44 test files / 258 tests.
+- `vp run --filter @neobr/svelte check`: passes with 1 warning about `toast.svelte.ts` generating an overlapping `toast.svelte.js`.
+- `vp run --filter docs check`: passes with 1 generated-file warning for `svelte.config.js`.
+- `vp run --filter docs build`: passes.
+- `vp run --filter @neobr/svelte build`: passes.
+- `vp check packages/svelte`: fails because it scans generated `.svelte-kit/__package__` and `dist` artifacts.
+- `vp check packages/svelte/src/lib`: source formatting passes, but test files have 5 unused-import lint warnings.
+- `npm pack --dry-run --json --cache /tmp/neobr-npm-cache`: confirms the package currently ships source tests, test wrappers, and generated test wrapper files.
+
+## Context Map
+
+| Area | Files | Risk |
+| --- | --- | --- |
+| Command behavior | `packages/svelte/src/lib/components/ui/command/*`, `apps/docs/src/routes/components/command/+page.svelte` | `CommandEmpty` is visible while results exist. |
+| SSR determinism | `tooltip.svelte`, `sticker.svelte`, `modal.svelte`, `tabs-*` | Hydration mismatches and duplicate DOM IDs. |
+| Package hygiene | `packages/svelte/package.json`, `packages/svelte/svelte.config.js`, generated `dist` | npm package includes test-only code and generated files break checks. |
+| Typed compound state | `command.svelte`, `collapsible.svelte`, `form-item.svelte`, `toggle-group-*` | Shallow context modules, `any`, and ad hoc context keys. |
+| Form validation | `utils/form-validation.svelte.ts`, `components/ui/form/*` | Public utility relies on `any`, Zod object internals, and limited tests. |
+| Docs a11y/tooling | `apps/docs/src/routes/+layout.svelte`, docs component pages | Demo app carries a11y suppressions and hard-coded layer classes. |
 
-Deep code review findings and prioritized action plan to bring the library to production-grade maturity.
+## P0 - Fix Confirmed Behavior Bugs
+
+### 1. Command empty state is always rendered
 
----
+Evidence:
+- `packages/svelte/src/lib/components/ui/command/command-empty.svelte:10` renders a visible div unconditionally.
+- `packages/svelte/src/lib/components/ui/command/command.test.ts:60` asserts "No results found." exists in the default populated state, so the test blesses the bug.
+- `apps/docs/src/routes/components/command/+page.svelte` uses `CommandEmpty` before populated groups, so docs demonstrate the wrong behavior.
 
-## Review Verdict
+Plan:
+- Move result registration/search matching into the command module interface.
+- Let `CommandItem` register whether it is currently visible, or let `CommandList` derive visible count from registered item values.
+- Render `CommandEmpty` only when search is non-empty and no items match.
+- Update tests to assert the empty state is absent initially, absent for partial matches, and present only for no-match queries.
 
-Well-architected, thoughtfully executed library ahead of most community efforts in Svelte 5 adoption and CSS-first design. The core patterns (CVA, tree-shaking sub-path exports, Tailwind v4 utilities, rune-based form validation) are sound. Primary gaps: SSR safety, z-index management, scroll-locking, and a few type mismatches. All fixable with focused effort.
+Verification:
+- `vp run --filter @neobr/svelte test -- command`
+- `vp run --filter docs build`
 
----
+### 2. Tooltip and sticker can hydrate with different markup/styles
 
-## Key Decisions
+Evidence:
+- `tooltip.svelte:17` uses `crypto.randomUUID()` during component setup for an ARIA ID.
+- `sticker.svelte:21` uses `Math.random()` during component setup for default rotation.
+- Svelte 5 provides `$props.id()` specifically for SSR-stable component IDs.
 
-| Decision | Choice | Rationale |
-|----------|--------|-----------|
-| Default radius | **0px sharp** | True brutalist identity |
-| Z-index approach | **Inline `style`** with `var(--z-*)` CSS tokens | Cleanest; Tailwind v4 doesn't support z-index from CSS vars in classes |
-| SSR safety pattern | **`browser.ts` guard** | Works in any reactive context, not just `onMount` |
-| Toast ID generation | **`crypto.randomUUID()`** | Collision-safe, modern |
-| Button rest props | **Direct destructuring** | Removes `$derived` IIFE workaround |
+Plan:
+- Replace tooltip ID generation with `$props.id()` and derive `tooltip-${uid}`.
+- Make `Sticker` deterministic by default. Prefer `rotation={0}` or derive a stable pseudo-random rotation from `$props.id()` only if the visual jitter is worth preserving.
+- Add SSR/hydration tests for Tooltip and Sticker, not just JSDOM interaction tests.
 
----
+Verification:
+- Add a server-render + hydrate test that fails on ID/style mismatch.
+- `vp run --filter @neobr/svelte test -- tooltip sticker`
+
+### 3. Modal title ID is duplicated across simultaneous modals
+
+Evidence:
+- `modal.svelte:160` references `"modal-title"`.
+- `modal.svelte:188` renders `id="modal-title"`.
+
+Plan:
+- Generate an instance-stable ID with `$props.id()`.
+- Use the derived ID for `aria-labelledby` and the heading.
+- Apply the same audit to tabs IDs (`trigger-${value}` / `tabpanel-${value}`), because values may collide across multiple tab groups.
+
+Verification:
+- Add tests rendering two modals/two tab groups on the same page.
+- Run `vp run --filter @neobr/svelte test -- modal tabs`.
+
+## P1 - Fix Package And Tooling Hygiene
 
-## Phase 1: Foundation — SSR Safety & Type Correctness
+### 4. npm package ships tests and test wrappers
+
+Evidence:
+- `packages/svelte/package.json:268` includes both `dist` and `src`.
+- It excludes only `!dist/**/*.test.*` and `!dist/**/*.spec.*`.
+- `npm pack --dry-run` reports 578 package entries and includes paths like `src/lib/components/ui/command/command.test.ts`, `src/tests/setup.ts`, and `dist/components/ui/command/command-test-wrapper.svelte`.
+
+Plan:
+- Decide whether source publishing is required for declaration maps. If yes, include only `src/lib` and exclude all tests/wrappers:
+  - `!src/**/*.test.*`
+  - `!src/**/*.spec.*`
+  - `!src/tests/**`
+  - `!src/**/*test-wrapper.svelte`
+  - `!src/**/*-test.svelte`
+  - matching `dist` exclusions for wrappers and generated test Svelte files.
+- Prefer moving test wrappers to a package-private `src/tests/components` tree or inlining small wrappers in tests so `svelte-package` does not copy them into `dist`.
+- Add a CI check that runs `npm pack --dry-run --json` and fails if `*.test.*`, `*test-wrapper*`, `src/tests/*`, or `.svelte-kit/*` appear in the file list.
 
-**Goal:** Fix blockers preventing production SvelteKit usage. Est. ~3.5 hr.
+Verification:
+- `vp run --filter @neobr/svelte build`
+- `npm pack --dry-run --json --cache /tmp/neobr-npm-cache`
 
----
+### 5. Full package check scans generated artifacts and fails
 
-### 1.1 — Create `browser.ts` utility
+Evidence:
+- `vp check packages/svelte` fails on `.svelte-kit/__package__` and `dist` formatting issues after build.
+- `vp check packages/svelte/src/lib` passes source formatting, so the failure is target/ignore hygiene.
 
-**Priority:** P0 (all Phase 2+ tasks depend on this)
+Plan:
+- Add generated-output ignore patterns to `vite.config.ts` formatting/lint config if Vite+ supports it, or document/use path-targeted checks in scripts.
+- Consider changing package `lint` from `vp fmt --check .` to a source-only target.
+- Remove generated `dist` from any human-editable check path in CI.
 
-New file: `packages/svelte/src/lib/utils/browser.ts`
+Verification:
+- `vp check packages/svelte`
+- `vp check packages/svelte/src/lib`
 
-```ts
-export const isBrowser = typeof window !== "undefined" && typeof document !== "undefined";
-```
+### 6. Svelte-check warnings point at generated name collisions
 
-Action: Export from `packages/svelte/src/lib/index.ts` barrel (add `export * from "./utils/browser"` or add to the existing `utils.ts`).
+Evidence:
+- Library check warns that `toast.svelte.ts` would generate `toast.svelte.js` and collide with another input.
+- Docs check warns about `svelte.config.js` overwrite.
 
-Verification: Import works from any component via `import { isBrowser } from "$lib/utils/browser"`.
+Plan:
+- Rename `packages/svelte/src/lib/components/ui/toast/toast.svelte.ts` to a non-component-looking rune module, e.g. `toast-state.svelte.ts`, then update exports/imports.
+- Review tsconfig includes so package checks do not include generated files as inputs.
 
----
+Verification:
+- `vp run --filter @neobr/svelte check`
+- `vp run --filter docs check`
 
-### 1.2 — SSR-guard all DOM access
+## P2 - Deepen Compound Component Modules
 
-**Priority:** P0
+### 7. Replace ad hoc context seams with typed Svelte 5 context modules
 
-Every component that touches `document` or `window` directly needs `import { isBrowser } from "$lib/utils/browser"` + guard.
+Evidence:
+- `command.svelte:1`, `collapsible.svelte:1`, and `form-item.svelte:1` define context keys inside component module scripts.
+- `toggle-group-item.svelte:16` uses `getContext<any>`.
+- Svelte 5.40+ provides `createContext`, and this repo uses Svelte 5.53.12.
 
-| File | Line(s) | What to guard |
-|------|---------|--------------|
-| `modal.svelte` | `$effect` body (lines 112-129) | `previousFocus = document.activeElement`, `tick().then()` with `.focus()` |
-| `toast.svelte.ts` | `setTimeout(...)` in `add()` (lines 33-35) | Wrap in `if (isBrowser)` |
-| `sheet.svelte` | All `$effect` / focus management | Same pattern as modal |
-| `popover.svelte` | Any portal rendering / DOM access | Conditional gating |
-| `dropdown-menu.svelte` | Backdrop click handler DOM queries | Guard internal `document.activeElement` |
-| `pagination.svelte` | Any `document` references | Conditional gating |
+Plan:
+- Create small typed context modules per compound module, e.g. `command-context.ts`, `collapsible-context.ts`, `form-context.ts`, `toggle-group-context.ts`.
+- Use `createContext<T>()` for type-safe get/set pairs.
+- Encode missing-provider behavior deliberately. Either throw clear errors when subcomponents are used outside a root, or support standalone fallback behavior.
+- Test misuse cases for every compound module.
 
-Pattern for `$effect` blocks:
+Benefits:
+- Better locality: state contracts live in one typed module.
+- Better leverage: child components no longer duplicate context shapes or use `any`.
+- Safer API evolution for command/search, form error state, and toggle-group modes.
 
-```ts
-$effect(() => {
-    if (!isBrowser) return;
-    // ... existing browser-only code
-});
-```
+### 8. Refactor focus trap and scroll-lock into a reusable overlay module
 
-Pattern for `toast.svelte.ts`:
+Evidence:
+- `modal.svelte` and `sheet.svelte` duplicate focus trapping, previous-focus restoration, Escape handling, and scroll locking.
+- Svelte autofixer flagged the overlay `$effect` as complex and worth review.
 
-```ts
-add(options: ToastOptions) {
-    const id = crypto.randomUUID();
-    // ... push toast ...
-    if (isBrowser && toast.duration !== Infinity) {
-        setTimeout(() => this.dismiss(id), toast.duration);
-    }
-    return id;
-}
-```
+Plan:
+- Create one overlay behavior module that handles:
+  - lock/unlock with reference counting,
+  - focus capture/restoration,
+  - Tab loop,
+  - Escape close,
+  - cleanup on unmount.
+- Use it from Modal and Sheet first, then evaluate Popover/Dropdown.
+- Add tests for nested overlays, close ordering, focus restoration, and scroll-lock count.
 
-Verification: `vp run --filter docs build` — must pass with zero `document is not defined` errors.
+Verification:
+- `vp run --filter @neobr/svelte test -- modal sheet popover dropdown`
 
----
+## P3 - Tighten Public Utility Interfaces
 
-### 1.3 — Type mismatch fixes
+### 9. Harden `createFormState`
 
-**Priority:** P0
+Evidence:
+- `form-validation.svelte.ts:69`, `:70`, and `:92` use `any` and rely on Zod object internals.
+- `reset()` reuses `initialData` by reference at `:186`.
+- Tests exercise visual Form components but not the validation utility interface deeply.
 
-| File | Issue | Fix |
-|------|-------|-----|
-| `checkbox.svelte` | Props extend `HTMLAttributes<HTMLDivElement>` but render `<input>` | Change to `Omit<HTMLInputAttributes, "type">` since `type="checkbox"` is hardcoded. Split the visual wrapper div from input props. |
-| `select.svelte:28` | `[key: string]: any` defeats types | Remove index signature. Let `CompatibleSelectProps` handle type narrowing. Keep `as any` on bits-ui bindings (necessary). |
-| `button.svelte:79-92` | `$derived` IIFE to destructure rest props | Replace with direct destructuring (see Task 4.1 — do together) |
+Plan:
+- Constrain the utility to `z.ZodObject<z.ZodRawShape>` explicitly or design an adapter interface for supported schemas.
+- Avoid shared object references on reset; clone from an immutable initial snapshot.
+- Add unit tests for validation timing, reset isolation, async submit failure, nested errors, default values, and `validateOnChange`/`validateOnBlur`.
+- Decide whether empty-string defaults are always correct, especially for number/boolean/date fields.
 
----
+Verification:
+- `vp run --filter @neobr/svelte test -- form`
 
-### 1.4 — Modal a11y cleanup
+### 10. Normalize motion tokens in component transitions
 
-**Priority:** P1
+Evidence:
+- `TRANSITION_BRUTALIST` and `TRANSITION_BRUTALIST_SLOW` exist, but some components still inline transition durations.
 
-In `modal.svelte`:
+Plan:
+- Replace inline transition configs in Checkbox, RadioGroupItem, Tooltip, DropdownMenu, Popover, Modal backdrop, Sheet backdrop, and Collapsible with motion utilities where behavior should be consistent.
+- Keep exceptions documented when a component needs a distinct duration.
 
-- [ ] Replace raw SVG close button (lines 172-183) with `<Icon icon={Cancel01Icon} class="h-4 w-4" />`
-- [ ] Import `Cancel01Icon` from `@hugeicons/core-free-icons`
-- [ ] Remove both `svelte-ignore` suppressions (lines 142-143)
-- [ ] Add to backdrop div:
-  - `onkeydown={(e) => e.key === "Enter" && handleClose()}`
-  - `role="button"`
-  - `tabindex="-1"`
-  - `aria-label="Close modal"`
+Verification:
+- `rg -n "transition:.*duration|duration: [0-9]+" packages/svelte/src/lib/components/ui`
 
----
+## P4 - Docs And Maintenance Cleanup
 
-## Phase 2: Infrastructure — Z-Index, Scroll Lock, Motion
+### 11. Remove docs a11y suppressions and hard-coded layering where practical
 
-**Goal:** Standardize cross-cutting concerns across all components. Est. ~2.5 hr. Depends on browser.ts from Phase 1.
+Evidence:
+- `apps/docs/src/routes/+layout.svelte:87` suppresses click/key a11y warnings for the mobile overlay.
+- The docs layout uses hard-coded `z-[60]`, `z-50`, and `z-40`.
 
----
+Plan:
+- Use a semantic button or add keyboard handling/ARIA to the mobile overlay.
+- Prefer design-system z-index tokens in docs app where they represent global layers.
+- Add a smoke test or axe pass for docs layout/mobile menu.
 
-### 2.1 — Z-index token system
+### 12. Clean unused imports in tests
 
-**Priority:** P1
+Evidence:
+- `vp check packages/svelte/src/lib` reports unused imports in several tests (`vi`, `screen`).
 
-Add to `packages/svelte/src/lib/styles/design-system.css` `@theme` block:
+Plan:
+- Remove unused imports from Checkbox, Command, Calendar, AspectRatio, and Marquee tests.
+- Keep this as opportunistic cleanup after P0/P1.
 
-```css
---z-dropdown: 40;
---z-modal-backdrop: 49;
---z-modal: 50;
---z-sheet: 55;
---z-popover: 60;
---z-tooltip: 70;
---z-toast: 100;
-```
+Verification:
+- `vp check packages/svelte/src/lib`
 
-Replace all hardcoded `z-*` classes with inline styles referencing tokens:
+## Recommended Execution Order
 
-| File | Element | Before | After |
-|------|---------|--------|-------|
-| `modal.svelte` | Backdrop div | `class="... fixed inset-0 ..."` | Add `style="z-index: var(--z-modal-backdrop)"` |
-| `modal.svelte` | Content div | `class="... z-50 ..."` | Remove `z-50`, add `style="z-index: var(--z-modal)"` |
-| `dropdown-menu.svelte` | Backdrop | `class="fixed inset-0 z-40"` | Remove `z-40`, add `style="z-index: var(--z-dropdown)"` |
-| `sheet.svelte` | Overlay/content | Any `z-*` | → `style="z-index: var(--z-sheet)"` |
-| `popover.svelte` | Portal | Any `z-*` | → `style="z-index: var(--z-popover)"` |
-| `toaster.svelte` | Container | `z-[100]` | → `style="z-index: var(--z-toast)"` |
-| `tooltip.svelte` | Portal | Any `z-*` | → `style="z-index: var(--z-tooltip)"` |
+1. Fix Command empty-state behavior and tests.
+2. Fix SSR-stable IDs/random setup in Tooltip, Sticker, Modal, and Tabs.
+3. Fix package `files`/test-wrapper leakage and add pack dry-run guard.
+4. Fix generated-output check targets and `toast.svelte.ts` naming warning.
+5. Deepen typed context modules for Command, ToggleGroup, Collapsible, and Form.
+6. Extract reusable overlay/focus/scroll behavior.
+7. Harden `createFormState` with focused tests.
+8. Clean docs a11y suppressions and small lint warnings.
 
-Sync: `cp packages/svelte/src/lib/styles/design-system.css packages/tailwind-preset/design-system.css`
+## Done Criteria
 
----
-
-### 2.2 — Scroll lock utility
-
-**Priority:** P1
-
-New file: `packages/svelte/src/lib/utils/scroll-lock.svelte.ts`
-
-```ts
-import { isBrowser } from "./browser";
-
-let lockCount = 0;
-const originalStyles: { overflow: string; paddingRight: string } = {
-    overflow: "",
-    paddingRight: "",
-};
-
-export function useScrollLock() {
-    let locked = false;
-
-    function lock() {
-        if (!isBrowser || locked) return;
-        locked = true;
-        if (lockCount === 0) {
-            originalStyles.overflow = document.body.style.overflow;
-            originalStyles.paddingRight = document.body.style.paddingRight;
-            document.body.style.overflow = "hidden";
-            document.body.style.paddingRight =
-                `${window.innerWidth - document.documentElement.clientWidth}px`;
-        }
-        lockCount++;
-    }
-
-    function unlock() {
-        if (!isBrowser || !locked) return;
-        locked = false;
-        lockCount = Math.max(0, lockCount - 1);
-        if (lockCount === 0) {
-            document.body.style.overflow = originalStyles.overflow;
-            document.body.style.paddingRight = originalStyles.paddingRight;
-        }
-    }
-
-    return { lock, unlock };
-}
-```
-
-Integrate into:
-
-- [ ] `modal.svelte`: In `$effect` — when `open → true`, call `lock()`. On `open → false` + cleanup return, call `unlock()`.
-- [ ] `sheet.svelte`: Same pattern as modal.
-
----
-
-### 2.3 — `prefers-reduced-motion` support
-
-**Priority:** P2
-
-Add to `design-system.css` (before any animations):
-
-```css
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-```
-
-Sync CSS to preset package.
-
----
-
-### 2.4 — Transition token system
-
-**Priority:** P3
-
-New file: `packages/svelte/src/lib/utils/motion.ts`
-
-```ts
-import { cubicInOut } from "svelte/easing";
-
-export const TRANSITION_BRUTALIST = { duration: 150, easing: cubicInOut } as const;
-export const TRANSITION_BRUTALIST_SLOW = { duration: 300, easing: cubicInOut } as const;
-```
-
-Update components to import and use these:
-
-- [ ] `modal.svelte` — `fly` and `fade` calls
-- [ ] `toaster.svelte` — `fly` in/out calls
-- [ ] `checkbox.svelte` — `scale` transition
-- [ ] `sheet.svelte` — any `fly` transitions
-
-Add to `design-system.css` `@theme` block (for CSS-based transitions, not Svelte transitions):
-
-```css
---transition-brutalist: 150ms ease-in-out;
---transition-brutalist-slow: 300ms ease-in-out;
-```
-
----
-
-## Phase 3: Design System Consolidation
-
-**Goal:** Resolve inconsistencies between code, tokens, and documentation. Est. ~1 hr.
-
----
-
-### 3.1 — Unify radius system around 0px sharp default
-
-**Priority:** P2
-
-Token changes in `design-system.css`:
-
-```css
-/* Keep primary token as 0px (sharp) — the true brutalist default */
---radius-brutalist: 0px;
-
-/* Add explicit opt-in alternatives */
---radius-brutalist-soft: 6px;
---radius-brutalist-rounded: 12px;
-```
-
-Update `@utility` classes to use tokens (currently hardcode values):
-
-```css
-@utility rounded-brutalist {
-    border-radius: var(--radius-brutalist);        /* was: 0px */
-}
-
-@utility btn-brutalist {
-    border-radius: var(--radius-brutalist);        /* was: 0px */
-    box-shadow: var(--shadow-brutalist);
-    /* ... rest unchanged ... */
-}
-
-@utility btn-brutalist-soft {
-    border-radius: var(--radius-brutalist-soft);   /* was: 6px */
-    /* ... */
-}
-
-@utility btn-brutalist-rounded {
-    border-radius: var(--radius-brutalist-rounded); /* was: 12px */
-    /* ... */
-}
-```
-
-Update `AGENTS.md` line 217: change `rounded-brutalist (12px)` → `rounded-brutalist (0px)`.
-
-Sync CSS to preset package.
-
----
-
-### 3.2 — Audit and align component default variants
-
-**Priority:** P3
-
-| Component | Current default | Should be |
-|-----------|----------------|-----------|
-| `button.svelte` | `radius: "rounded"` (12px) | `radius: "brutalist"` (0px) |
-| `badge.svelte` | `brutalist: true` → `rounded-brutalist` (0px) | Already correct |
-| `switch.svelte` | `brutalist: true` → `rounded-brutalist` (0px) | Already correct |
-
-Change `button.svelte` defaultVariants: `radius: "rounded"` → `radius: "brutalist"`.
-Also update the prop default: `radius = "rounded"` → `radius = "brutalist"`.
-
----
-
-## Phase 4: Polish & Cleanup
-
-**Goal:** Remove dead code, fix small quality issues. Est. ~35 min.
-
----
-
-### 4.1 — Button rest props simplification
-
-**Priority:** P3
-
-In `button.svelte`, replace lines 68-92 with direct destructuring:
-
-```ts
-let {
-    class: className,
-    variant = "default",
-    size = "default",
-    radius = "brutalist",
-    href,
-    children,
-    ...rest
-}: Props = $props();
-```
-
-Remove the `$derived` IIFE (lines 79-92), `$derived` wrappers on `variant`, `size`, `radius`, `href`, `children` (lines 71-76) — these are stable at parse time, not reactive.
-
-This removes 14 lines of unnecessary overhead.
-
----
-
-### 4.2 — Tabs dead code audit
-
-**Priority:** P4
-
-- [ ] Review `tabs-list.svelte` context interface — if `registerPanel` exists but is never consumed by `tabs.svelte`, remove it
-- [ ] OR if `registerPanel` is intended for dynamic tab registration (future feature), add a `// TODO:` comment
-
----
-
-### 4.3 — Toast ID collision fix
-
-**Priority:** P3
-
-In `toast.svelte.ts:22`:
-
-```ts
-// Before
-const id = Math.random().toString(36).substring(2, 9);
-
-// After
-const id = crypto.randomUUID();
-```
-
----
-
-## Execution Order
-
-```
-Week 1   │ 1.1 browser.ts
-         │ 1.2 SSR guards (depends on 1.1)
-         │ 1.3 Type fixes (no deps)
-         │ 1.4 Modal a11y (can overlap w/ 1.2)
-         │
-Week 2   │ 2.1 Z-index tokens (no deps)
-         │ 2.2 Scroll lock (depends on 1.1)
-         │ 2.3 Reduced motion (no deps)
-         │ 2.4 Motion tokens (no deps)
-         │
-Week 3   │ 3.1 Radius unification (no deps)
-         │ 3.2 Default variant audit (depends on 3.1)
-         │
-Week 4   │ 4.1 Button cleanup (no deps)
-         │ 4.2 Tabs audit (no deps)
-         │ 4.3 Toast ID (no deps)
-```
-
----
-
-## Verification Checklist
-
-After all phases complete, run these checks:
-
-```
-[ ] vp run --filter docs build          # SSR build must pass
-[ ] vp run -r test                       # All 44 component tests pass
-[ ] vp check packages/svelte             # Format + lint + types clean
-[ ] vp run --filter @neobr/svelte check  # svelte-check clean
-[ ] Manual: Open modal → Escape closes, scroll locks
-[ ] Manual: Open dropdown → backdrop z-index below modal
-[ ] Manual: Navigate tabs → ARIA attributes correct in DevTools
-[ ] Manual: Dark mode toggle → all z-index tokens still work
-[ ] Manual: Toggle `prefers-reduced-motion` in browser → all animations disabled
-```
-
----
-
-## Files Affected Summary
-
-### New files
-- `packages/svelte/src/lib/utils/browser.ts`
-- `packages/svelte/src/lib/utils/scroll-lock.svelte.ts`
-- `packages/svelte/src/lib/utils/motion.ts`
-
-### Modified files
-| File | Phase | Change |
-|------|-------|--------|
-| `design-system.css` | 2.1, 2.3, 2.4, 3.1 | Z-index tokens, reduced motion, transition tokens, radius token cleanup |
-| `tailwind-preset/design-system.css` | All CSS phases | Sync after each CSS change |
-| `modal.svelte` | 1.2, 1.4, 2.1, 2.2 | SSR guard, a11y fix, z-index, scroll lock |
-| `toast.svelte.ts` | 1.2, 4.3 | SSR guard, collision-safe ID |
-| `toaster.svelte` | 2.1, 2.4 | Z-index, motion tokens |
-| `dropdown-menu.svelte` | 1.2, 2.1 | SSR guard, z-index |
-| `sheet.svelte` | 1.2, 2.1, 2.2 | SSR guard, z-index, scroll lock |
-| `popover.svelte` | 1.2, 2.1 | SSR guard, z-index |
-| `tooltip.svelte` | 2.1 | Z-index |
-| `pagination.svelte` | 1.2 | SSR guard (if needed) |
-| `checkbox.svelte` | 1.3, 2.4 | Type fix, motion tokens |
-| `select.svelte` | 1.3 | Remove `[key: string]: any` |
-| `button.svelte` | 1.3, 3.2, 4.1 | Type fix, default radius, rest props |
-| `AGENTS.md` | 3.1 | Update radius documentation |
-| `lib/index.ts` | 1.1 | Export browser utility |
-
----
-
-## Future Strategic Items (Post-Remediation)
-
-These are not in the current plan but should be tracked:
-
-- [ ] **Visual regression testing** — Storybook + Chromatic or screenshot comparison in CI
-- [ ] **Bundle size dashboard** — Per-component import size tracked in CI (key differentiator for component libraries)
-- [ ] **Component scaffolding CLI** — `npx @neobr/cli add button` for copy-paste ownership (shadcn model)
-- [ ] **SSR hydration test suite** — Dedicated test that renders all components server-side in SvelteKit
-- [ ] **Mobile/touch audit** — Neo-brutalist borders and shadows can cause layout issues on small viewports
-- [ ] **Input addon slots** — `prefix`/`suffix` snippet support on Input component
-- [ ] **Combobox component** — Form-friendly combobox (separate from the command palette)
+- `vp run --filter @neobr/svelte test` passes.
+- `vp run --filter @neobr/svelte check` has 0 warnings.
+- `vp run --filter docs check` has 0 warnings.
+- `vp run --filter docs build` passes.
+- `vp check packages/svelte` no longer scans generated output or passes cleanly.
+- `npm pack --dry-run --json --cache /tmp/neobr-npm-cache` contains no tests, test wrappers, `.svelte-kit`, or generated package internals.
+- Added tests fail before and pass after fixes for Command empty state, SSR-stable IDs, duplicate modal/tab IDs, package file leakage, and overlay focus/scroll behavior.
