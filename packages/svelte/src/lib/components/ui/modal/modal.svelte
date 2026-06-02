@@ -12,11 +12,9 @@
      * ```
      */
     import { cn } from "../../../utils";
-    import { isBrowser } from "../../../utils/browser";
-    import { useScrollLock } from "../../../utils/scroll-lock.svelte";
     import { TRANSITION_BRUTALIST_SLOW } from "../../../utils/motion";
+    import { useOverlayController } from "../../../utils/overlay.svelte";
     import { fly, fade } from "svelte/transition";
-    import { tick } from "svelte";
     import Icon from "../icon/icon.svelte";
     import { Cancel01Icon } from "@hugeicons/core-free-icons";
 
@@ -56,10 +54,8 @@
     }: Props = $props();
 
     let modalContent = $state<HTMLElement>();
-    let previousFocus: HTMLElement | null = null;
     const modalId = $props.id();
     let titleId = $derived(title ? `modal-title-${modalId}` : undefined);
-    const { lock: scrollLock, unlock: scrollUnlock } = useScrollLock();
 
     const sizeClasses = {
         sm: "min-w-[320px] max-w-sm min-h-[200px] max-h-[80vh]",
@@ -75,83 +71,14 @@
         onClose?.();
     }
 
-    function getFocusableElements(element: HTMLElement): HTMLElement[] {
-        return Array.from(
-            element.querySelectorAll(
-                'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select',
-            ),
-        ) as HTMLElement[];
-    }
-
-    function handleKeydown(e: KeyboardEvent) {
-        if (!isBrowser || !open) return;
-
-        if (e.key === "Escape") {
-            e.preventDefault();
-            handleClose();
-            return;
-        }
-
-        if (e.key === "Tab") {
-            if (!modalContent) return;
-            const focusable = getFocusableElements(modalContent);
-            if (focusable.length === 0) {
-                e.preventDefault();
-                return;
-            }
-
-            const first = focusable[0];
-            const last = focusable[focusable.length - 1];
-
-            if (e.shiftKey) {
-                if (document.activeElement === first) {
-                    e.preventDefault();
-                    last.focus();
-                }
-            } else {
-                if (document.activeElement === last) {
-                    e.preventDefault();
-                    first.focus();
-                }
-            }
-        }
-    }
-
-    $effect(() => {
-        if (!isBrowser) return;
-
-        if (open) {
-            scrollLock();
-            previousFocus = document.activeElement as HTMLElement;
-            tick().then(() => {
-                if (modalContent) {
-                    const focusable = getFocusableElements(modalContent);
-                    if (focusable.length > 0) {
-                        focusable[0].focus();
-                    } else {
-                        modalContent.focus();
-                    }
-                }
-            });
-        } else {
-            scrollUnlock();
-            if (previousFocus) {
-                previousFocus.focus();
-                previousFocus = null;
-            }
-        }
-
-        return () => {
-            scrollUnlock();
-            if (previousFocus) {
-                previousFocus.focus();
-                previousFocus = null;
-            }
-        };
+    const overlay = useOverlayController({
+        open: () => open,
+        content: () => modalContent,
+        close: handleClose,
     });
 </script>
 
-<svelte:window onkeydown={handleKeydown} />
+<svelte:window onkeydown={overlay.handleKeydown} />
 
 {#if open}
     <div

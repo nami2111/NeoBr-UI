@@ -1,10 +1,8 @@
 <script lang="ts">
     import { cn } from "../../../utils";
-    import { isBrowser } from "../../../utils/browser";
-    import { useScrollLock } from "../../../utils/scroll-lock.svelte";
     import { TRANSITION_BRUTALIST_SLOW } from "../../../utils/motion";
+    import { useOverlayController } from "../../../utils/overlay.svelte";
     import { fly, fade } from "svelte/transition";
-    import { tick } from "svelte";
 
     import type { HTMLAttributes } from "svelte/elements";
 
@@ -26,87 +24,16 @@
     }: Props = $props();
 
     let sheetContent = $state<HTMLElement>();
-    let previousFocus: HTMLElement | null = null;
-    const { lock: scrollLock, unlock: scrollUnlock } = useScrollLock();
 
     function handleClose() {
         open = false;
         onClose?.();
     }
 
-    function getFocusableElements(element: HTMLElement): HTMLElement[] {
-        return Array.from(
-            element.querySelectorAll(
-                'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select',
-            ),
-        ) as HTMLElement[];
-    }
-
-    function handleKeydown(e: KeyboardEvent) {
-        if (!isBrowser || !open) return;
-
-        if (e.key === "Escape") {
-            e.preventDefault();
-            handleClose();
-            return;
-        }
-
-        if (e.key === "Tab") {
-            if (!sheetContent) return;
-            const focusable = getFocusableElements(sheetContent);
-            if (focusable.length === 0) {
-                e.preventDefault();
-                return;
-            }
-
-            const first = focusable[0];
-            const last = focusable[focusable.length - 1];
-
-            if (e.shiftKey) {
-                if (document.activeElement === first) {
-                    e.preventDefault();
-                    last.focus();
-                }
-            } else {
-                if (document.activeElement === last) {
-                    e.preventDefault();
-                    first.focus();
-                }
-            }
-        }
-    }
-
-    $effect(() => {
-        if (!isBrowser) return;
-
-        if (open) {
-            scrollLock();
-            previousFocus = document.activeElement as HTMLElement;
-            tick().then(() => {
-                if (sheetContent) {
-                    const focusable = getFocusableElements(sheetContent);
-                    if (focusable.length > 0) {
-                        focusable[0].focus();
-                    } else {
-                        sheetContent.focus();
-                    }
-                }
-            });
-        } else {
-            scrollUnlock();
-            if (previousFocus) {
-                previousFocus.focus();
-                previousFocus = null;
-            }
-        }
-
-        return () => {
-            scrollUnlock();
-            if (previousFocus) {
-                previousFocus.focus();
-                previousFocus = null;
-            }
-        };
+    const overlay = useOverlayController({
+        open: () => open,
+        content: () => sheetContent,
+        close: handleClose,
     });
 
     const flyParams = $derived.by(() => {
@@ -136,7 +63,7 @@
     });
 </script>
 
-<svelte:window onkeydown={handleKeydown} />
+<svelte:window onkeydown={overlay.handleKeydown} />
 
 {#if open}
     <div

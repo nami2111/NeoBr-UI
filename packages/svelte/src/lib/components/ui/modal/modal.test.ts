@@ -103,4 +103,47 @@ describe("Modal Component", () => {
         expect(document.getElementById(labelledBy[0] ?? "")).toBeInTheDocument();
         expect(document.getElementById(labelledBy[1] ?? "")).toBeInTheDocument();
     });
+
+    it("keeps scroll locked until the final stacked modal closes", async () => {
+        render(ModalTestWrapper, { props: { open: true, title: "First Modal" } });
+        render(ModalTestWrapper, { props: { open: true, title: "Second Modal" } });
+
+        await waitFor(() => {
+            expect(document.body.style.overflow).toBe("hidden");
+        });
+
+        await fireEvent.click(screen.getAllByLabelText("Close modal")[0]);
+
+        await waitFor(() => {
+            expect(screen.getAllByRole("dialog")).toHaveLength(1);
+        });
+        expect(document.body.style.overflow).toBe("hidden");
+
+        await fireEvent.click(screen.getByLabelText("Close modal"));
+
+        await waitFor(() => {
+            expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+        });
+        expect(document.body.style.overflow).toBe("");
+    });
+
+    it("only closes the top stacked modal on Escape", async () => {
+        const firstOnClose = vi.fn();
+        const secondOnClose = vi.fn();
+
+        render(ModalTestWrapper, {
+            props: { open: true, title: "First Modal", onClose: firstOnClose },
+        });
+        render(ModalTestWrapper, {
+            props: { open: true, title: "Second Modal", onClose: secondOnClose },
+        });
+
+        await fireEvent.keyDown(window, { key: "Escape" });
+
+        expect(firstOnClose).not.toHaveBeenCalled();
+        expect(secondOnClose).toHaveBeenCalledTimes(1);
+        await waitFor(() => {
+            expect(screen.getAllByRole("dialog")).toHaveLength(1);
+        });
+    });
 });

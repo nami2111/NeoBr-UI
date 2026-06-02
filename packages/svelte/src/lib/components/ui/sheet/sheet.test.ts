@@ -1,6 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
-import { expect, test } from "vite-plus/test";
+import { expect, test, vi } from "vite-plus/test";
 import SheetTest from "./sheet-test.svelte";
+import { Sheet } from "./index";
 
 test("Sheet toggles visibility", async () => {
     render(SheetTest);
@@ -23,4 +24,16 @@ test("Sheet toggles visibility", async () => {
         },
         { timeout: 2000 },
     );
+});
+
+test("Sheet closes on Escape through shared overlay behavior", async () => {
+    const onClose = vi.fn();
+    render(Sheet, { props: { open: true, title: "Escape Sheet", onClose } });
+
+    await fireEvent.keyDown(window, { key: "Escape" });
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+        expect(screen.queryByText("Escape Sheet")).toBeNull();
+    });
 });

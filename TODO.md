@@ -6,7 +6,7 @@ This plan replaces the previous deleted TODO with current findings from source r
 
 ## Current Baseline
 
-- `vp run --filter @neobr/svelte test`: passes, 44 test files / 262 tests.
+- `vp run --filter @neobr/svelte test`: passes, 44 test files / 265 tests.
 - `vp run --filter @neobr/svelte check`: passes with 0 warnings.
 - `vp run --filter docs check`: passes with 0 warnings.
 - `vp run --filter docs build`: passes.
@@ -177,7 +177,7 @@ Completed:
 - Kept deliberate standalone fallback behavior for Command, Collapsible, Form/Input, and Textarea consumers.
 - Added a ToggleGroupItem misuse test for the root-provider error path.
 
-### 8. Refactor focus trap and scroll-lock into a reusable overlay module
+### 8. Refactor focus trap and scroll-lock into a reusable overlay module ✅ Modal/Sheet done / ⚠️ Popover/Dropdown evaluation still optional
 
 Evidence:
 
@@ -195,9 +195,17 @@ Plan:
 - Use it from Modal and Sheet first, then evaluate Popover/Dropdown.
 - Add tests for nested overlays, close ordering, focus restoration, and scroll-lock count.
 
+Completed:
+
+- Added `utils/overlay.svelte.ts` for shared scroll locking, focus capture/restoration, Escape close, Tab loop, and cleanup.
+- Added overlay stack tracking so only the top overlay handles Escape and scroll remains locked until the final overlay closes.
+- Reused the controller from Modal and Sheet.
+- Added tests for stacked Modal scroll locking, topmost Escape handling, and Sheet Escape handling.
+
 Verification:
 
-- `vp run --filter @neobr/svelte test -- modal sheet popover dropdown`
+- `vp run --filter @neobr/svelte test -- modal sheet`
+- `vp run --filter @neobr/svelte check`
 
 ## P3 - Tighten Public Utility Interfaces
 
