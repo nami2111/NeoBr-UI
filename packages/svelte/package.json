@@ -31,7 +31,8 @@
         "lint": "vp fmt --check .",
         "format": "vp fmt .",
         "test": "vp test run",
-        "test:watch": "vp test"
+        "test:watch": "vp test",
+        "pack:check": "node scripts/check-package-files.mjs"
     },
     "exports": {
         ".": {

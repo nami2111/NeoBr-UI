@@ -87,7 +87,7 @@ Verification:
 
 ## P1 - Fix Package And Tooling Hygiene
 
-### 4. npm package ships tests and test wrappers ✅ Package fixed / ⚠️ CI guard still optional
+### 4. npm package ships tests and test wrappers ✅ Done
 
 Evidence:
 
@@ -107,10 +107,16 @@ Plan:
 - Prefer moving test wrappers to a package-private `src/tests/components` tree or inlining small wrappers in tests so `svelte-package` does not copy them into `dist`.
 - Add a CI check that runs `npm pack --dry-run --json` and fails if `*.test.*`, `*test-wrapper*`, `src/tests/*`, or `.svelte-kit/*` appear in the file list.
 
+Completed:
+
+- Tightened package `files` allow/exclude rules for generated and source test internals.
+- Added `pack:check` script and `scripts/check-package-files.mjs` to fail on tests, wrappers, helpers, `.svelte-kit`, and test folders in `npm pack --dry-run --json` output.
+
 Verification:
 
 - `vp run --filter @neobr/svelte build`
 - `npm pack --dry-run --json --cache /tmp/neobr-npm-cache`
+- `vp run --filter @neobr/svelte pack:check`
 
 ### 5. Full package check scans generated artifacts and fails ✅ Done
 
