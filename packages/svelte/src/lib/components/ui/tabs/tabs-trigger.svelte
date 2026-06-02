@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { getContext } from "svelte";
     import { cn } from "../../../utils";
+    import { requireTabsState } from "./tabs-context";
 
     import type { HTMLButtonAttributes } from "svelte/elements";
 
@@ -10,17 +10,7 @@
 
     let { value: triggerValue, class: className, children, ...rest }: Props = $props();
 
-    const TABS_CONTEXT = Symbol.for("tabs");
-
-    const root = getContext<{
-        value: string | undefined;
-        getTriggerId: (value: string) => string;
-        getPanelId: (value: string) => string;
-    }>(TABS_CONTEXT);
-
-    if (!root) {
-        throw new Error("TabsTrigger must be used within Tabs");
-    }
+    const root = requireTabsState("TabsTrigger");
 
     let isActive = $derived(root.value === triggerValue);
     let triggerId = $derived(root.getTriggerId(triggerValue));

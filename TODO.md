@@ -1,343 +1,269 @@
 # NeoBr-UI Improvement TODO
 
-Fresh audit date: 2026-06-02
+Fresh audit date: 2026-06-03
 
-This plan replaces the previous deleted TODO with current findings from source review, Svelte docs, Svelte MCP autofixer, package checks, tests, docs build, and `npm pack --dry-run`.
+This is a new audit after the previous TODO was completed and committed. It focuses on deeper type-safety, remaining context consistency, test coverage gaps, and maintenance polish.
 
 ## Current Baseline
 
-- `vp run --filter @neobr/svelte test`: passes, 44 test files / 275 tests.
+- `vp run --filter @neobr/svelte test`: passes, 44 test files / 278 tests.
 - `vp run --filter @neobr/svelte check`: passes with 0 warnings.
+- `vp run --filter @neobr/svelte build`: passes.
+- `vp run --filter @neobr/svelte pack:check`: passes, package file list clean.
 - `vp run --filter docs check`: passes with 0 warnings.
 - `vp run --filter docs build`: passes.
-- `vp run --filter @neobr/svelte build`: passes.
 - `vp check packages/svelte`: passes.
-- `vp check packages/svelte/src/lib`: passes with 0 warnings.
-- `npm pack --dry-run --json --cache /tmp/neobr-npm-cache`: package file list contains no tests, test wrappers, `.svelte-kit`, or generated test internals.
 
 ## Context Map
 
-| Area                 | Files                                                                                                     | Risk                                                                     |
-| -------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| Command behavior     | `packages/svelte/src/lib/components/ui/command/*`, `apps/docs/src/routes/components/command/+page.svelte` | `CommandEmpty` is visible while results exist.                           |
-| SSR determinism      | `tooltip.svelte`, `sticker.svelte`, `modal.svelte`, `tabs-*`                                              | Hydration mismatches and duplicate DOM IDs.                              |
-| Package hygiene      | `packages/svelte/package.json`, `packages/svelte/svelte.config.js`, generated `dist`                      | npm package includes test-only code and generated files break checks.    |
-| Typed compound state | `command.svelte`, `collapsible.svelte`, `form-item.svelte`, `toggle-group-*`                              | Shallow context modules, `any`, and ad hoc context keys.                 |
-| Form validation      | `utils/form-validation.svelte.ts`, `components/ui/form/*`                                                 | Public utility relies on `any`, Zod object internals, and limited tests. |
-| Docs a11y/tooling    | `apps/docs/src/routes/+layout.svelte`, docs component pages                                               | Demo app carries a11y suppressions and hard-coded layer classes.         |
+| Area                           | Files                                                                                                  | Risk                                                                                                       |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| Remaining ad hoc context       | `tabs/*`, `radio-group/*`                                                                              | ✅ Done: Tabs and RadioGroup now use typed `createContext` modules with misuse tests.                      |
+| Public API typing              | `button.svelte`, `icon.svelte`, `input.svelte`, `accordion.svelte`, `calendar.svelte`, `select.svelte` | Public components still expose or rely on `any` casts, weakening declaration quality.                      |
+| Bits UI wrappers               | `accordion.svelte`, `calendar.svelte`, `select.svelte`, `types/bits-ui-compat.ts`                      | Current compatibility layer forces casts and may hide upstream type/API drift.                             |
+| Select test coverage           | `select.test.ts`, `select-test-wrapper.svelte`                                                         | Interaction tests are commented out, leaving open/select/keyboard behavior under-tested.                   |
+| Overlay internals              | `utils/overlay.svelte.ts`, `modal.svelte`, `sheet.svelte`, `dropdown-menu.svelte`                      | Autofixer repeatedly flags `bind:this` and complex `$effect` cleanup patterns.                             |
+| SvelteKit package warning      | `packages/svelte/tsconfig.json`, `svelte.config.js`                                                    | Checks/builds pass but print recurring `tsconfig.json should extend ./.svelte-kit/tsconfig.json` warnings. |
+| Calendar rendering duplication | `calendar.svelte`, `date-picker.svelte`                                                                | Calendar grid rendering is duplicated and already documented inline.                                       |
+| Docs/demo polish               | `apps/docs/src/routes/components/form/+page.svelte`, docs decorative z-index usage                     | Demos include `console.log`; decorative hard-coded `z-10` remains in examples.                             |
 
-## P0 - Fix Confirmed Behavior Bugs
+## P0 - No New Confirmed Behavior Bugs
 
-### 1. Command empty state is always rendered ✅ Done
+No newly confirmed P0 behavior bug was found in this pass. The next work is mostly type-safety, test coverage, and maintenance hardening.
 
-Evidence:
+## P1 - Type Safety And Context Consistency
 
-- `packages/svelte/src/lib/components/ui/command/command-empty.svelte:10` renders a visible div unconditionally.
-- `packages/svelte/src/lib/components/ui/command/command.test.ts:60` asserts "No results found." exists in the default populated state, so the test blesses the bug.
-- `apps/docs/src/routes/components/command/+page.svelte` uses `CommandEmpty` before populated groups, so docs demonstrate the wrong behavior.
-
-Plan:
-
-- Move result registration/search matching into the command module interface.
-- Let `CommandItem` register whether it is currently visible, or let `CommandList` derive visible count from registered item values.
-- Render `CommandEmpty` only when search is non-empty and no items match.
-- Update tests to assert the empty state is absent initially, absent for partial matches, and present only for no-match queries.
-
-Verification:
-
-- `vp run --filter @neobr/svelte test -- command`
-- `vp run --filter docs build`
-
-### 2. Tooltip and sticker can hydrate with different markup/styles ✅ Done
+### 1. Move Tabs and RadioGroup to typed context modules ✅ Done
 
 Evidence:
 
-- `tooltip.svelte:17` uses `crypto.randomUUID()` during component setup for an ARIA ID.
-- `sticker.svelte:21` uses `Math.random()` during component setup for default rotation.
-- Svelte 5 provides `$props.id()` specifically for SSR-stable component IDs.
+- `tabs/tabs.svelte` still imports `setContext` directly and uses `Symbol.for("tabs")`.
+- `tabs/tabs-trigger.svelte` and `tabs/tabs-content.svelte` still call `getContext<{ ... }>()` inline.
+- `radio-group/radio-group.svelte` still imports `setContext` directly and uses `Symbol.for("radio-group")`.
+- `radio-group/radio-group-item.svelte` still calls `getContext<{ ... }>()` inline.
 
 Plan:
 
-- Replace tooltip ID generation with `$props.id()` and derive `tooltip-${uid}`.
-- Make `Sticker` deterministic by default. Prefer `rotation={0}` or derive a stable pseudo-random rotation from `$props.id()` only if the visual jitter is worth preserving.
-- Add SSR/hydration tests for Tooltip and Sticker, not just JSDOM interaction tests.
-
-Completed:
-
-- Replaced non-deterministic setup values in Tooltip and Sticker.
-- Added a bindable `open` prop to Tooltip so initially visible tooltips can be rendered deterministically.
-- Added a lightweight SSR render helper for tests that compiles Svelte components with `generate: "server"`.
-- Added SSR + hydrate regression coverage for initially open Tooltip ID stability.
-- Added SSR + hydrate regression coverage for Sticker's deterministic default rotation.
+- Add `tabs-context.ts` and `radio-group-context.ts` using Svelte `createContext`.
+- Keep deliberate missing-provider behavior for required compound children, or provide explicit `requireTabsState` / `requireRadioGroupState` helpers with clear errors.
+- Add misuse tests for `TabsTrigger`, `TabsContent`, and `RadioGroupItem` outside their roots.
+- Preserve existing unique ID behavior in Tabs.
 
 Verification:
 
-- `vp run --filter @neobr/svelte test -- tooltip sticker`
+- `vp run --filter @neobr/svelte test -- tabs radio-group` ✅ 44 files / 278 tests
+- `vp run --filter @neobr/svelte check` ✅ 0 errors / 0 warnings
+
+### 2. Remove public `any` leaks and unsafe casts where practical
+
+Evidence:
+
+- ✅ Done: `button/button.svelte` now uses a targeted `HTMLAnchorAttributes` cast instead of `{...rest as any}`.
+- ✅ Done: `input/input.svelte` now narrows `value` to `string | number | undefined`.
+- ✅ Done: `icon/icon.svelte` now uses Hugeicons `IconSvgElement` / component prop types instead of broad `any`.
+- Remaining: `accordion/accordion.svelte`, `calendar/calendar.svelte`, and `select/select.svelte` still use `value as any` and `rest as any`.
+- Test wrappers also use `any`, but package exports are the higher priority.
+
+Plan:
+
+- Replace broad `any` with `unknown`, HTML element attribute types, or targeted library types. ✅ Done for Button, Input, and Icon.
+- Split overloaded component props where necessary (e.g. Button anchor vs button props).
+- Improve `Icon` prop typing from Hugeicons package exports if available; otherwise define a narrow accepted icon shape.
+- For Bits UI wrappers, isolate unavoidable casts in typed helper functions rather than in component markup.
+
+Verification:
+
+- `rg -n "\\bany\\b|as any" packages/svelte/src/lib/components/ui packages/svelte/src/lib/types`
 - `vp run --filter @neobr/svelte check`
-
-### 3. Modal title ID is duplicated across simultaneous modals ✅ Done
-
-Evidence:
-
-- `modal.svelte:160` references `"modal-title"`.
-- `modal.svelte:188` renders `id="modal-title"`.
-
-Plan:
-
-- Generate an instance-stable ID with `$props.id()`.
-- Use the derived ID for `aria-labelledby` and the heading.
-- Apply the same audit to tabs IDs (`trigger-${value}` / `tabpanel-${value}`), because values may collide across multiple tab groups.
-
-Verification:
-
-- Add tests rendering two modals/two tab groups on the same page.
-- Run `vp run --filter @neobr/svelte test -- modal tabs`.
-
-## P1 - Fix Package And Tooling Hygiene
-
-### 4. npm package ships tests and test wrappers ✅ Done
-
-Evidence:
-
-- `packages/svelte/package.json:268` includes both `dist` and `src`.
-- It excludes only `!dist/**/*.test.*` and `!dist/**/*.spec.*`.
-- `npm pack --dry-run` reports 578 package entries and includes paths like `src/lib/components/ui/command/command.test.ts`, `src/tests/setup.ts`, and `dist/components/ui/command/command-test-wrapper.svelte`.
-
-Plan:
-
-- Decide whether source publishing is required for declaration maps. If yes, include only `src/lib` and exclude all tests/wrappers:
-    - `!src/**/*.test.*`
-    - `!src/**/*.spec.*`
-    - `!src/tests/**`
-    - `!src/**/*test-wrapper.svelte`
-    - `!src/**/*-test.svelte`
-    - matching `dist` exclusions for wrappers and generated test Svelte files.
-- Prefer moving test wrappers to a package-private `src/tests/components` tree or inlining small wrappers in tests so `svelte-package` does not copy them into `dist`.
-- Add a CI check that runs `npm pack --dry-run --json` and fails if `*.test.*`, `*test-wrapper*`, `src/tests/*`, or `.svelte-kit/*` appear in the file list.
-
-Completed:
-
-- Tightened package `files` allow/exclude rules for generated and source test internals.
-- Added `pack:check` script and `scripts/check-package-files.mjs` to fail on tests, wrappers, helpers, `.svelte-kit`, and test folders in `npm pack --dry-run --json` output.
-
-Verification:
-
 - `vp run --filter @neobr/svelte build`
-- `npm pack --dry-run --json --cache /tmp/neobr-npm-cache`
-- `vp run --filter @neobr/svelte pack:check`
 
-### 5. Full package check scans generated artifacts and fails ✅ Done
+### 3. Revisit Bits UI compatibility wrappers
 
 Evidence:
 
-- `vp check packages/svelte` fails on `.svelte-kit/__package__` and `dist` formatting issues after build.
-- `vp check packages/svelte/src/lib` passes source formatting, so the failure is target/ignore hygiene.
+- `types/bits-ui-compat.ts` is intentionally broad but still does not prevent casts in Accordion, Calendar, and Select roots.
+- Wrapper components bind values with union modes (`single`/`multiple`) that TypeScript cannot currently narrow at the call site.
 
 Plan:
 
-- Add generated-output ignore patterns to `vite.config.ts` formatting/lint config if Vite+ supports it, or document/use path-targeted checks in scripts.
-- Consider changing package `lint` from `vp fmt --check .` to a source-only target.
-- Remove generated `dist` from any human-editable check path in CI.
-
-Verification:
-
-- `vp check packages/svelte`
-- `vp check packages/svelte/src/lib`
-
-### 6. Svelte-check warnings point at generated name collisions ✅ Done
-
-Evidence:
-
-- Library check warns that `toast.svelte.ts` would generate `toast.svelte.js` and collide with another input.
-- Docs check warns about `svelte.config.js` overwrite.
-
-Plan:
-
-- Rename `packages/svelte/src/lib/components/ui/toast/toast.svelte.ts` to a non-component-looking rune module, e.g. `toast-state.svelte.ts`, then update exports/imports.
-- Review tsconfig includes so package checks do not include generated files as inputs.
+- Decide whether to expose separate single/multiple generic props or simplify to the concrete modes actually supported by the demos.
+- Consider root wrapper helper types/functions to normalize value/type before passing to Bits UI.
+- Add type-focused fixtures or compile-time tests for single vs multiple mode value types.
 
 Verification:
 
 - `vp run --filter @neobr/svelte check`
-- `vp run --filter docs check`
+- `vp run --filter @neobr/svelte build`
 
-## P2 - Deepen Compound Component Modules
+## P2 - Test Coverage And Tooling Hygiene
 
-### 7. Replace ad hoc context seams with typed Svelte 5 context modules ✅ Done
-
-Evidence:
-
-- `command.svelte:1`, `collapsible.svelte:1`, and `form-item.svelte:1` define context keys inside component module scripts.
-- `toggle-group-item.svelte:16` uses `getContext<any>`.
-- Svelte 5.40+ provides `createContext`, and this repo uses Svelte 5.53.12.
-
-Plan:
-
-- Create small typed context modules per compound module, e.g. `command-context.ts`, `collapsible-context.ts`, `form-context.ts`, `toggle-group-context.ts`.
-- Use `createContext<T>()` for type-safe get/set pairs.
-- Encode missing-provider behavior deliberately. Either throw clear errors when subcomponents are used outside a root, or support standalone fallback behavior.
-- Test misuse cases for every compound module.
-
-Benefits:
-
-- Better locality: state contracts live in one typed module.
-- Better leverage: child components no longer duplicate context shapes or use `any`.
-- Safer API evolution for command/search, form error state, and toggle-group modes.
-
-Completed:
-
-- Added typed `createContext` modules for Command, Collapsible, Form Item, and Toggle Group.
-- Removed `getContext<any>` from ToggleGroupItem.
-- Kept deliberate standalone fallback behavior for Command, Collapsible, Form/Input, and Textarea consumers.
-- Added a ToggleGroupItem misuse test for the root-provider error path.
-- Added standalone fallback tests for Command, Collapsible, and Form subcomponents.
-
-### 8. Refactor focus trap and scroll-lock into a reusable overlay module ✅ Done
+### 4. Restore Select interaction tests
 
 Evidence:
 
-- `modal.svelte` and `sheet.svelte` duplicate focus trapping, previous-focus restoration, Escape handling, and scroll locking.
-- Svelte autofixer flagged the overlay `$effect` as complex and worth review.
+- `select/select.test.ts` has a large commented-out block with `TODO: Interaction tests fail in JSDOM with bits-ui currently`.
+- Current Select tests only cover closed/default/disabled/placeholder/class behavior.
 
 Plan:
 
-- Create one overlay behavior module that handles:
-    - lock/unlock with reference counting,
-    - focus capture/restoration,
-    - Tab loop,
-    - Escape close,
-    - cleanup on unmount.
-- Use it from Modal and Sheet first, then evaluate Popover/Dropdown.
-- Add tests for nested overlays, close ordering, focus restoration, and scroll-lock count.
-
-Completed:
-
-- Added `utils/overlay.svelte.ts` for shared scroll locking, focus capture/restoration, Escape close, Tab loop, and cleanup.
-- Added overlay stack tracking so only the top overlay handles Escape and scroll remains locked until the final overlay closes.
-- Reused the controller from Modal and Sheet.
-- Added a lightweight dismissable overlay controller for non-modal Popover and DropdownMenu behavior without scroll locking.
-- Shared overlay stack ordering across modal and non-modal overlays so only the top overlay handles Escape.
-- Added tests for stacked Modal scroll locking, topmost Escape handling, Sheet Escape handling, and stacked Popover/DropdownMenu Escape ordering.
+- Try `@testing-library/user-event` or more complete pointer/keyboard event setup for Bits UI interactions.
+- If JSDOM remains unsuitable, add a small browser-level test harness or document that Select interaction coverage is deferred to e2e.
+- Cover open, select option, close on outside click, and keyboard navigation.
 
 Verification:
 
-- `vp run --filter @neobr/svelte test -- dropdown-menu popover modal sheet`
-- `vp run --filter @neobr/svelte check`
+- `vp run --filter @neobr/svelte test -- select`
+- Optional browser/e2e command if introduced.
 
-## P3 - Tighten Public Utility Interfaces
-
-### 9. Harden `createFormState` ✅ Done
+### 5. Reduce recurring SvelteKit tsconfig warning noise
 
 Evidence:
 
-- `form-validation.svelte.ts:69`, `:70`, and `:92` use `any` and rely on Zod object internals.
-- `reset()` reuses `initialData` by reference at `:186`.
-- Tests exercise visual Form components but not the validation utility interface deeply.
+- `vp run --filter @neobr/svelte check` and `build` pass but repeatedly print:
+  `Your tsconfig.json should extend the configuration generated by SvelteKit: { "extends": "./.svelte-kit/tsconfig.json" }`.
+- The package currently extends `../../tsconfig.json` and includes `svelte.config.js`.
 
 Plan:
 
-- Constrain the utility to `z.ZodObject<z.ZodRawShape>` explicitly or design an adapter interface for supported schemas.
-- Avoid shared object references on reset; clone from an immutable initial snapshot.
-- Add unit tests for validation timing, reset isolation, async submit failure, nested errors, default values, and `validateOnChange`/`validateOnBlur`.
-- Decide whether empty-string defaults are always correct, especially for number/boolean/date fields.
-
-Completed:
-
-- Constrained `createFormState` to `z.ZodObject<z.ZodRawShape>` and removed `any` usage.
-- Centralized field-name/error/touched typing.
-- Cloned initial values for setup/reset so nested values do not share references.
-- Cloned submitted values before passing them to `onSubmit`.
-- Added `submitError` state and hardened async submit failures so `isSubmitting` always clears without unhandled submit rejections.
-- Kept the existing empty-string default for missing fields as the current bindable text-input behavior.
-- Added tests for validate-on-change, nested error reporting, reset isolation, submit cloning, and async submit failure cleanup.
+- Confirm whether this package should be a pure `svelte-package` library config or a SvelteKit workspace config.
+- Evaluate using `svelte-kit sync` before checks/builds, or updating tsconfig structure if it does not break packaging.
+- Avoid introducing generated files into tracked source.
 
 Verification:
 
-- `vp run --filter @neobr/svelte test -- form`
-- `vp run --filter @neobr/svelte check`
+- `vp run --filter @neobr/svelte check` with no warning banner if feasible.
+- `vp run --filter @neobr/svelte build`
 
-### 10. Normalize motion tokens in component transitions ✅ Done
+### 6. Add a focused smoke test for package exports
 
 Evidence:
 
-- `TRANSITION_BRUTALIST` and `TRANSITION_BRUTALIST_SLOW` exist, but some components still inline transition durations.
+- `pack:check` verifies file contents but does not import the packed/compiled exports.
+- The library has many subpath exports in `package.json` that can drift from generated `dist` files.
 
 Plan:
 
-- Replace inline transition configs in Checkbox, RadioGroupItem, Tooltip, DropdownMenu, Popover, Modal backdrop, Sheet backdrop, and Collapsible with motion utilities where behavior should be consistent.
-- Keep exceptions documented when a component needs a distinct duration.
-
-Completed:
-
-- Added fast and backdrop motion tokens alongside the existing default/slow tokens.
-- Replaced inline transition durations in Checkbox, RadioGroupItem, Tooltip, DropdownMenu, Popover, Modal backdrop, Sheet backdrop, Collapsible, and Toast animations.
-- Verified no remaining inline `duration: <number>` transition configs in `components/ui`.
+- Add a script that runs after `svelte-package` and checks every package export path resolves to existing JS and `.d.ts` files.
+- Optionally import selected JS exports in Node for non-component utilities (`utils`, `form`, `toast`).
 
 Verification:
 
-- `rg -n "transition:.*duration|duration: [0-9]+" packages/svelte/src/lib/components/ui`
-- `vp run --filter @neobr/svelte test -- checkbox radio-group tooltip dropdown-menu popover collapsible modal sheet toast`
-- `vp run --filter @neobr/svelte check`
+- New script, e.g. `vp run --filter @neobr/svelte exports:check`.
+- `vp run --filter @neobr/svelte build && vp run --filter @neobr/svelte exports:check`.
 
-## P4 - Docs And Maintenance Cleanup
+## P3 - Internal Architecture Cleanup
 
-### 11. Remove docs a11y suppressions and hard-coded layering where practical ✅ Done
+### 7. Refactor overlay element capture away from `bind:this` where useful
 
 Evidence:
 
-- `apps/docs/src/routes/+layout.svelte:87` suppresses click/key a11y warnings for the mobile overlay.
-- The docs layout uses hard-coded `z-[60]`, `z-50`, and `z-40`.
+- `modal.svelte`, `sheet.svelte`, and `dropdown-menu.svelte` still use `bind:this`.
+- Svelte autofixer suggests attachments/actions could make this easier to read.
+- `utils/overlay.svelte.ts` now centralizes overlay logic but still relies on content getter closures.
 
 Plan:
 
-- Use a semantic button or add keyboard handling/ARIA to the mobile overlay.
-- Prefer design-system z-index tokens in docs app where they represent global layers.
-- Add a smoke test or axe pass for docs layout/mobile menu.
+- Evaluate a Svelte attachment/action that registers overlay content elements with the controller.
+- Keep behavior identical for focus trap, restoration, stack ordering, and Escape handling.
+- Only refactor if readability improves; do not churn for its own sake.
 
-Completed:
+Verification:
 
-- Replaced the mobile overlay `div` plus Svelte a11y suppressions with an accessible `button` backdrop.
-- Replaced docs layout hard-coded layer classes (`z-[60]`, `z-50`, `z-40`) with design-system z-index CSS variables.
-- Verified the docs layout has no remaining `svelte-ignore` or hard-coded numeric z-index utilities.
+- `vp run --filter @neobr/svelte test -- modal sheet dropdown-menu popover`
+- `vp run --filter @neobr/svelte check`
+
+### 8. Deduplicate Calendar and DatePicker grid rendering
+
+Evidence:
+
+- `calendar/calendar.svelte` contains an inline note that grid rendering is duplicated with `date-picker.svelte`.
+- Duplicated class strings and layout increase maintenance cost for date UI changes.
+
+Plan:
+
+- Extract a shared rendering helper/component that can accept the relevant Bits UI primitives while preserving context.
+- Keep API unchanged for Calendar and DatePicker consumers.
+- Add regression tests for selected/today/outside-month classes if feasible.
+
+Verification:
+
+- `vp run --filter @neobr/svelte test -- calendar date-picker`
+- `vp run --filter @neobr/svelte check`
+
+### 9. Improve Toast state determinism and testability
+
+Evidence:
+
+- `toast/toast-state.svelte.ts` uses `crypto.randomUUID()` and `setTimeout` directly.
+- Tests cover custom duration, but injected clocks/ID factories would make state tests more deterministic.
+
+Plan:
+
+- Consider an internal factory or injectable ID/timer helpers for tests while keeping public API unchanged.
+- Ensure auto-dismiss cleanup is deterministic under fake timers.
+- Avoid SSR shared-state concerns if toast state is ever imported during server rendering.
+
+Verification:
+
+- `vp run --filter @neobr/svelte test -- toast`
+- `vp run --filter @neobr/svelte check`
+
+## P4 - Docs And Demo Polish
+
+### 10. Remove demo `console.log` and tighten docs examples
+
+Evidence:
+
+- `apps/docs/src/routes/components/form/+page.svelte` logs submitted values to the console.
+- Some docs examples use decorative `z-10` classes; these are less risky than layout layers but still hard-coded.
+
+Plan:
+
+- Replace console logging with toast/demo state output.
+- Review docs examples for unnecessary hard-coded layer classes.
+- Keep decorative z-index classes only when they are clearly local and not global layering.
 
 Verification:
 
 - `vp run --filter docs check`
 - `vp run --filter docs build`
-- `rg -n "svelte-ignore|z-\\[|z-[0-9]" apps/docs/src/routes/+layout.svelte`
 
-### 12. Clean unused imports in tests ✅ Done
+### 11. Move or rename colocated test wrappers if they keep creating packaging complexity
 
 Evidence:
 
-- `vp check packages/svelte/src/lib` reports unused imports in several tests (`vi`, `screen`).
+- Many `*-test-wrapper.svelte` files live beside public components under `src/lib/components/ui`.
+- `pack:check` now prevents shipping them, but colocated wrappers increase package exclude complexity.
 
 Plan:
 
-- Remove unused imports from Checkbox, Command, Calendar, AspectRatio, and Marquee tests.
-- Keep this as opportunistic cleanup after P0/P1.
+- Consider moving wrappers to `src/tests/components` or inlining small wrappers in test files.
+- Keep imports simple and avoid breaking svelte-package output.
 
 Verification:
 
-- `vp check packages/svelte/src/lib`
+- `vp run --filter @neobr/svelte test`
+- `vp run --filter @neobr/svelte build`
+- `vp run --filter @neobr/svelte pack:check`
 
 ## Recommended Execution Order
 
-1. Fix Command empty-state behavior and tests.
-2. Fix SSR-stable IDs/random setup in Tooltip, Sticker, Modal, and Tabs.
-3. Fix package `files`/test-wrapper leakage and add pack dry-run guard.
-4. Fix generated-output check targets and `toast.svelte.ts` naming warning.
-5. Deepen typed context modules for Command, ToggleGroup, Collapsible, and Form.
-6. Extract reusable overlay/focus/scroll behavior.
-7. Harden `createFormState` with focused tests.
-8. Clean docs a11y suppressions and small lint warnings.
+1. Convert Tabs and RadioGroup to typed context modules.
+2. Restore Select interaction coverage or document a browser-test path.
+3. Reduce public `any`/casts in Button, Input, Icon, and Bits UI wrappers.
+4. Add compiled export smoke checks.
+5. Investigate the recurring SvelteKit tsconfig warning.
+6. Evaluate overlay attachment refactor.
+7. Deduplicate Calendar/DatePicker rendering.
+8. Polish docs demos and revisit colocated test wrappers.
 
 ## Done Criteria
 
 - `vp run --filter @neobr/svelte test` passes.
 - `vp run --filter @neobr/svelte check` has 0 warnings.
+- `vp run --filter @neobr/svelte build` passes.
+- `vp run --filter @neobr/svelte pack:check` passes.
 - `vp run --filter docs check` has 0 warnings.
 - `vp run --filter docs build` passes.
-- `vp check packages/svelte` no longer scans generated output or passes cleanly.
-- `npm pack --dry-run --json --cache /tmp/neobr-npm-cache` contains no tests, test wrappers, `.svelte-kit`, or generated package internals.
-- Added tests fail before and pass after fixes for Command empty state, SSR-stable IDs, duplicate modal/tab IDs, package file leakage, and overlay focus/scroll behavior.
+- Any new package/export guard passes in CI-equivalent commands.
+- New tests cover Select interactions or explicitly document why they require browser/e2e coverage.

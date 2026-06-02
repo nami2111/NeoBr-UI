@@ -37,11 +37,11 @@
         </CalendarPrimitive.Header>
 
         <div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
-            {#each months as month}
+            {#each months as month (month.value.toString())}
                 <CalendarPrimitive.Grid class="w-full border-collapse select-none">
                     <CalendarPrimitive.GridHead>
                         <CalendarPrimitive.GridRow class="mb-1 flex w-full justify-between">
-                            {#each weekdays as day}
+                            {#each weekdays as day, weekdayIndex (`${day}-${weekdayIndex}`)}
                                 <CalendarPrimitive.HeadCell
                                     class="text-muted-foreground w-9 text-center text-[10px] font-black uppercase"
                                 >
@@ -51,9 +51,9 @@
                         </CalendarPrimitive.GridRow>
                     </CalendarPrimitive.GridHead>
                     <CalendarPrimitive.GridBody>
-                        {#each month.weeks as weekDates}
+                        {#each month.weeks as weekDates (weekDates.map((date) => date.toString()).join("|"))}
                             <CalendarPrimitive.GridRow class="flex w-full justify-between">
-                                {#each weekDates as date}
+                                {#each weekDates as date (date.toString())}
                                     <CalendarPrimitive.Cell
                                         {date}
                                         month={month.value}

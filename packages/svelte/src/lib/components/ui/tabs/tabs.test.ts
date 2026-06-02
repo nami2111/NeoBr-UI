@@ -2,6 +2,8 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
 import { describe, it, expect } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import TabsTestWrapper from "./tabs-test-wrapper.svelte";
+import TabsTrigger from "./tabs-trigger.svelte";
+import TabsContent from "./tabs-content.svelte";
 
 describe("Tabs", () => {
     it("should have no accessibility violations", async () => {
@@ -39,6 +41,18 @@ describe("Tabs", () => {
         const trigger = screen.getByRole("tab", { name: /account/i });
         expect(trigger).toHaveClass("bg-primary");
         expect(trigger).toHaveClass("text-primary-foreground");
+    });
+
+    it("throws a clear error when trigger is outside a tabs root", () => {
+        expect(() => render(TabsTrigger, { props: { value: "tab1" } })).toThrow(
+            "TabsTrigger must be used inside a Tabs root.",
+        );
+    });
+
+    it("throws a clear error when content is outside a tabs root", () => {
+        expect(() => render(TabsContent, { props: { value: "tab1" } })).toThrow(
+            "TabsContent must be used inside a Tabs root.",
+        );
     });
 
     it("uses unique trigger and panel IDs across tab groups", () => {

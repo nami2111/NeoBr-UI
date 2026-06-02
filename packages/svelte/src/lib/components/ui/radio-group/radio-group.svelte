@@ -1,9 +1,7 @@
 <script lang="ts">
-    import { setContext } from "svelte";
     import { cn } from "../../../utils";
+    import { setRadioGroupState } from "./radio-group-context";
     import type { HTMLAttributes } from "svelte/elements";
-
-    const RADIO_CONTEXT = Symbol.for("radio-group");
 
     type Props = HTMLAttributes<HTMLDivElement> & {
         value?: string;
@@ -20,7 +18,7 @@
         ...rest
     }: Props = $props();
 
-    setContext(RADIO_CONTEXT, {
+    setRadioGroupState({
         get value() {
             return value;
         },

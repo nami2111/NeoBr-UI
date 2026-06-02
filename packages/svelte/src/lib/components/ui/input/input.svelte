@@ -15,7 +15,7 @@
         /**
          * The value of the input. Can be bound.
          */
-        value?: any;
+        value?: string | number | undefined;
 
         /**
          * Error state of the input.

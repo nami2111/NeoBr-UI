@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { setContext } from "svelte";
     import { cn } from "../../../utils";
+    import { setTabsState } from "./tabs-context";
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
@@ -9,14 +9,13 @@
 
     let { value = $bindable(undefined), class: className, children, ...rest }: Props = $props();
 
-    const TABS_CONTEXT = Symbol.for("tabs");
     const tabsId = $props.id();
 
     function tabIdPart(tabValue: string) {
         return tabValue.replace(/\s+/g, "-");
     }
 
-    setContext(TABS_CONTEXT, {
+    setTabsState({
         get value() {
             return value;
         },

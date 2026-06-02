@@ -7,14 +7,17 @@
      * <Icon icon={Home01Icon} size={24} color="currentColor" />
      * ```
      */
-    import { HugeiconsIcon } from "@hugeicons/svelte";
+    import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/svelte";
     import { cn } from "../../../utils";
+    import type { ComponentProps } from "svelte";
 
-    type Props = {
+    type HugeiconsIconProps = ComponentProps<typeof HugeiconsIcon>;
+
+    type Props = Omit<HugeiconsIconProps, "icon" | "size" | "color" | "strokeWidth" | "class"> & {
         /**
-         * The icon component or object from @hugeicons/svelte
+         * The icon object from @hugeicons/core-free-icons.
          */
-        icon: any;
+        icon: IconSvgElement;
 
         /**
          * Size of the icon in pixels.
@@ -35,7 +38,6 @@
         strokeWidth?: number;
 
         class?: string;
-        [key: string]: any;
     };
 
     let {

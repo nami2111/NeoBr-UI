@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { getContext } from "svelte";
     import { scale } from "svelte/transition";
     import { cn } from "../../../utils";
     import { TRANSITION_BRUTALIST } from "../../../utils/motion";
+    import { requireRadioGroupState } from "./radio-group-context";
 
     import type { HTMLAttributes } from "svelte/elements";
 
@@ -14,17 +14,7 @@
 
     let { value: itemValue, disabled = false, class: className, id, ...rest }: Props = $props();
 
-    const RADIO_CONTEXT = Symbol.for("radio-group");
-
-    const ctx = getContext<{
-        value: string;
-        disabled: boolean;
-        name?: string;
-    }>(RADIO_CONTEXT);
-
-    if (!ctx) {
-        throw new Error("RadioGroupItem must be used within RadioGroup");
-    }
+    const ctx = requireRadioGroupState();
 
     let isSelected = $derived(ctx.value === itemValue);
     let isItemDisabled = $derived(ctx.disabled || disabled);
