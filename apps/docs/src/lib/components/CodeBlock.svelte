@@ -21,13 +21,14 @@
         variant="outline"
         size="sm"
         onclick={copyToClipboard}
-        class="absolute right-2 top-2 gap-2 opacity-0 transition-opacity group-hover:opacity-100"
+        class="absolute top-2 right-2 gap-2 opacity-100 transition-opacity md:opacity-0 md:group-focus-within:opacity-100 md:group-hover:opacity-100"
         style="z-index: 1"
+        aria-label={copied ? "Copied code" : "Copy code"}
     >
         <Icon icon={copied ? CheckmarkCircle02Icon : Copy01Icon} class="h-4 w-4" />
         {copied ? "Copied!" : "Copy"}
     </Button>
-    <pre class="border-foreground bg-muted text-foreground overflow-x-auto rounded-none border-2 p-6 font-mono text-sm leading-relaxed">
-<code>{code}</code>
-    </pre>
+    <pre
+        class="border-foreground bg-muted text-foreground min-h-24 overflow-x-auto rounded-none border-2 p-6 pt-14 font-mono text-sm leading-relaxed shadow-[0_5px_0_0_var(--color-shadow-color)] md:pt-6"
+    ><code>{code}</code></pre>
 </div>

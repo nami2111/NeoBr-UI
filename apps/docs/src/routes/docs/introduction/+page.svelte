@@ -11,8 +11,8 @@
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">What is NeoBr-UI?</h2>
             <p class="text-lg leading-relaxed font-medium">
                 NeoBr-UI is an unashamedly bold UI library built on the principles of
-                **Neo-Brutalism**. It rejects the soft, muted aesthetics of modern web design in
-                favor of high contrast, heavy borders, and vibrant colors.
+                <strong>Neo-Brutalism</strong>. It rejects the soft, muted aesthetics of modern web
+                design in favor of high contrast, heavy borders, and vibrant colors.
             </p>
         </section>
 

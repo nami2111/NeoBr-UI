@@ -12,6 +12,7 @@
 @layer base {
     html {
         @apply overflow-x-hidden;
+        scroll-behavior: smooth;
     }
 
     body {
@@ -21,11 +22,19 @@
 
 /* App-specific components/utilities can go here */
 @utility text-stroke-2 {
-    -webkit-text-stroke: 2px var(--color-foreground);
+    text-shadow:
+        1px 1px 0 var(--color-foreground),
+        -1px -1px 0 var(--color-foreground),
+        1px -1px 0 var(--color-foreground),
+        -1px 1px 0 var(--color-foreground);
 }
 
 @utility text-stroke-primary {
-    -webkit-text-stroke: 2px var(--color-primary);
+    text-shadow:
+        1px 1px 0 var(--color-primary),
+        -1px -1px 0 var(--color-primary),
+        1px -1px 0 var(--color-primary),
+        -1px 1px 0 var(--color-primary);
 }
 
 @utility bg-grid {
@@ -38,4 +47,22 @@
 @utility bg-glass {
     backdrop-filter: blur(8px);
     background-color: oklch(from var(--color-background) l c h / 0.8);
+}
+
+@utility bg-grid-fine {
+    background-image:
+        linear-gradient(var(--color-border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+@layer components {
+    .skip-link {
+        @apply border-foreground bg-primary text-primary-foreground fixed top-4 left-4 -translate-y-20 border-2 px-4 py-2 text-sm font-black transition-transform;
+        z-index: var(--z-toast);
+    }
+
+    .skip-link:focus {
+        @apply ring-ring ring-offset-background translate-y-0 ring-2 ring-offset-2 outline-none;
+    }
 }
