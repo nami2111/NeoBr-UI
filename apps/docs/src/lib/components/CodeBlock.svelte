@@ -21,7 +21,8 @@
         variant="outline"
         size="sm"
         onclick={copyToClipboard}
-        class="absolute right-2 top-2 z-10 gap-2 opacity-0 transition-opacity group-hover:opacity-100"
+        class="absolute right-2 top-2 gap-2 opacity-0 transition-opacity group-hover:opacity-100"
+        style="z-index: 1"
     >
         <Icon icon={copied ? CheckmarkCircle02Icon : Copy01Icon} class="h-4 w-4" />
         {copied ? "Copied!" : "Copy"}

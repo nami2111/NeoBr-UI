@@ -44,7 +44,7 @@
                 <div
                     class="absolute inset-0 bg-[radial-gradient(var(--color-foreground)_1px,transparent_1px)] [background-size:20px_20px] opacity-10"
                 ></div>
-                <div class="relative z-10 flex w-full items-center justify-center">
+                <div class="relative flex w-full items-center justify-center" style="z-index: 1">
                     {@render children?.()}
                 </div>
             </div>

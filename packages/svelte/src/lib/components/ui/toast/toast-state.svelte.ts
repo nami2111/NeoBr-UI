@@ -9,39 +9,82 @@ export interface ToastOptions {
     type?: ToastType;
 }
 
-export interface ToastItem extends ToastOptions {
+export interface ToastItem extends Omit<ToastOptions, "duration" | "type"> {
     id: string;
+    duration: number;
+    type: ToastType;
 }
 
-class ToastManager {
+type ToastTimer = ReturnType<typeof setTimeout>;
+
+type ToastManagerDependencies = {
+    createId?: () => string;
+    setTimeout?: (handler: () => void, timeout: number) => ToastTimer;
+    clearTimeout?: (timer: ToastTimer) => void;
+    isBrowser?: boolean;
+};
+
+const defaultDependencies = {
+    createId: () => crypto.randomUUID(),
+    setTimeout: (handler: () => void, timeout: number) => globalThis.setTimeout(handler, timeout),
+    clearTimeout: (timer: ToastTimer) => globalThis.clearTimeout(timer),
+    isBrowser,
+} satisfies Required<ToastManagerDependencies>;
+
+export class ToastManager {
     #toasts = $state<ToastItem[]>([]);
+    #timers = new Map<string, ToastTimer>();
+    #dependencies: Required<ToastManagerDependencies>;
+
+    constructor(dependencies: ToastManagerDependencies = {}) {
+        this.#dependencies = {
+            ...defaultDependencies,
+            ...dependencies,
+        };
+    }
 
     get toasts() {
         return this.#toasts;
     }
 
     add(options: ToastOptions) {
-        const id = crypto.randomUUID();
+        const id = this.#dependencies.createId();
         const toast: ToastItem = {
-            id,
-            type: "default",
-            duration: 3000,
             ...options,
+            id,
+            type: options.type ?? "default",
+            duration: options.duration ?? 3000,
         };
 
         this.#toasts.push(toast);
 
-        if (isBrowser && toast.duration !== Infinity) {
-            setTimeout(() => {
+        if (this.#dependencies.isBrowser && toast.duration !== Infinity) {
+            const timer = this.#dependencies.setTimeout(() => {
                 this.dismiss(id);
             }, toast.duration);
+            this.#timers.set(id, timer);
         }
 
         return id;
     }
 
     dismiss(id: string) {
+        const timer = this.#timers.get(id);
+        if (timer) {
+            this.#dependencies.clearTimeout(timer);
+            this.#timers.delete(id);
+        }
+
         this.#toasts = this.#toasts.filter((t) => t.id !== id);
+    }
+
+    clear() {
+        for (const timer of this.#timers.values()) {
+            this.#dependencies.clearTimeout(timer);
+        }
+
+        this.#timers.clear();
+        this.#toasts = [];
     }
 
     success(description: string, options?: Omit<ToastOptions, "description" | "type">) {

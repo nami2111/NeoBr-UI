@@ -5,7 +5,7 @@
  * compatible with Svelte 5's prop inference system.
  */
 
-import type { AccordionRootProps, SelectRootProps } from "bits-ui";
+import type { AccordionRootProps, DatePickerRootProps, SelectRootProps } from "bits-ui";
 import type { DateValue } from "@internationalized/date";
 
 /**
@@ -54,7 +54,7 @@ export type SimpleDateValue = DateValue;
  */
 export type CompatibleDatePickerProps = {
     value?: SimpleDateValue | undefined;
-};
+} & Omit<DatePickerRootProps, "value">;
 
 /**
  * Compatible Calendar props for Svelte 5
@@ -63,4 +63,7 @@ export type CompatibleDatePickerProps = {
 export type CompatibleCalendarProps<T extends "single" | "multiple"> = {
     value?: T extends "single" ? SimpleDateValue | undefined : SimpleDateValue[] | undefined;
     type?: T;
+    placeholder?: SimpleDateValue | undefined;
+    fixedWeeks?: boolean;
+    class?: string;
 };

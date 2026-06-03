@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/svelte";
 import { expect, describe, it } from "vite-plus/test";
 import DatePicker from "./date-picker.svelte";
+import { CalendarDate, today, getLocalTimeZone } from "@internationalized/date";
 
 describe("DatePicker component", () => {
     it("renders with label", () => {
@@ -33,5 +34,35 @@ describe("DatePicker component", () => {
         });
         const wrapper = container.querySelector(".custom-date-picker");
         expect(wrapper).toBeInTheDocument();
+    });
+
+    it("uses shared calendar day state classes when the popover is open", () => {
+        const currentDate = today(getLocalTimeZone());
+        const selectedDate = new CalendarDate(currentDate.year, currentDate.month, 15);
+        const { container } = render(DatePicker, {
+            props: {
+                value: selectedDate,
+                open: true,
+                placeholder: selectedDate,
+                fixedWeeks: true,
+            },
+        });
+
+        const dayElements = Array.from(container.querySelectorAll(".rounded-brutalist"));
+
+        expect(container.querySelector("[data-selected]")).toBeInTheDocument();
+        expect(container.querySelector("[data-today]")).toBeInTheDocument();
+        expect(container.querySelector("[data-outside-month]")).toBeInTheDocument();
+        expect(
+            dayElements.some((element) => element.classList.contains("data-[selected]:bg-primary")),
+        ).toBe(true);
+        expect(
+            dayElements.some((element) => element.classList.contains("data-[today]:bg-muted")),
+        ).toBe(true);
+        expect(
+            dayElements.some((element) =>
+                element.classList.contains("data-[outside-month]:opacity-50"),
+            ),
+        ).toBe(true);
     });
 });

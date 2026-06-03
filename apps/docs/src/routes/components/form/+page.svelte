@@ -13,7 +13,7 @@
     import { createFormState, z } from "@neobr/svelte/form";
 
     let username = $state("");
-    let email = $state("");
+    let submittedEmail = $state<string | undefined>();
 
     // Form validation example with Zod
     const loginSchema = z.object({
@@ -24,7 +24,7 @@
     const loginForm = createFormState({
         schema: loginSchema,
         onSubmit: async (values) => {
-            alert(`Login submitted!\nEmail: ${values.email}`);
+            submittedEmail = values.email;
         },
     });
 
@@ -46,10 +46,12 @@
         password: z.string().min(8, "Min 8 characters"),
     });
     
+    let submittedEmail = $state<string | undefined>();
+    
     const form = createFormState({
         schema,
         onSubmit: async (values) => {
-            console.log("Submitted:", values);
+            submittedEmail = values.email;
         },
     });
 </scr` + `ipt>
@@ -82,6 +84,10 @@
     <Button type="submit" disabled={form.isSubmitting}>
         {form.isSubmitting ? "Signing in..." : "Sign In"}
     </Button>
+    
+    {#if submittedEmail}
+        <p>Submitted {submittedEmail}</p>
+    {/if}
 </Form>`;
 </script>
 
@@ -163,6 +169,11 @@
                         <Button type="submit" class="w-full" disabled={loginForm.isSubmitting}>
                             {loginForm.isSubmitting ? "Signing in..." : "Sign In"}
                         </Button>
+                        {#if submittedEmail}
+                            <p class="border-foreground bg-muted rounded-brutalist border-2 p-3 text-xs font-bold">
+                                Submitted {submittedEmail}
+                            </p>
+                        {/if}
                     </Form>
                 </div>
             </CodePreview>

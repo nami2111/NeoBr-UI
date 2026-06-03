@@ -6,7 +6,7 @@ This is a new audit after the previous TODO was completed and committed. It focu
 
 ## Current Baseline
 
-- `vp run --filter @neobr/svelte test`: passes, 44 test files / 283 tests.
+- `vp run --filter @neobr/svelte test`: passes, 44 test files / 288 tests.
 - `vp run --filter @neobr/svelte check`: passes with 0 warnings.
 - `vp run --filter @neobr/svelte build`: passes.
 - `vp run --filter @neobr/svelte pack:check`: passes, package file list clean.
@@ -22,10 +22,10 @@ This is a new audit after the previous TODO was completed and committed. It focu
 | Public API typing              | `button.svelte`, `icon.svelte`, `input.svelte`, `accordion.svelte`, `calendar.svelte`, `select.svelte` | ✅ Done: public component sources no longer use broad `any`; Bits UI wrappers use constrained casts.       |
 | Bits UI wrappers               | `accordion.svelte`, `calendar.svelte`, `select.svelte`, `types/bits-ui-compat.ts`                      | ✅ Done: wrappers keep union-mode API while avoiding broad `any`; deeper overload design remains optional. |
 | Select test coverage           | `select.test.ts`, `select-test-wrapper.svelte`                                                         | ✅ Done: restored JSDOM-supported open/select/Escape/keyboard interaction coverage.                        |
-| Overlay internals              | `utils/overlay.svelte.ts`, `modal.svelte`, `sheet.svelte`, `dropdown-menu.svelte`                      | Autofixer repeatedly flags `bind:this` and complex `$effect` cleanup patterns.                             |
+| Overlay internals              | `utils/overlay.svelte.ts`, `modal.svelte`, `sheet.svelte`, `dropdown-menu.svelte`                      | ✅ Done: overlay controllers now expose typed Svelte attachments; consumers no longer use `bind:this`.     |
 | SvelteKit package warning      | `packages/svelte/tsconfig.json`, `svelte.config.js`                                                    | ✅ Done: check/build scripts run `svelte-kit sync`, tsconfig extends generated config, warning removed.    |
-| Calendar rendering duplication | `calendar.svelte`, `date-picker.svelte`                                                                | Calendar grid rendering is duplicated and already documented inline.                                       |
-| Docs/demo polish               | `apps/docs/src/routes/components/form/+page.svelte`, docs decorative z-index usage                     | Demos include `console.log`; decorative hard-coded `z-10` remains in examples.                             |
+| Calendar rendering duplication | `calendar.svelte`, `date-picker.svelte`, `calendar-grid.svelte`                                        | ✅ Done: shared calendar grid renderer covers Calendar and DatePicker day layout/classes.                  |
+| Docs/demo polish               | `apps/docs/src/routes/components/form/+page.svelte`, docs decorative z-index usage                     | ✅ Done: form demo no longer logs/alerts; reusable docs chrome avoids decorative `z-10` where practical.   |
 
 ## P0 - No New Confirmed Behavior Bugs
 
@@ -155,98 +155,101 @@ Verification:
 
 ## P3 - Internal Architecture Cleanup
 
-### 7. Refactor overlay element capture away from `bind:this` where useful
+### 7. Refactor overlay element capture away from `bind:this` where useful ✅ Done
 
 Evidence:
 
-- `modal.svelte`, `sheet.svelte`, and `dropdown-menu.svelte` still use `bind:this`.
-- Svelte autofixer suggests attachments/actions could make this easier to read.
-- `utils/overlay.svelte.ts` now centralizes overlay logic but still relies on content getter closures.
+- ✅ Done: `modal.svelte`, `sheet.svelte`, and `dropdown-menu.svelte` no longer use `bind:this`.
+- ✅ Done: `utils/overlay.svelte.ts` exposes typed Svelte attachments for content registration.
+- ✅ Done: Dropdown keyboard navigation reads the registered content element from the dismissable overlay controller.
 
 Plan:
 
-- Evaluate a Svelte attachment/action that registers overlay content elements with the controller.
-- Keep behavior identical for focus trap, restoration, stack ordering, and Escape handling.
-- Only refactor if readability improves; do not churn for its own sake.
+- Added a `content` attachment to `useOverlayController` and `useDismissableOverlay`.
+- Kept focus trap, focus restoration, stack ordering, scroll locking, and Escape handling behavior unchanged.
+- Removed content getter closures from modal/sheet and direct element state from dropdown.
 
 Verification:
 
-- `vp run --filter @neobr/svelte test -- modal sheet dropdown-menu popover`
-- `vp run --filter @neobr/svelte check`
+- `vp run --filter @neobr/svelte test -- modal sheet dropdown-menu popover` ✅ 44 files / 286 tests
+- `vp run --filter @neobr/svelte check` ✅ 0 errors / 0 warnings
 
-### 8. Deduplicate Calendar and DatePicker grid rendering
+### 8. Deduplicate Calendar and DatePicker grid rendering ✅ Done
 
 Evidence:
 
-- `calendar/calendar.svelte` contains an inline note that grid rendering is duplicated with `date-picker.svelte`.
-- Duplicated class strings and layout increase maintenance cost for date UI changes.
+- ✅ Done: the duplicated inline grid markup and duplication notes were removed from `calendar.svelte` and `date-picker.svelte`.
+- ✅ Done: `calendar/calendar-grid.svelte` now owns month/week/day rendering and the shared day state class strings.
 
 Plan:
 
-- Extract a shared rendering helper/component that can accept the relevant Bits UI primitives while preserving context.
-- Keep API unchanged for Calendar and DatePicker consumers.
-- Add regression tests for selected/today/outside-month classes if feasible.
+- Extracted a shared renderer using Bits UI Calendar primitives, which DatePicker re-exports for its calendar popover.
+- Kept Calendar and DatePicker public APIs unchanged.
+- Added regression assertions for selected, today, and outside-month state/class wiring in both components.
 
 Verification:
 
-- `vp run --filter @neobr/svelte test -- calendar date-picker`
-- `vp run --filter @neobr/svelte check`
+- `vp run --filter @neobr/svelte test -- calendar date-picker` ✅ 44 files / 288 tests
+- `vp run --filter @neobr/svelte check` ✅ 0 errors / 0 warnings
 
-### 9. Improve Toast state determinism and testability
+### 9. Improve Toast state determinism and testability ✅ Done
 
 Evidence:
 
-- `toast/toast-state.svelte.ts` uses `crypto.randomUUID()` and `setTimeout` directly.
-- Tests cover custom duration, but injected clocks/ID factories would make state tests more deterministic.
+- ✅ Done: `toast/toast-state.svelte.ts` now supports internal ID/timer dependency injection.
+- ✅ Done: tests instantiate a fresh `ToastManager` per case with deterministic IDs and fake timers.
 
 Plan:
 
-- Consider an internal factory or injectable ID/timer helpers for tests while keeping public API unchanged.
-- Ensure auto-dismiss cleanup is deterministic under fake timers.
-- Avoid SSR shared-state concerns if toast state is ever imported during server rendering.
+- Exported `ToastManager` while keeping the existing singleton `toast` export unchanged.
+- Added timer tracking, `clear()`, and manual-dismiss timer cleanup.
+- Added fake-timer tests for auto-dismiss, persistent toasts, and manual cleanup.
 
 Verification:
 
-- `vp run --filter @neobr/svelte test -- toast`
-- `vp run --filter @neobr/svelte check`
+- `vp run --filter @neobr/svelte test -- toast` ✅ 44 files / 286 tests
+- `vp run --filter @neobr/svelte check` ✅ 0 errors / 0 warnings
 
 ## P4 - Docs And Demo Polish
 
-### 10. Remove demo `console.log` and tighten docs examples
+### 10. Remove demo `console.log` and tighten docs examples ✅ Done
 
 Evidence:
 
-- `apps/docs/src/routes/components/form/+page.svelte` logs submitted values to the console.
-- Some docs examples use decorative `z-10` classes; these are less risky than layout layers but still hard-coded.
+- ✅ Done: `apps/docs/src/routes/components/form/+page.svelte` no longer logs submitted values or uses `alert`.
+- ✅ Done: reusable docs chrome no longer uses hard-coded `z-10` for local copy/preview stacking.
+- Remaining `z-10` examples are local composition/hit-area layering (`Sticker`, `Checkbox`, `RadioGroup`) and are intentionally not global overlay layers.
 
 Plan:
 
-- Replace console logging with toast/demo state output.
-- Review docs examples for unnecessary hard-coded layer classes.
-- Keep decorative z-index classes only when they are clearly local and not global layering.
+- Replaced the form demo submit side effect with local submitted-email state output.
+- Removed console logging from the dropdown menu test wrapper.
+- Kept local `z-10` only where it is clearly component-local stacking, not global layering.
+- Updated docs check/build scripts to run `svelte-kit sync` and made docs tsconfig extend generated SvelteKit config without warning noise.
 
 Verification:
 
-- `vp run --filter docs check`
-- `vp run --filter docs build`
+- `vp run --filter docs check` ✅ 0 errors / 0 warnings
+- `vp run --filter docs build` ✅ passes
 
-### 11. Move or rename colocated test wrappers if they keep creating packaging complexity
+### 11. Move or rename colocated test wrappers if they keep creating packaging complexity ✅ No Change Needed
 
 Evidence:
 
 - Many `*-test-wrapper.svelte` files live beside public components under `src/lib/components/ui`.
 - `pack:check` now prevents shipping them, but colocated wrappers increase package exclude complexity.
+- ✅ Current package guards exclude colocated wrappers cleanly; no new packaging complexity was found.
 
 Plan:
 
-- Consider moving wrappers to `src/tests/components` or inlining small wrappers in test files.
-- Keep imports simple and avoid breaking svelte-package output.
+- Deferred wrapper relocation because it would churn many tests without improving current package output.
+- Keep the existing colocated test-wrapper pattern while `pack:check` and `exports:check` protect published artifacts.
 
 Verification:
 
-- `vp run --filter @neobr/svelte test`
-- `vp run --filter @neobr/svelte build`
-- `vp run --filter @neobr/svelte pack:check`
+- `vp run --filter @neobr/svelte test` ✅ 44 files / 288 tests
+- `vp run --filter @neobr/svelte build` ✅
+- `vp run --filter @neobr/svelte pack:check` ✅ package file list clean
 
 ## Recommended Execution Order
 
@@ -255,9 +258,9 @@ Verification:
 3. Reduce public `any`/casts in Button, Input, Icon, and Bits UI wrappers.
 4. Add compiled export smoke checks.
 5. Investigate the recurring SvelteKit tsconfig warning.
-6. Evaluate overlay attachment refactor.
-7. Deduplicate Calendar/DatePicker rendering.
-8. Polish docs demos and revisit colocated test wrappers.
+6. Evaluate overlay attachment refactor. ✅ Done
+7. Deduplicate Calendar/DatePicker rendering. ✅ Done
+8. Polish docs demos and revisit colocated test wrappers. ✅ Done / no relocation needed
 
 ## Done Criteria
 

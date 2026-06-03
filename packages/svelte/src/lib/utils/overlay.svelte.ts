@@ -1,4 +1,5 @@
 import { tick } from "svelte";
+import type { Attachment } from "svelte/attachments";
 import { isBrowser } from "./browser";
 import { useScrollLock } from "./scroll-lock.svelte";
 
@@ -13,7 +14,6 @@ const FOCUSABLE_SELECTOR = [
 
 type OverlayControllerOptions = {
     open: () => boolean;
-    content: () => HTMLElement | undefined;
     close: () => void;
 };
 
@@ -27,8 +27,17 @@ const overlayStack: symbol[] = [];
 export function useOverlayController(options: OverlayControllerOptions) {
     const overlayId = Symbol("overlay");
     let active = false;
+    let contentElement: HTMLElement | undefined;
     let previousFocus: HTMLElement | null = null;
     const { lock: scrollLock, unlock: scrollUnlock } = useScrollLock();
+
+    const content: Attachment<HTMLElement> = (element) => {
+        contentElement = element;
+
+        return () => {
+            if (contentElement === element) contentElement = undefined;
+        };
+    };
 
     function getFocusableElements(element: HTMLElement): HTMLElement[] {
         return Array.from(element.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
@@ -37,14 +46,13 @@ export function useOverlayController(options: OverlayControllerOptions) {
     }
 
     function focusFirstElement() {
-        const content = options.content();
-        if (!content) return;
+        if (!contentElement) return;
 
-        const focusable = getFocusableElements(content);
+        const focusable = getFocusableElements(contentElement);
         if (focusable.length > 0) {
             focusable[0].focus();
         } else {
-            content.focus();
+            contentElement.focus();
         }
     }
 
@@ -94,10 +102,9 @@ export function useOverlayController(options: OverlayControllerOptions) {
 
         if (event.key !== "Tab") return;
 
-        const content = options.content();
-        if (!content) return;
+        if (!contentElement) return;
 
-        const focusable = getFocusableElements(content);
+        const focusable = getFocusableElements(contentElement);
         if (focusable.length === 0) {
             event.preventDefault();
             return;
@@ -135,6 +142,7 @@ export function useOverlayController(options: OverlayControllerOptions) {
     });
 
     return {
+        content,
         handleKeydown,
         isTopOverlay,
     };
@@ -143,6 +151,15 @@ export function useOverlayController(options: OverlayControllerOptions) {
 export function useDismissableOverlay(options: DismissableOverlayOptions) {
     const overlayId = Symbol("dismissable-overlay");
     let active = false;
+    let contentElement: HTMLElement | undefined;
+
+    const content: Attachment<HTMLElement> = (element) => {
+        contentElement = element;
+
+        return () => {
+            if (contentElement === element) contentElement = undefined;
+        };
+    };
 
     function isTopOverlay() {
         return overlayStack[overlayStack.length - 1] === overlayId;
@@ -161,6 +178,10 @@ export function useDismissableOverlay(options: DismissableOverlayOptions) {
         active = false;
         const index = overlayStack.indexOf(overlayId);
         if (index !== -1) overlayStack.splice(index, 1);
+    }
+
+    function getContentElement() {
+        return contentElement;
     }
 
     function handleKeydown(event: KeyboardEvent) {
@@ -185,6 +206,8 @@ export function useDismissableOverlay(options: DismissableOverlayOptions) {
     });
 
     return {
+        content,
+        getContentElement,
         handleKeydown,
         isTopOverlay,
     };

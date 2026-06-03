@@ -26,8 +26,6 @@
         ...rest
     }: Props = $props();
 
-    let sheetContent = $state<HTMLElement>();
-
     function handleClose() {
         open = false;
         onClose?.();
@@ -35,7 +33,6 @@
 
     const overlay = useOverlayController({
         open: () => open,
-        content: () => sheetContent,
         close: handleClose,
     });
 
@@ -87,7 +84,7 @@
 
         <!-- Sheet Content -->
         <div
-            bind:this={sheetContent}
+            {@attach overlay.content}
             class={cn(
                 "bg-background shadow-brutalist border-foreground fixed flex flex-col gap-4 p-6 transition-all outline-none",
                 sideClasses,

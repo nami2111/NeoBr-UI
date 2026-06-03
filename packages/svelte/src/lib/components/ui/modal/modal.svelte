@@ -56,7 +56,6 @@
         children,
     }: Props = $props();
 
-    let modalContent = $state<HTMLElement>();
     const modalId = $props.id();
     let titleId = $derived(title ? `modal-title-${modalId}` : undefined);
 
@@ -76,7 +75,6 @@
 
     const overlay = useOverlayController({
         open: () => open,
-        content: () => modalContent,
         close: handleClose,
     });
 </script>
@@ -105,7 +103,7 @@
 
         <!-- Modal Content -->
         <div
-            bind:this={modalContent}
+            {@attach overlay.content}
             class={cn(
                 "card-brutalist relative w-full overflow-auto p-6 outline-none",
                 sizeClasses[size],
