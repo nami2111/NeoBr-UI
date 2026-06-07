@@ -106,7 +106,7 @@ Styling is handled via Tailwind CSS v4 with OKLCH color tokens defined in the `@
 @theme {
     --color-primary: oklch(78.5% 0.08 270);
     --color-secondary: oklch(81.5% 0.12 45);
-    --radius-brutalist: 12px;
+    --radius-brutalist-soft: 8px;
 }
 
 .dark {
@@ -122,7 +122,7 @@ Styling is handled via Tailwind CSS v4 with OKLCH color tokens defined in the `@
 | `--color-secondary`  | Peach OKLCH       | Secondary accent color |
 | `--color-foreground` | Dark OKLCH        | Text and borders       |
 | `--color-background` | Light OKLCH       | Page background        |
-| `--radius-brutalist` | `12px`            | Standard border radius |
+| `--radius-brutalist` | `0px`             | Sharp brutalist radius |
 | `--shadow-brutalist` | `0px 5px 0px 0px` | Centered bottom shadow |
 
 ### Utility Classes
@@ -133,6 +133,6 @@ Styling is handled via Tailwind CSS v4 with OKLCH color tokens defined in the `@
 | `container-brutalist` | Card/container with border, shadow, radius       |
 | `input-brutalist`     | Form input with brutalist styling                |
 | `card-brutalist`      | Card with background, border, shadow, radius     |
-| `rounded-brutalist`   | `border-radius: 12px`                            |
+| `rounded-brutalist`   | `border-radius: 0px`                             |
 | `shadow-brutalist`    | Centered bottom shadow                           |
 | `tracking-brutalist`  | `letter-spacing: 0.1em`                          |

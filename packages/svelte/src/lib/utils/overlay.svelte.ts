@@ -24,12 +24,10 @@ type DismissableOverlayOptions = {
 
 const overlayStack: symbol[] = [];
 
-export function useOverlayController(options: OverlayControllerOptions) {
-    const overlayId = Symbol("overlay");
+function createOverlayStackEntry(name: string) {
+    const overlayId = Symbol(name);
     let active = false;
     let contentElement: HTMLElement | undefined;
-    let previousFocus: HTMLElement | null = null;
-    const { lock: scrollLock, unlock: scrollUnlock } = useScrollLock();
 
     const content: Attachment<HTMLElement> = (element) => {
         contentElement = element;
@@ -39,6 +37,54 @@ export function useOverlayController(options: OverlayControllerOptions) {
         };
     };
 
+    function getContentElement() {
+        return contentElement;
+    }
+
+    function isTopOverlay() {
+        return overlayStack[overlayStack.length - 1] === overlayId;
+    }
+
+    function activate() {
+        if (active) return false;
+
+        active = true;
+        overlayStack.push(overlayId);
+        return true;
+    }
+
+    function cleanup() {
+        if (!active) {
+            return {
+                wasActive: false,
+                wasTopOverlay: false,
+            };
+        }
+
+        const wasTopOverlay = isTopOverlay();
+        active = false;
+        const index = overlayStack.indexOf(overlayId);
+        if (index !== -1) overlayStack.splice(index, 1);
+        return {
+            wasActive: true,
+            wasTopOverlay,
+        };
+    }
+
+    return {
+        content,
+        getContentElement,
+        isTopOverlay,
+        activate,
+        cleanup,
+    };
+}
+
+export function useOverlayController(options: OverlayControllerOptions) {
+    const stackEntry = createOverlayStackEntry("overlay");
+    let previousFocus: HTMLElement | null = null;
+    const { lock: scrollLock, unlock: scrollUnlock } = useScrollLock();
+
     function getFocusableElements(element: HTMLElement): HTMLElement[] {
         return Array.from(element.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
             (candidate) => candidate.tabIndex >= 0 && !candidate.hasAttribute("disabled"),
@@ -46,6 +92,7 @@ export function useOverlayController(options: OverlayControllerOptions) {
     }
 
     function focusFirstElement() {
+        const contentElement = stackEntry.getContentElement();
         if (!contentElement) return;
 
         const focusable = getFocusableElements(contentElement);
@@ -62,28 +109,18 @@ export function useOverlayController(options: OverlayControllerOptions) {
         previousFocus = null;
     }
 
-    function isTopOverlay() {
-        return overlayStack[overlayStack.length - 1] === overlayId;
-    }
-
     function activate() {
-        if (active) return;
-
-        active = true;
-        overlayStack.push(overlayId);
+        if (!stackEntry.activate()) return;
         scrollLock();
     }
 
     function cleanup() {
-        if (!active) return;
+        const { wasActive, wasTopOverlay } = stackEntry.cleanup();
+        if (!wasActive) return;
 
-        const shouldRestoreFocus = isTopOverlay();
-        active = false;
-        const index = overlayStack.indexOf(overlayId);
-        if (index !== -1) overlayStack.splice(index, 1);
         scrollUnlock();
 
-        if (shouldRestoreFocus) {
+        if (wasTopOverlay) {
             restoreFocus();
         } else {
             previousFocus = null;
@@ -91,7 +128,7 @@ export function useOverlayController(options: OverlayControllerOptions) {
     }
 
     function handleKeydown(event: KeyboardEvent) {
-        if (!isBrowser || !options.open() || !isTopOverlay()) return;
+        if (!isBrowser || !options.open() || !stackEntry.isTopOverlay()) return;
 
         if (event.key === "Escape") {
             event.preventDefault();
@@ -102,6 +139,7 @@ export function useOverlayController(options: OverlayControllerOptions) {
 
         if (event.key !== "Tab") return;
 
+        const contentElement = stackEntry.getContentElement();
         if (!contentElement) return;
 
         const focusable = getFocusableElements(contentElement);
@@ -142,50 +180,17 @@ export function useOverlayController(options: OverlayControllerOptions) {
     });
 
     return {
-        content,
+        content: stackEntry.content,
         handleKeydown,
-        isTopOverlay,
+        isTopOverlay: stackEntry.isTopOverlay,
     };
 }
 
 export function useDismissableOverlay(options: DismissableOverlayOptions) {
-    const overlayId = Symbol("dismissable-overlay");
-    let active = false;
-    let contentElement: HTMLElement | undefined;
-
-    const content: Attachment<HTMLElement> = (element) => {
-        contentElement = element;
-
-        return () => {
-            if (contentElement === element) contentElement = undefined;
-        };
-    };
-
-    function isTopOverlay() {
-        return overlayStack[overlayStack.length - 1] === overlayId;
-    }
-
-    function activate() {
-        if (active) return;
-
-        active = true;
-        overlayStack.push(overlayId);
-    }
-
-    function cleanup() {
-        if (!active) return;
-
-        active = false;
-        const index = overlayStack.indexOf(overlayId);
-        if (index !== -1) overlayStack.splice(index, 1);
-    }
-
-    function getContentElement() {
-        return contentElement;
-    }
+    const stackEntry = createOverlayStackEntry("dismissable-overlay");
 
     function handleKeydown(event: KeyboardEvent) {
-        if (!isBrowser || !options.open() || !isTopOverlay()) return;
+        if (!isBrowser || !options.open() || !stackEntry.isTopOverlay()) return;
         if (event.key !== "Escape") return;
 
         event.preventDefault();
@@ -197,18 +202,18 @@ export function useDismissableOverlay(options: DismissableOverlayOptions) {
         if (!isBrowser) return;
 
         if (!options.open()) {
-            cleanup();
+            stackEntry.cleanup();
             return;
         }
 
-        activate();
-        return cleanup;
+        stackEntry.activate();
+        return stackEntry.cleanup;
     });
 
     return {
-        content,
-        getContentElement,
+        content: stackEntry.content,
+        getContentElement: stackEntry.getContentElement,
         handleKeydown,
-        isTopOverlay,
+        isTopOverlay: stackEntry.isTopOverlay,
     };
 }

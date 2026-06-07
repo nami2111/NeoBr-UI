@@ -84,6 +84,7 @@
                 { name: "Date Picker", href: "/components/date-picker", description: "Date selection" },
                 { name: "Table", href: "/components/table", description: "Data table" },
                 { name: "Scroll Area", href: "/components/scroll-area", description: "Custom scroll" },
+                { name: "Icon", href: "/components/icon", description: "HugeIcons wrapper" },
             ]
         },
         {

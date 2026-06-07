@@ -77,14 +77,14 @@ Import individual components for optimal tree-shaking:
 
 The design system exposes CSS custom properties for theming:
 
-| Token | Description |
-|-------|------------|
-| `--radius-brutalist` | Default border radius (0px sharp) |
-| `--radius-brutalist-soft` | Soft border radius (6px) |
-| `--radius-brutalist-rounded` | Rounded border radius (12px) |
-| `--shadow-brutalist` | Centered bottom shadow (0px 5px 0px 0px) |
-| `--shadow-brutalist-hover` | Deepened hover shadow (0px 8px 0px 0px) |
-| `--z-dropdown` through `--z-toast` | Z-index scale for layering |
+| Token                              | Description                              |
+| ---------------------------------- | ---------------------------------------- |
+| `--radius-brutalist`               | Default border radius (0px sharp)        |
+| `--radius-brutalist-soft`          | Soft border radius (6px)                 |
+| `--radius-brutalist-rounded`       | Rounded border radius (12px)             |
+| `--shadow-brutalist`               | Centered bottom shadow (0px 5px 0px 0px) |
+| `--shadow-brutalist-hover`         | Deepened hover shadow (0px 8px 0px 0px)  |
+| `--z-dropdown` through `--z-toast` | Z-index scale for layering               |
 
 Dark mode activates by adding the `.dark` class to a parent element. All tokens are defined in OKLCH.
 
@@ -92,11 +92,11 @@ Dark mode activates by adding the `.dark` class to a parent element. All tokens 
 
 ## Repository Structure
 
-| Package | Description |
-|---------|------------|
-| `packages/svelte` | Core Svelte 5 component library |
-| `packages/tailwind-preset` | CSS-first design system (Tailwind v4) |
-| `apps/docs` | Documentation and interactive showcase |
+| Package                    | Description                            |
+| -------------------------- | -------------------------------------- |
+| `packages/svelte`          | Core Svelte 5 component library        |
+| `packages/tailwind-preset` | CSS-first design system (Tailwind v4)  |
+| `apps/docs`                | Documentation and interactive showcase |
 
 ---
 

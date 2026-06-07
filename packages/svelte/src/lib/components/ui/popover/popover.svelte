@@ -10,6 +10,7 @@
         children?: import("svelte").Snippet;
         class?: string;
         contentClass?: string;
+        contentLabel?: string;
     };
 
     let {
@@ -18,6 +19,7 @@
         children,
         class: className,
         contentClass,
+        contentLabel = "Popover content",
     }: Props = $props();
 
     function toggle() {
@@ -49,6 +51,7 @@
 
     {#if open}
         <div
+            {@attach overlay.content}
             class={cn(
                 "border-foreground bg-background shadow-brutalist rounded-brutalist absolute mt-2 min-w-[200px] border-2 p-4",
                 contentClass,
@@ -56,6 +59,7 @@
             style="z-index: var(--z-popover)"
             transition:fade={TRANSITION_BRUTALIST_FAST}
             role="dialog"
+            aria-label={contentLabel}
         >
             {@render children?.()}
         </div>

@@ -30,6 +30,7 @@
                 { title: "Dropdown Menu", href: "/components/dropdown-menu" },
                 { title: "Error Boundary", href: "/components/error-boundary" },
                 { title: "Form", href: "/components/form" },
+                { title: "Icon", href: "/components/icon" },
                 { title: "Input", href: "/components/input" },
                 { title: "Label", href: "/components/label" },
                 { title: "Link", href: "/components/link" },
@@ -93,13 +94,13 @@
     </div>
     <ScrollArea class="flex-1 rounded-none border-0 border-r-2 shadow-none" orientation="vertical">
         <div class="space-y-8 p-6">
-            {#each filteredSections as section}
+            {#each filteredSections as section (section.title)}
                 <div class="space-y-3">
                     <h4 class="text-muted-foreground text-sm font-black tracking-tighter uppercase">
                         {section.title}
                     </h4>
                     <div class="flex flex-col gap-1">
-                        {#each section.items as item}
+                        {#each section.items as item (item.href)}
                             <a
                                 href={item.href}
                                 class="border-2 px-3 py-2 text-sm font-bold transition-all {isActive(

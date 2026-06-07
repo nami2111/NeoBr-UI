@@ -10,6 +10,16 @@ describe("Popover component", () => {
         expect(results).toHaveNoViolations();
     });
 
+    test("should have no accessibility violations when open", async () => {
+        const { container } = render(PopoverTestWrapper);
+        const trigger = screen.getByRole("button", { name: /open popover/i });
+
+        await fireEvent.click(trigger);
+
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+    });
+
     test("renders trigger button", () => {
         render(PopoverTestWrapper);
         const trigger = screen.getByRole("button", { name: /open popover/i });
@@ -59,6 +69,15 @@ describe("Popover component", () => {
 
         await fireEvent.click(trigger);
         expect(trigger).toHaveAttribute("aria-expanded", "true");
+    });
+
+    test("popover dialog has an accessible name", async () => {
+        render(PopoverTestWrapper);
+        const trigger = screen.getByRole("button", { name: /open popover/i });
+
+        await fireEvent.click(trigger);
+
+        expect(screen.getByRole("dialog", { name: "Popover content" })).toBeInTheDocument();
     });
 
     test("applies custom className", () => {
