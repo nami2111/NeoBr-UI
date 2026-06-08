@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { componentCount } from "$lib/component-catalog";
     import {
         Badge,
         Button,
@@ -31,7 +32,7 @@
     let version = $state("");
 
     const metrics = [
-        { label: "Components", value: "43" },
+        { label: "Components", value: componentCount.toString() },
         { label: "Runtime", value: "Svelte 5" },
         { label: "Styling", value: "Tailwind 4" },
     ];
@@ -44,7 +45,7 @@
         },
         {
             title: "Accessible Primitives",
-            description: "Keyboard and screen-reader behavior comes from tested foundations.",
+            description: "Core interactions use semantic markup, ARIA state, and keyboard support.",
             icon: Shield01Icon,
         },
         {

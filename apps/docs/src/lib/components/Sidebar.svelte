@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from "$app/state";
-    import { Link, ScrollArea, Input } from "@neobr/svelte";
+    import { componentItems } from "$lib/component-catalog";
+    import { ScrollArea, Input } from "@neobr/svelte";
 
     const sections = [
         {
@@ -12,52 +13,10 @@
         },
         {
             title: "Components",
-            items: [
-                { title: "Accordion", href: "/components/accordion" },
-                { title: "Alert", href: "/components/alert" },
-                { title: "Aspect Ratio", href: "/components/aspect-ratio" },
-                { title: "Avatar", href: "/components/avatar" },
-                { title: "Badge", href: "/components/badge" },
-                { title: "Bento Grid", href: "/components/bento-grid" },
-                { title: "Breadcrumbs", href: "/components/breadcrumbs" },
-                { title: "Button", href: "/components/button" },
-                { title: "Calendar", href: "/components/calendar" },
-                { title: "Card", href: "/components/card" },
-                { title: "Checkbox", href: "/components/checkbox" },
-                { title: "Collapsible", href: "/components/collapsible" },
-                { title: "Command", href: "/components/command" },
-                { title: "Date Picker", href: "/components/date-picker" },
-                { title: "Dropdown Menu", href: "/components/dropdown-menu" },
-                { title: "Error Boundary", href: "/components/error-boundary" },
-                { title: "Form", href: "/components/form" },
-                { title: "Icon", href: "/components/icon" },
-                { title: "Input", href: "/components/input" },
-                { title: "Label", href: "/components/label" },
-                { title: "Link", href: "/components/link" },
-                { title: "Loading", href: "/components/loading" },
-                { title: "Marquee", href: "/components/marquee" },
-                { title: "Modal", href: "/components/modal" },
-                { title: "Pagination", href: "/components/pagination" },
-                { title: "Popover", href: "/components/popover" },
-                { title: "Progress", href: "/components/progress" },
-                { title: "Radio Group", href: "/components/radio-group" },
-                { title: "Scroll Area", href: "/components/scroll-area" },
-                { title: "Select", href: "/components/select" },
-                { title: "Separator", href: "/components/separator" },
-                { title: "Sheet", href: "/components/sheet" },
-                { title: "Skeleton", href: "/components/skeleton" },
-                { title: "Slider", href: "/components/slider" },
-                { title: "Sticker", href: "/components/sticker" },
-                { title: "Switch", href: "/components/switch" },
-                { title: "Table", href: "/components/table" },
-                { title: "Tabs", href: "/components/tabs" },
-                { title: "Textarea", href: "/components/textarea" },
-                { title: "Toast", href: "/components/toast" },
-                { title: "Toggle", href: "/components/toggle" },
-                { title: "Toggle Group", href: "/components/toggle-group" },
-                { title: "Tooltip", href: "/components/tooltip" },
-                { title: "Window", href: "/components/window" },
-            ],
+            items: componentItems.map((item) => ({
+                title: item.name,
+                href: item.href,
+            })),
         },
     ];
 

@@ -40,7 +40,7 @@
             <ul class="grid grid-cols-1 gap-4 font-bold md:grid-cols-2">
                 <li class="flex items-center gap-3">
                     <span class="bg-primary border-foreground h-3 w-3 border-2"></span>
-                    Svelte 5 Runes for ultra-fast reactivity
+                    Svelte 5 runes and snippets throughout
                 </li>
                 <li class="flex items-center gap-3">
                     <span class="bg-secondary border-foreground h-3 w-3 border-2"></span>
@@ -48,11 +48,11 @@
                 </li>
                 <li class="flex items-center gap-3">
                     <span class="bg-accent border-foreground h-3 w-3 border-2"></span>
-                    WAI-ARIA compliant components
+                    Semantic markup, ARIA state, and keyboard support where components need it
                 </li>
                 <li class="flex items-center gap-3">
                     <span class="bg-success border-foreground h-3 w-3 border-2"></span>
-                    Fully customizable styling
+                    Customizable styling through Tailwind classes and CSS tokens
                 </li>
             </ul>
         </section>
@@ -75,7 +75,8 @@
                     >
                         Bits UI
                     </a>
-                    - For the incredible headless primitives that power our accessibility.
+                    - For the headless primitives used by Accordion, Calendar, Date Picker, and
+                    Select.
                 </li>
                 <li>
                     <a

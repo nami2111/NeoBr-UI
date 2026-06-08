@@ -47,7 +47,7 @@
                     className,
                 )}
             >
-                <div class="absolute inset-0 bg-grid-fine opacity-45"></div>
+                <div class="absolute inset-0 bg-grid-fine opacity-10"></div>
                 <div class="relative flex w-full items-center justify-center" style="z-index: 1">
                     {@render children?.()}
                 </div>

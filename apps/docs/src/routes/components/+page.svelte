@@ -1,111 +1,13 @@
 <script lang="ts">
+    import { componentCategories, componentCount } from "$lib/component-catalog";
     import DocPage from "../../lib/components/DocPage.svelte";
     import { Card, CardHeader, CardTitle, CardDescription, Input, Badge, Icon } from "@neobr/svelte";
-    import {
-        Alert01Icon,
-        ArrowRight02Icon,
-        DashboardSquare01Icon,
-        GridViewIcon,
-        LayoutGridIcon,
-        Search01Icon,
-        Task01Icon,
-        Touch01Icon,
-        ViewIcon,
-    } from "@hugeicons/core-free-icons";
-
-    const categories = [
-        {
-            title: "Forms",
-            icon: Task01Icon,
-            items: [
-                { name: "Button", href: "/components/button", description: "Interactive elements for actions" },
-                { name: "Input", href: "/components/input", description: "Form input field" },
-                { name: "Checkbox", href: "/components/checkbox", description: "Toggle check states" },
-                { name: "Toggle", href: "/components/toggle", description: "Two-state button" },
-                { name: "Slider", href: "/components/slider", description: "Range selection" },
-                { name: "Textarea", href: "/components/textarea", description: "Multi-line text input" },
-                { name: "Select", href: "/components/select", description: "Dropdown selection" },
-                { name: "Radio Group", href: "/components/radio-group", description: "Single selection from options" },
-                { name: "Form", href: "/components/form", description: "Forms with validation" },
-                { name: "Label", href: "/components/label", description: "Accessible form labels" },
-            ]
-        },
-        {
-            title: "Layout",
-            icon: LayoutGridIcon,
-            items: [
-                { name: "Accordion", href: "/components/accordion", description: "Collapsible sections" },
-                { name: "Card", href: "/components/card", description: "Content container" },
-                { name: "Bento Grid", href: "/components/bento-grid", description: "Variable-sized grid" },
-                { name: "Collapsible", href: "/components/collapsible", description: "Expand/collapse panels" },
-                { name: "Separator", href: "/components/separator", description: "Visual divider" },
-                { name: "Aspect Ratio", href: "/components/aspect-ratio", description: "Content ratio container" },
-            ]
-        },
-        {
-            title: "Overlays",
-            icon: ViewIcon,
-            items: [
-                { name: "Modal", href: "/components/modal", description: "Overlay window" },
-                { name: "Popover", href: "/components/popover", description: "Triggered content" },
-                { name: "Sheet", href: "/components/sheet", description: "Slide-in panel" },
-                { name: "Toast", href: "/components/toast", description: "Notification message" },
-                { name: "Tooltip", href: "/components/tooltip", description: "Hover information" },
-            ]
-        },
-        {
-            title: "Navigation",
-            icon: Touch01Icon,
-            items: [
-                { name: "Breadcrumbs", href: "/components/breadcrumbs", description: "Path navigation" },
-                { name: "Tabs", href: "/components/tabs", description: "Layered content" },
-                { name: "Pagination", href: "/components/pagination", description: "Page navigation" },
-                { name: "Link", href: "/components/link", description: "Text links" },
-            ]
-        },
-        {
-            title: "Feedback",
-            icon: Alert01Icon,
-            items: [
-                { name: "Alert", href: "/components/alert", description: "User messages" },
-                { name: "Badge", href: "/components/badge", description: "Status labels" },
-                { name: "Progress", href: "/components/progress", description: "Completion indicator" },
-                { name: "Loading", href: "/components/loading", description: "Spinner animation" },
-                { name: "Skeleton", href: "/components/skeleton", description: "Loading placeholder" },
-                { name: "Marquee", href: "/components/marquee", description: "Scrolling ticker" },
-            ]
-        },
-        {
-            title: "Data Display",
-            icon: DashboardSquare01Icon,
-            items: [
-                { name: "Avatar", href: "/components/avatar", description: "User image" },
-                { name: "Calendar", href: "/components/calendar", description: "Date picker" },
-                { name: "Date Picker", href: "/components/date-picker", description: "Date selection" },
-                { name: "Table", href: "/components/table", description: "Data table" },
-                { name: "Scroll Area", href: "/components/scroll-area", description: "Custom scroll" },
-                { name: "Icon", href: "/components/icon", description: "HugeIcons wrapper" },
-            ]
-        },
-        {
-            title: "Advanced",
-            icon: GridViewIcon,
-            items: [
-                { name: "Dropdown Menu", href: "/components/dropdown-menu", description: "Action menu" },
-                { name: "Command", href: "/components/command", description: "Command palette" },
-                { name: "Switch", href: "/components/switch", description: "On/off toggle" },
-                { name: "Toggle Group", href: "/components/toggle-group", description: "Button group" },
-                { name: "Error Boundary", href: "/components/error-boundary", description: "Error handling" },
-                { name: "Sticker", href: "/components/sticker", description: "Decorative badge" },
-                { name: "Window", href: "/components/window", description: "OS window container" },
-            ]
-        },
-    ];
+    import { ArrowRight02Icon, Search01Icon } from "@hugeicons/core-free-icons";
 
     let searchQuery = $state("");
 
     const filteredCategories = $derived(
-        categories
+        componentCategories
             .map((category) => ({
                 ...category,
                 items: category.items.filter((item) =>
@@ -116,16 +18,12 @@
             .filter((category) => category.items.length > 0)
     );
 
-    const totalComponents = $derived(
-        categories.reduce((sum, cat) => sum + cat.items.length, 0)
-    );
-
     const visibleComponents = $derived(
         filteredCategories.reduce((sum, cat) => sum + cat.items.length, 0)
     );
 </script>
 
-<DocPage title="Components" description="Beautifully designed, accessible components built with Svelte 5.">
+<DocPage title="Components" description="Documented component groups exported by @neobr/svelte.">
     <div class="space-y-10 overflow-x-hidden">
         <div
             class="border-foreground bg-accent/10 grid gap-4 border-2 p-4 shadow-[0_5px_0_0_var(--color-shadow-color)] md:grid-cols-[1fr_auto]"
@@ -143,7 +41,7 @@
             </label>
             <div class="flex flex-wrap items-center gap-2 md:justify-end">
                 <Badge>{visibleComponents} shown</Badge>
-                <Badge variant="outline">{totalComponents} total</Badge>
+                <Badge variant="outline">{componentCount} total</Badge>
             </div>
         </div>
 
