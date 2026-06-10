@@ -36,3 +36,4 @@ AGENTS.md
 .agents/
 .codex/
 codedb.snapshot
+.codegraph/
