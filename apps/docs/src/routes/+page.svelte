@@ -1,15 +1,6 @@
 <script lang="ts">
     import { componentCount } from "$lib/component-catalog";
-    import {
-        Badge,
-        Button,
-        DatePicker,
-        Form,
-        Icon,
-        Input,
-        Slider,
-    } from "@neobr/svelte";
-    import { today, getLocalTimeZone } from "@internationalized/date";
+    import { Badge, Button, Icon } from "@neobr/svelte";
     import { onMount } from "svelte";
     import {
         ArrowRight02Icon,
@@ -17,8 +8,6 @@
         CodeIcon,
         Copy01Icon,
         LayoutGridIcon,
-        Package01Icon,
-        Rocket02Icon,
         Shield01Icon,
         TerminalIcon,
         ZapIcon,
@@ -26,9 +15,6 @@
 
     let copied = $state(false);
     const installCommand = "$ pnpm add @neobr/svelte @neobr/tailwind-preset";
-    let sliderValue = $state(45);
-    let username = $state("neobr");
-    let dateValue = $state(today(getLocalTimeZone()));
     let version = $state("");
 
     const metrics = [
@@ -137,54 +123,73 @@
             </div>
         </div>
 
-        <div class="relative mx-auto w-full max-w-lg">
+        <div class="relative mx-auto w-full max-w-lg" aria-hidden="true">
             <div
                 class="border-foreground bg-background relative overflow-hidden border-2 shadow-brutalist"
             >
-                <div
-                    class="border-foreground bg-primary flex items-center justify-between border-b-2 px-4 py-3 text-primary-foreground"
-                >
-                    <div class="flex items-center gap-2">
-                        <Icon icon={Package01Icon} class="h-5 w-5" />
-                        <span class="text-sm font-black">Component Lab</span>
-                    </div>
-                    <span class="text-xs font-black">LIVE</span>
-                </div>
+                <div class="absolute inset-0 bg-grid-fine opacity-10"></div>
 
-                <div class="space-y-6 p-5">
-                    <div class="border-foreground bg-accent/10 space-y-4 border-2 p-4">
-                        <div class="flex flex-wrap items-center gap-3">
-                            <Button>Primary</Button>
-                            <Button variant="outline">Outline</Button>
-                            <Button variant="secondary">Secondary</Button>
-                        </div>
-                        <div class="max-w-xs">
-                            <Slider bind:value={sliderValue} max={100} step={1} />
-                        </div>
+                <div class="relative">
+                    <div
+                        class="border-foreground bg-foreground text-background flex items-center justify-between border-b-2 px-4 py-3"
+                    >
+                        <span class="text-sm font-black">@neobr/svelte</span>
+                        <span class="text-xs font-black">v{version || "..."}</span>
                     </div>
 
-                    <div class="grid gap-4 sm:grid-cols-2">
-                        <div class="border-foreground bg-secondary/20 border-2 p-4">
-                            <p class="mb-3 text-xs font-black tracking-[0.16em] uppercase">Date</p>
-                            <DatePicker bind:value={dateValue} />
+                    <div class="grid min-h-[31rem] grid-rows-[1fr_auto]">
+                        <div class="relative overflow-hidden p-6 sm:p-8">
+                            <div class="border-foreground bg-secondary absolute top-8 right-8 h-36 w-28 border-2"></div>
+                            <div class="border-foreground bg-primary absolute top-16 right-16 h-36 w-28 border-2"></div>
+                            <div class="border-foreground bg-success absolute right-8 bottom-24 h-14 w-44 border-2"></div>
+                            <div class="bg-foreground absolute right-8 bottom-44 h-3 w-32"></div>
+
+                            <div class="relative z-10 flex min-h-[22rem] flex-col justify-between">
+                                <div>
+                                    <p class="text-muted-foreground text-xs font-black uppercase">
+                                        Brutalist Interface Kit
+                                    </p>
+                                    <div class="mt-8">
+                                        <p class="text-6xl leading-[0.82] font-black sm:text-7xl">
+                                            NEO
+                                        </p>
+                                        <p
+                                            class="text-primary text-6xl leading-[0.82] font-black sm:text-7xl"
+                                        >
+                                            BR
+                                        </p>
+                                        <p class="text-4xl leading-none font-black sm:text-5xl">
+                                            UI
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-3">
+                                    <div class="bg-foreground h-3 w-40"></div>
+                                    <div class="flex max-w-xs gap-2">
+                                        <div class="border-foreground bg-primary h-10 flex-1 border-2"></div>
+                                        <div class="border-foreground bg-secondary h-10 flex-1 border-2"></div>
+                                        <div class="border-foreground bg-success h-10 flex-1 border-2"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="border-foreground bg-success/10 border-2 p-4">
-                            <p class="mb-3 text-xs font-black tracking-[0.16em] uppercase">Form</p>
-                            <Form class="space-y-3">
-                                <Input placeholder="Username" bind:value={username} />
-                                <Button type="submit" class="w-full">Submit</Button>
-                            </Form>
+
+                        <div class="border-foreground bg-muted grid grid-cols-3 border-t-2">
+                            <div class="border-foreground px-4 py-3 first:border-r-2">
+                                <p class="text-muted-foreground text-xs font-black">Runtime</p>
+                                <p class="font-black">Svelte 5</p>
+                            </div>
+                            <div class="border-foreground px-4 py-3">
+                                <p class="text-muted-foreground text-xs font-black">Styling</p>
+                                <p class="font-black">Tailwind 4</p>
+                            </div>
+                            <div class="border-foreground px-4 py-3 last:border-l-2">
+                                <p class="text-muted-foreground text-xs font-black">Preset</p>
+                                <p class="font-black">CSS</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div
-                class="border-foreground bg-secondary absolute -right-4 -bottom-4 hidden border-2 px-4 py-3 shadow-[0_5px_0_0_var(--color-shadow-color)] md:block"
-            >
-                <div class="flex items-center gap-2 text-sm font-black">
-                    <Icon icon={Rocket02Icon} class="h-5 w-5" />
-                    Ready to ship
                 </div>
             </div>
         </div>
