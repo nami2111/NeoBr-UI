@@ -14,7 +14,7 @@
     } from "@hugeicons/core-free-icons";
 
     let copied = $state(false);
-    const installCommand = "$ pnpm add @neobr/svelte @neobr/tailwind-preset";
+    const installCommand = "$ pnpm add @neobr/svelte";
     let version = $state("");
 
     const metrics = [

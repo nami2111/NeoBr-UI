@@ -41,6 +41,7 @@
             "svelte": "./dist/index.js",
             "default": "./dist/index.js"
         },
+        "./style": "./dist/styles/design-system.css",
         "./accordion": {
             "types": "./dist/components/ui/accordion/index.d.ts",
             "svelte": "./dist/components/ui/accordion/index.js",
@@ -287,11 +288,9 @@
         "svelte": ">=5.40.0 <6"
     },
     "devDependencies": {
-        "@sveltejs/adapter-auto": "^7.0.1",
         "@sveltejs/kit": "2.55.0",
         "@sveltejs/package": "2.5.7",
         "@sveltejs/vite-plugin-svelte": "7.0.0",
-        "@testing-library/dom": "^10.4.1",
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/svelte": "^5.3.1",
         "jsdom": "^28.1.0",
@@ -302,14 +301,12 @@
         "vite": "catalog:",
         "vitest": "catalog:",
         "vitest-axe": "^0.1.0",
-        "vitest-dom": "^0.1.1",
         "vite-plus": "catalog:"
     },
     "dependencies": {
         "@hugeicons/core-free-icons": "^4.0.0",
         "@hugeicons/svelte": "^1.1.2",
         "@internationalized/date": "^3.12.0",
-        "@neobr/tailwind-preset": "^1.1.2",
         "bits-ui": "^2.16.3",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",

@@ -22,10 +22,10 @@ A **Neo-Brutalist** component library for Svelte 5 — high-contrast, thick bord
 
 ## Installation
 
-Install both the component library and the CSS preset:
+Install the component library:
 
 ```bash
-pnpm add @neobr/svelte @neobr/tailwind-preset
+pnpm add @neobr/svelte
 ```
 
 ### Setup
@@ -34,7 +34,7 @@ pnpm add @neobr/svelte @neobr/tailwind-preset
 
 ```css
 @import "tailwindcss";
-@import "@neobr/tailwind-preset/style";
+@import "@neobr/svelte/style";
 
 @source "../node_modules/@neobr/svelte/dist";
 ```
@@ -95,7 +95,6 @@ Dark mode activates by adding the `.dark` class to a parent element. All tokens 
 | Package                    | Description                            |
 | -------------------------- | -------------------------------------- |
 | `packages/svelte`          | Core Svelte 5 component library        |
-| `packages/tailwind-preset` | CSS-first design system (Tailwind v4)  |
 | `apps/docs`                | Documentation and interactive showcase |
 
 ---

@@ -3,8 +3,6 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "sync:css": "cp packages/svelte/src/lib/styles/design-system.css packages/tailwind-preset/design-system.css",
-        "prebuild": "vp run sync:css",
         "build": "vp run -r build",
         "test": "vp run -r test",
         "lint": "vp run -r lint",

@@ -3,12 +3,12 @@
     import CodeBlock from "../../../lib/components/CodeBlock.svelte";
 
     const cssSetup = `@import "tailwindcss";
-@import "@neobr/tailwind-preset/style";
+@import "@neobr/svelte/style";
 
 /* Scan packaged component classes */
 @source "../node_modules/@neobr/svelte/dist";
 
-/* Optional: customize design tokens after the preset import */
+/* Optional: customize design tokens after the design-system import */
 @theme {
   --color-primary: #ffeb3b;
   --color-secondary: #ff5722;
@@ -53,8 +53,8 @@ npm install @hugeicons/core-free-icons @internationalized/date`;
                 Run the following command in your project root using your preferred package manager:
             </p>
             <div class="space-y-4">
-                <CodeBlock code="pnpm add @neobr/svelte @neobr/tailwind-preset" />
-                <CodeBlock code="npm install @neobr/svelte @neobr/tailwind-preset" />
+                <CodeBlock code="pnpm add @neobr/svelte" />
+                <CodeBlock code="npm install @neobr/svelte" />
             </div>
         </section>
 
@@ -63,8 +63,8 @@ npm install @hugeicons/core-free-icons @internationalized/date`;
                 2. Configure Tailwind CSS 4
             </h2>
             <p class="font-medium">
-                In Tailwind CSS 4, you can import the preset directly in your main CSS file (e.g., <code
-                    >app.css</code
+                In Tailwind CSS 4, you can import the design system directly in your main CSS file
+                (e.g., <code>app.css</code
                 >):
             </p>
             <CodeBlock code={cssSetup} />

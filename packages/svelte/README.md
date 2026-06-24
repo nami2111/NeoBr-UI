@@ -5,16 +5,16 @@ A Svelte 5 Neo-Brutalist component library.
 ## Installation
 
 ```bash
-pnpm add @neobr/svelte @neobr/tailwind-preset
+pnpm add @neobr/svelte
 ```
 
 ### Setup
 
-Import the preset in your global CSS:
+Import the design system in your global CSS:
 
 ```css
 @import "tailwindcss";
-@import "@neobr/tailwind-preset/style";
+@import "@neobr/svelte/style";
 ```
 
 ## Sub-path Exports
@@ -101,7 +101,7 @@ Styling is handled via Tailwind CSS v4 with OKLCH color tokens defined in the `@
 
 ```css
 @import "tailwindcss";
-@import "@neobr/tailwind-preset/style";
+@import "@neobr/svelte/style";
 
 @theme {
     --color-primary: oklch(78.5% 0.08 270);
