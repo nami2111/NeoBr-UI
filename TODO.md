@@ -15,11 +15,11 @@ Repo-wide goal: remove duplicated package surface, unused dependencies, and test
 
 ## 2. Shrink package exports
 
-- [ ] Replace the hand-maintained component subpath export map in `packages/svelte/package.json` with wildcard exports for `./*`.
-- [ ] Keep explicit exports only for special paths: `.`, `./style`, and `./utils` if needed.
-- [ ] Confirm `@neobr/svelte/button`, `@neobr/svelte/form`, and root imports still resolve after build.
-- [ ] Update `packages/svelte/scripts/check-package-exports.mjs` only if wildcard exports need different validation.
-- [ ] Verify with `pnpm --filter @neobr/svelte run build` and `pnpm --filter @neobr/svelte run exports:check`.
+- [x] Replace the hand-maintained component subpath export map in `packages/svelte/package.json` with wildcard exports for `./*`.
+- [x] Keep explicit exports only for special paths: `.`, `./style`, and `./utils` if needed.
+- [x] Confirm `@neobr/svelte/button`, `@neobr/svelte/form`, and root imports still resolve after build.
+- [x] Update `packages/svelte/scripts/check-package-exports.mjs` only if wildcard exports need different validation.
+- [x] Verify with `vp run --filter @neobr/svelte build` and `vp run --filter @neobr/svelte exports:check`.
 
 ## 3. Remove unused dependencies
 
@@ -40,10 +40,10 @@ Repo-wide goal: remove duplicated package surface, unused dependencies, and test
 
 ## 5. Reduce duplicated export lists
 
-- [ ] Decide whether root `src/lib/index.ts` should stay as the curated barrel.
-- [ ] If subpath wildcard exports work, avoid generating another component list unless consumers need root imports.
-- [ ] If root imports stay, keep `src/lib/index.ts` as the single human-maintained component list.
-- [ ] Do not add a generator unless export drift keeps recurring.
+- [x] Decide whether root `src/lib/index.ts` should stay as the curated barrel.
+- [x] If subpath wildcard exports work, avoid generating another component list unless consumers need root imports.
+- [x] If root imports stay, keep `src/lib/index.ts` as the single human-maintained component list.
+- [x] Do not add a generator unless export drift keeps recurring.
 
 ## Done Criteria
 

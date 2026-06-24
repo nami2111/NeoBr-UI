@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -12,6 +12,11 @@ const missingPaths = [];
 function checkPackagePath(label, packagePath) {
     if (typeof packagePath !== "string" || !packagePath) return;
 
+    if (packagePath.includes("*")) {
+        checkWildcardPackagePath(label, packagePath);
+        return;
+    }
+
     const normalizedPath = packagePath.startsWith("./") ? packagePath.slice(2) : packagePath;
     const fullPath = resolve(packageRoot, normalizedPath);
 
@@ -19,6 +24,23 @@ function checkPackagePath(label, packagePath) {
 
     if (!existsSync(fullPath)) {
         missingPaths.push(`${label}: ${packagePath}`);
+    }
+}
+
+function checkWildcardPackagePath(label, packagePath) {
+    const [beforeStar] = packagePath.split("*");
+    const normalizedBase = beforeStar.startsWith("./") ? beforeStar.slice(2) : beforeStar;
+    const fullBasePath = resolve(packageRoot, normalizedBase);
+
+    if (!existsSync(fullBasePath)) {
+        missingPaths.push(`${label}: ${packagePath}`);
+        return;
+    }
+
+    const entries = readdirSync(fullBasePath, { withFileTypes: true });
+    for (const entry of entries) {
+        if (!entry.isDirectory()) continue;
+        checkPackagePath(label.replace("*", entry.name), packagePath.replace("*", entry.name));
     }
 }
 
