@@ -33,10 +33,11 @@ Repo-wide goal: remove duplicated package surface, unused dependencies, and test
 ## 4. Delete test-only wrapper components
 
 - [ ] Replace `*-test-wrapper.svelte`, `*-test.svelte`, and `*-test-helper.svelte` files that only pass props/slot text with inline test components or direct renders.
-- [ ] Start with simple components: `badge`, `button`, `label`, `link`, `card`, `table`.
+- [x] Remove pure pass-through wrappers for `badge`, `button`, `label`, `link`, `marquee`, `scroll-area`, `sticker`, and `toggle`.
+- [ ] Review composed fixtures separately: `card`, `table`, `alert`, `bento-grid`, overlays, forms, grouped controls, and error-boundary helpers.
 - [ ] Keep wrappers only where they model real multi-component usage or error-boundary behavior.
 - [ ] Remove matching package file exclusions after wrappers are gone.
-- [ ] Verify each batch with `pnpm --filter @neobr/svelte test`.
+- [x] Verify this batch with `vp run --filter @neobr/svelte test`.
 
 ## 5. Reduce duplicated export lists
 
