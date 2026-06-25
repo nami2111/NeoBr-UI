@@ -4,23 +4,23 @@ Goal: improve the component library's design quality, accessibility, package erg
 
 ## 1. Fix overlay accessibility and mobile layout
 
-- [ ] Remove fixed modal `min-w-*` sizes in `packages/svelte/src/lib/components/ui/modal/modal.svelte`.
-- [ ] Use `w-full` plus `max-w-*` so `md`, `lg`, and `xl` modals cannot overflow narrow mobile screens.
-- [ ] Replace or simplify backdrop semantics in `modal.svelte`; avoid `div role="button"` with `tabindex="-1"`.
-- [ ] Replace or simplify backdrop semantics in `packages/svelte/src/lib/components/ui/sheet/sheet.svelte`.
-- [ ] Add `aria-labelledby` support to `sheet.svelte` when a sheet title exists.
-- [ ] Keep Escape and close-button behavior unchanged.
-- [ ] Verify with the existing modal and sheet tests.
+- [x] Remove fixed modal `min-w-*` sizes in `packages/svelte/src/lib/components/ui/modal/modal.svelte`.
+- [x] Use `w-full` plus `max-w-*` so `md`, `lg`, and `xl` modals cannot overflow narrow mobile screens.
+- [x] Replace or simplify backdrop semantics in `modal.svelte`; avoid `div role="button"` with `tabindex="-1"`.
+- [x] Replace or simplify backdrop semantics in `packages/svelte/src/lib/components/ui/sheet/sheet.svelte`.
+- [x] Add `aria-labelledby` support to `sheet.svelte` when a sheet title exists.
+- [x] Keep Escape and close-button behavior unchanged.
+- [x] Verify with the existing modal and sheet tests.
 
 ## 2. Make library CSS less invasive
 
-- [ ] Review `packages/svelte/src/lib/styles/design-system.css` for rules that affect the whole consuming app.
-- [ ] Stop forcing JetBrains Mono as both the default sans and mono font for every consumer.
-- [ ] Keep font tokens available, but let the consuming app own its actual body font.
-- [ ] Scope or remove the global reduced-motion override that targets `*`, `*::before`, and `*::after`.
-- [ ] Keep component-level motion respectful of `prefers-reduced-motion`.
-- [ ] Avoid adding theme configuration machinery unless a real consumer need appears.
-- [ ] Verify docs and package build after the CSS change.
+- [x] Review `packages/svelte/src/lib/styles/design-system.css` for rules that affect the whole consuming app.
+- [x] Stop forcing JetBrains Mono as both the default sans and mono font for every consumer.
+- [x] Keep font tokens available, but let the consuming app own its actual body font.
+- [x] Scope or remove the global reduced-motion override that targets `*`, `*::before`, and `*::after`.
+- [x] Keep component-level motion respectful of `prefers-reduced-motion`.
+- [x] Avoid adding theme configuration machinery unless a real consumer need appears.
+- [x] Verify docs and package build after the CSS change.
 
 ## 3. Standardize icon behavior
 
@@ -73,10 +73,10 @@ Goal: improve the component library's design quality, accessibility, package erg
 
 ## Done Criteria
 
-- [ ] `vp run -r check` passes.
-- [ ] `vp run build` passes.
-- [ ] `vp run test` passes.
+- [x] `vp run -r check` passes.
+- [x] `vp run build` passes.
+- [x] `vp run test` passes.
 - [ ] `vp run --filter @neobr/svelte pack:check` passes if package contents changed.
-- [ ] Modal and sheet work on narrow mobile widths without horizontal overflow.
-- [ ] Sheet and modal dialogs have sane accessible names.
-- [ ] Importing `@neobr/svelte/style` no longer takes over unrelated app-wide fonts or motion.
+- [x] Modal and sheet work on narrow mobile widths without horizontal overflow.
+- [x] Sheet and modal dialogs have sane accessible names.
+- [x] Importing `@neobr/svelte/style` no longer takes over unrelated app-wide fonts or motion.

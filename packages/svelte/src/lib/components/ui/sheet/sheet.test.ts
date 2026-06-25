@@ -37,3 +37,13 @@ test("Sheet closes on Escape through shared overlay behavior", async () => {
         expect(screen.queryByText("Escape Sheet")).toBeNull();
     });
 });
+
+test("Sheet uses its title as the accessible dialog name", () => {
+    render(Sheet, { props: { open: true, title: "Named Sheet" } });
+
+    const dialog = screen.getByRole("dialog", { name: "Named Sheet" });
+    const labelledBy = dialog.getAttribute("aria-labelledby");
+
+    expect(labelledBy).toBeTruthy();
+    expect(document.getElementById(labelledBy ?? "")).toHaveTextContent("Named Sheet");
+});

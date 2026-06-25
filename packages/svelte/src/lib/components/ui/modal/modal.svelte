@@ -60,11 +60,11 @@
     let titleId = $derived(title ? `modal-title-${modalId}` : undefined);
 
     const sizeClasses = {
-        sm: "min-w-[320px] max-w-sm min-h-[200px] max-h-[80vh]",
-        md: "min-w-[400px] max-w-lg min-h-[300px] max-h-[85vh]",
-        lg: "min-w-[600px] max-w-2xl min-h-[400px] max-h-[90vh]",
-        xl: "min-w-[800px] max-w-4xl min-h-[500px] max-h-[90vh]",
-        full: "min-w-[95vw] max-w-[95vw] min-h-[95vh] max-h-[95vh]",
+        sm: "max-w-sm min-h-[200px] max-h-[80vh]",
+        md: "max-w-lg min-h-[300px] max-h-[85vh]",
+        lg: "max-w-2xl min-h-[400px] max-h-[90vh]",
+        xl: "max-w-4xl min-h-[500px] max-h-[90vh]",
+        full: "w-[95vw] max-w-[95vw] min-h-[95vh] max-h-[95vh]",
         auto: "w-auto h-auto max-w-[95vw] max-h-[95vh]",
     };
 
@@ -90,16 +90,15 @@
         aria-labelledby={titleId}
     >
         <!-- Backdrop -->
-        <div
-            class="bg-foreground/30 fixed inset-0 backdrop-blur-sm"
+        <button
+            type="button"
+            class="bg-foreground/30 fixed inset-0 border-0 p-0 backdrop-blur-sm"
             style="z-index: var(--z-modal-backdrop)"
             transition:fade={TRANSITION_BRUTALIST_BACKDROP}
             onclick={handleClose}
-            onkeydown={(e) => e.key === "Enter" && handleClose()}
-            role="button"
             tabindex="-1"
             aria-label="Close modal backdrop"
-        ></div>
+        ></button>
 
         <!-- Modal Content -->
         <div

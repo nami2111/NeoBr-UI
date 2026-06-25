@@ -26,6 +26,9 @@
         ...rest
     }: Props = $props();
 
+    const sheetId = $props.id();
+    let titleId = $derived(title ? `sheet-title-${sheetId}` : undefined);
+
     function handleClose() {
         open = false;
         onClose?.();
@@ -71,16 +74,15 @@
         style="z-index: var(--z-sheet)"
     >
         <!-- Backdrop -->
-        <div
-            class="bg-foreground/30 fixed inset-0 backdrop-blur-sm transition-opacity"
+        <button
+            type="button"
+            class="bg-foreground/30 fixed inset-0 border-0 p-0 backdrop-blur-sm transition-opacity"
             style="z-index: var(--z-sheet-backdrop)"
             transition:fade={TRANSITION_BRUTALIST_BACKDROP}
             onclick={handleClose}
-            onkeydown={(e) => e.key === "Enter" && handleClose()}
-            role="button"
             tabindex="-1"
             aria-label="Close sheet backdrop"
-        ></div>
+        ></button>
 
         <!-- Sheet Content -->
         <div
@@ -94,12 +96,15 @@
             transition:fly={flyParams}
             role="dialog"
             aria-modal="true"
+            aria-labelledby={titleId}
             tabindex="-1"
             {...rest}
         >
             <div class="flex items-center justify-between">
                 {#if title}
-                    <h2 class="text-xl font-extrabold tracking-tight uppercase">{title}</h2>
+                    <h2 id={titleId} class="text-xl font-extrabold tracking-tight uppercase">
+                        {title}
+                    </h2>
                 {/if}
                 <button
                     type="button"

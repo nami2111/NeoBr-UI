@@ -79,8 +79,8 @@
     --transition-brutalist-slow: 300ms ease-in-out;
 
     /* Typography */
-    --font-sans: "JetBrains Mono", monospace;
-    --font-mono: "JetBrains Mono", monospace;
+    --font-neobr-sans: "JetBrains Mono", monospace;
+    --font-neobr-mono: "JetBrains Mono", monospace;
 
     /* Animation */
     --animate-fade-in: fade-in 0.3s ease-in-out;
@@ -178,9 +178,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    :where(.neobr-reduce-motion, .neobr-reduce-motion *) {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
