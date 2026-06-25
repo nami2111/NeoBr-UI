@@ -4,13 +4,13 @@ Goal: make the docs site accurate, scannable, mobile-safe, and release-ready wit
 
 ## 1. Docs accuracy pass
 
-- [ ] Search docs for stale `@neobr/tailwind-preset` references and remove any remaining preset install instructions.
-- [ ] Confirm all setup snippets import `@neobr/svelte/style`.
-- [ ] Confirm install/setup docs explain that font tokens are opt-in and the library does not own the app body font.
-- [ ] Confirm form docs mention that only top-level string fields default to `""`.
-- [ ] Confirm form docs tell users to provide `initialValues` for number, boolean, array, object, and date fields.
-- [ ] Confirm Select, Accordion, and Calendar docs use `type="multiple"` whenever examples bind array values.
-- [ ] Confirm package/dependency notes match the current `@neobr/svelte` package surface.
+- [x] Search docs for stale `@neobr/tailwind-preset` references and remove any remaining preset install instructions.
+- [x] Confirm all setup snippets import `@neobr/svelte/style`.
+- [x] Confirm install/setup docs explain that font tokens are opt-in and the library does not own the app body font.
+- [x] Confirm form docs mention that only top-level string fields default to `""`.
+- [x] Confirm form docs tell users to provide `initialValues` for number, boolean, array, object, and date fields.
+- [x] Confirm Select, Accordion, and Calendar docs use `type="multiple"` whenever examples bind array values.
+- [x] Confirm package/dependency notes match the current `@neobr/svelte` package surface.
 
 ## 2. Component page consistency
 

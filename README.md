@@ -16,7 +16,7 @@ A **Neo-Brutalist** component library for Svelte 5 — high-contrast, thick bord
 - **Tree-shaking** — Granular sub-path exports (`@neobr/svelte/button`, `@neobr/svelte/form`) for minimal bundle size.
 - **Zod Validation** — Built-in form state management with reactive runes and type-safe schema validation.
 - **OKLCH Colors** — Perceptually uniform color space with automatic dark mode support.
-- **Reduced Motion** — Respects `prefers-reduced-motion` globally.
+- **Reduced Motion** — Component transitions respect `prefers-reduced-motion` without global CSS overrides.
 
 ---
 
@@ -39,7 +39,7 @@ pnpm add @neobr/svelte
 @source "../node_modules/@neobr/svelte/dist";
 ```
 
-2. Load **JetBrains Mono** in your project for the full technical aesthetic.
+2. Optionally load **JetBrains Mono** in your project for the full technical aesthetic. NeoBr-UI exposes font tokens but does not override your app body font.
 
 ### Sub-path Imports
 
@@ -48,7 +48,7 @@ Import individual components for optimal tree-shaking:
 ```svelte
 <script>
   import { Button } from "@neobr/svelte/button";
-  import { createFormState } from "@neobr/svelte/form";
+  import { createFormState, z } from "@neobr/svelte/form";
 </script>
 ```
 

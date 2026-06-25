@@ -15,7 +15,7 @@
 
     const usage = `<Collapsible bind:open>
     <div class="flex items-center justify-between space-x-4 px-4">
-        <h4 class="text-sm font-bold">@neobr/ui includes core imports</h4>
+        <h4 class="text-sm font-bold">@neobr/svelte includes core imports</h4>
         <CollapsibleTrigger>
             <Button variant="ghost" size="sm" class="w-9 p-0">
                 <Icon icon={open ? ArrowUp01Icon : ArrowDown01Icon} class="h-4 w-4" />
@@ -48,7 +48,7 @@
                 <Collapsible bind:open class="w-[350px] space-y-2">
                     <div class="flex items-center justify-between space-x-4 px-4">
                         <h4 class="text-sm font-black tracking-tighter uppercase">
-                            @neobr/ui includes core imports
+                            @neobr/svelte includes core imports
                         </h4>
                         <CollapsibleTrigger>
                             <Button variant="outline" size="sm" class="h-8 w-8 p-0">

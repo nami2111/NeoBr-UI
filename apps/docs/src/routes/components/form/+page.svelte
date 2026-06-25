@@ -137,7 +137,7 @@
                 Use <code class="bg-muted px-1 rounded">createFormState</code> with Zod schemas for type-safe form validation.
                 This provides reactive state management with automatic validation on blur and submit. String fields default to
                 <code class="bg-muted px-1 rounded">""</code>; provide <code class="bg-muted px-1 rounded">initialValues</code>
-                for non-string fields. Nested validation errors are keyed by the top-level field.
+                for number, boolean, array, object, and date fields. Nested validation errors are keyed by the top-level field.
             </p>
             <CodePreview code={validationExample}>
                 <div class="w-full max-w-sm py-10">
@@ -190,7 +190,7 @@
                     <h4 class="font-semibold mt-4">Options</h4>
                     <ul class="list-disc list-inside text-muted-foreground mt-2 space-y-1">
                         <li><code class="bg-muted px-1 rounded">schema</code> - Zod schema for validation</li>
-                        <li><code class="bg-muted px-1 rounded">initialValues</code> - Optional initial form values; required for useful non-string defaults</li>
+                        <li><code class="bg-muted px-1 rounded">initialValues</code> - Optional initial form values; required for useful number, boolean, array, object, and date defaults</li>
                         <li><code class="bg-muted px-1 rounded">onSubmit</code> - Submit handler function</li>
                         <li><code class="bg-muted px-1 rounded">validateOnChange</code> - Validate on change (default: true)</li>
                         <li><code class="bg-muted px-1 rounded">validateOnBlur</code> - Validate on blur (default: true)</li>
