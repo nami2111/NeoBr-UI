@@ -6,6 +6,7 @@
 
     const schema = z.object({
         email: z.string().email("Invalid email"),
+        age: z.number().optional(),
         profile: z.object({
             name: z.string().min(2, "Name is too short"),
         }),
@@ -23,6 +24,7 @@
 </script>
 
 <p data-testid="email">{form.values.email}</p>
+<p data-testid="age-type">{typeof form.values.age}</p>
 <p data-testid="profile-name">{form.values.profile.name}</p>
 <p data-testid="email-error">{form.errors.email ?? ""}</p>
 <p data-testid="profile-error">{form.errors.profile ?? ""}</p>

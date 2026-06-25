@@ -50,6 +50,7 @@ NeoBr-UI uses Svelte 5 Runes for reactivity and Snippets for flexible compositio
 ## Form Validation (Zod)
 
 NeoBr-UI provides built-in integration with Zod for type-safe form validation using Svelte 5 runes.
+String fields default to `""` for input binding. Provide `initialValues` for number, boolean, array, object, and date fields. Nested validation errors are reported on the top-level field key.
 
 ```svelte
 <script>

@@ -67,9 +67,10 @@ export function createFormState<T extends FormSchema>(options: FormOptions<T>) {
         const next = cloneValue(initialValues) as Partial<FormValues<T>> & Record<string, unknown>;
         const nextByKey = next as Record<string, unknown>;
 
-        // Keep current ergonomic default for bindable text inputs while avoiding shared refs.
         for (const key of fieldNames) {
-            if (nextByKey[key] === undefined) nextByKey[key] = "";
+            if (nextByKey[key] === undefined && shape[key] instanceof z.ZodString) {
+                nextByKey[key] = "";
+            }
         }
 
         return next as FormValues<T>;

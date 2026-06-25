@@ -97,6 +97,12 @@ describe("createFormState", () => {
         expect(screen.getByTestId("email-error")).toHaveTextContent("");
     });
 
+    test("does not invent empty strings for missing non-string fields", () => {
+        render(FormStateTestWrapper);
+
+        expect(screen.getByTestId("age-type")).toHaveTextContent("undefined");
+    });
+
     test("submits cloned valid values and clears submitting after async failure", async () => {
         const onSubmit = vi.fn(async (_values: unknown) => {
             await Promise.resolve();

@@ -33,13 +33,13 @@ Goal: improve the component library's design quality, accessibility, package erg
 
 ## 4. Tighten form helper expectations
 
-- [ ] Decide whether `createFormState` is intentionally a flat text-form helper.
-- [ ] If yes, document that nested paths and non-string defaults are out of scope.
-- [ ] If no, preserve full Zod issue paths instead of collapsing errors to `issue.path[0]`.
-- [ ] Stop silently defaulting every missing field value to `""` when the schema may expect numbers, booleans, arrays, dates, or objects.
-- [ ] Prefer requiring explicit `initialValues` for non-string fields over guessing defaults.
-- [ ] Keep the API small; do not build a full form library inside the component package.
-- [ ] Verify form tests and add one small regression test for the chosen behavior.
+- [x] Decide whether `createFormState` is intentionally a flat text-form helper.
+- [x] If yes, document that nested paths and non-string defaults are out of scope.
+- [x] Skip full Zod issue paths; errors remain keyed by top-level field.
+- [x] Stop silently defaulting every missing field value to `""` when the schema may expect numbers, booleans, arrays, dates, or objects.
+- [x] Prefer requiring explicit `initialValues` for non-string fields over guessing defaults.
+- [x] Keep the API small; do not build a full form library inside the component package.
+- [x] Verify form tests and add one small regression test for the chosen behavior.
 
 ## 5. Recheck package contents
 
