@@ -36,7 +36,7 @@ Repo-wide goal: remove duplicated package surface, unused dependencies, and test
 - [x] Remove pure pass-through wrappers for `badge`, `button`, `label`, `link`, `marquee`, `scroll-area`, `sticker`, `toggle`, and `window`.
 - [x] Review composed fixtures separately: `card`, `table`, `alert`, `bento-grid`, overlays, forms, grouped controls, and error-boundary helpers.
 - [x] Keep wrappers only where they model real multi-component usage or error-boundary behavior.
-- [ ] Remove matching package file exclusions if composed fixture files are ever deleted.
+- [x] Keep matching package file exclusions because composed fixture files remain.
 - [x] Verify this batch with `vp run --filter @neobr/svelte test`.
 
 ## 5. Reduce duplicated export lists
