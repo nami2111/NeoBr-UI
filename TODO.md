@@ -14,11 +14,11 @@ Goal: make the docs site accurate, scannable, mobile-safe, and release-ready wit
 
 ## 2. Component page consistency
 
-- [ ] Audit component pages for a consistent section shape: Usage, variants/sizes/states, and short API notes where useful.
-- [ ] Keep existing page structure when it is already clear; do not rewrite pages just for uniformity.
-- [ ] Add missing accessibility notes only where the component behavior needs user awareness.
-- [ ] Add missing responsive behavior notes only where demos can mislead users on mobile.
-- [ ] Keep examples short and executable; avoid marketing copy and long explanatory prose.
+- [x] Audit component pages for a consistent section shape: Usage, variants/sizes/states, and short API notes where useful.
+- [x] Keep existing page structure when it is already clear; do not rewrite pages just for uniformity.
+- [x] Add missing accessibility notes only where the component behavior needs user awareness.
+- [x] Add missing responsive behavior notes only where demos can mislead users on mobile.
+- [x] Keep examples short and executable; avoid marketing copy and long explanatory prose.
 
 ## 3. Mobile docs QA
 

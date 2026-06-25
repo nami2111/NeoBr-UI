@@ -62,7 +62,11 @@
 <DocPage title="Table" description="A responsive table component for structured data.">
     <div class="space-y-12">
         <section class="space-y-4">
-            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Default Table</h2>
+            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Usage</h2>
+            <p class="text-muted-foreground text-sm">
+                Wrap wide tables in a horizontal scroll container when the column set cannot fit a
+                narrow viewport.
+            </p>
             <CodePreview code={basicUsage}>
                 <Table>
                     <TableCaption>A list of recent invoices.</TableCaption>

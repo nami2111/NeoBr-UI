@@ -24,7 +24,7 @@
 >
     <div class="space-y-12">
         <section class="space-y-4">
-            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Basic Usage</h2>
+            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Usage</h2>
             <CodePreview code={basicUsage}>
                 <div class="flex flex-col items-center justify-center gap-4">
                     <Calendar type="single" bind:value />
