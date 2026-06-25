@@ -1,82 +1,61 @@
-# Library Improvement Plan
+# Documentation Site Hardening Plan
 
-Goal: improve the component library's design quality, accessibility, package ergonomics, and public API without reopening the architecture or adding speculative abstractions.
+Goal: make the docs site accurate, scannable, mobile-safe, and release-ready without redesigning it or adding speculative demos.
 
-## 1. Fix overlay accessibility and mobile layout
+## 1. Docs accuracy pass
 
-- [x] Remove fixed modal `min-w-*` sizes in `packages/svelte/src/lib/components/ui/modal/modal.svelte`.
-- [x] Use `w-full` plus `max-w-*` so `md`, `lg`, and `xl` modals cannot overflow narrow mobile screens.
-- [x] Replace or simplify backdrop semantics in `modal.svelte`; avoid `div role="button"` with `tabindex="-1"`.
-- [x] Replace or simplify backdrop semantics in `packages/svelte/src/lib/components/ui/sheet/sheet.svelte`.
-- [x] Add `aria-labelledby` support to `sheet.svelte` when a sheet title exists.
-- [x] Keep Escape and close-button behavior unchanged.
-- [x] Verify with the existing modal and sheet tests.
+- [ ] Search docs for stale `@neobr/tailwind-preset` references and remove any remaining preset install instructions.
+- [ ] Confirm all setup snippets import `@neobr/svelte/style`.
+- [ ] Confirm install/setup docs explain that font tokens are opt-in and the library does not own the app body font.
+- [ ] Confirm form docs mention that only top-level string fields default to `""`.
+- [ ] Confirm form docs tell users to provide `initialValues` for number, boolean, array, object, and date fields.
+- [ ] Confirm Select, Accordion, and Calendar docs use `type="multiple"` whenever examples bind array values.
+- [ ] Confirm package/dependency notes match the current `@neobr/svelte` package surface.
 
-## 2. Make library CSS less invasive
+## 2. Component page consistency
 
-- [x] Review `packages/svelte/src/lib/styles/design-system.css` for rules that affect the whole consuming app.
-- [x] Stop forcing JetBrains Mono as both the default sans and mono font for every consumer.
-- [x] Keep font tokens available, but let the consuming app own its actual body font.
-- [x] Scope or remove the global reduced-motion override that targets `*`, `*::before`, and `*::after`.
-- [x] Keep component-level motion respectful of `prefers-reduced-motion`.
-- [x] Avoid adding theme configuration machinery unless a real consumer need appears.
-- [x] Verify docs and package build after the CSS change.
+- [ ] Audit component pages for a consistent section shape: Usage, variants/sizes/states, and short API notes where useful.
+- [ ] Keep existing page structure when it is already clear; do not rewrite pages just for uniformity.
+- [ ] Add missing accessibility notes only where the component behavior needs user awareness.
+- [ ] Add missing responsive behavior notes only where demos can mislead users on mobile.
+- [ ] Keep examples short and executable; avoid marketing copy and long explanatory prose.
 
-## 3. Standardize icon behavior
+## 3. Mobile docs QA
 
-- [x] Decide the smallest consistent icon rule for components: use the existing `Icon` wrapper for HugeIcons-based internal icons.
-- [x] Remove the mismatch where modal uses HugeIcons through `Icon` but sheet uses inline SVG.
-- [x] Prefer caller override points for component icons where users are likely to care; no close-icon override yet because there is no consumer need.
-- [x] Keep HugeIcons if it remains useful internally; do not add another icon dependency.
-- [x] Avoid a new icon abstraction unless it removes existing inconsistency.
-- [x] Verify affected component tests and examples.
+- [ ] Run the docs app locally.
+- [ ] Check core docs pages at a narrow mobile width: home, installation, components index, modal, sheet, form, select, table.
+- [ ] Fix horizontal overflow in examples, code blocks, tables, and component preview wrappers.
+- [ ] Confirm modal and sheet demos remain usable on mobile.
+- [ ] Confirm header, sidebar/menu, and search controls do not overlap content.
 
-## 4. Tighten form helper expectations
+## 4. Navigation and discovery
 
-- [x] Decide whether `createFormState` is intentionally a flat text-form helper.
-- [x] If yes, document that nested paths and non-string defaults are out of scope.
-- [x] Skip full Zod issue paths; errors remain keyed by top-level field.
-- [x] Stop silently defaulting every missing field value to `""` when the schema may expect numbers, booleans, arrays, dates, or objects.
-- [x] Prefer requiring explicit `initialValues` for non-string fields over guessing defaults.
-- [x] Keep the API small; do not build a full form library inside the component package.
-- [x] Verify form tests and add one small regression test for the chosen behavior.
+- [ ] Review component index grouping and labels for scan speed.
+- [ ] Check active navigation state in the sidebar/header.
+- [ ] Check keyboard navigation for header links, mobile menu, search, and component links.
+- [ ] Improve search only if current search misses obvious component names or aliases.
+- [ ] Avoid a new navigation system unless the current one demonstrably blocks discovery.
 
-## 5. Recheck package contents
+## 5. Performance and accessibility sweep
 
-- [x] Confirm whether published packages still need to include `src/lib`.
-- [x] If not needed, remove `src/lib` from the `files` list in `packages/svelte/package.json`.
-- [x] Keep only `dist`, package metadata, README, and license in the published package.
-- [x] Remove fixture/test exclusions that become unnecessary after source is no longer shipped.
-- [x] Verify with `vp run --filter @neobr/svelte pack:check`.
+- [ ] Run `vp run --filter docs check`.
+- [ ] Run `vp run build`.
+- [ ] Review build output for unusually large docs chunks before adding any new dependency or demo.
+- [ ] Run an accessibility pass on key docs pages with existing tooling or browser checks.
+- [ ] Fix heading order, focus visibility, contrast, and landmark issues found during the pass.
 
-## 6. Improve TypeScript surfaces only where users feel pain
+## 6. Release docs finish
 
-- [x] Review Bits UI compatibility casts in select, accordion, calendar, date-picker, and related wrappers.
-- [x] Fix public prop types where casts leak into consumer ergonomics.
-- [x] Avoid splitting components into extra variants unless the current API creates real TypeScript friction.
-- [x] Keep internal casts if they are only local glue and tests prove runtime behavior.
-- [x] Verify with `vp run --filter @neobr/svelte check`.
-
-## 7. Polish design-system utilities
-
-- [x] Review duplicated brutalist button utility classes in `design-system.css`.
-- [x] Collapse exact duplicates only if the resulting CSS stays clearer than the duplication.
-- [x] Keep existing visual output stable unless a style change is intentional.
-- [x] Leave theme override examples for the docs/examples pass.
-
-## 8. Docs and examples pass
-
-- [x] Add or update examples that show responsive modal/sheet behavior.
-- [x] Skip icon override examples because no icon override points were added.
-- [x] Add a minimal theme override example for fonts after CSS scoping is done.
-- [x] Skip a large design playground for now; add one only if users need to compare themes interactively.
+- [ ] Update docs if the final release notes mention behavior not covered in the site.
+- [ ] Keep the existing changeset as the source of package release notes.
+- [ ] Do not add a large theme playground yet.
+- [ ] Add richer examples only when a concrete docs gap appears during QA.
 
 ## Done Criteria
 
-- [x] `vp run -r check` passes.
-- [x] `vp run build` passes.
-- [x] `vp run test` passes.
-- [x] `vp run --filter @neobr/svelte pack:check` passes if package contents changed.
-- [x] Modal and sheet work on narrow mobile widths without horizontal overflow.
-- [x] Sheet and modal dialogs have sane accessible names.
-- [x] Importing `@neobr/svelte/style` no longer takes over unrelated app-wide fonts or motion.
+- [ ] `vp run --filter docs check` passes.
+- [ ] `vp run build` passes.
+- [ ] Key docs pages have no obvious mobile horizontal overflow.
+- [ ] Installation and README examples match the current package API.
+- [ ] Component pages do not document APIs that do not exist.
+- [ ] Documentation changes stay focused on accuracy and usability, not redesign.
