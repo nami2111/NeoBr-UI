@@ -55,19 +55,12 @@
     },
     "files": [
         "dist",
-        "src/lib",
         "!dist/**/*.test.*",
         "!dist/**/*.spec.*",
         "!dist/**/*test-wrapper*",
         "!dist/**/*test-helper*",
         "!dist/**/*-test.svelte*",
-        "!dist/tests/**",
-        "!src/**/*.test.*",
-        "!src/**/*.spec.*",
-        "!src/tests/**",
-        "!src/**/*test-wrapper*",
-        "!src/**/*test-helper*",
-        "!src/**/*-test.svelte*"
+        "!dist/tests/**"
     ],
     "peerDependencies": {
         "svelte": ">=5.40.0 <6"

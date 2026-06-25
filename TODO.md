@@ -43,11 +43,11 @@ Goal: improve the component library's design quality, accessibility, package erg
 
 ## 5. Recheck package contents
 
-- [ ] Confirm whether published packages still need to include `src/lib`.
-- [ ] If not needed, remove `src/lib` from the `files` list in `packages/svelte/package.json`.
-- [ ] Keep only `dist`, package metadata, README, and license in the published package.
-- [ ] Remove fixture/test exclusions that become unnecessary after source is no longer shipped.
-- [ ] Verify with `vp run --filter @neobr/svelte pack:check`.
+- [x] Confirm whether published packages still need to include `src/lib`.
+- [x] If not needed, remove `src/lib` from the `files` list in `packages/svelte/package.json`.
+- [x] Keep only `dist`, package metadata, README, and license in the published package.
+- [x] Remove fixture/test exclusions that become unnecessary after source is no longer shipped.
+- [x] Verify with `vp run --filter @neobr/svelte pack:check`.
 
 ## 6. Improve TypeScript surfaces only where users feel pain
 
@@ -76,7 +76,7 @@ Goal: improve the component library's design quality, accessibility, package erg
 - [x] `vp run -r check` passes.
 - [x] `vp run build` passes.
 - [x] `vp run test` passes.
-- [ ] `vp run --filter @neobr/svelte pack:check` passes if package contents changed.
+- [x] `vp run --filter @neobr/svelte pack:check` passes if package contents changed.
 - [x] Modal and sheet work on narrow mobile widths without horizontal overflow.
 - [x] Sheet and modal dialogs have sane accessible names.
 - [x] Importing `@neobr/svelte/style` no longer takes over unrelated app-wide fonts or motion.
