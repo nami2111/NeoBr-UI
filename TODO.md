@@ -1,56 +1,82 @@
-# Ponytail Cleanup Plan
+# Library Improvement Plan
 
-Repo-wide goal: remove duplicated package surface, unused dependencies, and test-only wrapper files without changing component behavior.
+Goal: improve the component library's design quality, accessibility, package ergonomics, and public API without reopening the architecture or adding speculative abstractions.
 
-## 1. Collapse the Tailwind preset package
+## 1. Fix overlay accessibility and mobile layout
 
-- [x] Export the design-system CSS from `@neobr/svelte` as `./style`.
-- [x] Move public install/docs examples from `@neobr/tailwind-preset/style` to `@neobr/svelte/style`.
-- [x] Update the docs app CSS import in `apps/docs/src/app.css`.
-- [x] Remove `packages/tailwind-preset` from the workspace once imports are migrated.
-- [x] Delete root `sync:css` and `prebuild` copy step.
-- [x] Remove `@neobr/tailwind-preset` from `packages/svelte/package.json` and `apps/docs/package.json`.
-- [x] Run `vp install --lockfile-only` to prune the lockfile.
-- [x] Verify with `vp run -r check` and `vp run build`.
+- [ ] Remove fixed modal `min-w-*` sizes in `packages/svelte/src/lib/components/ui/modal/modal.svelte`.
+- [ ] Use `w-full` plus `max-w-*` so `md`, `lg`, and `xl` modals cannot overflow narrow mobile screens.
+- [ ] Replace or simplify backdrop semantics in `modal.svelte`; avoid `div role="button"` with `tabindex="-1"`.
+- [ ] Replace or simplify backdrop semantics in `packages/svelte/src/lib/components/ui/sheet/sheet.svelte`.
+- [ ] Add `aria-labelledby` support to `sheet.svelte` when a sheet title exists.
+- [ ] Keep Escape and close-button behavior unchanged.
+- [ ] Verify with the existing modal and sheet tests.
 
-## 2. Shrink package exports
+## 2. Make library CSS less invasive
 
-- [x] Replace the hand-maintained component subpath export map in `packages/svelte/package.json` with wildcard exports for `./*`.
-- [x] Keep explicit exports only for special paths: `.`, `./style`, and `./utils` if needed.
-- [x] Confirm `@neobr/svelte/button`, `@neobr/svelte/form`, and root imports still resolve after build.
-- [x] Update `packages/svelte/scripts/check-package-exports.mjs` only if wildcard exports need different validation.
-- [x] Verify with `vp run --filter @neobr/svelte build` and `vp run --filter @neobr/svelte exports:check`.
+- [ ] Review `packages/svelte/src/lib/styles/design-system.css` for rules that affect the whole consuming app.
+- [ ] Stop forcing JetBrains Mono as both the default sans and mono font for every consumer.
+- [ ] Keep font tokens available, but let the consuming app own its actual body font.
+- [ ] Scope or remove the global reduced-motion override that targets `*`, `*::before`, and `*::after`.
+- [ ] Keep component-level motion respectful of `prefers-reduced-motion`.
+- [ ] Avoid adding theme configuration machinery unless a real consumer need appears.
+- [ ] Verify docs and package build after the CSS change.
 
-## 3. Remove unused dependencies
+## 3. Standardize icon behavior
 
-- [x] Delete unused library dev deps from `packages/svelte/package.json`: `@sveltejs/adapter-auto`, `@testing-library/dom`, `vitest-dom`.
-- [x] Delete unused docs dev deps from `apps/docs/package.json`: `@sveltejs/package`, `@tailwindcss/postcss`, `autoprefixer`, `postcss`.
-- [x] Keep `@tailwindcss/vite`; `apps/docs/vite.config.ts` uses it.
-- [x] Keep `vitest-axe` and `@testing-library/jest-dom`; tests import them.
-- [x] Run `vp install --lockfile-only`.
-- [x] Verify with `vp run -r check` and `vp run test`.
+- [ ] Decide the smallest consistent icon rule for components: internal default icons, caller-provided snippets, or the existing `Icon` wrapper.
+- [ ] Remove the mismatch where modal uses HugeIcons through `Icon` but sheet uses inline SVG.
+- [ ] Prefer caller override points for component icons where users are likely to care.
+- [ ] Keep HugeIcons if it remains useful internally; do not add another icon dependency.
+- [ ] Avoid a new icon abstraction unless it removes existing inconsistency.
+- [ ] Verify affected component tests and examples.
 
-## 4. Delete test-only wrapper components
+## 4. Tighten form helper expectations
 
-- [x] Replace `*-test-wrapper.svelte`, `*-test.svelte`, and `*-test-helper.svelte` files that only pass props/slot text with inline test components or direct renders.
-- [x] Remove pure pass-through wrappers for `badge`, `button`, `label`, `link`, `marquee`, `scroll-area`, `sticker`, `toggle`, and `window`.
-- [x] Review composed fixtures separately: `card`, `table`, `alert`, `bento-grid`, overlays, forms, grouped controls, and error-boundary helpers.
-- [x] Keep wrappers only where they model real multi-component usage or error-boundary behavior.
-- [x] Keep matching package file exclusions because composed fixture files remain.
-- [x] Verify this batch with `vp run --filter @neobr/svelte test`.
+- [ ] Decide whether `createFormState` is intentionally a flat text-form helper.
+- [ ] If yes, document that nested paths and non-string defaults are out of scope.
+- [ ] If no, preserve full Zod issue paths instead of collapsing errors to `issue.path[0]`.
+- [ ] Stop silently defaulting every missing field value to `""` when the schema may expect numbers, booleans, arrays, dates, or objects.
+- [ ] Prefer requiring explicit `initialValues` for non-string fields over guessing defaults.
+- [ ] Keep the API small; do not build a full form library inside the component package.
+- [ ] Verify form tests and add one small regression test for the chosen behavior.
 
-## 5. Reduce duplicated export lists
+## 5. Recheck package contents
 
-- [x] Decide whether root `src/lib/index.ts` should stay as the curated barrel.
-- [x] If subpath wildcard exports work, avoid generating another component list unless consumers need root imports.
-- [x] If root imports stay, keep `src/lib/index.ts` as the single human-maintained component list.
-- [x] Do not add a generator unless export drift keeps recurring.
+- [ ] Confirm whether published packages still need to include `src/lib`.
+- [ ] If not needed, remove `src/lib` from the `files` list in `packages/svelte/package.json`.
+- [ ] Keep only `dist`, package metadata, README, and license in the published package.
+- [ ] Remove fixture/test exclusions that become unnecessary after source is no longer shipped.
+- [ ] Verify with `vp run --filter @neobr/svelte pack:check`.
+
+## 6. Improve TypeScript surfaces only where users feel pain
+
+- [ ] Review Bits UI compatibility casts in select, accordion, calendar, date-picker, and related wrappers.
+- [ ] Fix public prop types where casts leak into consumer ergonomics.
+- [ ] Avoid splitting components into extra variants unless the current API creates real TypeScript friction.
+- [ ] Keep internal casts if they are only local glue and tests prove runtime behavior.
+- [ ] Verify with `vp run --filter @neobr/svelte check`.
+
+## 7. Polish design-system utilities
+
+- [ ] Review duplicated brutalist button utility classes in `design-system.css`.
+- [ ] Collapse exact duplicates only if the resulting CSS stays clearer than the duplication.
+- [ ] Keep existing visual output stable unless a style change is intentional.
+- [ ] Add docs examples for theme overrides only after the CSS API settles.
+
+## 8. Docs and examples pass
+
+- [ ] Add or update examples that show responsive modal/sheet behavior.
+- [ ] Add or update examples that show overriding component icons if icon override points are added.
+- [ ] Add a minimal theme override example for fonts and motion after CSS scoping is done.
+- [ ] Skip a large design playground for now; add one only if users need to compare themes interactively.
 
 ## Done Criteria
 
-- [x] Package count reduced by one.
-- [x] Lockfile has fewer dependencies.
-- [x] `vp run -r check` passes.
-- [x] `vp run build` passes.
-- [x] `vp run test` passes.
-- [x] Public README and docs install snippets match the new CSS import path.
+- [ ] `vp run -r check` passes.
+- [ ] `vp run build` passes.
+- [ ] `vp run test` passes.
+- [ ] `vp run --filter @neobr/svelte pack:check` passes if package contents changed.
+- [ ] Modal and sheet work on narrow mobile widths without horizontal overflow.
+- [ ] Sheet and modal dialogs have sane accessible names.
+- [ ] Importing `@neobr/svelte/style` no longer takes over unrelated app-wide fonts or motion.
