@@ -37,6 +37,10 @@
     <div class="space-y-12">
         <section class="space-y-4">
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Usage</h2>
+            <p class="text-muted-foreground text-sm">
+                Sheets are viewport-bound overlays. Left and right sheets use a responsive width,
+                and titled sheets expose that title as the dialog name for assistive technology.
+            </p>
             <CodePreview code={usage}>
                 <div class="flex flex-wrap items-center justify-center gap-4 py-10">
                     <Button onclick={() => (open = true)}>Open Right Sheet</Button>

@@ -12,6 +12,8 @@
 @theme {
   --color-primary: #ffeb3b;
   --color-secondary: #ff5722;
+  --font-neobr-sans: "JetBrains Mono", monospace;
+  --font-neobr-mono: "JetBrains Mono", monospace;
 }`;
 
     // Use string concatenation to avoid <script> inside template literal
@@ -76,7 +78,8 @@ npm install @hugeicons/core-free-icons @internationalized/date`;
             </h2>
             <p class="font-medium">
                 Neo-Brutalism uses <strong>JetBrains Mono</strong> as the primary typeface for its
-                technical, monospace aesthetic.
+                technical, monospace aesthetic. NeoBr-UI exposes font tokens but does not override
+                your app's <code>font-sans</code> or body font.
             </p>
             <p class="text-sm font-bold italic">Add this to your app.html head:</p>
             <CodeBlock code={fontSetup} />

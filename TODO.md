@@ -66,10 +66,10 @@ Goal: improve the component library's design quality, accessibility, package erg
 
 ## 8. Docs and examples pass
 
-- [ ] Add or update examples that show responsive modal/sheet behavior.
-- [ ] Add or update examples that show overriding component icons if icon override points are added.
-- [ ] Add a minimal theme override example for fonts and motion after CSS scoping is done.
-- [ ] Skip a large design playground for now; add one only if users need to compare themes interactively.
+- [x] Add or update examples that show responsive modal/sheet behavior.
+- [x] Skip icon override examples because no icon override points were added.
+- [x] Add a minimal theme override example for fonts after CSS scoping is done.
+- [x] Skip a large design playground for now; add one only if users need to compare themes interactively.
 
 ## Done Criteria
 
