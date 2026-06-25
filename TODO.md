@@ -24,12 +24,12 @@ Goal: improve the component library's design quality, accessibility, package erg
 
 ## 3. Standardize icon behavior
 
-- [ ] Decide the smallest consistent icon rule for components: internal default icons, caller-provided snippets, or the existing `Icon` wrapper.
-- [ ] Remove the mismatch where modal uses HugeIcons through `Icon` but sheet uses inline SVG.
-- [ ] Prefer caller override points for component icons where users are likely to care.
-- [ ] Keep HugeIcons if it remains useful internally; do not add another icon dependency.
-- [ ] Avoid a new icon abstraction unless it removes existing inconsistency.
-- [ ] Verify affected component tests and examples.
+- [x] Decide the smallest consistent icon rule for components: use the existing `Icon` wrapper for HugeIcons-based internal icons.
+- [x] Remove the mismatch where modal uses HugeIcons through `Icon` but sheet uses inline SVG.
+- [x] Prefer caller override points for component icons where users are likely to care; no close-icon override yet because there is no consumer need.
+- [x] Keep HugeIcons if it remains useful internally; do not add another icon dependency.
+- [x] Avoid a new icon abstraction unless it removes existing inconsistency.
+- [x] Verify affected component tests and examples.
 
 ## 4. Tighten form helper expectations
 

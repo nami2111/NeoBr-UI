@@ -6,6 +6,8 @@
     } from "../../../utils/motion";
     import { useOverlayController } from "../../../utils/overlay.svelte";
     import { fly, fade } from "svelte/transition";
+    import Icon from "../icon/icon.svelte";
+    import { Cancel01Icon } from "@hugeicons/core-free-icons";
 
     import type { HTMLAttributes } from "svelte/elements";
 
@@ -111,20 +113,7 @@
                     class="border-foreground hover:bg-muted rounded-brutalist border-2 p-1 transition-all active:translate-y-[2px]"
                     onclick={handleClose}
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <line x1="18" y1="6" x2="6" y2="18" />
-                        <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg>
+                    <Icon icon={Cancel01Icon} class="h-5 w-5" />
                     <span class="sr-only">Close</span>
                 </button>
             </div>
