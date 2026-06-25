@@ -8,29 +8,23 @@
 import type { AccordionRootProps, DatePickerRootProps, SelectRootProps } from "bits-ui";
 import type { DateValue } from "@internationalized/date";
 
-/**
- * Compatible Accordion props for Svelte 5
- * Handles both single and multiple selection modes with proper type inference
- */
-export type CompatibleAccordionProps<T extends "single" | "multiple"> = Omit<
-    AccordionRootProps,
-    "value" | "type"
-> & {
-    value?: T extends "single" ? string : string[];
-    type?: T;
+type SingleValueProps<Base, Value> = Omit<Base, "value" | "type"> & {
+    value?: Value;
+    type?: "single";
 };
 
-/**
- * Compatible Select props for Svelte 5
- * Handles both single and multiple selection modes with proper type inference
- */
-export type CompatibleSelectProps<T extends "single" | "multiple"> = Omit<
-    SelectRootProps,
-    "value" | "type"
-> & {
-    value?: T extends "single" ? string : string[];
-    type?: T;
+type MultipleValueProps<Base, Value> = Omit<Base, "value" | "type"> & {
+    value?: Value[];
+    type: "multiple";
 };
+
+export type CompatibleAccordionProps =
+    | SingleValueProps<AccordionRootProps, string>
+    | MultipleValueProps<AccordionRootProps, string>;
+
+export type CompatibleSelectProps =
+    | SingleValueProps<SelectRootProps, string>
+    | MultipleValueProps<SelectRootProps, string>;
 
 /**
  * Helper type to extract the selection type from props
@@ -56,14 +50,18 @@ export type CompatibleDatePickerProps = {
     value?: SimpleDateValue | undefined;
 } & Omit<DatePickerRootProps, "value">;
 
-/**
- * Compatible Calendar props for Svelte 5
- * Handles both single and multiple selection modes with proper type inference
- */
-export type CompatibleCalendarProps<T extends "single" | "multiple"> = {
-    value?: T extends "single" ? SimpleDateValue | undefined : SimpleDateValue[] | undefined;
-    type?: T;
+type CalendarBaseProps = {
     placeholder?: SimpleDateValue | undefined;
     fixedWeeks?: boolean;
     class?: string;
 };
+
+export type CompatibleCalendarProps =
+    | (CalendarBaseProps & {
+          value?: SimpleDateValue | undefined;
+          type?: "single";
+      })
+    | (CalendarBaseProps & {
+          value?: SimpleDateValue[] | undefined;
+          type: "multiple";
+      });

@@ -51,11 +51,11 @@ Goal: improve the component library's design quality, accessibility, package erg
 
 ## 6. Improve TypeScript surfaces only where users feel pain
 
-- [ ] Review Bits UI compatibility casts in select, accordion, calendar, date-picker, and related wrappers.
-- [ ] Fix public prop types where casts leak into consumer ergonomics.
-- [ ] Avoid splitting components into extra variants unless the current API creates real TypeScript friction.
-- [ ] Keep internal casts if they are only local glue and tests prove runtime behavior.
-- [ ] Verify with `vp run --filter @neobr/svelte check`.
+- [x] Review Bits UI compatibility casts in select, accordion, calendar, date-picker, and related wrappers.
+- [x] Fix public prop types where casts leak into consumer ergonomics.
+- [x] Avoid splitting components into extra variants unless the current API creates real TypeScript friction.
+- [x] Keep internal casts if they are only local glue and tests prove runtime behavior.
+- [x] Verify with `vp run --filter @neobr/svelte check`.
 
 ## 7. Polish design-system utilities
 

@@ -6,7 +6,7 @@
 
     type Props = {
         value?: string;
-        type?: "single" | "multiple";
+        type?: "single";
         disabled?: boolean;
         items?: Array<{ value: string; label: string }>;
     };

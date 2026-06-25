@@ -6,7 +6,7 @@
     import type { CompatibleCalendarProps, SimpleDateValue } from "../../../types/bits-ui-compat";
     import CalendarGrid from "./calendar-grid.svelte";
 
-    type Props = CompatibleCalendarProps<"single" | "multiple"> & {
+    type Props = CompatibleCalendarProps & {
         class?: string;
     };
 

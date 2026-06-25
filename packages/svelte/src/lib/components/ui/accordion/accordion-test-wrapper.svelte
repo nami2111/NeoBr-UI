@@ -5,8 +5,8 @@
         type = "single",
         value = $bindable(),
     }: {
-        type?: "single" | "multiple";
-        value?: string | string[];
+        type?: "single";
+        value?: string;
     } = $props();
 </script>
 

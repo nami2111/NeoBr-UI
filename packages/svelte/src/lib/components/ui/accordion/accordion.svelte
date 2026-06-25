@@ -3,7 +3,7 @@
     import { cn } from "../../../utils";
     import type { CompatibleAccordionProps } from "../../../types/bits-ui-compat";
 
-    type Props = CompatibleAccordionProps<"single" | "multiple"> & {
+    type Props = CompatibleAccordionProps & {
         class?: string;
     };
 

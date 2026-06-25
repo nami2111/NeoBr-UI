@@ -17,7 +17,7 @@
     import { Select } from "bits-ui";
     import type { CompatibleSelectProps } from "../../../types/bits-ui-compat";
 
-    type Props = CompatibleSelectProps<"single" | "multiple"> & {
+    type Props = CompatibleSelectProps & {
         /**
          * Whether the select is disabled.
          * @default false
