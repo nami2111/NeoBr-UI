@@ -13,7 +13,7 @@
 
     let open = $state(false);
 
-    const usage = `<Collapsible bind:open>
+    const usage = `<Collapsible bind:open class="w-full max-w-[350px]">
     <div class="flex items-center justify-between space-x-4 px-4">
         <h4 class="text-sm font-bold">@neobr/svelte includes core imports</h4>
         <CollapsibleTrigger>
@@ -45,7 +45,7 @@
         <section class="space-y-4">
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Usage</h2>
             <CodePreview code={usage}>
-                <Collapsible bind:open class="w-[350px] space-y-2">
+                <Collapsible bind:open class="w-full max-w-[350px] space-y-2">
                     <div class="flex items-center justify-between space-x-4 px-4">
                         <h4 class="text-sm font-black tracking-tighter uppercase">
                             @neobr/svelte includes core imports

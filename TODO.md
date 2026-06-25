@@ -22,11 +22,11 @@ Goal: make the docs site accurate, scannable, mobile-safe, and release-ready wit
 
 ## 3. Mobile docs QA
 
-- [ ] Run the docs app locally.
-- [ ] Check core docs pages at a narrow mobile width: home, installation, components index, modal, sheet, form, select, table.
-- [ ] Fix horizontal overflow in examples, code blocks, tables, and component preview wrappers.
-- [ ] Confirm modal and sheet demos remain usable on mobile.
-- [ ] Confirm header, sidebar/menu, and search controls do not overlap content.
+- [x] Run the docs app locally.
+- [x] Check core docs pages at a narrow mobile width: home, installation, components index, modal, sheet, form, select, table.
+- [x] Fix horizontal overflow in examples, code blocks, tables, and component preview wrappers.
+- [x] Confirm modal and sheet demos remain usable on mobile.
+- [x] Confirm header, sidebar/menu, and search controls do not overlap content.
 
 ## 4. Navigation and discovery
 

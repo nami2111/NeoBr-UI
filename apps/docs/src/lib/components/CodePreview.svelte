@@ -43,12 +43,12 @@
         <TabsContent value="preview" class="pt-6">
             <div
                 class={cn(
-                    "border-foreground bg-accent/10 relative flex min-h-[220px] items-center justify-center overflow-hidden rounded-none border-2 p-6 shadow-[0_5px_0_0_var(--color-shadow-color)] md:p-10",
+                    "border-foreground bg-accent/10 relative flex min-h-[220px] items-center justify-center overflow-x-auto overflow-y-hidden rounded-none border-2 p-6 shadow-[0_5px_0_0_var(--color-shadow-color)] md:p-10",
                     className,
                 )}
             >
                 <div class="absolute inset-0 bg-grid-fine opacity-10"></div>
-                <div class="relative flex w-full items-center justify-center" style="z-index: 1">
+                <div class="relative flex w-full min-w-0 items-center justify-center" style="z-index: 1">
                     {@render children?.()}
                 </div>
             </div>
