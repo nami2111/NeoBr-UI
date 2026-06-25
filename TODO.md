@@ -59,10 +59,10 @@ Goal: improve the component library's design quality, accessibility, package erg
 
 ## 7. Polish design-system utilities
 
-- [ ] Review duplicated brutalist button utility classes in `design-system.css`.
-- [ ] Collapse exact duplicates only if the resulting CSS stays clearer than the duplication.
-- [ ] Keep existing visual output stable unless a style change is intentional.
-- [ ] Add docs examples for theme overrides only after the CSS API settles.
+- [x] Review duplicated brutalist button utility classes in `design-system.css`.
+- [x] Collapse exact duplicates only if the resulting CSS stays clearer than the duplication.
+- [x] Keep existing visual output stable unless a style change is intentional.
+- [x] Leave theme override examples for the docs/examples pass.
 
 ## 8. Docs and examples pass
 

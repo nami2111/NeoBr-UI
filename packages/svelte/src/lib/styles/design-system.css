@@ -245,17 +245,13 @@
 }
 
 @utility btn-brutalist-soft {
-    @apply border-foreground shadow-brutalist cursor-pointer border-2 transition-all;
+    @apply btn-brutalist;
     border-radius: var(--radius-brutalist-soft);
-    @apply hover:shadow-brutalist-hover hover:-translate-y-[2px];
-    @apply active:translate-y-[5px] active:shadow-none;
 }
 
 @utility btn-brutalist-rounded {
-    @apply border-foreground shadow-brutalist cursor-pointer border-2 transition-all;
+    @apply btn-brutalist;
     border-radius: var(--radius-brutalist-rounded);
-    @apply hover:shadow-brutalist-hover hover:-translate-y-[2px];
-    @apply active:translate-y-[5px] active:shadow-none;
 }
 
 @utility container-brutalist {
