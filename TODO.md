@@ -38,11 +38,11 @@ Goal: make the docs site accurate, scannable, mobile-safe, and release-ready wit
 
 ## 5. Performance and accessibility sweep
 
-- [ ] Run `vp run --filter docs check`.
-- [ ] Run `vp run build`.
-- [ ] Review build output for unusually large docs chunks before adding any new dependency or demo.
-- [ ] Run an accessibility pass on key docs pages with existing tooling or browser checks.
-- [ ] Fix heading order, focus visibility, contrast, and landmark issues found during the pass.
+- [x] Run `vp run --filter docs check`.
+- [x] Run `vp run build`.
+- [x] Review build output for unusually large docs chunks before adding any new dependency or demo.
+- [x] Run an accessibility pass on key docs pages with existing tooling or browser checks.
+- [x] Fix heading order, focus visibility, contrast, and landmark issues found during the pass.
 
 ## 6. Release docs finish
 

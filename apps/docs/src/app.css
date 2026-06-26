@@ -18,6 +18,10 @@
     body {
         @apply bg-background text-foreground overflow-x-hidden font-sans antialiased;
     }
+
+    a:focus-visible {
+        @apply ring-ring ring-offset-background ring-2 ring-offset-2 outline-none;
+    }
 }
 
 /* App-specific components/utilities can go here */

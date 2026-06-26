@@ -52,6 +52,8 @@
     <div class="border-foreground shrink-0 border-b-2 p-4">
         <Input
             placeholder="Search components..."
+            aria-label="Search documentation"
+            name="docs-search"
             bind:value={searchQuery}
             class="h-9 px-3 text-sm"
         />
@@ -60,9 +62,9 @@
         <div class="space-y-8 p-6">
             {#each filteredSections as section (section.title)}
                 <div class="space-y-3">
-                    <h4 class="text-muted-foreground text-sm font-black tracking-tighter uppercase">
+                    <p class="text-muted-foreground text-sm font-black tracking-tighter uppercase">
                         {section.title}
-                    </h4>
+                    </p>
                     <div class="flex flex-col gap-1">
                         {#each section.items as item (item.href)}
                             <a
