@@ -32,7 +32,7 @@
 <DocPage title="Button" description="Displays a button or a component that looks like a button.">
     <div class="space-y-12">
         <section class="space-y-4">
-            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Variants</h2>
+            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Usage</h2>
             <CodePreview code={basicUsage}>
                 <div class="flex flex-wrap gap-4">
                     <Button>Default Button</Button>

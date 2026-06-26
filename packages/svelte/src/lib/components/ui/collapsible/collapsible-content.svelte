@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { getCollapsibleState } from "./collapsible.svelte";
+    import { getCollapsibleState } from "./collapsible-context";
     import { cn } from "../../../utils";
+    import { TRANSITION_BRUTALIST_SLOW } from "../../../utils/motion";
     import { slide } from "svelte/transition";
 
     type Props = {
@@ -22,7 +23,7 @@
     <div
         class={cn("overflow-hidden", className)}
         data-state={state?.open ? "open" : "closed"}
-        transition:slide={{ duration: 300 }}
+        transition:slide={TRANSITION_BRUTALIST_SLOW}
         {...rest}
     >
         {@render children?.()}

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getCollapsibleState } from "./collapsible.svelte";
+    import { getCollapsibleState } from "./collapsible-context";
     import { cn } from "../../../utils";
 
     import type { HTMLButtonAttributes } from "svelte/elements";

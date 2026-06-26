@@ -1,13 +1,14 @@
 {
-    "extends": "../../tsconfig.json",
+    "extends": "./.svelte-kit/tsconfig.json",
     "compilerOptions": {
         "moduleResolution": "bundler",
         "module": "esnext",
         "target": "esnext",
-        "paths": {
-            "$lib": ["./src/lib"],
-            "$lib/*": ["./src/lib/*"]
-        }
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "types": []
     },
     "include": [
         "src/**/*.d.ts",

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { cn } from "../../../utils";
-    import { toast, type ToastItem } from "./toast.svelte.js";
+    import { toast, type ToastItem } from "./toast-state.svelte.js";
     import { cva } from "class-variance-authority";
 
     const toastVariants = cva(

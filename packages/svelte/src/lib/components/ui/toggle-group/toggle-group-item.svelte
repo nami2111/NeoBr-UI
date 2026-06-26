@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { getContext } from "svelte";
     import { cn } from "../../../utils";
+    import { requireToggleGroupState } from "./toggle-group-context";
     import Toggle from "../toggle/toggle.svelte";
 
     import type { HTMLButtonAttributes } from "svelte/elements";
@@ -11,12 +11,12 @@
 
     let { value, class: className, children, ...rest }: Props = $props();
 
-    const TOGGLE_GROUP_CONTEXT = Symbol.for("toggle-group");
-
-    const context = getContext<any>(TOGGLE_GROUP_CONTEXT);
+    const context = requireToggleGroupState();
 
     const pressed = $derived(
-        context.type === "single" ? context.value === value : context.value.includes(value),
+        context.type === "single"
+            ? context.value === value
+            : Array.isArray(context.value) && context.value.includes(value),
     );
 
     function handleToggle() {

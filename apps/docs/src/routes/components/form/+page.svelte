@@ -13,7 +13,7 @@
     import { createFormState, z } from "@neobr/svelte/form";
 
     let username = $state("");
-    let email = $state("");
+    let submittedEmail = $state<string | undefined>();
 
     // Form validation example with Zod
     const loginSchema = z.object({
@@ -24,7 +24,7 @@
     const loginForm = createFormState({
         schema: loginSchema,
         onSubmit: async (values) => {
-            alert(`Login submitted!\nEmail: ${values.email}`);
+            submittedEmail = values.email;
         },
     });
 
@@ -46,10 +46,12 @@
         password: z.string().min(8, "Min 8 characters"),
     });
     
+    let submittedEmail = $state<string | undefined>();
+    
     const form = createFormState({
         schema,
         onSubmit: async (values) => {
-            console.log("Submitted:", values);
+            submittedEmail = values.email;
         },
     });
 </scr` + `ipt>
@@ -82,6 +84,10 @@
     <Button type="submit" disabled={form.isSubmitting}>
         {form.isSubmitting ? "Signing in..." : "Sign In"}
     </Button>
+    
+    {#if submittedEmail}
+        <p>Submitted {submittedEmail}</p>
+    {/if}
 </Form>`;
 </script>
 
@@ -129,7 +135,9 @@
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Form Validation with Zod</h2>
             <p class="text-muted-foreground">
                 Use <code class="bg-muted px-1 rounded">createFormState</code> with Zod schemas for type-safe form validation.
-                This provides reactive state management with automatic validation on blur and submit.
+                This provides reactive state management with automatic validation on blur and submit. String fields default to
+                <code class="bg-muted px-1 rounded">""</code>; provide <code class="bg-muted px-1 rounded">initialValues</code>
+                for number, boolean, array, object, and date fields. Nested validation errors are keyed by the top-level field.
             </p>
             <CodePreview code={validationExample}>
                 <div class="w-full max-w-sm py-10">
@@ -163,6 +171,11 @@
                         <Button type="submit" class="w-full" disabled={loginForm.isSubmitting}>
                             {loginForm.isSubmitting ? "Signing in..." : "Sign In"}
                         </Button>
+                        {#if submittedEmail}
+                            <p class="border-foreground bg-muted rounded-brutalist border-2 p-3 text-xs font-bold">
+                                Submitted {submittedEmail}
+                            </p>
+                        {/if}
                     </Form>
                 </div>
             </CodePreview>
@@ -177,7 +190,7 @@
                     <h4 class="font-semibold mt-4">Options</h4>
                     <ul class="list-disc list-inside text-muted-foreground mt-2 space-y-1">
                         <li><code class="bg-muted px-1 rounded">schema</code> - Zod schema for validation</li>
-                        <li><code class="bg-muted px-1 rounded">initialValues</code> - Optional initial form values</li>
+                        <li><code class="bg-muted px-1 rounded">initialValues</code> - Optional initial form values; required for useful number, boolean, array, object, and date defaults</li>
                         <li><code class="bg-muted px-1 rounded">onSubmit</code> - Submit handler function</li>
                         <li><code class="bg-muted px-1 rounded">validateOnChange</code> - Validate on change (default: true)</li>
                         <li><code class="bg-muted px-1 rounded">validateOnBlur</code> - Validate on blur (default: true)</li>

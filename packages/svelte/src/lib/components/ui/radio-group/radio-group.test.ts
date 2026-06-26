@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/svelte";
 import { expect, test, describe } from "vite-plus/test";
 import RadioGroupTestWrapper from "./radio-group-test-wrapper.svelte";
+import RadioGroupItem from "./radio-group-item.svelte";
 
 describe("RadioGroup component", () => {
     test("renders radio group with radiogroup role", () => {
@@ -35,6 +36,12 @@ describe("RadioGroup component", () => {
         await fireEvent.click(radios[1]);
         expect(radios[0]).not.toBeChecked();
         expect(radios[1]).toBeChecked();
+    });
+
+    test("throws a clear error when item is outside a group", () => {
+        expect(() => render(RadioGroupItem, { props: { value: "option1" } })).toThrow(
+            "RadioGroupItem must be used inside a RadioGroup root.",
+        );
     });
 
     test("renders with initial value", () => {

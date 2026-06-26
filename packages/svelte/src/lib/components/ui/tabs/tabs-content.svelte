@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { getContext } from "svelte";
     import { cn } from "../../../utils";
+    import { requireTabsState } from "./tabs-context";
 
     import type { HTMLAttributes } from "svelte/elements";
 
@@ -10,17 +10,11 @@
 
     let { value: contentValue, class: className, children, ...rest }: Props = $props();
 
-    const TABS_CONTEXT = Symbol.for("tabs");
-
-    const root = getContext<{
-        value: string | undefined;
-    }>(TABS_CONTEXT);
-
-    if (!root) {
-        throw new Error("TabsContent must be used within Tabs");
-    }
+    const root = requireTabsState("TabsContent");
 
     let isActive = $derived(root.value === contentValue);
+    let triggerId = $derived(root.getTriggerId(contentValue));
+    let panelId = $derived(root.getPanelId(contentValue));
 </script>
 
 <div
@@ -30,8 +24,8 @@
         className,
     )}
     role="tabpanel"
-    aria-labelledby={`trigger-${contentValue}`}
-    id={`tabpanel-${contentValue}`}
+    aria-labelledby={triggerId}
+    id={panelId}
     tabindex="0"
     hidden={!isActive}
     {...rest}

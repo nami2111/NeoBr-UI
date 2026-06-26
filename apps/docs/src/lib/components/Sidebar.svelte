@@ -1,62 +1,23 @@
 <script lang="ts">
     import { page } from "$app/state";
-    import { Link, ScrollArea, Input } from "@neobr/svelte";
+    import { componentItems } from "$lib/component-catalog";
+    import { ScrollArea, Input } from "@neobr/svelte";
 
     const sections = [
         {
             title: "Getting Started",
             items: [
-                { title: "Introduction", href: "/docs/introduction" },
-                { title: "Installation", href: "/docs/installation" },
+                { title: "Introduction", href: "/docs/introduction", description: "Overview and usage" },
+                { title: "Installation", href: "/docs/installation", description: "Install and setup" },
             ],
         },
         {
             title: "Components",
-            items: [
-                { title: "Accordion", href: "/components/accordion" },
-                { title: "Alert", href: "/components/alert" },
-                { title: "Aspect Ratio", href: "/components/aspect-ratio" },
-                { title: "Avatar", href: "/components/avatar" },
-                { title: "Badge", href: "/components/badge" },
-                { title: "Bento Grid", href: "/components/bento-grid" },
-                { title: "Breadcrumbs", href: "/components/breadcrumbs" },
-                { title: "Button", href: "/components/button" },
-                { title: "Calendar", href: "/components/calendar" },
-                { title: "Card", href: "/components/card" },
-                { title: "Checkbox", href: "/components/checkbox" },
-                { title: "Collapsible", href: "/components/collapsible" },
-                { title: "Command", href: "/components/command" },
-                { title: "Date Picker", href: "/components/date-picker" },
-                { title: "Dropdown Menu", href: "/components/dropdown-menu" },
-                { title: "Error Boundary", href: "/components/error-boundary" },
-                { title: "Form", href: "/components/form" },
-                { title: "Input", href: "/components/input" },
-                { title: "Label", href: "/components/label" },
-                { title: "Link", href: "/components/link" },
-                { title: "Loading", href: "/components/loading" },
-                { title: "Marquee", href: "/components/marquee" },
-                { title: "Modal", href: "/components/modal" },
-                { title: "Pagination", href: "/components/pagination" },
-                { title: "Popover", href: "/components/popover" },
-                { title: "Progress", href: "/components/progress" },
-                { title: "Radio Group", href: "/components/radio-group" },
-                { title: "Scroll Area", href: "/components/scroll-area" },
-                { title: "Select", href: "/components/select" },
-                { title: "Separator", href: "/components/separator" },
-                { title: "Sheet", href: "/components/sheet" },
-                { title: "Skeleton", href: "/components/skeleton" },
-                { title: "Slider", href: "/components/slider" },
-                { title: "Sticker", href: "/components/sticker" },
-                { title: "Switch", href: "/components/switch" },
-                { title: "Table", href: "/components/table" },
-                { title: "Tabs", href: "/components/tabs" },
-                { title: "Textarea", href: "/components/textarea" },
-                { title: "Toast", href: "/components/toast" },
-                { title: "Toggle", href: "/components/toggle" },
-                { title: "Toggle Group", href: "/components/toggle-group" },
-                { title: "Tooltip", href: "/components/tooltip" },
-                { title: "Window", href: "/components/window" },
-            ],
+            items: componentItems.map((item) => ({
+                title: item.name,
+                href: item.href,
+                description: item.description,
+            })),
         },
     ];
 
@@ -66,9 +27,13 @@
         sections
             .map((section) => ({
                 ...section,
-                items: section.items.filter((item) =>
-                    item.title.toLowerCase().includes(searchQuery.toLowerCase()),
-                ),
+                items: section.items.filter((item) => {
+                    const query = searchQuery.toLowerCase();
+                    return (
+                        item.title.toLowerCase().includes(query) ||
+                        item.description.toLowerCase().includes(query)
+                    );
+                }),
             }))
             .filter((section) => section.items.length > 0),
     );
@@ -87,21 +52,24 @@
     <div class="border-foreground shrink-0 border-b-2 p-4">
         <Input
             placeholder="Search components..."
+            aria-label="Search documentation"
+            name="docs-search"
             bind:value={searchQuery}
             class="h-9 px-3 text-sm"
         />
     </div>
     <ScrollArea class="flex-1 rounded-none border-0 border-r-2 shadow-none" orientation="vertical">
         <div class="space-y-8 p-6">
-            {#each filteredSections as section}
+            {#each filteredSections as section (section.title)}
                 <div class="space-y-3">
-                    <h4 class="text-muted-foreground text-sm font-black tracking-tighter uppercase">
+                    <p class="text-muted-foreground text-sm font-black tracking-tighter uppercase">
                         {section.title}
-                    </h4>
+                    </p>
                     <div class="flex flex-col gap-1">
-                        {#each section.items as item}
+                        {#each section.items as item (item.href)}
                             <a
                                 href={item.href}
+                                aria-current={isActive(item.href) ? "page" : undefined}
                                 class="border-2 px-3 py-2 text-sm font-bold transition-all {isActive(
                                     item.href,
                                 )

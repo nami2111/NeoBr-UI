@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/svelte";
 import { expect, test, describe } from "vite-plus/test";
 import ToggleGroupTestWrapper from "./toggle-group-test-wrapper.svelte";
+import ToggleGroupItem from "./toggle-group-item.svelte";
 
 describe("ToggleGroup component", () => {
     test("renders toggle group items", () => {
@@ -58,5 +59,11 @@ describe("ToggleGroup component", () => {
         });
         const group = container.firstChild as HTMLElement;
         expect(group).toHaveClass("custom-group");
+    });
+
+    test("throws a clear error when item is outside a group", () => {
+        expect(() => render(ToggleGroupItem, { props: { value: "bold" } })).toThrow(
+            "ToggleGroupItem must be used inside a ToggleGroup root.",
+        );
     });
 });

@@ -1,6 +1,7 @@
 <script lang="ts">
     import { cn } from "../../../utils";
-    import { isBrowser } from "../../../utils/browser";
+    import { TRANSITION_BRUTALIST_FAST } from "../../../utils/motion";
+    import { useDismissableOverlay } from "../../../utils/overlay.svelte";
     import { fade } from "svelte/transition";
 
     type Props = {
@@ -9,6 +10,7 @@
         children?: import("svelte").Snippet;
         class?: string;
         contentClass?: string;
+        contentLabel?: string;
     };
 
     let {
@@ -17,6 +19,7 @@
         children,
         class: className,
         contentClass,
+        contentLabel = "Popover content",
     }: Props = $props();
 
     function toggle() {
@@ -27,17 +30,13 @@
         open = false;
     }
 
-    function handleKeydown(e: KeyboardEvent) {
-        if (!isBrowser || !open) return;
-
-        if (e.key === "Escape") {
-            e.preventDefault();
-            close();
-        }
-    }
+    const overlay = useDismissableOverlay({
+        open: () => open,
+        close,
+    });
 </script>
 
-<svelte:window onkeydown={handleKeydown} />
+<svelte:window onkeydown={overlay.handleKeydown} />
 
 <div class={cn("relative inline-block text-left", className)}>
     <button
@@ -52,13 +51,15 @@
 
     {#if open}
         <div
+            {@attach overlay.content}
             class={cn(
                 "border-foreground bg-background shadow-brutalist rounded-brutalist absolute mt-2 min-w-[200px] border-2 p-4",
                 contentClass,
             )}
             style="z-index: var(--z-popover)"
-            transition:fade={{ duration: 100 }}
+            transition:fade={TRANSITION_BRUTALIST_FAST}
             role="dialog"
+            aria-label={contentLabel}
         >
             {@render children?.()}
         </div>

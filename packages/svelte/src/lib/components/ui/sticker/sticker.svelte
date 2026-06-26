@@ -17,9 +17,7 @@
         children,
     }: Props = $props();
 
-    // Each instance gets its own random rotation value (computed once on mount)
-    let defaultRotation = $state(Math.floor(Math.random() * 10) - 5);
-    const randomRotation = $derived(rotation ?? defaultRotation);
+    const actualRotation = $derived(rotation ?? 0);
 
     const variants = {
         default: "bg-background text-foreground",
@@ -47,7 +45,7 @@
         shapes[shape],
         className,
     )}
-    style="transform: rotate({randomRotation}deg);"
+    style="transform: rotate({actualRotation}deg);"
 >
     {@render children?.()}
 </div>

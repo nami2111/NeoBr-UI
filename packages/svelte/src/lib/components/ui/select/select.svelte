@@ -17,7 +17,7 @@
     import { Select } from "bits-ui";
     import type { CompatibleSelectProps } from "../../../types/bits-ui-compat";
 
-    type Props = CompatibleSelectProps<"single" | "multiple"> & {
+    type Props = CompatibleSelectProps & {
         /**
          * Whether the select is disabled.
          * @default false
@@ -36,6 +36,6 @@
     }: Props = $props();
 </script>
 
-<Select.Root bind:value={value as any} {type} {disabled} {...rest as any}>
+<Select.Root bind:value={value as never} {type} {disabled} {...(rest as Record<string, unknown>)}>
     {@render children?.()}
 </Select.Root>

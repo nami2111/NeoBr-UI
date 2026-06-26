@@ -4,6 +4,7 @@
     import Icon from "../icon/icon.svelte";
     import { Calendar01Icon, ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
     import type { CompatibleDatePickerProps } from "../../../types/bits-ui-compat";
+    import CalendarGrid from "../calendar/calendar-grid.svelte";
 
     type Props = CompatibleDatePickerProps & {
         class?: string;
@@ -57,9 +58,6 @@
             style="z-index: var(--z-popover)"
         >
             <DatePickerPrimitive.Calendar>
-                <!-- NOTE: Calendar grid rendering is duplicated between this component and calendar.svelte.
-                     Deduplication requires extracting shared rendering that accepts bits-ui primitives
-                     (DatePicker.Calendar.Grid vs Calendar.Grid) as props while preserving context inheritance. -->
                 {#snippet children({ months, weekdays })}
                     <DatePickerPrimitive.Header class="flex items-center justify-between pb-4">
                         <DatePickerPrimitive.PrevButton
@@ -76,52 +74,7 @@
                             <Icon icon={ArrowRight01Icon} class="h-4 w-4" />
                         </DatePickerPrimitive.NextButton>
                     </DatePickerPrimitive.Header>
-                    <div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
-                        {#each months as month}
-                            <DatePickerPrimitive.Grid class="w-full border-collapse select-none">
-                                <DatePickerPrimitive.GridHead>
-                                    <DatePickerPrimitive.GridRow
-                                        class="mb-1 flex w-full justify-between"
-                                    >
-                                        {#each weekdays as day}
-                                            <DatePickerPrimitive.HeadCell
-                                                class="text-muted-foreground w-9 text-center text-[10px] font-black uppercase"
-                                            >
-                                                {day.slice(0, 2)}
-                                            </DatePickerPrimitive.HeadCell>
-                                        {/each}
-                                    </DatePickerPrimitive.GridRow>
-                                </DatePickerPrimitive.GridHead>
-                                <DatePickerPrimitive.GridBody>
-                                    {#each month.weeks as weekDates}
-                                        <DatePickerPrimitive.GridRow
-                                            class="flex w-full justify-between"
-                                        >
-                                            {#each weekDates as date}
-                                                <DatePickerPrimitive.Cell
-                                                    {date}
-                                                    month={month.value}
-                                                    class="relative p-0 text-center text-sm focus-within:relative focus-within:z-20"
-                                                >
-                                                    <DatePickerPrimitive.Day
-                                                        class={cn(
-                                                            "rounded-brutalist hover:bg-accent hover:text-accent-foreground flex h-9 w-9 items-center justify-center border-2 border-transparent p-0 font-bold transition-all",
-                                                            "data-[selected]:bg-primary data-[selected]:text-primary-foreground data-[selected]:border-foreground",
-                                                            "data-[today]:bg-muted data-[today]:text-foreground",
-                                                            "data-[outside-month]:text-muted-foreground data-[outside-month]:opacity-50",
-                                                            "data-[disabled]:text-muted-foreground data-[disabled]:opacity-50",
-                                                        )}
-                                                    >
-                                                        {date.day}
-                                                    </DatePickerPrimitive.Day>
-                                                </DatePickerPrimitive.Cell>
-                                            {/each}
-                                        </DatePickerPrimitive.GridRow>
-                                    {/each}
-                                </DatePickerPrimitive.GridBody>
-                            </DatePickerPrimitive.Grid>
-                        {/each}
-                    </div>
+                    <CalendarGrid {months} {weekdays} />
                 {/snippet}
             </DatePickerPrimitive.Calendar>
         </DatePickerPrimitive.Content>

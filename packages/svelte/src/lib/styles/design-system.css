@@ -79,8 +79,8 @@
     --transition-brutalist-slow: 300ms ease-in-out;
 
     /* Typography */
-    --font-sans: "JetBrains Mono", monospace;
-    --font-mono: "JetBrains Mono", monospace;
+    --font-neobr-sans: "JetBrains Mono", monospace;
+    --font-neobr-mono: "JetBrains Mono", monospace;
 
     /* Animation */
     --animate-fade-in: fade-in 0.3s ease-in-out;
@@ -178,9 +178,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    :where(.neobr-reduce-motion, .neobr-reduce-motion *) {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
@@ -247,17 +245,13 @@
 }
 
 @utility btn-brutalist-soft {
-    @apply border-foreground shadow-brutalist cursor-pointer border-2 transition-all;
+    @apply btn-brutalist;
     border-radius: var(--radius-brutalist-soft);
-    @apply hover:shadow-brutalist-hover hover:-translate-y-[2px];
-    @apply active:translate-y-[5px] active:shadow-none;
 }
 
 @utility btn-brutalist-rounded {
-    @apply border-foreground shadow-brutalist cursor-pointer border-2 transition-all;
+    @apply btn-brutalist;
     border-radius: var(--radius-brutalist-rounded);
-    @apply hover:shadow-brutalist-hover hover:-translate-y-[2px];
-    @apply active:translate-y-[5px] active:shadow-none;
 }
 
 @utility container-brutalist {

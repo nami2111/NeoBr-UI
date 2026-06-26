@@ -1,10 +1,13 @@
 <script lang="ts">
     import { cn } from "../../../utils";
-    import { isBrowser } from "../../../utils/browser";
-    import { useScrollLock } from "../../../utils/scroll-lock.svelte";
-    import { TRANSITION_BRUTALIST_SLOW } from "../../../utils/motion";
+    import {
+        TRANSITION_BRUTALIST_BACKDROP,
+        TRANSITION_BRUTALIST_SLOW,
+    } from "../../../utils/motion";
+    import { useOverlayController } from "../../../utils/overlay.svelte";
     import { fly, fade } from "svelte/transition";
-    import { tick } from "svelte";
+    import Icon from "../icon/icon.svelte";
+    import { Cancel01Icon } from "@hugeicons/core-free-icons";
 
     import type { HTMLAttributes } from "svelte/elements";
 
@@ -25,88 +28,17 @@
         ...rest
     }: Props = $props();
 
-    let sheetContent = $state<HTMLElement>();
-    let previousFocus: HTMLElement | null = null;
-    const { lock: scrollLock, unlock: scrollUnlock } = useScrollLock();
+    const sheetId = $props.id();
+    let titleId = $derived(title ? `sheet-title-${sheetId}` : undefined);
 
     function handleClose() {
         open = false;
         onClose?.();
     }
 
-    function getFocusableElements(element: HTMLElement): HTMLElement[] {
-        return Array.from(
-            element.querySelectorAll(
-                'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select',
-            ),
-        ) as HTMLElement[];
-    }
-
-    function handleKeydown(e: KeyboardEvent) {
-        if (!isBrowser || !open) return;
-
-        if (e.key === "Escape") {
-            e.preventDefault();
-            handleClose();
-            return;
-        }
-
-        if (e.key === "Tab") {
-            if (!sheetContent) return;
-            const focusable = getFocusableElements(sheetContent);
-            if (focusable.length === 0) {
-                e.preventDefault();
-                return;
-            }
-
-            const first = focusable[0];
-            const last = focusable[focusable.length - 1];
-
-            if (e.shiftKey) {
-                if (document.activeElement === first) {
-                    e.preventDefault();
-                    last.focus();
-                }
-            } else {
-                if (document.activeElement === last) {
-                    e.preventDefault();
-                    first.focus();
-                }
-            }
-        }
-    }
-
-    $effect(() => {
-        if (!isBrowser) return;
-
-        if (open) {
-            scrollLock();
-            previousFocus = document.activeElement as HTMLElement;
-            tick().then(() => {
-                if (sheetContent) {
-                    const focusable = getFocusableElements(sheetContent);
-                    if (focusable.length > 0) {
-                        focusable[0].focus();
-                    } else {
-                        sheetContent.focus();
-                    }
-                }
-            });
-        } else {
-            scrollUnlock();
-            if (previousFocus) {
-                previousFocus.focus();
-                previousFocus = null;
-            }
-        }
-
-        return () => {
-            scrollUnlock();
-            if (previousFocus) {
-                previousFocus.focus();
-                previousFocus = null;
-            }
-        };
+    const overlay = useOverlayController({
+        open: () => open,
+        close: handleClose,
     });
 
     const flyParams = $derived.by(() => {
@@ -136,7 +68,7 @@
     });
 </script>
 
-<svelte:window onkeydown={handleKeydown} />
+<svelte:window onkeydown={overlay.handleKeydown} />
 
 {#if open}
     <div
@@ -144,20 +76,19 @@
         style="z-index: var(--z-sheet)"
     >
         <!-- Backdrop -->
-        <div
-            class="bg-foreground/30 fixed inset-0 backdrop-blur-sm transition-opacity"
+        <button
+            type="button"
+            class="bg-foreground/30 fixed inset-0 border-0 p-0 backdrop-blur-sm transition-opacity"
             style="z-index: var(--z-sheet-backdrop)"
-            transition:fade={{ duration: 200 }}
+            transition:fade={TRANSITION_BRUTALIST_BACKDROP}
             onclick={handleClose}
-            onkeydown={(e) => e.key === "Enter" && handleClose()}
-            role="button"
             tabindex="-1"
             aria-label="Close sheet backdrop"
-        ></div>
+        ></button>
 
         <!-- Sheet Content -->
         <div
-            bind:this={sheetContent}
+            {@attach overlay.content}
             class={cn(
                 "bg-background shadow-brutalist border-foreground fixed flex flex-col gap-4 p-6 transition-all outline-none",
                 sideClasses,
@@ -167,32 +98,22 @@
             transition:fly={flyParams}
             role="dialog"
             aria-modal="true"
+            aria-labelledby={titleId}
             tabindex="-1"
             {...rest}
         >
             <div class="flex items-center justify-between">
                 {#if title}
-                    <h2 class="text-xl font-extrabold tracking-tight uppercase">{title}</h2>
+                    <h2 id={titleId} class="text-xl font-extrabold tracking-tight uppercase">
+                        {title}
+                    </h2>
                 {/if}
                 <button
                     type="button"
                     class="border-foreground hover:bg-muted rounded-brutalist border-2 p-1 transition-all active:translate-y-[2px]"
                     onclick={handleClose}
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <line x1="18" y1="6" x2="6" y2="18" />
-                        <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg>
+                    <Icon icon={Cancel01Icon} class="h-5 w-5" />
                     <span class="sr-only">Close</span>
                 </button>
             </div>

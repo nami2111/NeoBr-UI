@@ -1,6 +1,7 @@
 <script lang="ts">
     import { scale } from "svelte/transition";
     import { cn } from "../../../utils";
+    import { TRANSITION_BRUTALIST } from "../../../utils/motion";
     import type { HTMLInputAttributes } from "svelte/elements";
 
     type Props = Omit<HTMLInputAttributes, "type"> & {
@@ -44,7 +45,7 @@
                 stroke-width="4"
                 stroke-linecap="square"
                 stroke-linejoin="miter"
-                transition:scale={{ duration: 150 }}
+                transition:scale={TRANSITION_BRUTALIST}
             >
                 <path d="M20 6L9 17L4 12" />
             </svg>

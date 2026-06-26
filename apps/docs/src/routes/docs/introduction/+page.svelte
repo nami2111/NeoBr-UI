@@ -11,8 +11,8 @@
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">What is NeoBr-UI?</h2>
             <p class="text-lg leading-relaxed font-medium">
                 NeoBr-UI is an unashamedly bold UI library built on the principles of
-                **Neo-Brutalism**. It rejects the soft, muted aesthetics of modern web design in
-                favor of high contrast, heavy borders, and vibrant colors.
+                <strong>Neo-Brutalism</strong>. It rejects the soft, muted aesthetics of modern web
+                design in favor of high contrast, heavy borders, and vibrant colors.
             </p>
         </section>
 
@@ -40,7 +40,7 @@
             <ul class="grid grid-cols-1 gap-4 font-bold md:grid-cols-2">
                 <li class="flex items-center gap-3">
                     <span class="bg-primary border-foreground h-3 w-3 border-2"></span>
-                    Svelte 5 Runes for ultra-fast reactivity
+                    Svelte 5 runes and snippets throughout
                 </li>
                 <li class="flex items-center gap-3">
                     <span class="bg-secondary border-foreground h-3 w-3 border-2"></span>
@@ -48,11 +48,11 @@
                 </li>
                 <li class="flex items-center gap-3">
                     <span class="bg-accent border-foreground h-3 w-3 border-2"></span>
-                    WAI-ARIA compliant components
+                    Semantic markup, ARIA state, and keyboard support where components need it
                 </li>
                 <li class="flex items-center gap-3">
                     <span class="bg-success border-foreground h-3 w-3 border-2"></span>
-                    Fully customizable styling
+                    Customizable styling through Tailwind classes and CSS tokens
                 </li>
             </ul>
         </section>
@@ -75,7 +75,8 @@
                     >
                         Bits UI
                     </a>
-                    - For the incredible headless primitives that power our accessibility.
+                    - For the headless primitives used by Accordion, Calendar, Date Picker, and
+                    Select.
                 </li>
                 <li>
                     <a

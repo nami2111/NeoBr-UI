@@ -1,6 +1,6 @@
 <script lang="ts">
     import { type VariantProps, cva } from "class-variance-authority";
-    import type { HTMLButtonAttributes } from "svelte/elements";
+    import type { HTMLAnchorAttributes, HTMLButtonAttributes } from "svelte/elements";
     import { cn } from "../../../utils";
 
 /**
@@ -46,7 +46,7 @@ const buttonVariants = cva(
     },
 );
 
-type Props = (HTMLButtonAttributes | { href?: string; target?: string; rel?: string }) &
+type Props = HTMLButtonAttributes &
     VariantProps<typeof buttonVariants> & {
         /**
          * Button radius style: brutalist (sharp), soft (6px), or rounded (12px).
@@ -58,6 +58,16 @@ type Props = (HTMLButtonAttributes | { href?: string; target?: string; rel?: str
          * If provided, renders as an anchor tag (`<a>`) instead of a button.
          */
         href?: string;
+
+        /**
+         * Anchor target when rendering as a link.
+         */
+        target?: HTMLAnchorAttributes["target"];
+
+        /**
+         * Anchor rel when rendering as a link.
+         */
+        rel?: HTMLAnchorAttributes["rel"];
 
         /**
          * Content to be rendered inside the button.
@@ -82,7 +92,11 @@ let {
 </script>
 
 {#if href}
-    <a {href} class={cn(buttonVariants({ variant, size, radius, className }))} {...rest as any}>
+    <a
+        {href}
+        class={cn(buttonVariants({ variant, size, radius, className }))}
+        {...(rest as HTMLAnchorAttributes)}
+    >
         {@render children?.()}
     </a>
 {:else}

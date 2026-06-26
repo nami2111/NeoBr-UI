@@ -20,6 +20,15 @@ Object.defineProperty(window, "matchMedia", {
     })),
 });
 
+// Mock Pointer Capture API for libraries that rely on pointer interactions.
+if (!Element.prototype.hasPointerCapture) {
+    Element.prototype.hasPointerCapture = vi.fn().mockReturnValue(false);
+}
+
+if (!Element.prototype.releasePointerCapture) {
+    Element.prototype.releasePointerCapture = vi.fn();
+}
+
 // Mock Web Animations API for Svelte transitions
 if (!Element.prototype.animate) {
     Element.prototype.animate = vi.fn().mockImplementation(() => {

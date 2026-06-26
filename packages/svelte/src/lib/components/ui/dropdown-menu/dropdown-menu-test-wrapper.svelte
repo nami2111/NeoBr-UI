@@ -7,10 +7,6 @@
     {#snippet trigger()}
         <Button>Open Menu</Button>
     {/snippet}
-    <DropdownMenu.DropdownMenuItem onclick={() => console.log("Profile")}>
-        Profile
-    </DropdownMenu.DropdownMenuItem>
-    <DropdownMenu.DropdownMenuItem onclick={() => console.log("Settings")}>
-        Settings
-    </DropdownMenu.DropdownMenuItem>
+    <DropdownMenu.DropdownMenuItem>Profile</DropdownMenu.DropdownMenuItem>
+    <DropdownMenu.DropdownMenuItem>Settings</DropdownMenu.DropdownMenuItem>
 </DropdownMenu.DropdownMenu>

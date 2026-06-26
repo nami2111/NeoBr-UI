@@ -16,16 +16,16 @@ A **Neo-Brutalist** component library for Svelte 5 — high-contrast, thick bord
 - **Tree-shaking** — Granular sub-path exports (`@neobr/svelte/button`, `@neobr/svelte/form`) for minimal bundle size.
 - **Zod Validation** — Built-in form state management with reactive runes and type-safe schema validation.
 - **OKLCH Colors** — Perceptually uniform color space with automatic dark mode support.
-- **Reduced Motion** — Respects `prefers-reduced-motion` globally.
+- **Reduced Motion** — Component transitions respect `prefers-reduced-motion` without global CSS overrides.
 
 ---
 
 ## Installation
 
-Install both the component library and the CSS preset:
+Install the component library:
 
 ```bash
-pnpm add @neobr/svelte @neobr/tailwind-preset
+pnpm add @neobr/svelte
 ```
 
 ### Setup
@@ -34,12 +34,12 @@ pnpm add @neobr/svelte @neobr/tailwind-preset
 
 ```css
 @import "tailwindcss";
-@import "@neobr/tailwind-preset/style";
+@import "@neobr/svelte/style";
 
 @source "../node_modules/@neobr/svelte/dist";
 ```
 
-2. Load **JetBrains Mono** in your project for the full technical aesthetic.
+2. Optionally load **JetBrains Mono** in your project for the full technical aesthetic. NeoBr-UI exposes font tokens but does not override your app body font.
 
 ### Sub-path Imports
 
@@ -48,7 +48,7 @@ Import individual components for optimal tree-shaking:
 ```svelte
 <script>
   import { Button } from "@neobr/svelte/button";
-  import { createFormState } from "@neobr/svelte/form";
+  import { createFormState, z } from "@neobr/svelte/form";
 </script>
 ```
 
@@ -77,14 +77,14 @@ Import individual components for optimal tree-shaking:
 
 The design system exposes CSS custom properties for theming:
 
-| Token | Description |
-|-------|------------|
-| `--radius-brutalist` | Default border radius (0px sharp) |
-| `--radius-brutalist-soft` | Soft border radius (6px) |
-| `--radius-brutalist-rounded` | Rounded border radius (12px) |
-| `--shadow-brutalist` | Centered bottom shadow (0px 5px 0px 0px) |
-| `--shadow-brutalist-hover` | Deepened hover shadow (0px 8px 0px 0px) |
-| `--z-dropdown` through `--z-toast` | Z-index scale for layering |
+| Token                              | Description                              |
+| ---------------------------------- | ---------------------------------------- |
+| `--radius-brutalist`               | Default border radius (0px sharp)        |
+| `--radius-brutalist-soft`          | Soft border radius (6px)                 |
+| `--radius-brutalist-rounded`       | Rounded border radius (12px)             |
+| `--shadow-brutalist`               | Centered bottom shadow (0px 5px 0px 0px) |
+| `--shadow-brutalist-hover`         | Deepened hover shadow (0px 8px 0px 0px)  |
+| `--z-dropdown` through `--z-toast` | Z-index scale for layering               |
 
 Dark mode activates by adding the `.dark` class to a parent element. All tokens are defined in OKLCH.
 
@@ -92,11 +92,10 @@ Dark mode activates by adding the `.dark` class to a parent element. All tokens 
 
 ## Repository Structure
 
-| Package | Description |
-|---------|------------|
-| `packages/svelte` | Core Svelte 5 component library |
-| `packages/tailwind-preset` | CSS-first design system (Tailwind v4) |
-| `apps/docs` | Documentation and interactive showcase |
+| Package                    | Description                            |
+| -------------------------- | -------------------------------------- |
+| `packages/svelte`          | Core Svelte 5 component library        |
+| `apps/docs`                | Documentation and interactive showcase |
 
 ---
 

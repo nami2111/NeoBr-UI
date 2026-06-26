@@ -1,14 +1,45 @@
 <script lang="ts">
-    import { Button, Badge, Card, CardContent, Input, Form, BentoGrid, BentoGridItem, Slider, DatePicker } from "@neobr/svelte";
-    import { today, getLocalTimeZone } from "@internationalized/date";
+    import { componentCount } from "$lib/component-catalog";
+    import { Badge, Button, Icon } from "@neobr/svelte";
     import { onMount } from "svelte";
+    import {
+        ArrowRight02Icon,
+        CheckmarkCircle02Icon,
+        CodeIcon,
+        Copy01Icon,
+        LayoutGridIcon,
+        Shield01Icon,
+        TerminalIcon,
+        ZapIcon,
+    } from "@hugeicons/core-free-icons";
 
     let copied = $state(false);
-    let installCommand = "$ npm install @neobr/svelte";
-    let sliderValue = $state(45);
-    let username = $state("neobr");
-    let dateValue = $state(today(getLocalTimeZone()));
+    const installCommand = "$ pnpm add @neobr/svelte";
     let version = $state("");
+
+    const metrics = [
+        { label: "Components", value: componentCount.toString() },
+        { label: "Runtime", value: "Svelte 5" },
+        { label: "Styling", value: "Tailwind 4" },
+    ];
+
+    const features = [
+        {
+            title: "CSS-First Tokens",
+            description: "Theme variables live in one Tailwind v4 stylesheet.",
+            icon: CodeIcon,
+        },
+        {
+            title: "Accessible Primitives",
+            description: "Core interactions use semantic markup, ARIA state, and keyboard support.",
+            icon: Shield01Icon,
+        },
+        {
+            title: "Brutalist Utilities",
+            description: "Borders, shadows, radius, and interaction states stay consistent.",
+            icon: ZapIcon,
+        },
+    ];
 
     onMount(async () => {
         try {
@@ -27,72 +58,182 @@
     }
 </script>
 
-<!-- Hero -->
-<section class="py-16 text-center">
-    <Badge class="mb-6">v{version || "..."}</Badge>
-    <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">
-        NeoBr UI
-    </h1>
-    <p class="text-muted-foreground mb-6 max-w-md mx-auto">
-        A neo-brutalist component library for Svelte 5. Bold, accessible, and easy to customize.
-    </p>
-    <div class="flex gap-3 justify-center mb-8">
-        <Button href="/docs/installation">Get Started</Button>
-        <Button variant="outline" href="/components">Components</Button>
-    </div>
+<svelte:head>
+    <title>NeoBr UI - Svelte 5 Brutalist Components</title>
+    <meta
+        name="description"
+        content="A high-contrast, accessible neo-brutalist component library for Svelte 5 and Tailwind CSS v4."
+    />
+</svelte:head>
 
-    <div class="inline-flex items-center border-2 border-foreground rounded-brutalist overflow-hidden">
-        <code class="text-sm font-mono px-3 py-2">{installCommand}</code>
-        <button 
-            onclick={copyInstall} 
-            class="px-2.5 py-2 border-l-2 border-foreground hover:bg-accent transition-all cursor-pointer"
-            aria-label="Copy install command"
-        >
-            {#if copied}
-                <svg class="h-5 w-5 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M20 6L9 17l-5-5"/>
-                </svg>
-            {:else}
-                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2"/>
-                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-                </svg>
-            {/if}
-        </button>
-    </div>
-</section>
+<div class="space-y-16 pb-12">
+    <section
+        class="relative grid min-h-[calc(100dvh-5rem)] items-center gap-10 overflow-hidden py-10 lg:grid-cols-[1.05fr_0.95fr] lg:py-16"
+    >
+        <div class="absolute inset-0 -z-10 bg-grid opacity-35"></div>
 
-<!-- Bento Grid -->
-<section class="py-8 overflow-x-hidden">
-    <h2 class="text-xl font-black uppercase mb-6 text-center px-4">Components</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4 md:px-0 max-w-4xl mx-auto auto-rows-[14rem] md:auto-rows-[18rem]">
-        <BentoGridItem title="Button" description="Variants" class="md:col-span-2 h-full">
-            <div class="flex gap-2 justify-center items-center h-full flex-wrap">
-                <Button>Primary</Button>
-                <Button variant="outline">Outline</Button>
-                <Button variant="secondary">Secondary</Button>
+        <div class="space-y-8">
+            <div class="flex flex-wrap items-center gap-3">
+                <Badge>v{version || "..."}</Badge>
+                <Badge variant="outline">Svelte 5</Badge>
+                <Badge variant="secondary">Tailwind CSS 4</Badge>
             </div>
-        </BentoGridItem>
 
-        <BentoGridItem title="Slider" description="Range" class="h-full">
-            <div class="w-full max-w-[200px] mx-auto flex items-center h-full">
-                <Slider bind:value={sliderValue} max={100} step={1} />
+            <div class="space-y-5">
+                <h1 class="max-w-4xl text-5xl leading-none font-black text-balance md:text-7xl">
+                    NeoBr UI
+                </h1>
+                <p class="text-muted-foreground max-w-2xl text-lg leading-relaxed font-bold md:text-xl">
+                    High-contrast Svelte components with sharp borders, centered shadows, typed
+                    APIs, and CSS-first design tokens.
+                </p>
             </div>
-        </BentoGridItem>
 
-        <BentoGridItem title="DatePicker" description="Date" class="h-full">
-            <div class="flex justify-center items-center h-full">
-                <DatePicker bind:value={dateValue} />
+            <div class="flex flex-col gap-3 sm:flex-row">
+                <Button href="/docs/installation" class="gap-2">
+                    Get Started
+                    <Icon icon={ArrowRight02Icon} class="h-5 w-5" />
+                </Button>
+                <Button variant="outline" href="/components" class="gap-2">
+                    <Icon icon={LayoutGridIcon} class="h-5 w-5" />
+                    Browse Components
+                </Button>
             </div>
-        </BentoGridItem>
 
-        <BentoGridItem title="Input" description="Form field" class="md:col-span-2 h-full">
-            <div class="flex justify-center items-center h-full w-full">
-                <Form class="flex gap-2 flex-wrap justify-center">
-                    <Input placeholder="Username" bind:value={username} />
-                    <Button type="submit">Submit</Button>
-                </Form>
+            <div
+                class="border-foreground bg-muted flex max-w-2xl flex-col overflow-hidden border-2 shadow-[0_5px_0_0_var(--color-shadow-color)] sm:flex-row"
+            >
+                <div class="border-foreground flex min-w-0 flex-1 items-center gap-3 px-4 py-3 sm:border-r-2">
+                    <Icon icon={TerminalIcon} class="h-5 w-5 shrink-0 text-primary" />
+                    <code class="min-w-0 overflow-x-auto text-sm font-black whitespace-nowrap">
+                        {installCommand}
+                    </code>
+                </div>
+                <button
+                    onclick={copyInstall}
+                    class="hover:bg-accent flex min-h-11 cursor-pointer items-center justify-center gap-2 border-t-2 border-foreground px-4 py-3 text-sm font-black transition-all sm:border-t-0"
+                    aria-label={copied ? "Copied install command" : "Copy install command"}
+                >
+                    <Icon
+                        icon={copied ? CheckmarkCircle02Icon : Copy01Icon}
+                        class="h-5 w-5 {copied ? 'text-success' : ''}"
+                    />
+                    {copied ? "Copied" : "Copy"}
+                </button>
             </div>
-        </BentoGridItem>
-    </div>
-</section>
+        </div>
+
+        <div class="relative mx-auto w-full max-w-lg" aria-hidden="true">
+            <div
+                class="border-foreground bg-background relative overflow-hidden border-2 shadow-brutalist"
+            >
+                <div class="absolute inset-0 bg-grid-fine opacity-10"></div>
+
+                <div class="relative">
+                    <div
+                        class="border-foreground bg-foreground text-background flex items-center justify-between border-b-2 px-4 py-3"
+                    >
+                        <span class="text-sm font-black">@neobr/svelte</span>
+                        <span class="text-xs font-black">v{version || "..."}</span>
+                    </div>
+
+                    <div class="grid min-h-[31rem] grid-rows-[1fr_auto]">
+                        <div class="relative overflow-hidden p-6 sm:p-8">
+                            <div class="border-foreground bg-secondary absolute top-8 right-8 h-36 w-28 border-2"></div>
+                            <div class="border-foreground bg-primary absolute top-16 right-16 h-36 w-28 border-2"></div>
+                            <div class="border-foreground bg-success absolute right-8 bottom-24 h-14 w-44 border-2"></div>
+                            <div class="bg-foreground absolute right-8 bottom-44 h-3 w-32"></div>
+
+                            <div class="relative z-10 flex min-h-[22rem] flex-col justify-between">
+                                <div>
+                                    <p class="text-muted-foreground text-xs font-black uppercase">
+                                        Brutalist Interface Kit
+                                    </p>
+                                    <div class="mt-8">
+                                        <p class="text-6xl leading-[0.82] font-black sm:text-7xl">
+                                            NEO
+                                        </p>
+                                        <p
+                                            class="text-primary text-6xl leading-[0.82] font-black sm:text-7xl"
+                                        >
+                                            BR
+                                        </p>
+                                        <p class="text-4xl leading-none font-black sm:text-5xl">
+                                            UI
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-3">
+                                    <div class="bg-foreground h-3 w-40"></div>
+                                    <div class="flex max-w-xs gap-2">
+                                        <div class="border-foreground bg-primary h-10 flex-1 border-2"></div>
+                                        <div class="border-foreground bg-secondary h-10 flex-1 border-2"></div>
+                                        <div class="border-foreground bg-success h-10 flex-1 border-2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border-foreground bg-muted grid grid-cols-3 border-t-2">
+                            <div class="border-foreground px-4 py-3 first:border-r-2">
+                                <p class="text-muted-foreground text-xs font-black">Runtime</p>
+                                <p class="font-black">Svelte 5</p>
+                            </div>
+                            <div class="border-foreground px-4 py-3">
+                                <p class="text-muted-foreground text-xs font-black">Styling</p>
+                                <p class="font-black">Tailwind 4</p>
+                            </div>
+                            <div class="border-foreground px-4 py-3 last:border-l-2">
+                                <p class="text-muted-foreground text-xs font-black">Preset</p>
+                                <p class="font-black">CSS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid gap-4 md:grid-cols-3" aria-label="NeoBr UI highlights">
+        {#each metrics as metric (metric.label)}
+            <div class="border-foreground bg-card border-2 p-5 shadow-[0_5px_0_0_var(--color-shadow-color)]">
+                <p class="text-muted-foreground text-xs font-black tracking-[0.16em] uppercase">
+                    {metric.label}
+                </p>
+                <p class="mt-2 text-3xl font-black">{metric.value}</p>
+            </div>
+        {/each}
+    </section>
+
+    <section class="space-y-6">
+        <div class="flex flex-col justify-between gap-4 border-b-2 border-foreground pb-4 md:flex-row md:items-end">
+            <div>
+                <p class="text-muted-foreground text-xs font-black tracking-[0.16em] uppercase">
+                    System
+                </p>
+                <h2 class="mt-2 text-3xl font-black">Built For Sharp Interfaces</h2>
+            </div>
+            <Button variant="outline" href="/components" class="gap-2 self-start md:self-auto">
+                View All
+                <Icon icon={ArrowRight02Icon} class="h-5 w-5" />
+            </Button>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-3">
+            {#each features as feature (feature.title)}
+                <article
+                    class="border-foreground bg-background group border-2 p-6 shadow-[0_5px_0_0_var(--color-shadow-color)] transition-all hover:-translate-y-[2px] hover:shadow-brutalist-hover"
+                >
+                    <div class="border-foreground bg-primary mb-5 inline-flex h-12 w-12 items-center justify-center border-2 text-primary-foreground">
+                        <Icon icon={feature.icon} class="h-6 w-6" />
+                    </div>
+                    <h3 class="text-xl font-black">{feature.title}</h3>
+                    <p class="text-muted-foreground mt-3 text-sm leading-relaxed font-bold">
+                        {feature.description}
+                    </p>
+                </article>
+            {/each}
+        </div>
+    </section>
+</div>

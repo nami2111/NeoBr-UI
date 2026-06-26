@@ -5,16 +5,16 @@ A Svelte 5 Neo-Brutalist component library.
 ## Installation
 
 ```bash
-pnpm add @neobr/svelte @neobr/tailwind-preset
+pnpm add @neobr/svelte
 ```
 
 ### Setup
 
-Import the preset in your global CSS:
+Import the design system in your global CSS:
 
 ```css
 @import "tailwindcss";
-@import "@neobr/tailwind-preset/style";
+@import "@neobr/svelte/style";
 ```
 
 ## Sub-path Exports
@@ -50,6 +50,7 @@ NeoBr-UI uses Svelte 5 Runes for reactivity and Snippets for flexible compositio
 ## Form Validation (Zod)
 
 NeoBr-UI provides built-in integration with Zod for type-safe form validation using Svelte 5 runes.
+String fields default to `""` for input binding. Provide `initialValues` for number, boolean, array, object, and date fields. Nested validation errors are reported on the top-level field key.
 
 ```svelte
 <script>
@@ -101,12 +102,14 @@ Styling is handled via Tailwind CSS v4 with OKLCH color tokens defined in the `@
 
 ```css
 @import "tailwindcss";
-@import "@neobr/tailwind-preset/style";
+@import "@neobr/svelte/style";
 
 @theme {
     --color-primary: oklch(78.5% 0.08 270);
     --color-secondary: oklch(81.5% 0.12 45);
-    --radius-brutalist: 12px;
+    --font-neobr-sans: "JetBrains Mono", monospace;
+    --font-neobr-mono: "JetBrains Mono", monospace;
+    --radius-brutalist-soft: 8px;
 }
 
 .dark {
@@ -122,7 +125,9 @@ Styling is handled via Tailwind CSS v4 with OKLCH color tokens defined in the `@
 | `--color-secondary`  | Peach OKLCH       | Secondary accent color |
 | `--color-foreground` | Dark OKLCH        | Text and borders       |
 | `--color-background` | Light OKLCH       | Page background        |
-| `--radius-brutalist` | `12px`            | Standard border radius |
+| `--font-neobr-sans`  | JetBrains Mono    | Optional NeoBr UI font |
+| `--font-neobr-mono`  | JetBrains Mono    | Optional NeoBr mono font |
+| `--radius-brutalist` | `0px`             | Sharp brutalist radius |
 | `--shadow-brutalist` | `0px 5px 0px 0px` | Centered bottom shadow |
 
 ### Utility Classes
@@ -133,6 +138,6 @@ Styling is handled via Tailwind CSS v4 with OKLCH color tokens defined in the `@
 | `container-brutalist` | Card/container with border, shadow, radius       |
 | `input-brutalist`     | Form input with brutalist styling                |
 | `card-brutalist`      | Card with background, border, shadow, radius     |
-| `rounded-brutalist`   | `border-radius: 12px`                            |
+| `rounded-brutalist`   | `border-radius: 0px`                             |
 | `shadow-brutalist`    | Centered bottom shadow                           |
 | `tracking-brutalist`  | `letter-spacing: 0.1em`                          |

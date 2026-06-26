@@ -1,25 +1,6 @@
-<script lang="ts" module>
-    import { setContext, getContext } from "svelte";
-
-    const COMMAND_CONTEXT = Symbol("COMMAND_CONTEXT");
-
-    export function setCommandState(state: {
-        search: string;
-        onSearch: (value: string) => void;
-    }) {
-        setContext(COMMAND_CONTEXT, state);
-    }
-
-    export function getCommandState() {
-        return getContext<{
-            search: string;
-            onSearch: (value: string) => void;
-        }>(COMMAND_CONTEXT);
-    }
-</script>
-
 <script lang="ts">
     import { cn } from "../../../utils";
+    import { setCommandState } from "./command-context";
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement>;
@@ -27,13 +8,29 @@
     let { class: className, children, ...rest }: Props = $props();
 
     let search = $state("");
+    let itemValues = $state<Record<string, string>>({});
+    let normalizedSearch = $derived(search.trim().toLowerCase());
+    let visibleCount = $derived(
+        Object.values(itemValues).filter(
+            (value) => !normalizedSearch || value.toLowerCase().includes(normalizedSearch),
+        ).length,
+    );
 
     setCommandState({
         get search() {
             return search;
         },
+        get visibleCount() {
+            return visibleCount;
+        },
         onSearch: (value: string) => {
             search = value;
+        },
+        upsertItem: (id: string, value: string) => {
+            itemValues[id] = value;
+        },
+        unregisterItem: (id: string) => {
+            delete itemValues[id];
         },
     });
 </script>

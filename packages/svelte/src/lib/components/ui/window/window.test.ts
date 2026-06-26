@@ -1,51 +1,54 @@
 import { render, screen, fireEvent } from "@testing-library/svelte";
 import { expect, test, describe, vi } from "vite-plus/test";
 import { axe } from "vitest-axe";
-import WindowTestWrapper from "./window-test-wrapper.svelte";
+import { createRawSnippet } from "svelte";
+import Window from "./window.svelte";
+
+const children = createRawSnippet(() => ({ render: () => "Window content here" }));
 
 describe("Window component", () => {
     test("should have no accessibility violations", async () => {
-        const { container } = render(WindowTestWrapper);
+        const { container } = render(Window, { props: { children } });
         const results = await axe(container);
         expect(results).toHaveNoViolations();
     });
 
     test("renders with default title", () => {
-        render(WindowTestWrapper);
+        render(Window, { props: { children } });
         expect(screen.getByText("Window")).toBeInTheDocument();
     });
 
     test("renders with custom title", () => {
-        render(WindowTestWrapper, { props: { title: "My App" } });
+        render(Window, { props: { title: "My App", children } });
         expect(screen.getByText("My App")).toBeInTheDocument();
     });
 
     test("renders children content", () => {
-        render(WindowTestWrapper);
+        render(Window, { props: { children } });
         expect(screen.getByText("Window content here")).toBeInTheDocument();
     });
 
     test("renders close button by default", () => {
-        render(WindowTestWrapper);
+        render(Window, { props: { children } });
         const closeBtn = screen.getByRole("button", { name: /close/i });
         expect(closeBtn).toBeInTheDocument();
     });
 
     test("renders minimize button by default", () => {
-        render(WindowTestWrapper);
+        render(Window, { props: { children } });
         const minBtn = screen.getByRole("button", { name: /minimize/i });
         expect(minBtn).toBeInTheDocument();
     });
 
     test("renders maximize button by default", () => {
-        render(WindowTestWrapper);
+        render(Window, { props: { children } });
         const maxBtn = screen.getByRole("button", { name: /maximize/i });
         expect(maxBtn).toBeInTheDocument();
     });
 
     test("calls onClose when close button is clicked", async () => {
         const onClose = vi.fn();
-        render(WindowTestWrapper, { props: { onClose } });
+        render(Window, { props: { onClose, children } });
         const closeBtn = screen.getByRole("button", { name: /close/i });
 
         await fireEvent.click(closeBtn);
@@ -53,36 +56,36 @@ describe("Window component", () => {
     });
 
     test("hides close button when closable is false", () => {
-        render(WindowTestWrapper, { props: { closable: false } });
+        render(Window, { props: { closable: false, children } });
         expect(screen.queryByRole("button", { name: /close/i })).not.toBeInTheDocument();
     });
 
     test("hides minimize button when minimizable is false", () => {
-        render(WindowTestWrapper, { props: { minimizable: false } });
+        render(Window, { props: { minimizable: false, children } });
         expect(screen.queryByRole("button", { name: /minimize/i })).not.toBeInTheDocument();
     });
 
     test("hides maximize button when maximizable is false", () => {
-        render(WindowTestWrapper, { props: { maximizable: false } });
+        render(Window, { props: { maximizable: false, children } });
         expect(screen.queryByRole("button", { name: /maximize/i })).not.toBeInTheDocument();
     });
 
     test("applies container-brutalist class", () => {
-        const { container } = render(WindowTestWrapper);
+        const { container } = render(Window, { props: { children } });
         const windowEl = container.querySelector(".container-brutalist");
         expect(windowEl).toBeInTheDocument();
     });
 
     test("applies custom className", () => {
-        const { container } = render(WindowTestWrapper, {
-            props: { class: "custom-window" },
+        const { container } = render(Window, {
+            props: { class: "custom-window", children },
         });
         const windowEl = container.querySelector(".custom-window");
         expect(windowEl).toBeInTheDocument();
     });
 
     test("title bar has primary background", () => {
-        const { container } = render(WindowTestWrapper);
+        const { container } = render(Window, { props: { children } });
         const titleBar = container.querySelector(".bg-primary");
         expect(titleBar).toBeInTheDocument();
     });

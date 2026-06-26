@@ -54,4 +54,21 @@ describe("DropdownMenu", () => {
             expect(screen.queryByText("Profile")).not.toBeInTheDocument();
         });
     });
+
+    it("only closes the top stacked menu on Escape", async () => {
+        render(DropdownMenuTestWrapper);
+        render(DropdownMenuTestWrapper);
+
+        const triggers = screen.getAllByText("Open Menu");
+        await fireEvent.click(triggers[0]);
+        await fireEvent.click(triggers[1]);
+
+        expect(screen.getAllByText("Profile")).toHaveLength(2);
+
+        await fireEvent.keyDown(window, { key: "Escape" });
+
+        await waitFor(() => {
+            expect(screen.getAllByText("Profile")).toHaveLength(1);
+        });
+    });
 });

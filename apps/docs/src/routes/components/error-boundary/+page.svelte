@@ -15,11 +15,11 @@
 </ErrorBoundary>`;
 
     const customFallback = `<ErrorBoundary>
-    {#snippet fallback({ error, retry })}
+    {#snippet fallback(error, reset)}
         <Alert variant="destructive">
             <AlertTitle>Custom Error UI</AlertTitle>
-            <AlertDescription>{error.message}</AlertDescription>
-            <Button onclick={retry} class="mt-4">Try Again</Button>
+            <AlertDescription>{error instanceof Error ? error.message : "Unknown error"}</AlertDescription>
+            <Button onclick={reset} class="mt-4">Try Again</Button>
         </Alert>
     {/snippet}
     <YourComponent />
@@ -28,13 +28,13 @@
 
 <DocPage
     title="Error Boundary"
-    description="A component that catches JavaScript errors anywhere in its child component tree, logs those errors, and displays a fallback UI."
+    description="A component that catches render errors in its child tree and displays a fallback UI."
 >
     <div class="space-y-12">
         <section class="space-y-4">
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Basic Usage</h2>
             <p class="text-muted-foreground">
-                By default, ErrorBoundary displays a premium Neo-Brutalist alert when an error
+                By default, ErrorBoundary displays a Neo-Brutalist alert when a child render error
                 occurs.
             </p>
             <CodePreview code={basicUsage}>

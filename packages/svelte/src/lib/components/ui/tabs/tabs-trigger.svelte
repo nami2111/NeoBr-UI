@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { getContext } from "svelte";
     import { cn } from "../../../utils";
+    import { requireTabsState } from "./tabs-context";
 
     import type { HTMLButtonAttributes } from "svelte/elements";
 
@@ -10,18 +10,11 @@
 
     let { value: triggerValue, class: className, children, ...rest }: Props = $props();
 
-    const TABS_CONTEXT = Symbol.for("tabs");
-
-    const root = getContext<{
-        value: string | undefined;
-    }>(TABS_CONTEXT);
-
-    if (!root) {
-        throw new Error("TabsTrigger must be used within Tabs");
-    }
+    const root = requireTabsState("TabsTrigger");
 
     let isActive = $derived(root.value === triggerValue);
-    let panelId = $derived(`tabpanel-${triggerValue}`);
+    let triggerId = $derived(root.getTriggerId(triggerValue));
+    let panelId = $derived(root.getPanelId(triggerValue));
 </script>
 
 <button
@@ -37,7 +30,7 @@
     aria-selected={isActive}
     aria-controls={panelId}
     role="tab"
-    id={`trigger-${triggerValue}`}
+    id={triggerId}
     tabindex={isActive ? 0 : -1}
     {...rest}
 >

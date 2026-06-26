@@ -1,6 +1,8 @@
 <script lang="ts">
     import { cn } from "../../../utils";
     import { isBrowser } from "../../../utils/browser";
+    import { TRANSITION_BRUTALIST_FAST } from "../../../utils/motion";
+    import { useDismissableOverlay } from "../../../utils/overlay.svelte";
     import { fade } from "svelte/transition";
 
     type Props = {
@@ -10,7 +12,6 @@
     };
 
     let { open = $bindable(false), trigger, children }: Props = $props();
-    let menuContent = $state<HTMLElement>();
 
     function toggle() {
         open = !open;
@@ -20,17 +21,19 @@
         open = false;
     }
 
-    function handleKeydown(e: KeyboardEvent) {
-        if (!isBrowser || !open) return;
+    const overlay = useDismissableOverlay({
+        open: () => open,
+        close,
+    });
 
-        if (e.key === "Escape") {
-            e.preventDefault();
-            close();
-            return;
-        }
+    function handleKeydown(e: KeyboardEvent) {
+        overlay.handleKeydown(e);
+        if (!isBrowser || !open || !overlay.isTopOverlay()) return;
 
         if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            e.stopImmediatePropagation();
             e.preventDefault();
+            const menuContent = overlay.getContentElement();
             if (!menuContent) return;
             const items = Array.from(
                 menuContent.querySelectorAll('[role="menuitem"]:not([data-disabled="true"])'),
@@ -66,10 +69,10 @@
 
     {#if open}
         <div
-            bind:this={menuContent}
+            {@attach overlay.content}
             class="border-foreground bg-background shadow-brutalist rounded-brutalist absolute right-0 mt-2 w-56 origin-top-right border-2 focus:outline-none"
             style="z-index: var(--z-dropdown)"
-            transition:fade={{ duration: 100 }}
+            transition:fade={TRANSITION_BRUTALIST_FAST}
             role="menu"
             aria-orientation="vertical"
         >

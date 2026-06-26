@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/svelte";
+import { render } from "@testing-library/svelte";
 import { expect, describe, it } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import AspectRatio from "./aspect-ratio.svelte";

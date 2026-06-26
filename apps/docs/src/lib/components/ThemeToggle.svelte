@@ -27,6 +27,11 @@
     });
 </script>
 
-<Button variant="outline" size="icon" onclick={toggleTheme}>
+<Button
+    variant="outline"
+    size="icon"
+    onclick={toggleTheme}
+    aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+>
     <Icon icon={isDark ? Sun02Icon : Moon02Icon} class="h-5 w-5" />
 </Button>

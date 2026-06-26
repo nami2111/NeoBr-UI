@@ -89,6 +89,8 @@
                 <code class="bg-muted rounded px-1.5 py-0.5">xl</code>,
                 <code class="bg-muted rounded px-1.5 py-0.5">full</code>,
                 <code class="bg-muted rounded px-1.5 py-0.5">auto</code>.
+                Every preset keeps <code class="bg-muted rounded px-1.5 py-0.5">w-full</code>
+                viewport bounds, so larger modals shrink instead of overflowing narrow screens.
             </p>
 
             <div class="flex flex-wrap gap-3">

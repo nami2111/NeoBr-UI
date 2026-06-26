@@ -9,13 +9,13 @@
      */
     import { cn } from "../../../utils";
     import type { HTMLInputAttributes } from "svelte/elements";
-    import { getFormItemContext } from "../form/form-item.svelte";
+    import { getFormItemContext } from "../form/form-context";
 
     type Props = HTMLInputAttributes & {
         /**
          * The value of the input. Can be bound.
          */
-        value?: any;
+        value?: string | number | undefined;
 
         /**
          * Error state of the input.

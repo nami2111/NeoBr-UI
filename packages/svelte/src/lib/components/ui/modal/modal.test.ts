@@ -89,4 +89,61 @@ describe("Modal Component", () => {
         // Check if focus is within modal
         expect(modal.contains(document.activeElement)).toBe(true);
     });
+
+    it("uses unique title IDs for simultaneous modals", () => {
+        render(ModalTestWrapper, { props: { open: true, title: "First Modal" } });
+        render(ModalTestWrapper, { props: { open: true, title: "Second Modal" } });
+
+        const dialogs = screen.getAllByRole("dialog");
+        const labelledBy = dialogs.map((dialog) => dialog.getAttribute("aria-labelledby"));
+
+        expect(labelledBy[0]).toBeTruthy();
+        expect(labelledBy[1]).toBeTruthy();
+        expect(labelledBy[0]).not.toBe(labelledBy[1]);
+        expect(document.getElementById(labelledBy[0] ?? "")).toBeInTheDocument();
+        expect(document.getElementById(labelledBy[1] ?? "")).toBeInTheDocument();
+    });
+
+    it("keeps scroll locked until the final stacked modal closes", async () => {
+        render(ModalTestWrapper, { props: { open: true, title: "First Modal" } });
+        render(ModalTestWrapper, { props: { open: true, title: "Second Modal" } });
+
+        await waitFor(() => {
+            expect(document.body.style.overflow).toBe("hidden");
+        });
+
+        await fireEvent.click(screen.getAllByLabelText("Close modal")[0]);
+
+        await waitFor(() => {
+            expect(screen.getAllByRole("dialog")).toHaveLength(1);
+        });
+        expect(document.body.style.overflow).toBe("hidden");
+
+        await fireEvent.click(screen.getByLabelText("Close modal"));
+
+        await waitFor(() => {
+            expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+        });
+        expect(document.body.style.overflow).toBe("");
+    });
+
+    it("only closes the top stacked modal on Escape", async () => {
+        const firstOnClose = vi.fn();
+        const secondOnClose = vi.fn();
+
+        render(ModalTestWrapper, {
+            props: { open: true, title: "First Modal", onClose: firstOnClose },
+        });
+        render(ModalTestWrapper, {
+            props: { open: true, title: "Second Modal", onClose: secondOnClose },
+        });
+
+        await fireEvent.keyDown(window, { key: "Escape" });
+
+        expect(firstOnClose).not.toHaveBeenCalled();
+        expect(secondOnClose).toHaveBeenCalledTimes(1);
+        await waitFor(() => {
+            expect(screen.getAllByRole("dialog")).toHaveLength(1);
+        });
+    });
 });

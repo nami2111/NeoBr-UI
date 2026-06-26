@@ -12,11 +12,12 @@
      * ```
      */
     import { cn } from "../../../utils";
-    import { isBrowser } from "../../../utils/browser";
-    import { useScrollLock } from "../../../utils/scroll-lock.svelte";
-    import { TRANSITION_BRUTALIST_SLOW } from "../../../utils/motion";
+    import {
+        TRANSITION_BRUTALIST_BACKDROP,
+        TRANSITION_BRUTALIST_SLOW,
+    } from "../../../utils/motion";
+    import { useOverlayController } from "../../../utils/overlay.svelte";
     import { fly, fade } from "svelte/transition";
-    import { tick } from "svelte";
     import Icon from "../icon/icon.svelte";
     import { Cancel01Icon } from "@hugeicons/core-free-icons";
 
@@ -55,16 +56,15 @@
         children,
     }: Props = $props();
 
-    let modalContent = $state<HTMLElement>();
-    let previousFocus: HTMLElement | null = null;
-    const { lock: scrollLock, unlock: scrollUnlock } = useScrollLock();
+    const modalId = $props.id();
+    let titleId = $derived(title ? `modal-title-${modalId}` : undefined);
 
     const sizeClasses = {
-        sm: "min-w-[320px] max-w-sm min-h-[200px] max-h-[80vh]",
-        md: "min-w-[400px] max-w-lg min-h-[300px] max-h-[85vh]",
-        lg: "min-w-[600px] max-w-2xl min-h-[400px] max-h-[90vh]",
-        xl: "min-w-[800px] max-w-4xl min-h-[500px] max-h-[90vh]",
-        full: "min-w-[95vw] max-w-[95vw] min-h-[95vh] max-h-[95vh]",
+        sm: "max-w-sm min-h-[200px] max-h-[80vh]",
+        md: "max-w-lg min-h-[300px] max-h-[85vh]",
+        lg: "max-w-2xl min-h-[400px] max-h-[90vh]",
+        xl: "max-w-4xl min-h-[500px] max-h-[90vh]",
+        full: "w-[95vw] max-w-[95vw] min-h-[95vh] max-h-[95vh]",
         auto: "w-auto h-auto max-w-[95vw] max-h-[95vh]",
     };
 
@@ -73,83 +73,13 @@
         onClose?.();
     }
 
-    function getFocusableElements(element: HTMLElement): HTMLElement[] {
-        return Array.from(
-            element.querySelectorAll(
-                'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select',
-            ),
-        ) as HTMLElement[];
-    }
-
-    function handleKeydown(e: KeyboardEvent) {
-        if (!isBrowser || !open) return;
-
-        if (e.key === "Escape") {
-            e.preventDefault();
-            handleClose();
-            return;
-        }
-
-        if (e.key === "Tab") {
-            if (!modalContent) return;
-            const focusable = getFocusableElements(modalContent);
-            if (focusable.length === 0) {
-                e.preventDefault();
-                return;
-            }
-
-            const first = focusable[0];
-            const last = focusable[focusable.length - 1];
-
-            if (e.shiftKey) {
-                if (document.activeElement === first) {
-                    e.preventDefault();
-                    last.focus();
-                }
-            } else {
-                if (document.activeElement === last) {
-                    e.preventDefault();
-                    first.focus();
-                }
-            }
-        }
-    }
-
-    $effect(() => {
-        if (!isBrowser) return;
-
-        if (open) {
-            scrollLock();
-            previousFocus = document.activeElement as HTMLElement;
-            tick().then(() => {
-                if (modalContent) {
-                    const focusable = getFocusableElements(modalContent);
-                    if (focusable.length > 0) {
-                        focusable[0].focus();
-                    } else {
-                        modalContent.focus();
-                    }
-                }
-            });
-        } else {
-            scrollUnlock();
-            if (previousFocus) {
-                previousFocus.focus();
-                previousFocus = null;
-            }
-        }
-
-        return () => {
-            scrollUnlock();
-            if (previousFocus) {
-                previousFocus.focus();
-                previousFocus = null;
-            }
-        };
+    const overlay = useOverlayController({
+        open: () => open,
+        close: handleClose,
     });
 </script>
 
-<svelte:window onkeydown={handleKeydown} />
+<svelte:window onkeydown={overlay.handleKeydown} />
 
 {#if open}
     <div
@@ -157,23 +87,22 @@
         style="z-index: var(--z-modal)"
         role="dialog"
         aria-modal="true"
-        aria-labelledby={title ? "modal-title" : undefined}
+        aria-labelledby={titleId}
     >
         <!-- Backdrop -->
-        <div
-            class="bg-foreground/30 fixed inset-0 backdrop-blur-sm"
+        <button
+            type="button"
+            class="bg-foreground/30 fixed inset-0 border-0 p-0 backdrop-blur-sm"
             style="z-index: var(--z-modal-backdrop)"
-            transition:fade={{ duration: 200 }}
+            transition:fade={TRANSITION_BRUTALIST_BACKDROP}
             onclick={handleClose}
-            onkeydown={(e) => e.key === "Enter" && handleClose()}
-            role="button"
             tabindex="-1"
             aria-label="Close modal backdrop"
-        ></div>
+        ></button>
 
         <!-- Modal Content -->
         <div
-            bind:this={modalContent}
+            {@attach overlay.content}
             class={cn(
                 "card-brutalist relative w-full overflow-auto p-6 outline-none",
                 sizeClasses[size],
@@ -185,7 +114,7 @@
             <div class="flex flex-col space-y-2">
                 <div class="flex items-center justify-between">
                     {#if title}
-                        <h2 id="modal-title" class="text-lg font-bold tracking-tight">
+                        <h2 id={titleId} class="text-lg font-bold tracking-tight">
                             {title}
                         </h2>
                     {/if}

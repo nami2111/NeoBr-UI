@@ -1,7 +1,7 @@
 <script lang="ts">
     import { cn } from "../../../utils";
     import type { HTMLTextareaAttributes } from "svelte/elements";
-    import { getFormItemContext } from "../form/form-item.svelte";
+    import { getFormItemContext } from "../form/form-context";
 
     type Props = HTMLTextareaAttributes & {
         value?: string;
