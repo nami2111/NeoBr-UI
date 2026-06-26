@@ -30,11 +30,11 @@ Goal: make the docs site accurate, scannable, mobile-safe, and release-ready wit
 
 ## 4. Navigation and discovery
 
-- [ ] Review component index grouping and labels for scan speed.
-- [ ] Check active navigation state in the sidebar/header.
-- [ ] Check keyboard navigation for header links, mobile menu, search, and component links.
-- [ ] Improve search only if current search misses obvious component names or aliases.
-- [ ] Avoid a new navigation system unless the current one demonstrably blocks discovery.
+- [x] Review component index grouping and labels for scan speed.
+- [x] Check active navigation state in the sidebar/header.
+- [x] Check keyboard navigation for header links, mobile menu, search, and component links.
+- [x] Improve search only if current search misses obvious component names or aliases.
+- [x] Avoid a new navigation system unless the current one demonstrably blocks discovery.
 
 ## 5. Performance and accessibility sweep
 

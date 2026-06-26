@@ -71,7 +71,15 @@
     >
         <div class="flex min-w-0 items-center gap-3 md:gap-4">
             {#if showSidebar}
-                <Button variant="outline" size="sm" class="lg:hidden" onclick={toggleMobileMenu}>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    class="lg:hidden"
+                    onclick={toggleMobileMenu}
+                    aria-label={isMobileMenuOpen ? "Close mobile navigation" : "Open mobile navigation"}
+                    aria-expanded={isMobileMenuOpen}
+                    aria-controls="mobile-navigation"
+                >
                     <Icon icon={isMobileMenuOpen ? Cancel01Icon : Menu01Icon} class="h-5 w-5" />
                 </Button>
             {/if}
@@ -137,6 +145,7 @@
                     onclick={closeMobileMenu}
                 ></button>
                 <div
+                    id="mobile-navigation"
                     class="bg-background fixed inset-y-0 left-0 w-72 max-w-[85vw]"
                     style="z-index: var(--z-sheet)"
                 >

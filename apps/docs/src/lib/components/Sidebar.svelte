@@ -7,8 +7,8 @@
         {
             title: "Getting Started",
             items: [
-                { title: "Introduction", href: "/docs/introduction" },
-                { title: "Installation", href: "/docs/installation" },
+                { title: "Introduction", href: "/docs/introduction", description: "Overview and usage" },
+                { title: "Installation", href: "/docs/installation", description: "Install and setup" },
             ],
         },
         {
@@ -16,6 +16,7 @@
             items: componentItems.map((item) => ({
                 title: item.name,
                 href: item.href,
+                description: item.description,
             })),
         },
     ];
@@ -26,9 +27,13 @@
         sections
             .map((section) => ({
                 ...section,
-                items: section.items.filter((item) =>
-                    item.title.toLowerCase().includes(searchQuery.toLowerCase()),
-                ),
+                items: section.items.filter((item) => {
+                    const query = searchQuery.toLowerCase();
+                    return (
+                        item.title.toLowerCase().includes(query) ||
+                        item.description.toLowerCase().includes(query)
+                    );
+                }),
             }))
             .filter((section) => section.items.length > 0),
     );
@@ -62,6 +67,7 @@
                         {#each section.items as item (item.href)}
                             <a
                                 href={item.href}
+                                aria-current={isActive(item.href) ? "page" : undefined}
                                 class="border-2 px-3 py-2 text-sm font-bold transition-all {isActive(
                                     item.href,
                                 )
