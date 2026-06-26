@@ -13,6 +13,11 @@
     <div class="space-y-12">
         <section class="space-y-4">
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Usage</h2>
+            <p class="text-muted-foreground text-sm">
+                Bind a string value for the default single select. Use
+                <code class="bg-muted rounded px-1.5 py-0.5">type="multiple"</code> when binding a
+                string array.
+            </p>
             <CodePreview
                 code={`<Select bind:value>
     <SelectTrigger>

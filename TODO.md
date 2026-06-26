@@ -46,16 +46,16 @@ Goal: make the docs site accurate, scannable, mobile-safe, and release-ready wit
 
 ## 6. Release docs finish
 
-- [ ] Update docs if the final release notes mention behavior not covered in the site.
-- [ ] Keep the existing changeset as the source of package release notes.
-- [ ] Do not add a large theme playground yet.
-- [ ] Add richer examples only when a concrete docs gap appears during QA.
+- [x] Update docs if the final release notes mention behavior not covered in the site.
+- [x] Keep the existing changeset as the source of package release notes.
+- [x] Do not add a large theme playground yet.
+- [x] Add richer examples only when a concrete docs gap appears during QA.
 
 ## Done Criteria
 
-- [ ] `vp run --filter docs check` passes.
-- [ ] `vp run build` passes.
-- [ ] Key docs pages have no obvious mobile horizontal overflow.
-- [ ] Installation and README examples match the current package API.
-- [ ] Component pages do not document APIs that do not exist.
-- [ ] Documentation changes stay focused on accuracy and usability, not redesign.
+- [x] `vp run --filter docs check` passes.
+- [x] `vp run build` passes.
+- [x] Key docs pages have no obvious mobile horizontal overflow.
+- [x] Installation and README examples match the current package API.
+- [x] Component pages do not document APIs that do not exist.
+- [x] Documentation changes stay focused on accuracy and usability, not redesign.
