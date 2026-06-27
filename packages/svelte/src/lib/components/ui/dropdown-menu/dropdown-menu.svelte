@@ -70,7 +70,7 @@
     {#if open}
         <div
             {@attach overlay.content}
-            class="border-foreground bg-background shadow-brutalist rounded-brutalist absolute right-0 mt-2 w-56 origin-top-right border-2 focus:outline-none"
+            class="border-foreground bg-background shadow-brutalist rounded-brutalist absolute right-0 mt-2 w-56 origin-top-right border-2 focus-visible:outline-none"
             style="z-index: var(--z-dropdown)"
             transition:fade={TRANSITION_BRUTALIST_FAST}
             role="menu"

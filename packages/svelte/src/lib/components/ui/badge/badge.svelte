@@ -13,7 +13,7 @@
      * ```
      */
     const badgeVariants = cva(
-        "inline-flex items-center border-2 px-2.5 py-0.5 text-xs font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+        "inline-flex items-center border-2 px-2.5 py-0.5 text-xs font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         {
             variants: {
                 variant: {

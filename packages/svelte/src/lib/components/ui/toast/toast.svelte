@@ -32,7 +32,7 @@
     </div>
     <button
         onclick={() => toast.dismiss(item.id)}
-        class="text-foreground/50 hover:border-foreground hover:text-foreground focus:ring-ring inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border-2 border-transparent transition-colors focus:ring-2 focus:outline-none"
+        class="text-foreground/50 hover:border-foreground hover:text-foreground focus-visible:ring-ring inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border-2 border-transparent transition-colors focus-visible:ring-2 focus-visible:outline-none"
         aria-label="Close"
     >
         <svg

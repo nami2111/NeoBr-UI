@@ -37,7 +37,7 @@
                     {#each segments as { part, value: v }}
                         <DatePickerPrimitive.Segment
                             {part}
-                            class="focus:bg-primary focus:text-primary-foreground data-[placeholder]:text-muted-foreground rounded-[2px] tabular-nums transition-colors outline-none focus:outline-none flex items-center justify-center"
+                            class="focus:bg-primary focus:text-primary-foreground data-[placeholder]:text-muted-foreground rounded-[2px] tabular-nums transition-colors outline-none focus-visible:outline-none flex items-center justify-center"
                         >
                             {v}
                         </DatePickerPrimitive.Segment>

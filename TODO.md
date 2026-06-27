@@ -6,7 +6,7 @@ Reference: analysis sections are cited as `(§N)`.
 
 ---
 
-## Phase 1 — Correctness (a11y / dark-mode bugs, tiny diffs)
+## Phase 1 — Correctness (a11y / dark-mode bugs, tiny diffs) ✅ SHIPPED
 
 ### 1.1 Global reduced-motion for CSS animations `(§4e)`
 
