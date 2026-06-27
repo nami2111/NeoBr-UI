@@ -20,7 +20,7 @@ Reference: analysis sections are cited as `(§N)`.
 
 - **What**: Add `ring-offset-background` to every focus-ring component that omits it.
 - **Why**: Tailwind default ring-offset color is white → dark-mode produces a white halo between ring and element. Only `tabs` and `switch` set it today.
-- **Where**: `button.svelte`, `badge.svelte`, `toggle.svelte`, `select-trigger.svelte`, `checkbox.svelte`, `accordion-trigger.svelte`, `radio-group-item.svelte`, `input` (via `input-brutalist` utility), `tabs-content.svelte`.
+- **Where**: `button.svelte`, `badge.svelte`, `toggle.svelte`, `select-trigger.svelte`, `checkbox.svelte`, `accordion-trigger.svelte`, `radio-group-item.svelte`, `input` (via the `input-brutalist` utility in `design-system.css`). `tabs-content.svelte` and `tabs-trigger.svelte`/`switch.svelte` already set `ring-offset-background` — not in scope.
 - **How**: Append `focus-visible:ring-offset-background` (or `ring-offset-background` in the base string) next to each `ring-offset-2`.
 - **Done**: Toggle dark mode, Tab through every control — no white halo around any focus ring.
 
@@ -28,8 +28,8 @@ Reference: analysis sections are cited as `(§N)`.
 
 - **What**: Replace `focus:ring` / `focus:outline-none` with `focus-visible:` variants.
 - **Why**: `focus:` shows the ring on every mouse click (annoying + non-standard). `focus-visible:` shows it only for keyboard nav.
-- **Where**: `badge.svelte`, `toast.svelte`, `select-trigger.svelte` (the 3 files using non-visible `focus:`).
-- **How**: `focus:ring-2` → `focus-visible:ring-2`, `focus:ring-ring` → `focus-visible:ring-ring`, `focus:outline-none` → `focus-visible:outline-none`.
+- **Where**: 5 files using non-visible `focus:` — `badge.svelte`, `toast.svelte`, `select-trigger.svelte` (use `focus:ring`), plus `dropdown-menu.svelte` and `date-picker.svelte` (use `focus:outline-none`).
+- **How**: `focus:ring-2` → `focus-visible:ring-2`, `focus:ring-ring` → `focus-visible:ring-ring`, `focus:outline-none` → `focus-visible:outline-none`. (Earlier grep undercounted because a file-level `grep -v focus-visible` filter dropped files that mix both patterns — line-level grep is the reliable check.)
 - **Done**: Click each control with mouse → no ring flash. Tab to it → ring appears.
 
 ### 1.4 Sticker border clipped on shaped variants `(§4g)`
@@ -48,11 +48,11 @@ Reference: analysis sections are cited as `(§N)`.
 
 - **What**: Adopt the Button `radius?: "brutalist" | "soft" | "rounded"` enum across every bordered component; remove the `brutalist?: boolean` API.
 - **Why**: Three radius APIs exist today (enum on Button, boolean on Badge/Alert/Switch, none on Input/Select/Checkbox/Toggle/Sticker). Consumers can't customize corners uniformly.
-- **Where**: `badge.svelte`, `alert.svelte`, `switch.svelte`, `input.svelte` (+ `input-brutalist` utility), `select-trigger.svelte`, `checkbox.svelte`, `toggle.svelte`, `sticker.svelte`.
+- **Where**: `badge.svelte`, `alert.svelte`, `switch.svelte`, `link.svelte`, `input.svelte` (+ `input-brutalist` utility), `select-trigger.svelte`, `checkbox.svelte`, `toggle.svelte`, `sticker.svelte`.
 - **How**:
   - Add the `radius` prop (default `"brutalist"`) to each.
   - Map: `brutalist` → `rounded-brutalist` (0px), `soft` → `rounded-[6px]`/`rounded-brutalist-soft`, `rounded` → `rounded-[12px]`/`rounded-brutalist-rounded`.
-  - Remove the `brutalist` boolean from Badge/Alert/Switch (breaking change → major version bump or deprecate with alias for one release).
+  - Remove the `brutalist` boolean from Badge/Alert/Switch/Link (breaking change → major version bump or deprecate with alias for one release). Caveat: on Badge/Alert/Switch the boolean toggles **radius** (→ migrate to the `radius` enum); on `link.svelte` it toggles `tracking-brutalist` (**letter-spacing**, not radius) — migrate that to an always-on default or a separate `tracking` concern, don't blindly map it to the radius enum.
   - Fix `checkbox.svelte`'s magic `rounded-[2px]` to use the enum.
   - Fix `input-brutalist` utility's hardcoded `rounded-brutalist-rounded` (12px) — it currently disagrees with the 0px default of `card-brutalist`/`container-brutalist`.
 - **Done**: Every bordered component accepts the same `radius` enum with the same three values; defaults are consistent; the `rounded-[2px]` magic number is gone.
@@ -63,7 +63,7 @@ Reference: analysis sections are cited as `(§N)`.
 - **Why**: A theming consumer editing `--color-border`/`--color-input` sees no change — erodes trust in the system.
 - **Where**: `packages/svelte/src/lib/styles/design-system.css` + components.
 - **How** (recommend delete, simpler):
-  - `--color-border` → delete (45 components use `border-foreground`; keep that as the canonical neobr border = foreground ink).
+  - `--color-border` → delete. `border-foreground` is the canonical neobr border (border = foreground ink): 43 line-matches across 33 component files + 4 `@utility` definitions in `design-system.css`. `border-border` has 0 uses.
   - `--color-input` → delete (`input-brutalist` uses `bg-background`).
   - `--transition-brutalist` / `--transition-brutalist-slow` → delete (nothing reads `var(--transition-brutalist*)`; components use Tailwind `transition-all` or TS constants).
   - `--font-neobr-sans` → delete (identical to `--font-neobr-mono`; no sans exists). OR provide a real sans stack if a non-mono option is desired.
@@ -109,6 +109,7 @@ Reference: analysis sections are cited as `(§N)`.
 - **Why**: Every other animation (marquee, neobr-tail, fade-in, slide-*) lives in the design system CSS; progress is the lone holdout. Also lets it inherit the global reduced-motion fix from 1.1.
 - **Where**: `progress.svelte`, `design-system.css`.
 - **Done**: `progress.svelte` has no `<style>` block; `animate-progress-indeterminate` works identically; reduced-motion tames it (verified in 1.1).
+- **Sequencing**: Ship in the same release as 1.1. Until the keyframes leave `progress.svelte`'s component-local `<style>`, the 1.1 global reduced-motion rule only reaches `animate-progress-indeterminate` via `!important` specificity override (the local `:global(.animate-progress-indeterminate)` class otherwise outranks a bare `*` selector). Moving the keyframes (this item) removes that cross-file dependency and any ordering edge case.
 
 ### 3.2 Dead/no-op classes cleanup `(§4h)`
 
@@ -169,7 +170,7 @@ Reference: analysis sections are cited as `(§N)`.
 - **What**: Make the reduced-motion check evaluate per transition, not once at module import.
 - **Why**: `TRANSITION_BRUTALIST_*` constants call `duration(ms)` at import time → if a user toggles OS reduced-motion at runtime, transitions don't adapt. Also `matchMedia` undefined on SSR returns full duration (fine, but worth a note).
 - **Where**: `packages/svelte/src/lib/utils/motion.ts`.
-- **How**: Export a `brutalistTransition(opts)` factory that builds `{ duration, easing }` per call, reading `matchMedia` each time. Replace the static constants in callers, or keep constants as thin wrappers that call the factory.
+- **How**: Export a `brutalistTransition(opts)` factory that builds `{ duration, easing }` per call, reading `matchMedia` each time. Replace all four static constants (`TRANSITION_BRUTALIST_FAST`, `TRANSITION_BRUTALIST`, `TRANSITION_BRUTALIST_BACKDROP`, `TRANSITION_BRUTALIST_SLOW`) in callers, or keep them as thin wrappers that call the factory. Update `motion.test.ts` to cover the per-call path — current tests assert import-time values and would silently pass on a regression of the runtime check.
 - **Done**: Toggling reduced-motion at runtime changes transition behavior without a reload.
 
 ---
