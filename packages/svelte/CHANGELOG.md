@@ -5,14 +5,13 @@
 ### Minor Changes
 
 - 7b0dfcc: Harden the component library for release.
-
-  - Ship only the built `dist` package surface instead of `src/lib` source files.
-  - Keep modal and sheet overlays responsive and accessible with viewport-safe modal widths, real backdrop buttons, and titled sheet dialog labels.
-  - Stop the stylesheet from taking over consumer app fonts; use the optional `--font-neobr-sans` and `--font-neobr-mono` tokens when you want the NeoBr font stack.
-  - Keep reduced-motion handling inside shared component transition constants instead of a global CSS override.
-  - Standardize sheet close icons through the existing `Icon` wrapper.
-  - Default missing form values to `""` only for top-level string fields. Provide `initialValues` for numbers, booleans, arrays, objects, and dates. Nested validation errors remain keyed by the top-level field.
-  - Tighten `Select`, `Accordion`, and `Calendar` props so array values require `type="multiple"`.
+    - Ship only the built `dist` package surface instead of `src/lib` source files.
+    - Keep modal and sheet overlays responsive and accessible with viewport-safe modal widths, real backdrop buttons, and titled sheet dialog labels.
+    - Stop the stylesheet from taking over consumer app fonts; use the optional `--font-neobr-sans` and `--font-neobr-mono` tokens when you want the NeoBr font stack.
+    - Keep reduced-motion handling inside shared component transition constants instead of a global CSS override.
+    - Standardize sheet close icons through the existing `Icon` wrapper.
+    - Default missing form values to `""` only for top-level string fields. Provide `initialValues` for numbers, booleans, arrays, objects, and dates. Nested validation errors remain keyed by the top-level field.
+    - Tighten `Select`, `Accordion`, and `Calendar` props so array values require `type="multiple"`.
 
 ## 1.1.2
 
@@ -20,7 +19,7 @@
 
 - Refactor animations to CSS utilities and add effect cleanup
 - Updated dependencies
-  - @neobr/tailwind-preset@1.1.2
+    - @neobr/tailwind-preset@1.1.2
 
 ## 1.1.1
 
@@ -28,7 +27,7 @@
 
 - Add z-index tokens and window component callbacks
 - Updated dependencies
-  - @neobr/tailwind-preset@1.1.1
+    - @neobr/tailwind-preset@1.1.1
 
 ## 1.1.0
 
@@ -39,7 +38,7 @@
 ### Patch Changes
 
 - Updated dependencies [add7337]
-  - @neobr/tailwind-preset@1.1.0
+    - @neobr/tailwind-preset@1.1.0
 
 ## 1.0.15
 
@@ -47,7 +46,7 @@
 
 - replace brutalist prop with flexible radius option
 - Updated dependencies
-  - @neobr/tailwind-preset@1.0.6
+    - @neobr/tailwind-preset@1.0.6
 
 ## 1.0.14
 
@@ -67,7 +66,7 @@
 
 - Fix critical bugs, improve accessibility, and modernize design system
 - Updated dependencies
-  - @neobr/tailwind-preset@1.0.5
+    - @neobr/tailwind-preset@1.0.5
 
 ## 1.0.11
 
@@ -110,7 +109,7 @@
 ### Patch Changes
 
 - Updated dependencies
-  - @neobr/tailwind-preset@1.0.4
+    - @neobr/tailwind-preset@1.0.4
 
 ## 1.0.4
 
@@ -124,7 +123,7 @@
 
 - Improvements of Critical Accessibility Gaps and Testing Coverage
 - Updated dependencies
-  - @neobr/tailwind-preset@1.0.3
+    - @neobr/tailwind-preset@1.0.3
 
 ## 1.0.2
 
@@ -132,18 +131,17 @@
 
 - Added Command Palette, ScrollArea, Collapsible, and AspectRatio components.
 - Updated dependencies
-  - @neobr/tailwind-preset@1.0.2
+    - @neobr/tailwind-preset@1.0.2
 
 ## 1.0.1
 
 ### Patch Changes
 
 - Initial release of the NeoBr-UI component library and Tailwind preset.
-
-  - Core Svelte 5 components with Neo-Brutalist design.
-  - Tailwind v4 compatible design system and preset.
-  - HugeIcons integration.
-  - Accessible and performant base components.
+    - Core Svelte 5 components with Neo-Brutalist design.
+    - Tailwind v4 compatible design system and preset.
+    - HugeIcons integration.
+    - Accessible and performant base components.
 
 - Updated dependencies
-  - @neobr/tailwind-preset@1.0.1
+    - @neobr/tailwind-preset@1.0.1
