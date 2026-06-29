@@ -40,21 +40,3 @@
         style={indeterminate ? "" : `transform: translateX(-${100 - percentage}%)`}
     ></div>
 </div>
-
-<style>
-    @keyframes progress-indeterminate {
-        0% {
-            transform: translateX(-100%) scaleX(0.2);
-        }
-        50% {
-            transform: translateX(0%) scaleX(0.5);
-        }
-        100% {
-            transform: translateX(100%) scaleX(0.2);
-        }
-    }
-
-    :global(.animate-progress-indeterminate) {
-        animation: progress-indeterminate 2s infinite linear;
-    }
-</style>

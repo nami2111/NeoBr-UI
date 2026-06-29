@@ -175,6 +175,18 @@
             transform: translateX(calc(-100% - var(--gap)));
         }
     }
+
+    @keyframes progress-indeterminate {
+        0% {
+            transform: translateX(-100%) scaleX(0.2);
+        }
+        50% {
+            transform: translateX(0%) scaleX(0.5);
+        }
+        100% {
+            transform: translateX(100%) scaleX(0.2);
+        }
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -293,4 +305,8 @@
 
 @utility animate-neobr-tail {
     animation: neobr-tail 0.8s infinite;
+}
+
+@utility animate-progress-indeterminate {
+    animation: progress-indeterminate 2s infinite linear;
 }
