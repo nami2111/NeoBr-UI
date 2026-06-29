@@ -23,8 +23,13 @@ export async function serverRenderSvelte(
         .replace(
             /import \{ TRANSITION_BRUTALIST \} from "\.\.\/\.\.\/\.\.\/utils\/motion";\n/g,
             "const TRANSITION_BRUTALIST = { duration: 150 };\n",
+        )
+        .replace(
+            /import \{ useOverlayController \} from "\.\.\/\.\.\/\.\.\/utils\/overlay\.svelte";\n/g,
+            "",
         );
 
+    code = `const useOverlayController = () => ({ content: () => {}, getContentElement: () => undefined, handleKeydown: () => {}, isTopOverlay: () => false });\n${code}`;
     code = `const cn = (...inputs) => inputs.flat().filter(Boolean).join(" ");\n${code}`;
     code = `const RADIUS = { brutalist: "rounded-brutalist", soft: "rounded-brutalist-soft", rounded: "rounded-brutalist-rounded" };\n${code}`;
 

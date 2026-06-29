@@ -2,7 +2,7 @@
     import { cn } from "../../../utils";
     import { isBrowser } from "../../../utils/browser";
     import { TRANSITION_BRUTALIST_FAST } from "../../../utils/motion";
-    import { useDismissableOverlay } from "../../../utils/overlay.svelte";
+    import { useOverlayController } from "../../../utils/overlay.svelte";
     import { fade } from "svelte/transition";
 
     type Props = {
@@ -21,9 +21,10 @@
         open = false;
     }
 
-    const overlay = useDismissableOverlay({
+    const overlay = useOverlayController({
         open: () => open,
         close,
+        trapFocus: false,
     });
 
     function handleKeydown(e: KeyboardEvent) {

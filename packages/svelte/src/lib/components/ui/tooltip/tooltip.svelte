@@ -2,6 +2,7 @@
     import { scale } from "svelte/transition";
     import { cn } from "../../../utils";
     import { TRANSITION_BRUTALIST } from "../../../utils/motion";
+    import { useOverlayController } from "../../../utils/overlay.svelte";
 
     import type { HTMLButtonAttributes } from "svelte/elements";
 
@@ -28,12 +29,11 @@
         open = false;
     }
 
-    function handleKeydown(e: KeyboardEvent) {
-        if (e.key === "Escape" && open) {
-            e.preventDefault();
-            close();
-        }
-    }
+    const overlay = useOverlayController({
+        open: () => open,
+        close,
+        trapFocus: false,
+    });
 
     const positions = {
         top: "-top-2 left-1/2 -translate-x-1/2 -translate-y-full mb-2",
@@ -43,7 +43,7 @@
     };
 </script>
 
-<svelte:window onkeydown={handleKeydown} />
+<svelte:window onkeydown={overlay.handleKeydown} />
 
 <div class="relative inline-block">
     <button
@@ -61,6 +61,7 @@
 
     {#if open}
         <div
+            {@attach overlay.content}
             id={tooltipId}
             role="tooltip"
             class={cn(

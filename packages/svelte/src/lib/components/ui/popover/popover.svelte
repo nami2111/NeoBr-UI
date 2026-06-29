@@ -1,7 +1,7 @@
 <script lang="ts">
     import { cn } from "../../../utils";
     import { TRANSITION_BRUTALIST_FAST } from "../../../utils/motion";
-    import { useDismissableOverlay } from "../../../utils/overlay.svelte";
+    import { useOverlayController } from "../../../utils/overlay.svelte";
     import { fade } from "svelte/transition";
 
     type Props = {
@@ -30,9 +30,10 @@
         open = false;
     }
 
-    const overlay = useDismissableOverlay({
+    const overlay = useOverlayController({
         open: () => open,
         close,
+        trapFocus: false,
     });
 </script>
 
