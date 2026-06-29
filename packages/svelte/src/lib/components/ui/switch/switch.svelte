@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
 
     import type { HTMLButtonAttributes } from "svelte/elements";
 
     type Props = HTMLButtonAttributes & {
         checked?: boolean;
         variant?: "default" | "destructive" | "success";
-        brutalist?: boolean;
+        radius?: Radius;
         onchange?: (checked: boolean) => void;
     };
 
@@ -15,7 +15,7 @@
         checked = $bindable(false),
         disabled = false,
         variant = "default",
-        brutalist = true,
+        radius = "brutalist",
         onchange,
         ...rest
     }: Props = $props();
@@ -40,9 +40,9 @@
     data-state={checked ? "checked" : "unchecked"}
     {disabled}
     class={cn(
-        "peer border-foreground bg-background focus-visible:ring-ring focus-visible:ring-offset-background inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+        "peer border-foreground bg-background focus-visible:ring-ring focus-visible:ring-offset-background shadow-brutalist inline-flex h-6 w-11 shrink-0 cursor-pointer items-center border-2 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
         variantClasses[variant],
-        brutalist && "rounded-brutalist shadow-brutalist",
+        RADIUS[radius],
         className,
     )}
     onclick={toggle}

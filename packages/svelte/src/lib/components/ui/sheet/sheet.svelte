@@ -110,7 +110,7 @@
                 {/if}
                 <button
                     type="button"
-                    class="border-foreground hover:bg-muted rounded-brutalist border-2 p-1 transition-all active:translate-y-[2px]"
+                    class="border-foreground hover:bg-muted rounded-brutalist border-2 p-1 transition-all active:translate-y-[var(--press-brutalist-sm)]"
                     onclick={handleClose}
                 >
                     <Icon icon={Cancel01Icon} class="h-5 w-5" />

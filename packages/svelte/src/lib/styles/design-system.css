@@ -38,14 +38,14 @@
     --color-warning-active: oklch(80% 0.14 90);
     --color-warning-foreground: oklch(12.5% 0.025 264);
 
+    /* muted and accent are intentional aliases: same value, kept as two
+       names for shadcn-compatible class naming (bg-muted / bg-accent). */
     --color-muted: oklch(94% 0.01 264);
     --color-muted-foreground: oklch(45% 0.02 264);
 
     --color-accent: oklch(94% 0.01 264);
     --color-accent-foreground: oklch(12.5% 0.025 264);
 
-    --color-border: oklch(12.5% 0.025 264);
-    --color-input: oklch(90% 0.01 264);
     --color-ring: oklch(78.5% 0.08 270);
 
     --color-card: oklch(100% 0 0);
@@ -59,6 +59,11 @@
     --radius-brutalist-soft: 6px;
     --radius-brutalist-rounded: 12px;
     --separator-width: 3px;
+
+    /* Interaction depth — press = shadow height so pressed controls sit flat */
+    --lift-brutalist: 2px;
+    --press-brutalist: 5px;
+    --press-brutalist-sm: 2px;
 
     /* Z-index scale */
     --z-dropdown-backdrop: 40;
@@ -74,12 +79,7 @@
     --z-tooltip: 70;
     --z-toast: 100;
 
-    /* Transitions */
-    --transition-brutalist: 150ms ease-in-out;
-    --transition-brutalist-slow: 300ms ease-in-out;
-
     /* Typography */
-    --font-neobr-sans: "JetBrains Mono", monospace;
     --font-neobr-mono: "JetBrains Mono", monospace;
 
     /* Animation */
@@ -232,8 +232,6 @@
     --color-accent: oklch(25% 0.02 264);
     --color-accent-foreground: oklch(98.5% 0.005 264);
 
-    --color-border: oklch(98.5% 0.005 264);
-    --color-input: oklch(25% 0.02 264);
     --color-ring: oklch(72.5% 0.12 270);
     --color-shadow-color: oklch(98.5% 0.005 264);
 }
@@ -241,19 +239,16 @@
 /* Neo Brutalist Utility Patterns */
 @utility btn-brutalist {
     @apply border-foreground shadow-brutalist cursor-pointer border-2 transition-all;
-    border-radius: var(--radius-brutalist);
-    @apply hover:shadow-brutalist-hover hover:-translate-y-[2px];
-    @apply active:translate-y-[5px] active:shadow-none;
+    @apply hover:shadow-brutalist-hover hover:-translate-y-[var(--lift-brutalist)];
+    @apply active:translate-y-[var(--press-brutalist)] active:shadow-none;
 }
 
 @utility btn-brutalist-soft {
     @apply btn-brutalist;
-    border-radius: var(--radius-brutalist-soft);
 }
 
 @utility btn-brutalist-rounded {
     @apply btn-brutalist;
-    border-radius: var(--radius-brutalist-rounded);
 }
 
 @utility container-brutalist {
@@ -274,10 +269,17 @@
     border-radius: var(--radius-brutalist);
 }
 
+@utility rounded-brutalist-soft {
+    border-radius: var(--radius-brutalist-soft);
+}
+
+@utility rounded-brutalist-rounded {
+    border-radius: var(--radius-brutalist-rounded);
+}
+
 @utility input-brutalist {
     @apply border-foreground bg-background h-10 w-full border-2 px-3 py-2 text-sm font-bold shadow-inner transition-colors;
-    border-radius: var(--radius-brutalist-rounded);
-    @apply focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none;
+    @apply focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none;
     @apply disabled:cursor-not-allowed disabled:opacity-50;
 }
 

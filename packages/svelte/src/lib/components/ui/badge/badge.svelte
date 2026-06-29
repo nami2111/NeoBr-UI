@@ -1,6 +1,6 @@
 <script lang="ts">
     import { cva, type VariantProps } from "class-variance-authority";
-    import { cn } from "../../../utils";
+    import { cn, type Radius } from "../../../utils";
     import type { HTMLAttributes } from "svelte/elements";
 
     /**
@@ -25,14 +25,15 @@
                         "border-foreground bg-destructive text-destructive-foreground hover:bg-destructive-hover",
                     outline: "border-foreground text-foreground bg-background",
                 },
-                brutalist: {
-                    true: "rounded-brutalist",
-                    false: "rounded-md",
+                radius: {
+                    brutalist: "rounded-brutalist",
+                    soft: "rounded-brutalist-soft",
+                    rounded: "rounded-brutalist-rounded",
                 },
             },
             defaultVariants: {
                 variant: "default",
-                brutalist: true,
+                radius: "brutalist",
             },
         },
     );
@@ -40,22 +41,22 @@
     type Props = HTMLAttributes<HTMLDivElement> &
         VariantProps<typeof badgeVariants> & {
             /**
-             * Enable Neo-Brutalist styling.
-             * @default true
+             * Corner radius: brutalist (sharp), soft (6px), or rounded (12px).
+             * @default "brutalist"
              */
-            brutalist?: boolean;
+            radius?: Radius;
             children?: import("svelte").Snippet;
         };
 
     let {
         class: className,
         variant = "default",
-        brutalist = true,
+        radius = "brutalist",
         children,
         ...rest
     }: Props = $props();
 </script>
 
-<div class={cn(badgeVariants({ variant, brutalist, className }))} {...rest}>
+<div class={cn(badgeVariants({ variant, radius, className }))} {...rest}>
     {@render children?.()}
 </div>

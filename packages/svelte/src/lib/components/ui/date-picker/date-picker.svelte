@@ -1,6 +1,6 @@
 <script lang="ts">
     import { DatePicker as DatePickerPrimitive } from "bits-ui";
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
     import Icon from "../icon/icon.svelte";
     import { Calendar01Icon, ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
     import type { CompatibleDatePickerProps } from "../../../types/bits-ui-compat";
@@ -9,11 +9,13 @@
     type Props = CompatibleDatePickerProps & {
         class?: string;
         label?: string;
+        radius?: Radius;
     };
 
     let {
         class: className = undefined,
         label = undefined,
+        radius = "brutalist",
         value = $bindable(),
         ...rest
     }: Props = $props();
@@ -30,11 +32,12 @@
             <DatePickerPrimitive.Input
                 class={cn(
                     "input-brutalist focus-within:shadow-brutalist-hover flex h-10 w-full items-center px-3 transition-all",
+                    RADIUS[radius],
                     className,
                 )}
             >
                 {#snippet children({ segments })}
-                    {#each segments as { part, value: v }}
+                    {#each segments as { part, value: v }, index (`${part}-${index}`)}
                         <DatePickerPrimitive.Segment
                             {part}
                             class="focus:bg-primary focus:text-primary-foreground data-[placeholder]:text-muted-foreground rounded-[2px] tabular-nums transition-colors outline-none focus-visible:outline-none flex items-center justify-center"
@@ -61,7 +64,7 @@
                 {#snippet children({ months, weekdays })}
                     <DatePickerPrimitive.Header class="flex items-center justify-between pb-4">
                         <DatePickerPrimitive.PrevButton
-                            class="btn-brutalist flex h-8 w-8 items-center justify-center p-0"
+                            class="btn-brutalist rounded-brutalist flex h-8 w-8 items-center justify-center p-0"
                         >
                             <Icon icon={ArrowLeft01Icon} class="h-4 w-4" />
                         </DatePickerPrimitive.PrevButton>
@@ -69,7 +72,7 @@
                             class="text-sm font-black tracking-tighter uppercase"
                         />
                         <DatePickerPrimitive.NextButton
-                            class="btn-brutalist flex h-8 w-8 items-center justify-center p-0"
+                            class="btn-brutalist rounded-brutalist flex h-8 w-8 items-center justify-center p-0"
                         >
                             <Icon icon={ArrowRight01Icon} class="h-4 w-4" />
                         </DatePickerPrimitive.NextButton>

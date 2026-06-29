@@ -12,7 +12,7 @@
 <Accordion.Header class="flex">
     <Accordion.Trigger
         class={cn(
-            "hover:bg-accent focus-visible:ring-ring group flex w-full cursor-pointer items-center justify-between px-4 py-4 text-sm font-bold transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none active:translate-y-[2px] disabled:cursor-not-allowed disabled:opacity-50",
+            "hover:bg-accent focus-visible:ring-ring group flex w-full cursor-pointer items-center justify-between px-4 py-4 text-sm font-bold transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none active:translate-y-[var(--press-brutalist-sm)] disabled:cursor-not-allowed disabled:opacity-50",
             "hover:border-foreground data-[state=open]:border-foreground border-b-2 border-transparent",
             className,
         )}

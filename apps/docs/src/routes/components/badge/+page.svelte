@@ -8,8 +8,9 @@
 <Badge variant="destructive">Destructive</Badge>
 <Badge variant="outline">Outline</Badge>`;
 
-    const brutalist = `<Badge brutalist={true}>Brutalist</Badge>
-<Badge brutalist={false}>Rounded</Badge>`;
+    const radius = `<Badge radius="brutalist">Brutalist</Badge>
+<Badge radius="soft">Soft</Badge>
+<Badge radius="rounded">Rounded</Badge>`;
 </script>
 
 <DocPage title="Badge" description="Displays a badge or a component that looks like a badge.">
@@ -27,11 +28,12 @@
         </section>
 
         <section class="space-y-4">
-            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Brutalist Style</h2>
-            <CodePreview code={brutalist}>
+            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Radius</h2>
+            <CodePreview code={radius}>
                 <div class="flex flex-wrap gap-4">
-                    <Badge brutalist={true}>Brutalist</Badge>
-                    <Badge brutalist={false}>Rounded</Badge>
+                    <Badge radius="brutalist">Brutalist</Badge>
+                    <Badge radius="soft">Soft</Badge>
+                    <Badge radius="rounded">Rounded</Badge>
                 </div>
             </CodePreview>
         </section>

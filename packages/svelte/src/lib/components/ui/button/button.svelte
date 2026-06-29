@@ -1,7 +1,7 @@
 <script lang="ts">
     import { type VariantProps, cva } from "class-variance-authority";
     import type { HTMLAnchorAttributes, HTMLButtonAttributes } from "svelte/elements";
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
 
 /**
  * Button variants configuration using CVA.
@@ -33,9 +33,9 @@ const buttonVariants = cva(
                 icon: "h-10 w-10",
             },
             radius: {
-                brutalist: "btn-brutalist rounded-none tracking-[0.1em]",
-                soft: "btn-brutalist-soft rounded-[6px] tracking-[0.1em]",
-                rounded: "btn-brutalist-rounded rounded-[12px] tracking-[0.1em]",
+                brutalist: `btn-brutalist ${RADIUS.brutalist} tracking-brutalist`,
+                soft: `btn-brutalist-soft ${RADIUS.soft} tracking-brutalist`,
+                rounded: `btn-brutalist-rounded ${RADIUS.rounded} tracking-brutalist`,
             },
         },
         defaultVariants: {
@@ -52,7 +52,7 @@ type Props = HTMLButtonAttributes &
          * Button radius style: brutalist (sharp), soft (6px), or rounded (12px).
          * @default "brutalist"
          */
-        radius?: "brutalist" | "soft" | "rounded";
+        radius?: Radius;
 
         /**
          * If provided, renders as an anchor tag (`<a>`) instead of a button.

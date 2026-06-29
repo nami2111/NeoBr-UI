@@ -40,7 +40,7 @@
                 <button
                     aria-label="Minimize"
                     onclick={onMinimize}
-                    class="border-foreground bg-background hover:bg-muted text-foreground flex h-5 w-5 items-center justify-center border-2 text-[10px] font-bold shadow-brutalist transition-all active:translate-y-[2px] active:shadow-none"
+                    class="border-foreground bg-background hover:bg-muted text-foreground flex h-5 w-5 items-center justify-center border-2 text-[10px] font-bold shadow-brutalist transition-all active:translate-y-[var(--press-brutalist-sm)] active:shadow-none"
                 >
                     —
                 </button>
@@ -49,7 +49,7 @@
                 <button
                     aria-label="Maximize"
                     onclick={onMaximize}
-                    class="border-foreground bg-background hover:bg-muted text-foreground flex h-5 w-5 items-center justify-center border-2 text-[10px] font-bold shadow-brutalist transition-all active:translate-y-[2px] active:shadow-none"
+                    class="border-foreground bg-background hover:bg-muted text-foreground flex h-5 w-5 items-center justify-center border-2 text-[10px] font-bold shadow-brutalist transition-all active:translate-y-[var(--press-brutalist-sm)] active:shadow-none"
                 >
                     □
                 </button>
@@ -58,7 +58,7 @@
                 <button
                     aria-label="Close"
                     onclick={onClose}
-                    class="border-foreground bg-destructive text-destructive-foreground hover:bg-destructive-hover flex h-5 w-5 items-center justify-center border-2 text-[10px] font-bold shadow-brutalist transition-all active:translate-y-[2px] active:shadow-none"
+                    class="border-foreground bg-destructive text-destructive-foreground hover:bg-destructive-hover flex h-5 w-5 items-center justify-center border-2 text-[10px] font-bold shadow-brutalist transition-all active:translate-y-[var(--press-brutalist-sm)] active:shadow-none"
                 >
                     ✕
                 </button>

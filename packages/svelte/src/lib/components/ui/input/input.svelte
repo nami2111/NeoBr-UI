@@ -7,7 +7,7 @@
      * <Input placeholder="Enter your email" type="email" bind:value={email} />
      * ```
      */
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
     import type { HTMLInputAttributes } from "svelte/elements";
     import { getFormItemContext } from "../form/form-context";
 
@@ -24,6 +24,11 @@
          * @default false
          */
         error?: boolean | string;
+        /**
+         * Corner radius: brutalist (sharp), soft (6px), or rounded (12px).
+         * @default "brutalist"
+         */
+        radius?: Radius;
     };
 
     let {
@@ -31,6 +36,7 @@
         type = "text",
         value = $bindable(""),
         error = false,
+        radius = "brutalist",
         ...rest
     }: Props = $props();
 
@@ -43,6 +49,7 @@
     bind:value
     class={cn(
         "input-brutalist",
+        RADIUS[radius],
         hasError &&
             "border-destructive text-destructive placeholder:text-destructive/60 bg-destructive/5",
         className,

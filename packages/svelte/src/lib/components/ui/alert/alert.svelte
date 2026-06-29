@@ -1,6 +1,6 @@
 <script lang="ts">
     import { cva, type VariantProps } from "class-variance-authority";
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
     import type { HTMLAttributes } from "svelte/elements";
 
     /**
@@ -24,14 +24,15 @@
                     destructive:
                         "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive bg-destructive/10",
                 },
-                brutalist: {
-                    true: "rounded-brutalist shadow-brutalist",
-                    false: "rounded-lg",
+                radius: {
+                    brutalist: `${RADIUS.brutalist} shadow-brutalist`,
+                    soft: `${RADIUS.soft} shadow-brutalist`,
+                    rounded: `${RADIUS.rounded} shadow-brutalist`,
                 },
             },
             defaultVariants: {
                 variant: "default",
-                brutalist: true,
+                radius: "brutalist",
             },
         },
     );
@@ -39,22 +40,22 @@
     type Props = HTMLAttributes<HTMLDivElement> &
         VariantProps<typeof alertVariants> & {
             /**
-             * Enable Neo-Brutalist styling.
-             * @default true
+             * Corner radius: brutalist (sharp), soft (6px), or rounded (12px).
+             * @default "brutalist"
              */
-            brutalist?: boolean;
+            radius?: Radius;
             children?: import("svelte").Snippet;
         };
 
     let {
         class: className,
         variant = "default",
-        brutalist = true,
+        radius = "brutalist",
         children,
         ...rest
     }: Props = $props();
 </script>
 
-<div role="alert" class={cn(alertVariants({ variant, brutalist, className }))} {...rest}>
+<div role="alert" class={cn(alertVariants({ variant, radius, className }))} {...rest}>
     {@render children?.()}
 </div>

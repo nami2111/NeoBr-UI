@@ -22,11 +22,11 @@
         </section>
 
         <section class="space-y-4">
-            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Brutalist Style</h2>
-            <CodePreview code={`<Switch brutalist={true} />`}>
+            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Radius</h2>
+            <CodePreview code={`<Switch radius="rounded" />`}>
                 <div class="flex items-center space-x-2">
-                    <Switch id="brutalist-switch" brutalist={true} />
-                    <Label for="brutalist-switch">Brutalist Mode</Label>
+                    <Switch id="rounded-switch" radius="rounded" />
+                    <Label for="rounded-switch">Rounded Mode</Label>
                 </div>
             </CodePreview>
         </section>

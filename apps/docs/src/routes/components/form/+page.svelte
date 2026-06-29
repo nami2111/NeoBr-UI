@@ -184,7 +184,7 @@
         <section class="space-y-4">
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">API Reference</h2>
             <div class="space-y-4">
-                <div class="border-2 border-border rounded-brutalist p-4 bg-card">
+                <div class="border-foreground bg-card rounded-brutalist border-2 p-4">
                     <h3 class="font-bold text-lg">createFormState(options)</h3>
                     <p class="text-muted-foreground mt-2">Creates a reactive form state with Zod validation.</p>
                     <h4 class="font-semibold mt-4">Options</h4>

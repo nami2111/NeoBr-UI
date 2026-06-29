@@ -18,7 +18,7 @@
 </script>
 
 {#snippet defaultFallback(error: unknown, reset: () => void)}
-    <Alert variant="destructive" brutalist={true} class="my-4">
+    <Alert variant="destructive" class="my-4">
         <Icon icon={AlertCircleIcon} class="h-4 w-4" />
         <AlertTitle>Error</AlertTitle>
         <AlertDescription>

@@ -59,14 +59,6 @@ describe("Link component", () => {
         expect(link).toHaveClass("tracking-brutalist");
     });
 
-    it("removes brutalist styling when brutalist is false", () => {
-        render(Link, {
-            props: { href: "/", brutalist: false, children: text("Normal") },
-        });
-        const link = screen.getByRole("link");
-        expect(link).not.toHaveClass("tracking-brutalist");
-    });
-
     it("applies custom className", () => {
         render(Link, {
             props: { href: "/", class: "custom-link", children: text("Custom") },

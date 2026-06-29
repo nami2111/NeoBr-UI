@@ -1,16 +1,18 @@
 <script lang="ts">
     import { Select } from "bits-ui";
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
 
     type Props = Omit<Select.TriggerProps, "children"> & {
         class?: string;
         placeholder?: string;
+        radius?: Radius;
         children?: import("svelte").Snippet<[]>;
     };
 
     let {
         class: className,
         placeholder = "Select an option",
+        radius = "brutalist",
         children: triggerChildren,
         ...rest
     }: Props = $props();
@@ -18,7 +20,8 @@
 
 <Select.Trigger
     class={cn(
-        "rounded-brutalist border-foreground bg-background shadow-brutalist hover:shadow-brutalist-hover focus-visible:ring-ring group flex h-12 w-full cursor-pointer items-center justify-between border-2 px-4 py-2 text-sm font-bold transition-all hover:-translate-y-[2px] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=open]:rotate-0",
+        "border-foreground bg-background shadow-brutalist hover:shadow-brutalist-hover focus-visible:ring-ring group flex h-12 w-full cursor-pointer items-center justify-between border-2 px-4 py-2 text-sm font-bold transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+        RADIUS[radius],
         className,
     )}
     {...rest}

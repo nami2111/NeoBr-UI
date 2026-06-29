@@ -107,9 +107,10 @@ Styling is handled via Tailwind CSS v4 with OKLCH color tokens defined in the `@
 @theme {
     --color-primary: oklch(78.5% 0.08 270);
     --color-secondary: oklch(81.5% 0.12 45);
-    --font-neobr-sans: "JetBrains Mono", monospace;
     --font-neobr-mono: "JetBrains Mono", monospace;
     --radius-brutalist-soft: 8px;
+    --lift-brutalist: 2px;
+    --press-brutalist: 5px;
 }
 
 .dark {
@@ -119,16 +120,17 @@ Styling is handled via Tailwind CSS v4 with OKLCH color tokens defined in the `@
 
 ### Key Tokens
 
-| Token                | Default           | Description            |
-| -------------------- | ----------------- | ---------------------- |
-| `--color-primary`    | Lavender OKLCH    | Primary action color   |
-| `--color-secondary`  | Peach OKLCH       | Secondary accent color |
-| `--color-foreground` | Dark OKLCH        | Text and borders       |
-| `--color-background` | Light OKLCH       | Page background        |
-| `--font-neobr-sans`  | JetBrains Mono    | Optional NeoBr UI font |
+| Token                | Default           | Description              |
+| -------------------- | ----------------- | ------------------------ |
+| `--color-primary`    | Lavender OKLCH    | Primary action color     |
+| `--color-secondary`  | Peach OKLCH       | Secondary accent color   |
+| `--color-foreground` | Dark OKLCH        | Text and borders         |
+| `--color-background` | Light OKLCH       | Page background          |
 | `--font-neobr-mono`  | JetBrains Mono    | Optional NeoBr mono font |
-| `--radius-brutalist` | `0px`             | Sharp brutalist radius |
-| `--shadow-brutalist` | `0px 5px 0px 0px` | Centered bottom shadow |
+| `--radius-brutalist` | `0px`             | Sharp brutalist radius   |
+| `--shadow-brutalist` | `0px 5px 0px 0px` | Centered bottom shadow   |
+| `--lift-brutalist`   | `2px`             | Hover lift distance      |
+| `--press-brutalist`  | `5px`             | Active press distance    |
 
 ### Utility Classes
 
