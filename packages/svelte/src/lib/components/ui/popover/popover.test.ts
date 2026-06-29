@@ -26,6 +26,11 @@ describe("Popover component", () => {
         expect(trigger).toBeInTheDocument();
     });
 
+    test("does not wrap a button trigger in another button", () => {
+        const { container } = render(PopoverTestWrapper);
+        expect(container.querySelector("button button")).not.toBeInTheDocument();
+    });
+
     test("popover content is hidden by default", () => {
         render(PopoverTestWrapper);
         expect(screen.queryByText("Popover content")).not.toBeInTheDocument();

@@ -3,11 +3,18 @@
     import { TRANSITION_BRUTALIST_FAST } from "../../../utils/motion";
     import { useOverlayController } from "../../../utils/overlay.svelte";
     import { fade } from "svelte/transition";
+    import type { Snippet } from "svelte";
+    import type { HTMLButtonAttributes } from "svelte/elements";
+
+    type TriggerProps = Pick<
+        HTMLButtonAttributes,
+        "onclick" | "aria-haspopup" | "aria-expanded"
+    >;
 
     type Props = {
         open?: boolean;
-        trigger?: import("svelte").Snippet;
-        children?: import("svelte").Snippet;
+        trigger?: Snippet<[TriggerProps]>;
+        children?: Snippet;
         class?: string;
         contentClass?: string;
         contentLabel?: string;
@@ -26,6 +33,12 @@
         open = !open;
     }
 
+    const triggerProps = $derived({
+        onclick: toggle,
+        "aria-haspopup": "dialog" as const,
+        "aria-expanded": open,
+    });
+
     function close() {
         open = false;
     }
@@ -40,15 +53,7 @@
 <svelte:window onkeydown={overlay.handleKeydown} />
 
 <div class={cn("relative inline-block text-left", className)}>
-    <button
-        type="button"
-        onclick={toggle}
-        class="cursor-pointer"
-        aria-haspopup="dialog"
-        aria-expanded={open}
-    >
-        {@render trigger?.()}
-    </button>
+    {@render trigger?.(triggerProps)}
 
     {#if open}
         <div
