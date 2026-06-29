@@ -143,3 +143,8 @@ Styling is handled via Tailwind CSS v4 with OKLCH color tokens defined in the `@
 | `rounded-brutalist`   | `border-radius: 0px`                             |
 | `shadow-brutalist`    | Centered bottom shadow                           |
 | `tracking-brutalist`  | `letter-spacing: 0.1em`                          |
+
+Component defaults are emitted as composable Tailwind classes through `cn()`, so consumer
+classes such as `rounded-lg`, `shadow-none`, `border-0`, or `p-2` override the defaults.
+The `*-brutalist` utilities remain available for app markup, but components avoid relying on
+bundled utilities where that would make overrides ambiguous.

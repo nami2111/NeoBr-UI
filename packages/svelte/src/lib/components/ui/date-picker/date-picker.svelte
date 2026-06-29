@@ -31,7 +31,7 @@
         <div class={cn("relative w-full", className)}>
             <DatePickerPrimitive.Input
                 class={cn(
-                    "input-brutalist focus-within:shadow-brutalist-hover flex h-10 w-full items-center px-3 transition-all",
+                    "border-foreground bg-background focus-within:shadow-brutalist-hover flex h-10 w-full items-center border-2 px-3 py-2 text-sm font-bold shadow-inner transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
                     RADIUS[radius],
                     className,
                 )}
@@ -64,7 +64,7 @@
                 {#snippet children({ months, weekdays })}
                     <DatePickerPrimitive.Header class="flex items-center justify-between pb-4">
                         <DatePickerPrimitive.PrevButton
-                            class="btn-brutalist rounded-brutalist flex h-8 w-8 items-center justify-center p-0"
+                            class="border-foreground shadow-brutalist hover:shadow-brutalist-hover rounded-brutalist flex h-8 w-8 cursor-pointer items-center justify-center border-2 p-0 transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none"
                         >
                             <Icon icon={ArrowLeft01Icon} class="h-4 w-4" />
                         </DatePickerPrimitive.PrevButton>
@@ -72,7 +72,7 @@
                             class="text-sm font-black tracking-tighter uppercase"
                         />
                         <DatePickerPrimitive.NextButton
-                            class="btn-brutalist rounded-brutalist flex h-8 w-8 items-center justify-center p-0"
+                            class="border-foreground shadow-brutalist hover:shadow-brutalist-hover rounded-brutalist flex h-8 w-8 cursor-pointer items-center justify-center border-2 p-0 transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none"
                         >
                             <Icon icon={ArrowRight01Icon} class="h-4 w-4" />
                         </DatePickerPrimitive.NextButton>

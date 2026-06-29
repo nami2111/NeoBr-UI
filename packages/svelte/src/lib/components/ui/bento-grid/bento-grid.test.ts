@@ -22,9 +22,9 @@ describe("BentoGrid component", () => {
         expect(screen.getByText("Test description")).toBeInTheDocument();
     });
 
-    it("renders grid item with card-brutalist class", () => {
+    it("renders grid item with brutalist card styling", () => {
         const { container } = render(BentoGridTestWrapper);
-        const item = container.querySelector(".card-brutalist");
+        const item = container.querySelector(".rounded-brutalist.border-2");
         expect(item).toBeInTheDocument();
     });
 

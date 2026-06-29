@@ -104,7 +104,7 @@
         <div
             {@attach overlay.content}
             class={cn(
-                "card-brutalist relative w-full overflow-auto p-6 outline-none",
+                "bg-card text-card-foreground border-foreground shadow-brutalist rounded-brutalist relative w-full overflow-auto border-2 p-6 outline-none",
                 sizeClasses[size],
             )}
             style="z-index: var(--z-modal)"
@@ -119,7 +119,7 @@
                         </h2>
                     {/if}
                     <button
-                        class="btn-brutalist hover:bg-accent rounded-brutalist p-1 transition-all"
+                        class="border-foreground shadow-brutalist hover:shadow-brutalist-hover hover:bg-accent rounded-brutalist cursor-pointer border-2 p-1 transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none"
                         onclick={handleClose}
                         aria-label="Close modal"
                     >

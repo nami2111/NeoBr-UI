@@ -18,7 +18,7 @@ describe("DatePicker component", () => {
 
     it("renders input segments", () => {
         const { container } = render(DatePicker);
-        const inputWrapper = container.querySelector(".input-brutalist");
+        const inputWrapper = container.querySelector(".rounded-brutalist.border-2");
         expect(inputWrapper).toBeInTheDocument();
     });
 

@@ -70,9 +70,9 @@ describe("Window component", () => {
         expect(screen.queryByRole("button", { name: /maximize/i })).not.toBeInTheDocument();
     });
 
-    test("applies container-brutalist class", () => {
+    test("applies brutalist container styling", () => {
         const { container } = render(Window, { props: { children } });
-        const windowEl = container.querySelector(".container-brutalist");
+        const windowEl = container.querySelector(".rounded-brutalist.border-2");
         expect(windowEl).toBeInTheDocument();
     });
 

@@ -4,9 +4,9 @@ import Calendar from "./calendar.svelte";
 import { CalendarDate, today, getLocalTimeZone } from "@internationalized/date";
 
 describe("Calendar component", () => {
-    it("renders with container-brutalist class", () => {
+    it("renders with brutalist container styling", () => {
         const { container } = render(Calendar);
-        const calendar = container.querySelector(".container-brutalist");
+        const calendar = container.querySelector(".rounded-brutalist.border-2");
         expect(calendar).toBeInTheDocument();
     });
 

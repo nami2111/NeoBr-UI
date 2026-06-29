@@ -16,7 +16,8 @@ describe("Textarea component", () => {
         render(Textarea, { props: { placeholder: "Test textarea" } });
         const textarea = screen.getByPlaceholderText("Test textarea");
         expect(textarea).toBeInTheDocument();
-        expect(textarea).toHaveClass("input-brutalist");
+        expect(textarea).toHaveClass("border-2");
+        expect(textarea).toHaveClass("rounded-brutalist");
     });
 
     test("handles value binding", async () => {
@@ -49,7 +50,7 @@ describe("Textarea component", () => {
         });
         const textarea = screen.getByPlaceholderText("Custom");
         expect(textarea).toHaveClass("custom-textarea");
-        expect(textarea).toHaveClass("input-brutalist");
+        expect(textarea).toHaveClass("border-2");
     });
 
     test("supports rows attribute", () => {

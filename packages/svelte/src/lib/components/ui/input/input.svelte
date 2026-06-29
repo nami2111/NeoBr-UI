@@ -48,7 +48,7 @@
     {type}
     bind:value
     class={cn(
-        "input-brutalist",
+        "border-foreground bg-background h-10 w-full border-2 px-3 py-2 text-sm font-bold shadow-inner transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
         RADIUS[radius],
         hasError &&
             "border-destructive text-destructive placeholder:text-destructive/60 bg-destructive/5",

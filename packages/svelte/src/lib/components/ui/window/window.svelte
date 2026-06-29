@@ -29,7 +29,13 @@
     }: Props = $props();
 </script>
 
-<div class={cn("container-brutalist overflow-hidden p-0", className)} {...rest}>
+<div
+    class={cn(
+        "bg-background border-foreground shadow-brutalist rounded-brutalist overflow-hidden border-2 p-0",
+        className,
+    )}
+    {...rest}
+>
     <!-- Title Bar -->
     <div class="border-foreground bg-primary flex items-center justify-between border-b-2 p-2 px-3">
         <div class="flex items-center gap-2">

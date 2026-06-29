@@ -3,8 +3,11 @@ import { cn } from "./utils";
 
 describe("cn", () => {
     it("lets consumer radius and shadow classes override brutalist utilities", () => {
-        expect(cn("rounded-brutalist shadow-brutalist", "rounded-lg shadow-none")).toBe(
-            "rounded-lg shadow-none",
-        );
+        expect(
+            cn(
+                "rounded-brutalist shadow-brutalist border-2 p-6",
+                "rounded-lg shadow-none border-0 p-2",
+            ),
+        ).toBe("rounded-lg shadow-none border-0 p-2");
     });
 });
