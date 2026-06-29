@@ -5,8 +5,8 @@ import Loading from "./loading.svelte";
 describe("Loading", () => {
     it("renders correctly with default props", () => {
         const { container } = render(Loading);
-        const svg = container.querySelector("svg");
-        expect(svg).toBeInTheDocument();
+        const blocks = container.querySelectorAll(".animate-neobr-tail");
+        expect(blocks).toHaveLength(4);
         // and has default classes
         expect(container.firstChild).toHaveClass("text-primary");
         expect(container.firstChild).toHaveClass("h-6");

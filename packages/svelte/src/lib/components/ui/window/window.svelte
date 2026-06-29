@@ -1,6 +1,8 @@
 <script lang="ts">
     import { cn } from "../../../utils";
     import type { HTMLAttributes } from "svelte/elements";
+    import Icon from "../icon/icon.svelte";
+    import { Cancel01Icon, MinusSignIcon, SquareIcon } from "@hugeicons/core-free-icons";
 
     interface Props extends HTMLAttributes<HTMLDivElement> {
         title?: string;
@@ -42,7 +44,7 @@
                     onclick={onMinimize}
                     class="border-foreground bg-background hover:bg-muted text-foreground flex h-5 w-5 items-center justify-center border-2 text-[10px] font-bold shadow-brutalist transition-all active:translate-y-[var(--press-brutalist-sm)] active:shadow-none"
                 >
-                    —
+                    <Icon icon={MinusSignIcon} size={12} strokeWidth={3} />
                 </button>
             {/if}
             {#if maximizable}
@@ -51,7 +53,7 @@
                     onclick={onMaximize}
                     class="border-foreground bg-background hover:bg-muted text-foreground flex h-5 w-5 items-center justify-center border-2 text-[10px] font-bold shadow-brutalist transition-all active:translate-y-[var(--press-brutalist-sm)] active:shadow-none"
                 >
-                    □
+                    <Icon icon={SquareIcon} size={12} strokeWidth={3} />
                 </button>
             {/if}
             {#if closable}
@@ -60,7 +62,7 @@
                     onclick={onClose}
                     class="border-foreground bg-destructive text-destructive-foreground hover:bg-destructive-hover flex h-5 w-5 items-center justify-center border-2 text-[10px] font-bold shadow-brutalist transition-all active:translate-y-[var(--press-brutalist-sm)] active:shadow-none"
                 >
-                    ✕
+                    <Icon icon={Cancel01Icon} size={12} strokeWidth={3} />
                 </button>
             {/if}
         </div>

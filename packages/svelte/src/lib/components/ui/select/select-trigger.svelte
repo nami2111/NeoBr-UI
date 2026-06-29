@@ -1,6 +1,8 @@
 <script lang="ts">
     import { Select } from "bits-ui";
     import { cn, RADIUS, type Radius } from "../../../utils";
+    import Icon from "../icon/icon.svelte";
+    import { ChevronDown } from "@hugeicons/core-free-icons";
 
     type Props = Omit<Select.TriggerProps, "children"> & {
         class?: string;
@@ -39,18 +41,10 @@
             {/if}
         {/snippet}
     </Select.Value>
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="3"
-        stroke-linecap="square"
-        stroke-linejoin="miter"
-        class={cn("transition-transform duration-200 group-data-[state=open]:rotate-180")}
-    >
-        <polyline points="6 9 12 15 18 9" />
-    </svg>
+    <Icon
+        icon={ChevronDown}
+        size={16}
+        strokeWidth={3}
+        class="transition-transform duration-200 group-data-[state=open]:rotate-180"
+    />
 </Select.Trigger>

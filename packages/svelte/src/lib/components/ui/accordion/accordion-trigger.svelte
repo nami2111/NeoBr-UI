@@ -1,6 +1,8 @@
 <script lang="ts">
     import { Accordion } from "bits-ui";
     import { cn } from "../../../utils";
+    import Icon from "../icon/icon.svelte";
+    import { ChevronDown } from "@hugeicons/core-free-icons";
 
     type Props = Accordion.TriggerProps & {
         class?: string;
@@ -19,21 +21,10 @@
         {...rest}
     >
         {@render children?.()}
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="3"
-            stroke-linecap="square"
-            stroke-linejoin="miter"
-            class={cn(
-                "h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180",
-            )}
-        >
-            <path d="m6 9 6 6 6-6" />
-        </svg>
+        <Icon
+            icon={ChevronDown}
+            strokeWidth={3}
+            class="h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180"
+        />
     </Accordion.Trigger>
 </Accordion.Header>
