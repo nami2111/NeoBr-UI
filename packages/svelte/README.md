@@ -148,3 +148,5 @@ Component defaults are emitted as composable Tailwind classes through `cn()`, so
 classes such as `rounded-lg`, `shadow-none`, `border-0`, or `p-2` override the defaults.
 The `*-brutalist` utilities remain available for app markup, but components avoid relying on
 bundled utilities where that would make overrides ambiguous.
+Box utilities such as `card-brutalist` and `container-brutalist` do not include padding; add
+spacing explicitly where needed.

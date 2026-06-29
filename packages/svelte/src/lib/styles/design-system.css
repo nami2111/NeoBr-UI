@@ -264,7 +264,7 @@
 }
 
 @utility container-brutalist {
-    @apply bg-background border-foreground shadow-brutalist border-2 p-6;
+    @apply bg-background border-foreground shadow-brutalist border-2;
     border-radius: var(--radius-brutalist);
 }
 
