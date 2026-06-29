@@ -8,7 +8,7 @@
  * Defines styles for different visual variants, sizes, and the brutalist theme.
  */
 const buttonVariants = cva(
-    "border-foreground shadow-brutalist hover:shadow-brutalist-hover inline-flex cursor-pointer items-center justify-center border-2 text-sm font-bold whitespace-nowrap transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+    "border-foreground shadow-brutalist hover:shadow-brutalist-hover tracking-brutalist inline-flex cursor-pointer items-center justify-center border-2 text-sm font-bold whitespace-nowrap transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
     {
         variants: {
             variant: {
@@ -30,9 +30,9 @@ const buttonVariants = cva(
                 icon: "h-10 w-10",
             },
             radius: {
-                brutalist: `${RADIUS.brutalist} tracking-brutalist`,
-                soft: `${RADIUS.soft} tracking-brutalist`,
-                rounded: `${RADIUS.rounded} tracking-brutalist`,
+                brutalist: RADIUS.brutalist,
+                soft: RADIUS.soft,
+                rounded: RADIUS.rounded,
             },
         },
         defaultVariants: {
