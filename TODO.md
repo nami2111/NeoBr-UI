@@ -42,7 +42,7 @@ Reference: analysis sections are cited as `(§N)`.
 
 ---
 
-## Phase 2 — Consistency (turn a component set into a design system)
+## Phase 2 — Consistency (turn a component set into a design system) ✅ SHIPPED
 
 ### 2.1 Unify the radius API `(§3)`
 
@@ -101,7 +101,7 @@ Reference: analysis sections are cited as `(§N)`.
 
 ---
 
-## Phase 3 — Polish (cleanup, convergence, packaging)
+## Phase 3 — Polish (cleanup, convergence, packaging) ✅ SHIPPED
 
 ### 3.1 Progress animation into design-system.css `(§4f)`
 
@@ -161,7 +161,7 @@ Reference: analysis sections are cited as `(§N)`.
 - **How**:
   - Add `"sideEffects": ["**/*.css"]` to `packages/svelte/package.json` → bundlers tree-shake the JS barrel.
   - `packages/tailwind-preset` is an empty dir (no `package.json`) — either build it or remove it from `pnpm-workspace.yaml`.
-  - Remove `src/app.html` (app-template scaffold leftover in a library package).
+  - Keep `src/app.html`: `svelte-kit sync`, `svelte-check`, and `svelte-package` require it in the current library tooling.
   - Expand README "Design Tokens" table to document all tokens actually defined (`--separator-width`, `--font-*`, `--color-shadow-color`, `--animate-*`, full z-index scale incl. backdrops) — or auto-generate the table from the CSS.
 - **Done**: `sideEffects` set; empty preset package resolved; README token table matches the CSS 1:1.
 
