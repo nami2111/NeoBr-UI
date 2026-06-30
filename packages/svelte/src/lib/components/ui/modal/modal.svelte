@@ -83,8 +83,7 @@
 
 {#if open}
     <div
-        class="fixed inset-0 flex items-center justify-center p-4"
-        style="z-index: var(--z-modal)"
+        class="z-modal fixed inset-0 flex items-center justify-center p-4"
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
@@ -92,8 +91,7 @@
         <!-- Backdrop -->
         <button
             type="button"
-            class="bg-foreground/30 fixed inset-0 border-0 p-0 backdrop-blur-sm"
-            style="z-index: var(--z-modal-backdrop)"
+            class="z-modal-backdrop bg-foreground/30 fixed inset-0 border-0 p-0 backdrop-blur-sm"
             transition:fade={TRANSITION_BRUTALIST_BACKDROP}
             onclick={handleClose}
             tabindex="-1"
@@ -104,10 +102,9 @@
         <div
             {@attach overlay.content}
             class={cn(
-                "bg-card text-card-foreground border-foreground shadow-brutalist rounded-brutalist relative w-full overflow-auto border-2 p-6 outline-none",
+                "z-modal bg-card text-card-foreground border-foreground shadow-brutalist rounded-brutalist relative w-full overflow-auto border-2 p-6 outline-none",
                 sizeClasses[size],
             )}
-            style="z-index: var(--z-modal)"
             transition:fly={{ y: 20, ...TRANSITION_BRUTALIST_SLOW }}
             tabindex="-1"
         >

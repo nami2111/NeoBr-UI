@@ -289,6 +289,54 @@
     border-radius: var(--radius-brutalist-rounded);
 }
 
+@utility z-dropdown-backdrop {
+    z-index: var(--z-dropdown-backdrop);
+}
+
+@utility z-dropdown {
+    z-index: var(--z-dropdown);
+}
+
+@utility z-select-backdrop {
+    z-index: var(--z-select-backdrop);
+}
+
+@utility z-select {
+    z-index: var(--z-select);
+}
+
+@utility z-modal-backdrop {
+    z-index: var(--z-modal-backdrop);
+}
+
+@utility z-modal {
+    z-index: var(--z-modal);
+}
+
+@utility z-sheet-backdrop {
+    z-index: var(--z-sheet-backdrop);
+}
+
+@utility z-sheet {
+    z-index: var(--z-sheet);
+}
+
+@utility z-popover-backdrop {
+    z-index: var(--z-popover-backdrop);
+}
+
+@utility z-popover {
+    z-index: var(--z-popover);
+}
+
+@utility z-tooltip {
+    z-index: var(--z-tooltip);
+}
+
+@utility z-toast {
+    z-index: var(--z-toast);
+}
+
 @utility input-brutalist {
     @apply border-foreground bg-background h-10 w-full border-2 px-3 py-2 text-sm font-bold shadow-inner transition-colors;
     @apply focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none;

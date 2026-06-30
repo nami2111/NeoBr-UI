@@ -51,12 +51,11 @@
     bind:clientHeight={bodyHeight}
     class="bg-background text-foreground flex min-h-screen flex-col overflow-x-hidden"
 >
-    <a href="#content" class="skip-link">Skip To Content</a>
+    <a href="#content" class="skip-link z-toast">Skip To Content</a>
 
     <!-- Scroll Progress -->
     <div
-        class="bg-primary/20 sticky top-0 h-1 w-full overflow-hidden"
-        style="z-index: var(--z-popover)"
+        class="z-popover bg-primary/20 sticky top-0 h-1 w-full overflow-hidden"
     >
         <div
             class="bg-primary h-full transition-all duration-150 ease-out"
@@ -66,8 +65,7 @@
 
     <!-- Header -->
     <header
-        class="border-foreground bg-background/95 sticky top-0 flex h-16 items-center justify-between border-b-2 px-4 backdrop-blur-md md:px-6"
-        style="z-index: var(--z-modal)"
+        class="z-modal border-foreground bg-background/95 sticky top-0 flex h-16 items-center justify-between border-b-2 px-4 backdrop-blur-md md:px-6"
     >
         <div class="flex min-w-0 items-center gap-3 md:gap-4">
             {#if showSidebar}
@@ -139,15 +137,13 @@
             {#if isMobileMenuOpen}
                 <button
                     type="button"
-                    class="fixed inset-0 bg-black/50"
-                    style="z-index: var(--z-sheet-backdrop)"
+                    class="z-sheet-backdrop fixed inset-0 bg-black/50"
                     aria-label="Close mobile navigation"
                     onclick={closeMobileMenu}
                 ></button>
                 <div
                     id="mobile-navigation"
-                    class="bg-background fixed inset-y-0 left-0 w-72 max-w-[85vw]"
-                    style="z-index: var(--z-sheet)"
+                    class="z-sheet bg-background fixed inset-y-0 left-0 w-72 max-w-[85vw]"
                 >
                     <Sidebar class="h-full" />
                 </div>

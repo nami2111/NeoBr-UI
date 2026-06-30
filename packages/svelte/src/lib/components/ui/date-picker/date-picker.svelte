@@ -57,8 +57,7 @@
         </div>
         <DatePickerPrimitive.Content
             sideOffset={6}
-            class="border-foreground bg-background shadow-brutalist rounded-brutalist mt-2 border-2 p-4"
-            style="z-index: var(--z-popover)"
+            class="z-popover border-foreground bg-background shadow-brutalist rounded-brutalist mt-2 border-2 p-4"
         >
             <DatePickerPrimitive.Calendar>
                 {#snippet children({ months, weekdays })}

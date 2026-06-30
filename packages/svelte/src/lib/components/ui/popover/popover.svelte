@@ -59,10 +59,9 @@
         <div
             {@attach overlay.content}
             class={cn(
-                "border-foreground bg-background shadow-brutalist rounded-brutalist absolute mt-2 min-w-[200px] border-2 p-4",
+                "z-popover border-foreground bg-background shadow-brutalist rounded-brutalist absolute mt-2 min-w-[200px] border-2 p-4",
                 contentClass,
             )}
-            style="z-index: var(--z-popover)"
             transition:fade={TRANSITION_BRUTALIST_FAST}
             role="dialog"
             aria-label={contentLabel}
@@ -70,8 +69,7 @@
             {@render children?.()}
         </div>
         <div
-            class="fixed inset-0"
-            style="z-index: var(--z-popover-backdrop)"
+            class="z-popover-backdrop fixed inset-0"
             onclick={close}
             role="presentation"
         ></div>

@@ -71,15 +71,11 @@
 <svelte:window onkeydown={overlay.handleKeydown} />
 
 {#if open}
-    <div
-        class="fixed inset-0 flex items-center justify-center"
-        style="z-index: var(--z-sheet)"
-    >
+    <div class="z-sheet fixed inset-0 flex items-center justify-center">
         <!-- Backdrop -->
         <button
             type="button"
-            class="bg-foreground/30 fixed inset-0 border-0 p-0 backdrop-blur-sm transition-opacity"
-            style="z-index: var(--z-sheet-backdrop)"
+            class="z-sheet-backdrop bg-foreground/30 fixed inset-0 border-0 p-0 backdrop-blur-sm transition-opacity"
             transition:fade={TRANSITION_BRUTALIST_BACKDROP}
             onclick={handleClose}
             tabindex="-1"
@@ -90,11 +86,10 @@
         <div
             {@attach overlay.content}
             class={cn(
-                "bg-background shadow-brutalist border-foreground fixed flex flex-col gap-4 p-6 transition-all outline-none",
+                "z-sheet bg-background shadow-brutalist border-foreground fixed flex flex-col gap-4 p-6 transition-all outline-none",
                 sideClasses,
                 className,
             )}
-            style="z-index: var(--z-sheet)"
             transition:fly={flyParams}
             role="dialog"
             aria-modal="true"

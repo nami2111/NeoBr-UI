@@ -65,11 +65,10 @@
             id={tooltipId}
             role="tooltip"
             class={cn(
-                "border-foreground bg-foreground text-background shadow-brutalist pointer-events-none absolute rounded-brutalist border-2 px-3 py-1.5 text-xs font-bold whitespace-nowrap",
+                "z-tooltip border-foreground bg-foreground text-background shadow-brutalist pointer-events-none absolute rounded-brutalist border-2 px-3 py-1.5 text-xs font-bold whitespace-nowrap",
                 positions[position],
                 className,
             )}
-            style="z-index: var(--z-tooltip)"
             transition:scale={{ start: 0.9, ...TRANSITION_BRUTALIST }}
         >
             {content}

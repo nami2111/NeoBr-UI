@@ -71,8 +71,7 @@
     {#if open}
         <div
             {@attach overlay.content}
-            class="border-foreground bg-background shadow-brutalist rounded-brutalist absolute right-0 mt-2 w-56 origin-top-right border-2 focus-visible:outline-none"
-            style="z-index: var(--z-dropdown)"
+            class="z-dropdown border-foreground bg-background shadow-brutalist rounded-brutalist absolute right-0 mt-2 w-56 origin-top-right border-2 focus-visible:outline-none"
             transition:fade={TRANSITION_BRUTALIST_FAST}
             role="menu"
             aria-orientation="vertical"
@@ -82,8 +81,7 @@
             </div>
         </div>
         <div
-            class="fixed inset-0"
-            style="z-index: var(--z-dropdown-backdrop)"
+            class="z-dropdown-backdrop fixed inset-0"
             onclick={close}
             role="presentation"
         ></div>
