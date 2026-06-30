@@ -120,17 +120,20 @@ Styling is handled via Tailwind CSS v4 with OKLCH color tokens defined in the `@
 
 ### Key Tokens
 
-| Token                | Default           | Description              |
-| -------------------- | ----------------- | ------------------------ |
-| `--color-primary`    | Lavender OKLCH    | Primary action color     |
-| `--color-secondary`  | Peach OKLCH       | Secondary accent color   |
-| `--color-foreground` | Dark OKLCH        | Text and borders         |
-| `--color-background` | Light OKLCH       | Page background          |
-| `--font-neobr-mono`  | JetBrains Mono    | Optional NeoBr mono font |
-| `--radius-brutalist` | `0px`             | Sharp brutalist radius   |
-| `--shadow-brutalist` | `0px 5px 0px 0px` | Centered bottom shadow   |
-| `--lift-brutalist`   | `2px`             | Hover lift distance      |
-| `--press-brutalist`  | `5px`             | Active press distance    |
+| Token family                                                                                                                                             | Default / values                        | Description                              |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ---------------------------------------- |
+| `--color-background`, `--color-foreground`                                                                                                               | Light and dark OKLCH surface/ink values | Page background, text, and borders       |
+| `--color-primary-*`, `--color-secondary-*`                                                                                                               | Lavender and peach OKLCH states         | Primary and secondary actions            |
+| `--color-destructive-*`, `--color-success-*`, `--color-warning-*`                                                                                        | Red, green, and yellow OKLCH states     | Semantic status colors                   |
+| `--color-muted-*`, `--color-accent-*`                                                                                                                    | Matching muted/accent OKLCH aliases     | shadcn-compatible muted/accent surfaces  |
+| `--color-ring`, `--color-card-*`, `--color-shadow-color`                                                                                                 | OKLCH ring, card, and shadow ink values | Focus rings, card surfaces, shadows      |
+| `--font-neobr-mono`                                                                                                                                      | `"JetBrains Mono", monospace`           | Optional NeoBr mono font                 |
+| `--radius-brutalist`, `--radius-brutalist-soft`, `--radius-brutalist-rounded`                                                                            | `0px`, `6px`, `12px`                    | Sharp, soft, and rounded component radii |
+| `--shadow-brutalist`, `--shadow-brutalist-hover`                                                                                                         | `0px 5px 0px 0px`, `0px 8px 0px 0px`    | Rest and hover shadows                   |
+| `--separator-width`                                                                                                                                      | `3px`                                   | Separator thickness                      |
+| `--lift-brutalist`, `--press-brutalist`, `--press-brutalist-sm`                                                                                          | `2px`, `5px`, `2px`                     | Hover lift and active press distances    |
+| `--z-select(-backdrop)`, `--z-dropdown(-backdrop)`, `--z-modal(-backdrop)`, `--z-sheet(-backdrop)`, `--z-popover(-backdrop)`, `--z-tooltip`, `--z-toast` | `38-100`                                | Layering scale and backdrop layers       |
+| `--animate-fade-in`, `--animate-slide-*`                                                                                                                 | `0.3s` fade/slide animations            | Public animation utilities               |
 
 ### Utility Classes
 

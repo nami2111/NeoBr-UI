@@ -1,5 +1,5 @@
 packages:
-    - "packages/*"
+    - "packages/svelte"
     - "apps/*"
 catalog:
     vite: npm:@voidzero-dev/vite-plus-core@latest

@@ -62,6 +62,9 @@
         "!dist/**/*-test.svelte*",
         "!dist/tests/**"
     ],
+    "sideEffects": [
+        "**/*.css"
+    ],
     "peerDependencies": {
         "svelte": ">=5.40.0 <6"
     },
