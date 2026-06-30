@@ -36,6 +36,40 @@
         </section>
 
         <section class="space-y-6">
+            <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">
+                Migrating to v2
+            </h2>
+            <div class="space-y-4 text-base leading-relaxed font-medium">
+                <p>
+                    Version 2 standardizes bordered components around the shared
+                    <code class="bg-muted border-foreground border px-1 font-bold">radius</code>
+                    prop. Replace removed
+                    <code class="bg-muted border-foreground border px-1 font-bold"
+                        >brutalist</code
+                    >
+                    boolean props with
+                    <code class="bg-muted border-foreground border px-1 font-bold"
+                        >radius="brutalist"</code
+                    >,
+                    <code class="bg-muted border-foreground border px-1 font-bold"
+                        >radius="soft"</code
+                    >, or
+                    <code class="bg-muted border-foreground border px-1 font-bold"
+                        >radius="rounded"</code
+                    >.
+                </p>
+                <p>
+                    Popover triggers now receive props and are no longer wrapped in an internal
+                    button. Use
+                    <code class="bg-muted border-foreground border px-1 font-bold"
+                        >{`{#snippet trigger(props)}`}</code
+                    >
+                    and spread those props onto the trigger element.
+                </p>
+            </div>
+        </section>
+
+        <section class="space-y-6">
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Key Features</h2>
             <ul class="grid grid-cols-1 gap-4 font-bold md:grid-cols-2">
                 <li class="flex items-center gap-3">

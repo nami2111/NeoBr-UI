@@ -11,10 +11,10 @@
 - **What**: Create a temporary app outside the package workspace and install `@neobr/svelte@2.0.0`.
 - **Why**: Internal tests do not prove published tarball exports, CSS imports, and peer dependency behavior.
 - **Check**:
-  - `import "@neobr/svelte/style"`
-  - `import { Button } from "@neobr/svelte"`
-  - `import { Button } from "@neobr/svelte/button"`
-  - Production build passes.
+    - `import "@neobr/svelte/style"`
+    - `import { Button } from "@neobr/svelte"`
+    - `import { Button } from "@neobr/svelte/button"`
+    - Production build passes.
 - **Done**: Clean app builds with the published package and no local workspace links.
 - **Result**: `test/consumer-smoke` installs `@neobr/svelte@2.0.0` from npm and `npm run build` passes.
 
@@ -27,7 +27,7 @@
 
 ---
 
-## Phase 2 — v2 Migration Docs
+## Phase 2 — v2 Migration Docs ✅ DONE
 
 ### 2.1 Document breaking API changes
 
@@ -35,8 +35,8 @@
 - **Why**: The release is major; consumers need direct migration examples.
 - **Where**: `packages/svelte/README.md`, `apps/docs/src/routes/docs/*`, and affected component pages.
 - **Must cover**:
-  - Replace removed `brutalist` boolean props with `radius="brutalist" | "soft" | "rounded"`.
-  - Use Popover trigger props:
+    - Replace removed `brutalist` boolean props with `radius="brutalist" | "soft" | "rounded"`.
+    - Use Popover trigger props:
 
 ```svelte
 {#snippet trigger(props)}
@@ -45,12 +45,14 @@
 ```
 
 - **Done**: Docs include a clear v1 to v2 migration section.
+- **Result**: `packages/svelte/README.md` and the docs introduction page include v2 migration guidance for `radius` and Popover trigger props.
 
 ### 2.2 Refresh component examples
 
 - **What**: Update component pages to show the current API and remove stale patterns.
 - **Why**: Docs should model the supported usage, not legacy compatibility.
 - **Done**: No docs examples use removed props or old Popover trigger snippets.
+- **Result**: Grep found no removed `brutalist` props and no old zero-arg Popover trigger snippets; remaining zero-arg snippets are DropdownMenu examples.
 
 ---
 
@@ -61,10 +63,10 @@
 - **What**: Manually verify high-risk interactive components.
 - **Scope**: Modal, Sheet, Popover, DropdownMenu, Tooltip, Select, DatePicker.
 - **Check**:
-  - Opens from keyboard.
-  - Escape closes the top overlay.
-  - Focus moves predictably.
-  - Backdrop clicks still close where expected.
+    - Opens from keyboard.
+    - Escape closes the top overlay.
+    - Focus moves predictably.
+    - Backdrop clicks still close where expected.
 - **Done**: Any regression is filed or fixed with a focused test.
 
 ### 3.2 Axe checks on docs demos
