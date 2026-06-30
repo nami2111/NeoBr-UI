@@ -47,6 +47,30 @@ NeoBr-UI uses Svelte 5 Runes for reactivity and Snippets for flexible compositio
 </Card>
 ```
 
+## Migrating to v2
+
+Version 2 standardizes bordered components around the shared `radius` prop. Replace removed
+`brutalist` boolean props with one of the supported radius values:
+
+```svelte
+<Badge radius="brutalist">Sharp</Badge>
+<Button radius="soft">Soft</Button>
+<Input radius="rounded" />
+```
+
+`Popover` no longer wraps the trigger snippet in an internal button. Accept and spread the
+provided trigger props onto your trigger element:
+
+```svelte
+<Popover>
+    {#snippet trigger(props)}
+        <Button {...props}>Open Popover</Button>
+    {/snippet}
+
+    Popover content
+</Popover>
+```
+
 ## Form Validation (Zod)
 
 NeoBr-UI provides built-in integration with Zod for type-safe form validation using Svelte 5 runes.

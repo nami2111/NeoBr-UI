@@ -1,0 +1,11 @@
+{
+    "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+    "notGrouped": "bottom",
+    "groupings": [
+        {
+            "title": "NeoBr-UI",
+            "description": "Skills for building Svelte 5 apps with the @neobr/svelte Neo-Brutalist component library.",
+            "skills": ["neobr-ui-builder", "neobr-ui-theming"]
+        }
+    ]
+}

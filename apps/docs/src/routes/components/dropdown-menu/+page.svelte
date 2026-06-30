@@ -1,7 +1,7 @@
 <script lang="ts">
     import DocPage from "../../../lib/components/DocPage.svelte";
     import CodePreview from "../../../lib/components/CodePreview.svelte";
-    import { DropdownMenu, DropdownMenuItem, Button, Icon } from "@neobr/svelte";
+    import { DropdownMenu, DropdownMenuItem, Icon } from "@neobr/svelte";
     import {
         UserIcon,
         Settings01Icon,
@@ -12,7 +12,7 @@
 
     const usage = `<DropdownMenu>
     {#snippet trigger()}
-        <Button>Open Menu</Button>
+        <span class="...">Open Menu</span>
     {/snippet}
     <DropdownMenuItem>
         <Icon icon={UserIcon} class="mr-2 h-4 w-4" />
@@ -32,6 +32,11 @@
         Log out
     </DropdownMenuItem>
 </DropdownMenu>`;
+
+    const triggerClass =
+        "border-foreground shadow-brutalist hover:shadow-brutalist-hover tracking-brutalist inline-flex h-10 items-center justify-center rounded-brutalist border-2 bg-primary px-4 py-2 text-sm font-bold whitespace-nowrap text-primary-foreground transition-all hover:-translate-y-[var(--lift-brutalist)] hover:bg-primary-hover active:translate-y-[var(--press-brutalist)] active:shadow-none";
+    const iconTriggerClass =
+        "border-foreground shadow-brutalist hover:shadow-brutalist-hover inline-flex h-10 w-10 items-center justify-center rounded-brutalist border-2 bg-background p-0 transition-all hover:-translate-y-[var(--lift-brutalist)] hover:bg-accent active:translate-y-[var(--press-brutalist)] active:shadow-none";
 </script>
 
 <DocPage
@@ -45,7 +50,7 @@
                 <div class="flex items-center justify-center py-10">
                     <DropdownMenu>
                         {#snippet trigger()}
-                            <Button>Open Menu</Button>
+                            <span class={triggerClass}>Open Menu</span>
                         {/snippet}
                         <DropdownMenuItem>
                             <Icon icon={UserIcon} class="mr-2 h-4 w-4" />
@@ -74,9 +79,9 @@
             <CodePreview
                 code={`<DropdownMenu>
     {#snippet trigger()}
-        <Button variant="outline" size="sm" class="h-10 w-10 p-0">
+        <span class="...">
             <Icon icon={MoreHorizontalIcon} class="h-6 w-6" />
-        </Button>
+        </span>
     {/snippet}
     <DropdownMenuItem>Edit</DropdownMenuItem>
     <DropdownMenuItem>Delete</DropdownMenuItem>
@@ -86,9 +91,9 @@
                 <div class="flex items-center justify-center py-10">
                     <DropdownMenu>
                         {#snippet trigger()}
-                            <Button variant="outline" class="h-10 w-10 p-0">
+                            <span class={iconTriggerClass}>
                                 <Icon icon={MoreHorizontalIcon} class="h-6 w-6" />
-                            </Button>
+                            </span>
                         {/snippet}
                         <DropdownMenuItem>Edit Project</DropdownMenuItem>
                         <DropdownMenuItem>Duplicate</DropdownMenuItem>

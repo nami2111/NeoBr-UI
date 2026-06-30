@@ -116,7 +116,8 @@
                         </h2>
                     {/if}
                     <button
-                        class="border-foreground shadow-brutalist hover:shadow-brutalist-hover hover:bg-accent rounded-brutalist cursor-pointer border-2 p-1 transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none"
+                        type="button"
+                        class="border-foreground shadow-brutalist hover:shadow-brutalist-hover hover:bg-accent rounded-brutalist inline-flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center border-2 p-0 transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none"
                         onclick={handleClose}
                         aria-label="Close modal"
                     >

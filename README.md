@@ -3,6 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/@neobr/svelte.svg?style=flat-square)](https://www.npmjs.com/package/@neobr/svelte)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![npm downloads](https://img.shields.io/npm/dw/@neobr/svelte.svg?style=flat-square)](https://www.npmjs.com/package/@neobr/svelte)
+[![skills.sh](https://skills.sh/b/nami2111/NeoBr-UI)](https://skills.sh/nami2111/NeoBr-UI)
 
 A **Neo-Brutalist** component library for Svelte 5 — high-contrast, thick borders, centered shadows, and technical typography. Built with Tailwind CSS v4 and OKLCH color tokens.
 
@@ -70,6 +71,19 @@ Import individual components for optimal tree-shaking:
   </CardContent>
 </Card>
 ```
+
+---
+
+## AI Skills
+
+NeoBr-UI ships installable skills for assistants that support the `SKILL.md` format.
+
+```bash
+npx skills add nami2111/NeoBr-UI
+```
+
+- `neobr-ui-builder`: helps build Svelte 5 UI with `@neobr/svelte` components.
+- `neobr-ui-theming`: helps install, theme, and troubleshoot NeoBr-UI with Tailwind CSS v4.
 
 ---
 

@@ -23,7 +23,7 @@
     <div class="space-y-12">
         <section class="space-y-4">
             <h2 class="border-foreground border-b-2 pb-2 text-2xl font-bold">Usage</h2>
-            <CodePreview code={basicUsage}>
+            <CodePreview code={basicUsage} class="min-h-[520px] items-start overflow-y-visible">
                 <div class="mx-auto max-w-xs sm:mx-0">
                     <DatePicker bind:value label="Event Date" />
                     <div class="mt-4 flex items-center gap-2">
