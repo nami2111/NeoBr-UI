@@ -4,7 +4,7 @@
 
 ---
 
-## Phase 1 — Published Package Smoke Test
+## Phase 1 — Published Package Smoke Test ✅ DONE
 
 ### 1.1 Verify npm install in a clean consumer app
 
@@ -16,12 +16,14 @@
   - `import { Button } from "@neobr/svelte/button"`
   - Production build passes.
 - **Done**: Clean app builds with the published package and no local workspace links.
+- **Result**: `test/consumer-smoke` installs `@neobr/svelte@2.0.0` from npm and `npm run build` passes.
 
 ### 1.2 Verify package metadata
 
 - **What**: Confirm npm shows the expected version, README, repository, files, and `latest` tag.
 - **Why**: Publish succeeded, but package metadata warnings should not recur.
 - **Done**: `npm view @neobr/svelte@2.0.0` looks correct.
+- **Result**: npm reports version `2.0.0`, `latest` tag `2.0.0`, and normalized repository URL.
 
 ---
 
