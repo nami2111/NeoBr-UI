@@ -1,26 +1,31 @@
 <script lang="ts">
     import DocPage from "../../../lib/components/DocPage.svelte";
     import CodePreview from "../../../lib/components/CodePreview.svelte";
-    import { Tooltip, Button } from "@neobr/svelte";
+    import { Tooltip } from "@neobr/svelte";
 
     const usage = `<Tooltip content="Add to library">
-    <Button variant="outline">Hover me</Button>
+    <span class="...">Hover me</span>
 </Tooltip>`;
 
     const positions = `<div class="flex gap-4">
     <Tooltip content="Tooltip top" position="top">
-        <Button variant="outline">Top</Button>
+        <span class="...">Top</span>
     </Tooltip>
     <Tooltip content="Tooltip bottom" position="bottom">
-        <Button variant="outline">Bottom</Button>
+        <span class="...">Bottom</span>
     </Tooltip>
     <Tooltip content="Tooltip left" position="left">
-        <Button variant="outline">Left</Button>
+        <span class="...">Left</span>
     </Tooltip>
     <Tooltip content="Tooltip right" position="right">
-        <Button variant="outline">Right</Button>
+        <span class="...">Right</span>
     </Tooltip>
 </div>`;
+
+    const triggerClass =
+        "border-foreground shadow-brutalist hover:shadow-brutalist-hover tracking-brutalist inline-flex h-10 items-center justify-center rounded-brutalist border-2 bg-background px-4 py-2 text-sm font-bold whitespace-nowrap transition-all hover:-translate-y-[var(--lift-brutalist)] hover:bg-accent active:translate-y-[var(--press-brutalist)] active:shadow-none";
+    const smallTriggerClass =
+        "border-foreground shadow-brutalist hover:shadow-brutalist-hover tracking-brutalist inline-flex h-9 items-center justify-center rounded-brutalist border-2 bg-background px-3 text-sm font-bold whitespace-nowrap transition-all hover:-translate-y-[var(--lift-brutalist)] hover:bg-accent active:translate-y-[var(--press-brutalist)] active:shadow-none";
 </script>
 
 <DocPage
@@ -33,7 +38,7 @@
             <CodePreview code={usage} class="min-h-[450px]">
                 <div class="flex items-center justify-center py-10">
                     <Tooltip content="Add to library">
-                        <Button variant="outline">Hover me</Button>
+                        <span class={triggerClass}>Hover me</span>
                     </Tooltip>
                 </div>
             </CodePreview>
@@ -44,16 +49,16 @@
             <CodePreview code={positions} class="min-h-[300px]">
                 <div class="flex flex-wrap items-center justify-center gap-6 py-10">
                     <Tooltip content="Tooltip top" position="top">
-                        <Button variant="outline" size="sm">Top</Button>
+                        <span class={smallTriggerClass}>Top</span>
                     </Tooltip>
                     <Tooltip content="Tooltip bottom" position="bottom">
-                        <Button variant="outline" size="sm">Bottom</Button>
+                        <span class={smallTriggerClass}>Bottom</span>
                     </Tooltip>
                     <Tooltip content="Tooltip left" position="left">
-                        <Button variant="outline" size="sm">Left</Button>
+                        <span class={smallTriggerClass}>Left</span>
                     </Tooltip>
                     <Tooltip content="Tooltip right" position="right">
-                        <Button variant="outline" size="sm">Right</Button>
+                        <span class={smallTriggerClass}>Right</span>
                     </Tooltip>
                 </div>
             </CodePreview>

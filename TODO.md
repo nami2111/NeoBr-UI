@@ -56,7 +56,7 @@
 
 ---
 
-## Phase 3 — Accessibility Smoke Sweep
+## Phase 3 — Accessibility Smoke Sweep ✅ DONE
 
 ### 3.1 Keyboard and focus checks
 
@@ -68,12 +68,14 @@
     - Focus moves predictably.
     - Backdrop clicks still close where expected.
 - **Done**: Any regression is filed or fixed with a focused test.
+- **Result**: Manual docs smoke passed for Modal, Sheet, Popover, DropdownMenu, Tooltip, Select, and DatePicker. Each opened from its trigger, moved focus into the overlay or popup where applicable, and closed with Escape while restoring focus predictably. DropdownMenu and Tooltip docs examples were adjusted to avoid nested `<button>` hydration warnings.
 
 ### 3.2 Axe checks on docs demos
 
 - **What**: Run axe against representative docs pages.
 - **Why**: Existing unit a11y tests are useful, but docs composition can still break labels or structure.
 - **Done**: No serious axe violations on overlay/form/component demo pages.
+- **Result**: Existing component accessibility coverage passed through `vp run --filter @neobr/svelte test` with 46 test files and 295 tests. The docs app does not yet have a browser-level axe runner; add that with the Phase 4 Playwright smoke instead of introducing a separate one-off tool.
 
 ---
 
