@@ -1,5 +1,11 @@
 # @neobr/svelte
 
+## 2.0.1
+
+### Patch Changes
+
+- Update modal close button type and styling
+
 ## 2.0.0
 
 ### Major Changes
