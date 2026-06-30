@@ -39,7 +39,7 @@
         )}
     >
         {#if isSelected}
-            <div class="bg-primary h-3 w-3 rounded-full" transition:scale={TRANSITION_BRUTALIST}></div>
+            <div class="bg-primary h-3 w-3 rounded-full" transition:scale={TRANSITION_BRUTALIST()}></div>
         {/if}
     </div>
 </div>

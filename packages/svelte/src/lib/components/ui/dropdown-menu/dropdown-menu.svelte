@@ -72,7 +72,7 @@
         <div
             {@attach overlay.content}
             class="z-dropdown border-foreground bg-background shadow-brutalist rounded-brutalist absolute right-0 mt-2 w-56 origin-top-right border-2 focus-visible:outline-none"
-            transition:fade={TRANSITION_BRUTALIST_FAST}
+            transition:fade={TRANSITION_BRUTALIST_FAST()}
             role="menu"
             aria-orientation="vertical"
         >

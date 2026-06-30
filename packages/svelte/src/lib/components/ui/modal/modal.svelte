@@ -92,7 +92,7 @@
         <button
             type="button"
             class="z-modal-backdrop bg-foreground/30 fixed inset-0 border-0 p-0 backdrop-blur-sm"
-            transition:fade={TRANSITION_BRUTALIST_BACKDROP}
+            transition:fade={TRANSITION_BRUTALIST_BACKDROP()}
             onclick={handleClose}
             tabindex="-1"
             aria-label="Close modal backdrop"
@@ -105,7 +105,7 @@
                 "z-modal bg-card text-card-foreground border-foreground shadow-brutalist rounded-brutalist relative w-full overflow-auto border-2 p-6 outline-none",
                 sizeClasses[size],
             )}
-            transition:fly={{ y: 20, ...TRANSITION_BRUTALIST_SLOW }}
+            transition:fly={{ y: 20, ...TRANSITION_BRUTALIST_SLOW() }}
             tabindex="-1"
         >
             <div class="flex flex-col space-y-2">

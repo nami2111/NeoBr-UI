@@ -40,7 +40,7 @@
         )}
     >
         {#if checked}
-            <span transition:scale={TRANSITION_BRUTALIST}>
+            <span transition:scale={TRANSITION_BRUTALIST()}>
                 <Icon icon={Tick02Icon} size={18} strokeWidth={4} />
             </span>
         {/if}

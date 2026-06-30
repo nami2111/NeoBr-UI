@@ -14,9 +14,9 @@
 >
     {#each toast.toasts as item (item.id)}
         <div
-            animate:flip={TRANSITION_BRUTALIST_SLOW}
-            in:fly={{ x: 100, ...TRANSITION_BRUTALIST_SLOW }}
-            out:fly={{ x: 100, ...TRANSITION_BRUTALIST_BACKDROP }}
+            animate:flip={TRANSITION_BRUTALIST_SLOW()}
+            in:fly={{ x: 100, ...TRANSITION_BRUTALIST_SLOW() }}
+            out:fly={{ x: 100, ...TRANSITION_BRUTALIST_BACKDROP() }}
         >
             <Toast {item} />
         </div>

@@ -44,13 +44,13 @@
     const flyParams = $derived.by(() => {
         switch (side) {
             case "top":
-                return { y: -200, ...TRANSITION_BRUTALIST_SLOW };
+                return { y: -200, ...TRANSITION_BRUTALIST_SLOW() };
             case "bottom":
-                return { y: 200, ...TRANSITION_BRUTALIST_SLOW };
+                return { y: 200, ...TRANSITION_BRUTALIST_SLOW() };
             case "left":
-                return { x: -200, ...TRANSITION_BRUTALIST_SLOW };
+                return { x: -200, ...TRANSITION_BRUTALIST_SLOW() };
             case "right":
-                return { x: 200, ...TRANSITION_BRUTALIST_SLOW };
+                return { x: 200, ...TRANSITION_BRUTALIST_SLOW() };
         }
     });
 
@@ -76,7 +76,7 @@
         <button
             type="button"
             class="z-sheet-backdrop bg-foreground/30 fixed inset-0 border-0 p-0 backdrop-blur-sm transition-opacity"
-            transition:fade={TRANSITION_BRUTALIST_BACKDROP}
+            transition:fade={TRANSITION_BRUTALIST_BACKDROP()}
             onclick={handleClose}
             tabindex="-1"
             aria-label="Close sheet backdrop"

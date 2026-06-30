@@ -22,7 +22,7 @@ export async function serverRenderSvelte(
         .replace(/import \{ cn, RADIUS \} from "\.\.\/\.\.\/\.\.\/utils";\n/g, "")
         .replace(
             /import \{ TRANSITION_BRUTALIST \} from "\.\.\/\.\.\/\.\.\/utils\/motion";\n/g,
-            "const TRANSITION_BRUTALIST = { duration: 150 };\n",
+            "const TRANSITION_BRUTALIST = () => ({ duration: 150 });\n",
         )
         .replace(
             /import \{ useOverlayController \} from "\.\.\/\.\.\/\.\.\/utils\/overlay\.svelte";\n/g,

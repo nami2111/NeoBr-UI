@@ -62,7 +62,7 @@
                 "z-popover border-foreground bg-background shadow-brutalist rounded-brutalist absolute mt-2 min-w-[200px] border-2 p-4",
                 contentClass,
             )}
-            transition:fade={TRANSITION_BRUTALIST_FAST}
+            transition:fade={TRANSITION_BRUTALIST_FAST()}
             role="dialog"
             aria-label={contentLabel}
         >

@@ -69,7 +69,7 @@
                 positions[position],
                 className,
             )}
-            transition:scale={{ start: 0.9, ...TRANSITION_BRUTALIST }}
+            transition:scale={{ start: 0.9, ...TRANSITION_BRUTALIST() }}
         >
             {content}
         </div>
