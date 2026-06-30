@@ -5,7 +5,7 @@
     "description": "Neo-Brutalist Svelte 5 Component Library",
     "repository": {
         "type": "git",
-        "url": "https://github.com/nami2111/NeoBr-UI.git",
+        "url": "git+https://github.com/nami2111/NeoBr-UI.git",
         "directory": "packages/svelte"
     },
     "homepage": "https://github.com/nami2111/NeoBr-UI/tree/main/packages/svelte#readme",
