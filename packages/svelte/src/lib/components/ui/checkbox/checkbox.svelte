@@ -1,13 +1,16 @@
 <script lang="ts">
     import { scale } from "svelte/transition";
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
     import { TRANSITION_BRUTALIST } from "../../../utils/motion";
     import type { HTMLInputAttributes } from "svelte/elements";
+    import Icon from "../icon/icon.svelte";
+    import { Tick02Icon } from "@hugeicons/core-free-icons";
 
     type Props = Omit<HTMLInputAttributes, "type"> & {
         checked?: boolean;
         disabled?: boolean;
         id?: string;
+        radius?: Radius;
     };
 
     let {
@@ -15,6 +18,7 @@
         disabled = false,
         class: className,
         id,
+        radius = "brutalist",
         ...rest
     }: Props = $props();
 </script>
@@ -30,25 +34,15 @@
     />
     <div
         class={cn(
-            "flex h-full w-full items-center justify-center rounded-[2px] border-2 border-foreground bg-background transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2 peer-disabled:opacity-50",
+            "flex h-full w-full items-center justify-center border-2 border-foreground bg-background transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background peer-disabled:opacity-50",
+            RADIUS[radius],
             checked && "bg-primary text-primary-foreground",
         )}
     >
         {#if checked}
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="4"
-                stroke-linecap="square"
-                stroke-linejoin="miter"
-                transition:scale={TRANSITION_BRUTALIST}
-            >
-                <path d="M20 6L9 17L4 12" />
-            </svg>
+            <span transition:scale={TRANSITION_BRUTALIST()}>
+                <Icon icon={Tick02Icon} size={18} strokeWidth={4} />
+            </span>
         {/if}
     </div>
 </div>

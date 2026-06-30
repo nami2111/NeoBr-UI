@@ -22,7 +22,7 @@
 
 <div
     class={cn(
-        "group/bento card-brutalist hover:shadow-brutalist-hover flex flex-col justify-between space-y-4 p-4 transition-all",
+        "group/bento bg-card text-card-foreground border-foreground shadow-brutalist rounded-brutalist hover:shadow-brutalist-hover flex flex-col justify-between space-y-4 border-2 p-4 transition-all",
         className,
     )}
 >

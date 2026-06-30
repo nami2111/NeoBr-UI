@@ -1,16 +1,20 @@
 <script lang="ts">
     import { Select } from "bits-ui";
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
+    import Icon from "../icon/icon.svelte";
+    import { ChevronDown } from "@hugeicons/core-free-icons";
 
     type Props = Omit<Select.TriggerProps, "children"> & {
         class?: string;
         placeholder?: string;
+        radius?: Radius;
         children?: import("svelte").Snippet<[]>;
     };
 
     let {
         class: className,
         placeholder = "Select an option",
+        radius = "brutalist",
         children: triggerChildren,
         ...rest
     }: Props = $props();
@@ -18,7 +22,8 @@
 
 <Select.Trigger
     class={cn(
-        "rounded-brutalist border-foreground bg-background shadow-brutalist hover:shadow-brutalist-hover focus:ring-ring group flex h-12 w-full cursor-pointer items-center justify-between border-2 px-4 py-2 text-sm font-bold transition-all hover:-translate-y-[2px] focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=open]:rotate-0",
+        "border-foreground bg-background shadow-brutalist hover:shadow-brutalist-hover focus-visible:ring-ring group flex h-12 w-full cursor-pointer items-center justify-between border-2 px-4 py-2 text-sm font-bold transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+        RADIUS[radius],
         className,
     )}
     {...rest}
@@ -36,18 +41,10 @@
             {/if}
         {/snippet}
     </Select.Value>
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="3"
-        stroke-linecap="square"
-        stroke-linejoin="miter"
-        class={cn("transition-transform duration-200 group-data-[state=open]:rotate-180")}
-    >
-        <polyline points="6 9 12 15 18 9" />
-    </svg>
+    <Icon
+        icon={ChevronDown}
+        size={16}
+        strokeWidth={3}
+        class="transition-transform duration-200 group-data-[state=open]:rotate-180"
+    />
 </Select.Trigger>

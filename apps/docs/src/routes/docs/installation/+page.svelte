@@ -12,7 +12,6 @@
 @theme {
   --color-primary: #ffeb3b;
   --color-secondary: #ff5722;
-  --font-neobr-sans: "JetBrains Mono", monospace;
   --font-neobr-mono: "JetBrains Mono", monospace;
 }`;
 

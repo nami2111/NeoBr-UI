@@ -18,7 +18,8 @@ describe("Button component", () => {
         render(Button, { props: { children: text("Click me") } });
         const button = screen.getByRole("button", { name: /click me/i });
         expect(button).toBeInTheDocument();
-        expect(button).toHaveClass("btn-brutalist");
+        expect(button).toHaveClass("shadow-brutalist");
+        expect(button).toHaveClass("rounded-brutalist");
         expect(button).toHaveClass("bg-primary");
     });
 
@@ -31,10 +32,8 @@ describe("Button component", () => {
 
         rerender({ variant: "outline", children: text("Outline") });
         button = screen.getByRole("button", { name: /outline/i });
-        // The outline variant is: "btn-brutalist border-2 bg-background hover:bg-accent"
-        // Since btn-brutalist already has border-2, we can check for that or btn-brutalist
-        expect(button).toHaveClass("btn-brutalist");
-        // expect(button).toHaveClass("border-2"); // Included in btn-brutalist
+        expect(button).toHaveClass("border-2");
+        expect(button).toHaveClass("bg-background");
     });
 
     test("renders different sizes", () => {
@@ -87,12 +86,28 @@ describe("Button component", () => {
     test("applies brutalist styling", () => {
         render(Button, { props: { radius: "brutalist", children: text("Brutalist") } });
         const button = screen.getByRole("button", { name: /brutalist/i });
-        expect(button).toHaveClass("btn-brutalist");
+        expect(button).toHaveClass("rounded-brutalist");
     });
 
-    test("applies non-brutalist styling", () => {
+    test("applies rounded radius styling", () => {
         render(Button, { props: { radius: "rounded", children: text("Rounded") } });
         const button = screen.getByRole("button", { name: /rounded/i });
-        expect(button).toHaveClass("btn-brutalist-rounded");
+        expect(button).toHaveClass("rounded-brutalist-rounded");
+    });
+
+    test("lets custom classes override default radius, shadow, and border", () => {
+        render(Button, {
+            props: {
+                class: "rounded-lg shadow-none border-0",
+                children: text("Override"),
+            },
+        });
+        const button = screen.getByRole("button", { name: /override/i });
+        expect(button).toHaveClass("rounded-lg");
+        expect(button).toHaveClass("shadow-none");
+        expect(button).toHaveClass("border-0");
+        expect(button).not.toHaveClass("rounded-brutalist");
+        expect(button).not.toHaveClass("shadow-brutalist");
+        expect(button).not.toHaveClass("border-2");
     });
 });

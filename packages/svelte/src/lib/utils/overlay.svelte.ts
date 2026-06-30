@@ -15,11 +15,10 @@ const FOCUSABLE_SELECTOR = [
 type OverlayControllerOptions = {
     open: () => boolean;
     close: () => void;
-};
-
-type DismissableOverlayOptions = {
-    open: () => boolean;
-    close: () => void;
+    trapFocus?: boolean;
+    lockScroll?: boolean;
+    focusOnOpen?: boolean;
+    restoreFocus?: boolean;
 };
 
 const overlayStack: symbol[] = [];
@@ -84,6 +83,10 @@ export function useOverlayController(options: OverlayControllerOptions) {
     const stackEntry = createOverlayStackEntry("overlay");
     let previousFocus: HTMLElement | null = null;
     const { lock: scrollLock, unlock: scrollUnlock } = useScrollLock();
+    const trapFocus = options.trapFocus ?? true;
+    const lockScroll = options.lockScroll ?? trapFocus;
+    const focusOnOpen = options.focusOnOpen ?? trapFocus;
+    const restoreFocusOnClose = options.restoreFocus ?? trapFocus;
 
     function getFocusableElements(element: HTMLElement): HTMLElement[] {
         return Array.from(element.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
@@ -111,16 +114,16 @@ export function useOverlayController(options: OverlayControllerOptions) {
 
     function activate() {
         if (!stackEntry.activate()) return;
-        scrollLock();
+        if (lockScroll) scrollLock();
     }
 
     function cleanup() {
         const { wasActive, wasTopOverlay } = stackEntry.cleanup();
         if (!wasActive) return;
 
-        scrollUnlock();
+        if (lockScroll) scrollUnlock();
 
-        if (wasTopOverlay) {
+        if (restoreFocusOnClose && wasTopOverlay) {
             restoreFocus();
         } else {
             previousFocus = null;
@@ -137,7 +140,7 @@ export function useOverlayController(options: OverlayControllerOptions) {
             return;
         }
 
-        if (event.key !== "Tab") return;
+        if (!trapFocus || event.key !== "Tab") return;
 
         const contentElement = stackEntry.getContentElement();
         if (!contentElement) return;
@@ -171,43 +174,14 @@ export function useOverlayController(options: OverlayControllerOptions) {
         }
 
         activate();
-        previousFocus = document.activeElement as HTMLElement;
-        tick().then(() => {
-            if (options.open()) focusFirstElement();
-        });
-
-        return cleanup;
-    });
-
-    return {
-        content: stackEntry.content,
-        handleKeydown,
-        isTopOverlay: stackEntry.isTopOverlay,
-    };
-}
-
-export function useDismissableOverlay(options: DismissableOverlayOptions) {
-    const stackEntry = createOverlayStackEntry("dismissable-overlay");
-
-    function handleKeydown(event: KeyboardEvent) {
-        if (!isBrowser || !options.open() || !stackEntry.isTopOverlay()) return;
-        if (event.key !== "Escape") return;
-
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        options.close();
-    }
-
-    $effect(() => {
-        if (!isBrowser) return;
-
-        if (!options.open()) {
-            stackEntry.cleanup();
-            return;
+        if (restoreFocusOnClose) previousFocus = document.activeElement as HTMLElement;
+        if (focusOnOpen) {
+            tick().then(() => {
+                if (options.open()) focusFirstElement();
+            });
         }
 
-        stackEntry.activate();
-        return stackEntry.cleanup;
+        return cleanup;
     });
 
     return {

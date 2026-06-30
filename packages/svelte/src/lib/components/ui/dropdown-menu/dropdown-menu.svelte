@@ -2,7 +2,7 @@
     import { cn } from "../../../utils";
     import { isBrowser } from "../../../utils/browser";
     import { TRANSITION_BRUTALIST_FAST } from "../../../utils/motion";
-    import { useDismissableOverlay } from "../../../utils/overlay.svelte";
+    import { useOverlayController } from "../../../utils/overlay.svelte";
     import { fade } from "svelte/transition";
 
     type Props = {
@@ -21,9 +21,10 @@
         open = false;
     }
 
-    const overlay = useDismissableOverlay({
+    const overlay = useOverlayController({
         open: () => open,
         close,
+        trapFocus: false,
     });
 
     function handleKeydown(e: KeyboardEvent) {
@@ -70,9 +71,8 @@
     {#if open}
         <div
             {@attach overlay.content}
-            class="border-foreground bg-background shadow-brutalist rounded-brutalist absolute right-0 mt-2 w-56 origin-top-right border-2 focus:outline-none"
-            style="z-index: var(--z-dropdown)"
-            transition:fade={TRANSITION_BRUTALIST_FAST}
+            class="z-dropdown border-foreground bg-background shadow-brutalist rounded-brutalist absolute right-0 mt-2 w-56 origin-top-right border-2 focus-visible:outline-none"
+            transition:fade={TRANSITION_BRUTALIST_FAST()}
             role="menu"
             aria-orientation="vertical"
         >
@@ -81,8 +81,7 @@
             </div>
         </div>
         <div
-            class="fixed inset-0"
-            style="z-index: var(--z-dropdown-backdrop)"
+            class="z-dropdown-backdrop fixed inset-0"
             onclick={close}
             role="presentation"
         ></div>

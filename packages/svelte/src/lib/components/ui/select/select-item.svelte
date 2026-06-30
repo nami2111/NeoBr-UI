@@ -1,6 +1,8 @@
 <script lang="ts">
     import { Select } from "bits-ui";
     import { cn } from "../../../utils";
+    import Icon from "../icon/icon.svelte";
+    import { Tick02Icon } from "@hugeicons/core-free-icons";
 
     type Props = Omit<Select.ItemProps, "children"> & {
         value: string;
@@ -27,18 +29,6 @@
     {@render children?.()}
 
     <span class="ml-auto opacity-0 transition-opacity group-data-[state=checked]:opacity-100">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="4"
-            stroke-linecap="square"
-            stroke-linejoin="miter"
-        >
-            <path d="M20 6L9 17L4 12" />
-        </svg>
+        <Icon icon={Tick02Icon} size={16} strokeWidth={4} />
     </span>
 </Select.Item>

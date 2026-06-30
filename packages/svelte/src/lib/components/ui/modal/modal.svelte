@@ -83,8 +83,7 @@
 
 {#if open}
     <div
-        class="fixed inset-0 flex items-center justify-center p-4"
-        style="z-index: var(--z-modal)"
+        class="z-modal fixed inset-0 flex items-center justify-center p-4"
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
@@ -92,9 +91,8 @@
         <!-- Backdrop -->
         <button
             type="button"
-            class="bg-foreground/30 fixed inset-0 border-0 p-0 backdrop-blur-sm"
-            style="z-index: var(--z-modal-backdrop)"
-            transition:fade={TRANSITION_BRUTALIST_BACKDROP}
+            class="z-modal-backdrop bg-foreground/30 fixed inset-0 border-0 p-0 backdrop-blur-sm"
+            transition:fade={TRANSITION_BRUTALIST_BACKDROP()}
             onclick={handleClose}
             tabindex="-1"
             aria-label="Close modal backdrop"
@@ -104,11 +102,10 @@
         <div
             {@attach overlay.content}
             class={cn(
-                "card-brutalist relative w-full overflow-auto p-6 outline-none",
+                "z-modal bg-card text-card-foreground border-foreground shadow-brutalist rounded-brutalist relative w-full overflow-auto border-2 p-6 outline-none",
                 sizeClasses[size],
             )}
-            style="z-index: var(--z-modal)"
-            transition:fly={{ y: 20, ...TRANSITION_BRUTALIST_SLOW }}
+            transition:fly={{ y: 20, ...TRANSITION_BRUTALIST_SLOW() }}
             tabindex="-1"
         >
             <div class="flex flex-col space-y-2">
@@ -119,7 +116,7 @@
                         </h2>
                     {/if}
                     <button
-                        class="btn-brutalist hover:bg-accent rounded-brutalist p-1 transition-all"
+                        class="border-foreground shadow-brutalist hover:shadow-brutalist-hover hover:bg-accent rounded-brutalist cursor-pointer border-2 p-1 transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none"
                         onclick={handleClose}
                         aria-label="Close modal"
                     >

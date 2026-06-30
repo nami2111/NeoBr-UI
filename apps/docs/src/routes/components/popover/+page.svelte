@@ -4,8 +4,8 @@
     import { Popover, Button, Input, Label } from "@neobr/svelte";
 
     const usage = `<Popover>
-    {#snippet trigger()}
-        <Button variant="outline">Open Popover</Button>
+    {#snippet trigger(props)}
+        <Button variant="outline" {...props}>Open Popover</Button>
     {/snippet}
     <div class="grid gap-4">
         <div class="space-y-2">
@@ -43,8 +43,8 @@
             <CodePreview code={usage} class="min-h-[600px]">
                 <div class="flex items-center justify-center py-10">
                     <Popover>
-                        {#snippet trigger()}
-                            <Button variant="outline">Open Popover</Button>
+                        {#snippet trigger(props)}
+                            <Button variant="outline" {...props}>Open Popover</Button>
                         {/snippet}
                         <div class="grid w-[280px] gap-4">
                             <div class="space-y-2">

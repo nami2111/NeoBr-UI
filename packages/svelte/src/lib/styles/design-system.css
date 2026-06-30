@@ -38,14 +38,14 @@
     --color-warning-active: oklch(80% 0.14 90);
     --color-warning-foreground: oklch(12.5% 0.025 264);
 
+    /* muted and accent are intentional aliases: same value, kept as two
+       names for shadcn-compatible class naming (bg-muted / bg-accent). */
     --color-muted: oklch(94% 0.01 264);
     --color-muted-foreground: oklch(45% 0.02 264);
 
     --color-accent: oklch(94% 0.01 264);
     --color-accent-foreground: oklch(12.5% 0.025 264);
 
-    --color-border: oklch(12.5% 0.025 264);
-    --color-input: oklch(90% 0.01 264);
     --color-ring: oklch(78.5% 0.08 270);
 
     --color-card: oklch(100% 0 0);
@@ -59,6 +59,11 @@
     --radius-brutalist-soft: 6px;
     --radius-brutalist-rounded: 12px;
     --separator-width: 3px;
+
+    /* Interaction depth — press = shadow height so pressed controls sit flat */
+    --lift-brutalist: 2px;
+    --press-brutalist: 5px;
+    --press-brutalist-sm: 2px;
 
     /* Z-index scale */
     --z-dropdown-backdrop: 40;
@@ -74,12 +79,7 @@
     --z-tooltip: 70;
     --z-toast: 100;
 
-    /* Transitions */
-    --transition-brutalist: 150ms ease-in-out;
-    --transition-brutalist-slow: 300ms ease-in-out;
-
     /* Typography */
-    --font-neobr-sans: "JetBrains Mono", monospace;
     --font-neobr-mono: "JetBrains Mono", monospace;
 
     /* Animation */
@@ -175,10 +175,24 @@
             transform: translateX(calc(-100% - var(--gap)));
         }
     }
+
+    @keyframes progress-indeterminate {
+        0% {
+            transform: translateX(-100%) scaleX(0.2);
+        }
+        50% {
+            transform: translateX(0%) scaleX(0.5);
+        }
+        100% {
+            transform: translateX(100%) scaleX(0.2);
+        }
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    :where(.neobr-reduce-motion, .neobr-reduce-motion *) {
+    *,
+    *::before,
+    *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
@@ -230,8 +244,6 @@
     --color-accent: oklch(25% 0.02 264);
     --color-accent-foreground: oklch(98.5% 0.005 264);
 
-    --color-border: oklch(98.5% 0.005 264);
-    --color-input: oklch(25% 0.02 264);
     --color-ring: oklch(72.5% 0.12 270);
     --color-shadow-color: oklch(98.5% 0.005 264);
 }
@@ -239,23 +251,20 @@
 /* Neo Brutalist Utility Patterns */
 @utility btn-brutalist {
     @apply border-foreground shadow-brutalist cursor-pointer border-2 transition-all;
-    border-radius: var(--radius-brutalist);
-    @apply hover:shadow-brutalist-hover hover:-translate-y-[2px];
-    @apply active:translate-y-[5px] active:shadow-none;
+    @apply hover:shadow-brutalist-hover hover:-translate-y-[var(--lift-brutalist)];
+    @apply active:translate-y-[var(--press-brutalist)] active:shadow-none;
 }
 
 @utility btn-brutalist-soft {
     @apply btn-brutalist;
-    border-radius: var(--radius-brutalist-soft);
 }
 
 @utility btn-brutalist-rounded {
     @apply btn-brutalist;
-    border-radius: var(--radius-brutalist-rounded);
 }
 
 @utility container-brutalist {
-    @apply bg-background border-foreground shadow-brutalist border-2 p-6;
+    @apply bg-background border-foreground shadow-brutalist border-2;
     border-radius: var(--radius-brutalist);
 }
 
@@ -272,10 +281,65 @@
     border-radius: var(--radius-brutalist);
 }
 
+@utility rounded-brutalist-soft {
+    border-radius: var(--radius-brutalist-soft);
+}
+
+@utility rounded-brutalist-rounded {
+    border-radius: var(--radius-brutalist-rounded);
+}
+
+@utility z-dropdown-backdrop {
+    z-index: var(--z-dropdown-backdrop);
+}
+
+@utility z-dropdown {
+    z-index: var(--z-dropdown);
+}
+
+@utility z-select-backdrop {
+    z-index: var(--z-select-backdrop);
+}
+
+@utility z-select {
+    z-index: var(--z-select);
+}
+
+@utility z-modal-backdrop {
+    z-index: var(--z-modal-backdrop);
+}
+
+@utility z-modal {
+    z-index: var(--z-modal);
+}
+
+@utility z-sheet-backdrop {
+    z-index: var(--z-sheet-backdrop);
+}
+
+@utility z-sheet {
+    z-index: var(--z-sheet);
+}
+
+@utility z-popover-backdrop {
+    z-index: var(--z-popover-backdrop);
+}
+
+@utility z-popover {
+    z-index: var(--z-popover);
+}
+
+@utility z-tooltip {
+    z-index: var(--z-tooltip);
+}
+
+@utility z-toast {
+    z-index: var(--z-toast);
+}
+
 @utility input-brutalist {
     @apply border-foreground bg-background h-10 w-full border-2 px-3 py-2 text-sm font-bold shadow-inner transition-colors;
-    border-radius: var(--radius-brutalist-rounded);
-    @apply focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none;
+    @apply focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none;
     @apply disabled:cursor-not-allowed disabled:opacity-50;
 }
 
@@ -289,4 +353,8 @@
 
 @utility animate-neobr-tail {
     animation: neobr-tail 0.8s infinite;
+}
+
+@utility animate-progress-indeterminate {
+    animation: progress-indeterminate 2s infinite linear;
 }

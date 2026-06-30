@@ -28,18 +28,18 @@ describe("Badge", () => {
         expect(badge).toHaveClass("text-foreground");
     });
 
-    it("renders with brutalist style", () => {
-        render(Badge, { props: { brutalist: true, children: text("Brutalist Badge") } });
+    it("renders with brutalist radius", () => {
+        render(Badge, { props: { radius: "brutalist", children: text("Brutalist Badge") } });
         const badge = screen.getByText("Brutalist Badge");
         expect(badge).toHaveClass("border-2");
         expect(badge).toHaveClass("border-foreground");
         expect(badge).toHaveClass("rounded-brutalist");
     });
 
-    it("renders with rounded style", () => {
-        render(Badge, { props: { brutalist: false, children: text("Rounded Badge") } });
+    it("renders with rounded radius", () => {
+        render(Badge, { props: { radius: "rounded", children: text("Rounded Badge") } });
         const badge = screen.getByText("Rounded Badge");
-        expect(badge).toHaveClass("rounded-md");
+        expect(badge).toHaveClass("rounded-brutalist-rounded");
         expect(badge).not.toHaveClass("rounded-brutalist");
     });
 });

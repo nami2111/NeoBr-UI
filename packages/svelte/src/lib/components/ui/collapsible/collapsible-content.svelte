@@ -23,7 +23,7 @@
     <div
         class={cn("overflow-hidden", className)}
         data-state={state?.open ? "open" : "closed"}
-        transition:slide={TRANSITION_BRUTALIST_SLOW}
+        transition:slide={TRANSITION_BRUTALIST_SLOW()}
         {...rest}
     >
         {@render children?.()}

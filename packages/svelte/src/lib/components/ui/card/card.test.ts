@@ -28,10 +28,9 @@ describe("Card", () => {
 
     it("applies brutalist styling", () => {
         const { container } = render(CardTestWrapper);
-        const card = container.querySelector(".card-brutalist");
+        const card = container.querySelector(".rounded-brutalist");
         expect(card).toBeInTheDocument();
-        // Just verify the main class is applied.
-        // Specific border utility classes checking might fail if not resolved by test setup or if styles are in CSS file.
-        expect(card).toHaveClass("card-brutalist");
+        expect(card).toHaveClass("border-2");
+        expect(card).toHaveClass("shadow-brutalist");
     });
 });

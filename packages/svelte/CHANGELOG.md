@@ -1,11 +1,31 @@
 # @neobr/svelte
 
+## 2.0.0
+
+### Major Changes
+
+- Standardize the design system APIs and polish component internals.
+
+  Breaking changes:
+
+  - Bordered components now use the shared `radius` prop with `"brutalist"`, `"soft"`, and `"rounded"` values. Replace removed `brutalist` boolean props with `radius="brutalist"` or the radius value you want.
+  - `Popover` trigger snippets now receive trigger props and no longer get wrapped in an internal button. Update triggers to accept and spread those props:
+
+  ```svelte
+  {#snippet trigger(props)}
+      <Button {...props}>Open Popover</Button>
+  {/snippet}
+  ```
+
+  This avoids invalid nested buttons when consumers pass a `Button` as the trigger.
+
+  Other changes include centralized press-depth and z-index tokens, shared overlay controller behavior, design-system CSS utility cleanup, runtime reduced-motion transition checks, and package metadata updates for CSS side effects.
+
 ## 1.2.0
 
 ### Minor Changes
 
 - 7b0dfcc: Harden the component library for release.
-
   - Ship only the built `dist` package surface instead of `src/lib` source files.
   - Keep modal and sheet overlays responsive and accessible with viewport-safe modal widths, real backdrop buttons, and titled sheet dialog labels.
   - Stop the stylesheet from taking over consumer app fonts; use the optional `--font-neobr-sans` and `--font-neobr-mono` tokens when you want the NeoBr font stack.

@@ -2,6 +2,8 @@
     import { cn } from "../../../utils";
     import { toast, type ToastItem } from "./toast-state.svelte.js";
     import { cva } from "class-variance-authority";
+    import Icon from "../icon/icon.svelte";
+    import { Cancel01Icon } from "@hugeicons/core-free-icons";
 
     const toastVariants = cva(
         "group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-brutalist border-2 border-foreground p-6 shadow-brutalist transition-all",
@@ -32,21 +34,9 @@
     </div>
     <button
         onclick={() => toast.dismiss(item.id)}
-        class="text-foreground/50 hover:border-foreground hover:text-foreground focus:ring-ring inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border-2 border-transparent transition-colors focus:ring-2 focus:outline-none"
+        class="text-foreground/50 hover:border-foreground hover:text-foreground focus-visible:ring-ring inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border-2 border-transparent transition-colors focus-visible:ring-2 focus-visible:outline-none"
         aria-label="Close"
     >
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="3"
-            stroke-linecap="square"
-            stroke-linejoin="miter"
-        >
-            <path d="M18 6 6 18M6 6l12 12" />
-        </svg>
+        <Icon icon={Cancel01Icon} size={16} strokeWidth={3} />
     </button>
 </div>

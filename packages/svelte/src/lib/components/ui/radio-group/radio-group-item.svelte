@@ -34,12 +34,12 @@
     />
     <div
         class={cn(
-            "border-foreground bg-background peer-focus-visible:ring-ring flex h-full w-full items-center justify-center rounded-full border-2 shadow-brutalist transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-disabled:opacity-50",
+            "border-foreground bg-background peer-focus-visible:ring-ring flex h-full w-full items-center justify-center rounded-full border-2 shadow-brutalist transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background peer-disabled:opacity-50",
             isSelected && "border-primary",
         )}
     >
         {#if isSelected}
-            <div class="bg-primary h-3 w-3 rounded-full" transition:scale={TRANSITION_BRUTALIST}></div>
+            <div class="bg-primary h-3 w-3 rounded-full" transition:scale={TRANSITION_BRUTALIST()}></div>
         {/if}
     </div>
 </div>

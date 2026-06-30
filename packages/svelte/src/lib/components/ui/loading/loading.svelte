@@ -38,43 +38,10 @@
     class={cn("relative inline-block", loadingVariants({ variant, size, className }))}
     {...rest}
 >
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-full w-full">
-        <!-- 4 Blocks with Staggered Tail Animation -->
-        <rect
-            x="2"
-            y="2"
-            width="9"
-            height="9"
-            fill="currentColor"
-            class="animate-neobr-tail"
-            style="animation-delay: 0s;"
-        />
-        <rect
-            x="13"
-            y="2"
-            width="9"
-            height="9"
-            fill="currentColor"
-            class="animate-neobr-tail"
-            style="animation-delay: 0.2s;"
-        />
-        <rect
-            x="13"
-            y="13"
-            width="9"
-            height="9"
-            fill="currentColor"
-            class="animate-neobr-tail"
-            style="animation-delay: 0.4s;"
-        />
-        <rect
-            x="2"
-            y="13"
-            width="9"
-            height="9"
-            fill="currentColor"
-            class="animate-neobr-tail"
-            style="animation-delay: 0.6s;"
-        />
-    </svg>
+    <span class="grid h-full w-full grid-cols-2 gap-[12.5%]">
+        <span class="animate-neobr-tail bg-current" style="animation-delay: 0s;"></span>
+        <span class="animate-neobr-tail bg-current" style="animation-delay: 0.2s;"></span>
+        <span class="animate-neobr-tail bg-current" style="animation-delay: 0.6s;"></span>
+        <span class="animate-neobr-tail bg-current" style="animation-delay: 0.4s;"></span>
+    </span>
 </div>

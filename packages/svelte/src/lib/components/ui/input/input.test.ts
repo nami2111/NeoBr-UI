@@ -14,7 +14,8 @@ describe("Input component", () => {
         render(Input, { props: { placeholder: "Test input" } });
         const input = screen.getByPlaceholderText("Test input");
         expect(input).toBeInTheDocument();
-        expect(input).toHaveClass("input-brutalist");
+        expect(input).toHaveClass("border-2");
+        expect(input).toHaveClass("rounded-brutalist");
     });
 
     test("renders with different types", () => {
@@ -64,7 +65,7 @@ describe("Input component", () => {
         render(Input, { props: { class: "custom-class", placeholder: "Custom" } });
         const input = screen.getByPlaceholderText("Custom");
         expect(input).toHaveClass("custom-class");
-        expect(input).toHaveClass("input-brutalist");
+        expect(input).toHaveClass("border-2");
     });
 
     test("handles oninput event", async () => {

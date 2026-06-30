@@ -1,30 +1,27 @@
 <script lang="ts">
     import { type VariantProps, cva } from "class-variance-authority";
     import type { HTMLAnchorAttributes, HTMLButtonAttributes } from "svelte/elements";
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
 
 /**
  * Button variants configuration using CVA.
  * Defines styles for different visual variants, sizes, and the brutalist theme.
  */
 const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
+    "border-foreground shadow-brutalist hover:shadow-brutalist-hover tracking-brutalist inline-flex cursor-pointer items-center justify-center border-2 text-sm font-bold whitespace-nowrap transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
     {
         variants: {
             variant: {
-                default:
-                    "bg-primary text-primary-foreground hover:bg-primary-hover border-2",
+                default: "bg-primary text-primary-foreground hover:bg-primary-hover",
                 destructive:
-                    "bg-destructive text-destructive-foreground hover:bg-destructive-hover border-2",
-                success:
-                    "bg-success text-success-foreground hover:bg-success-hover border-2",
-                warning:
-                    "bg-warning text-warning-foreground hover:bg-warning-hover border-2",
+                    "bg-destructive text-destructive-foreground hover:bg-destructive-hover",
+                success: "bg-success text-success-foreground hover:bg-success-hover",
+                warning: "bg-warning text-warning-foreground hover:bg-warning-hover",
                 secondary:
-                    "bg-secondary text-secondary-foreground hover:bg-secondary-hover border-2",
-                outline: "btn-brutalist border-2 bg-background hover:bg-accent",
-                ghost: "hover:bg-accent hover:text-accent-foreground border-2 border-transparent",
-                link: "text-primary underline-offset-4 hover:underline border-2 border-transparent",
+                    "bg-secondary text-secondary-foreground hover:bg-secondary-hover",
+                outline: "bg-background hover:bg-accent",
+                ghost: "border-transparent hover:bg-accent hover:text-accent-foreground",
+                link: "border-transparent text-primary underline-offset-4 hover:underline",
             },
             size: {
                 default: "h-10 px-4 py-2",
@@ -33,9 +30,9 @@ const buttonVariants = cva(
                 icon: "h-10 w-10",
             },
             radius: {
-                brutalist: "btn-brutalist rounded-none tracking-[0.1em]",
-                soft: "btn-brutalist-soft rounded-[6px] tracking-[0.1em]",
-                rounded: "btn-brutalist-rounded rounded-[12px] tracking-[0.1em]",
+                brutalist: RADIUS.brutalist,
+                soft: RADIUS.soft,
+                rounded: RADIUS.rounded,
             },
         },
         defaultVariants: {
@@ -52,7 +49,7 @@ type Props = HTMLButtonAttributes &
          * Button radius style: brutalist (sharp), soft (6px), or rounded (12px).
          * @default "brutalist"
          */
-        radius?: "brutalist" | "soft" | "rounded";
+        radius?: Radius;
 
         /**
          * If provided, renders as an anchor tag (`<a>`) instead of a button.

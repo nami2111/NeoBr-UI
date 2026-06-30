@@ -44,13 +44,13 @@
     const flyParams = $derived.by(() => {
         switch (side) {
             case "top":
-                return { y: -200, ...TRANSITION_BRUTALIST_SLOW };
+                return { y: -200, ...TRANSITION_BRUTALIST_SLOW() };
             case "bottom":
-                return { y: 200, ...TRANSITION_BRUTALIST_SLOW };
+                return { y: 200, ...TRANSITION_BRUTALIST_SLOW() };
             case "left":
-                return { x: -200, ...TRANSITION_BRUTALIST_SLOW };
+                return { x: -200, ...TRANSITION_BRUTALIST_SLOW() };
             case "right":
-                return { x: 200, ...TRANSITION_BRUTALIST_SLOW };
+                return { x: 200, ...TRANSITION_BRUTALIST_SLOW() };
         }
     });
 
@@ -71,16 +71,12 @@
 <svelte:window onkeydown={overlay.handleKeydown} />
 
 {#if open}
-    <div
-        class="fixed inset-0 flex items-center justify-center"
-        style="z-index: var(--z-sheet)"
-    >
+    <div class="z-sheet fixed inset-0 flex items-center justify-center">
         <!-- Backdrop -->
         <button
             type="button"
-            class="bg-foreground/30 fixed inset-0 border-0 p-0 backdrop-blur-sm transition-opacity"
-            style="z-index: var(--z-sheet-backdrop)"
-            transition:fade={TRANSITION_BRUTALIST_BACKDROP}
+            class="z-sheet-backdrop bg-foreground/30 fixed inset-0 border-0 p-0 backdrop-blur-sm transition-opacity"
+            transition:fade={TRANSITION_BRUTALIST_BACKDROP()}
             onclick={handleClose}
             tabindex="-1"
             aria-label="Close sheet backdrop"
@@ -90,11 +86,10 @@
         <div
             {@attach overlay.content}
             class={cn(
-                "bg-background shadow-brutalist border-foreground fixed flex flex-col gap-4 p-6 transition-all outline-none",
+                "z-sheet bg-background shadow-brutalist border-foreground fixed flex flex-col gap-4 p-6 transition-all outline-none",
                 sideClasses,
                 className,
             )}
-            style="z-index: var(--z-sheet)"
             transition:fly={flyParams}
             role="dialog"
             aria-modal="true"
@@ -110,7 +105,7 @@
                 {/if}
                 <button
                     type="button"
-                    class="border-foreground hover:bg-muted rounded-brutalist border-2 p-1 transition-all active:translate-y-[2px]"
+                    class="border-foreground hover:bg-muted rounded-brutalist border-2 p-1 transition-all active:translate-y-[var(--press-brutalist-sm)]"
                     onclick={handleClose}
                 >
                     <Icon icon={Cancel01Icon} class="h-5 w-5" />

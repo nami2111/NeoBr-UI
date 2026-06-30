@@ -1,61 +1,113 @@
-# Documentation Site Hardening Plan
+# NeoBr-UI Post-Publish Stabilization Plan
 
-Goal: make the docs site accurate, scannable, mobile-safe, and release-ready without redesigning it or adding speculative demos.
+`@neobr/svelte@2.0.0` is published. The next work should prove the package works for consumers and make the v2 migration obvious. Avoid broad refactors until these checks are done.
 
-## 1. Docs accuracy pass
+---
 
-- [x] Search docs for stale `@neobr/tailwind-preset` references and remove any remaining preset install instructions.
-- [x] Confirm all setup snippets import `@neobr/svelte/style`.
-- [x] Confirm install/setup docs explain that font tokens are opt-in and the library does not own the app body font.
-- [x] Confirm form docs mention that only top-level string fields default to `""`.
-- [x] Confirm form docs tell users to provide `initialValues` for number, boolean, array, object, and date fields.
-- [x] Confirm Select, Accordion, and Calendar docs use `type="multiple"` whenever examples bind array values.
-- [x] Confirm package/dependency notes match the current `@neobr/svelte` package surface.
+## Phase 1 — Published Package Smoke Test
 
-## 2. Component page consistency
+### 1.1 Verify npm install in a clean consumer app
 
-- [x] Audit component pages for a consistent section shape: Usage, variants/sizes/states, and short API notes where useful.
-- [x] Keep existing page structure when it is already clear; do not rewrite pages just for uniformity.
-- [x] Add missing accessibility notes only where the component behavior needs user awareness.
-- [x] Add missing responsive behavior notes only where demos can mislead users on mobile.
-- [x] Keep examples short and executable; avoid marketing copy and long explanatory prose.
+- **What**: Create a temporary app outside the package workspace and install `@neobr/svelte@2.0.0`.
+- **Why**: Internal tests do not prove published tarball exports, CSS imports, and peer dependency behavior.
+- **Check**:
+  - `import "@neobr/svelte/style"`
+  - `import { Button } from "@neobr/svelte"`
+  - `import { Button } from "@neobr/svelte/button"`
+  - Production build passes.
+- **Done**: Clean app builds with the published package and no local workspace links.
 
-## 3. Mobile docs QA
+### 1.2 Verify package metadata
 
-- [x] Run the docs app locally.
-- [x] Check core docs pages at a narrow mobile width: home, installation, components index, modal, sheet, form, select, table.
-- [x] Fix horizontal overflow in examples, code blocks, tables, and component preview wrappers.
-- [x] Confirm modal and sheet demos remain usable on mobile.
-- [x] Confirm header, sidebar/menu, and search controls do not overlap content.
+- **What**: Confirm npm shows the expected version, README, repository, files, and `latest` tag.
+- **Why**: Publish succeeded, but package metadata warnings should not recur.
+- **Done**: `npm view @neobr/svelte@2.0.0` looks correct.
 
-## 4. Navigation and discovery
+---
 
-- [x] Review component index grouping and labels for scan speed.
-- [x] Check active navigation state in the sidebar/header.
-- [x] Check keyboard navigation for header links, mobile menu, search, and component links.
-- [x] Improve search only if current search misses obvious component names or aliases.
-- [x] Avoid a new navigation system unless the current one demonstrably blocks discovery.
+## Phase 2 — v2 Migration Docs
 
-## 5. Performance and accessibility sweep
+### 2.1 Document breaking API changes
 
-- [x] Run `vp run --filter docs check`.
-- [x] Run `vp run build`.
-- [x] Review build output for unusually large docs chunks before adding any new dependency or demo.
-- [x] Run an accessibility pass on key docs pages with existing tooling or browser checks.
-- [x] Fix heading order, focus visibility, contrast, and landmark issues found during the pass.
+- **What**: Update docs and examples for v2 changes.
+- **Why**: The release is major; consumers need direct migration examples.
+- **Where**: `packages/svelte/README.md`, `apps/docs/src/routes/docs/*`, and affected component pages.
+- **Must cover**:
+  - Replace removed `brutalist` boolean props with `radius="brutalist" | "soft" | "rounded"`.
+  - Use Popover trigger props:
 
-## 6. Release docs finish
+```svelte
+{#snippet trigger(props)}
+    <Button {...props}>Open Popover</Button>
+{/snippet}
+```
 
-- [x] Update docs if the final release notes mention behavior not covered in the site.
-- [x] Keep the existing changeset as the source of package release notes.
-- [x] Do not add a large theme playground yet.
-- [x] Add richer examples only when a concrete docs gap appears during QA.
+- **Done**: Docs include a clear v1 to v2 migration section.
 
-## Done Criteria
+### 2.2 Refresh component examples
 
-- [x] `vp run --filter docs check` passes.
-- [x] `vp run build` passes.
-- [x] Key docs pages have no obvious mobile horizontal overflow.
-- [x] Installation and README examples match the current package API.
-- [x] Component pages do not document APIs that do not exist.
-- [x] Documentation changes stay focused on accuracy and usability, not redesign.
+- **What**: Update component pages to show the current API and remove stale patterns.
+- **Why**: Docs should model the supported usage, not legacy compatibility.
+- **Done**: No docs examples use removed props or old Popover trigger snippets.
+
+---
+
+## Phase 3 — Accessibility Smoke Sweep
+
+### 3.1 Keyboard and focus checks
+
+- **What**: Manually verify high-risk interactive components.
+- **Scope**: Modal, Sheet, Popover, DropdownMenu, Tooltip, Select, DatePicker.
+- **Check**:
+  - Opens from keyboard.
+  - Escape closes the top overlay.
+  - Focus moves predictably.
+  - Backdrop clicks still close where expected.
+- **Done**: Any regression is filed or fixed with a focused test.
+
+### 3.2 Axe checks on docs demos
+
+- **What**: Run axe against representative docs pages.
+- **Why**: Existing unit a11y tests are useful, but docs composition can still break labels or structure.
+- **Done**: No serious axe violations on overlay/form/component demo pages.
+
+---
+
+## Phase 4 — Visual Smoke Tests
+
+### 4.1 Add minimal screenshot coverage
+
+- **What**: Add a small Playwright screenshot smoke for the docs app.
+- **Scope**: Component index plus a few high-risk pages: Button, Popover, Modal, Sheet, DatePicker.
+- **Why**: Unit tests do not catch broken shadows, layering, clipped content, or dark-mode visual regressions.
+- **Done**: One command captures stable screenshots on desktop and mobile widths.
+
+### 4.2 Check dark mode and reduced motion
+
+- **What**: Verify the public docs under dark mode and reduced-motion settings.
+- **Why**: Recent work touched focus rings, motion, z-index, and CSS utilities.
+- **Done**: No obvious visual regressions in dark mode or reduced motion.
+
+---
+
+## Phase 5 — Release Hygiene
+
+### 5.1 Commit published release state
+
+- **What**: Commit versioned files, changelog output, package metadata cleanup, and this stabilization plan.
+- **Why**: npm has `2.0.0`; git should match the published state.
+- **Done**: Commit references `@neobr/svelte@2.0.0`.
+
+### 5.2 Tag and push
+
+- **What**: Create and push the release tag if that is the project convention.
+- **Why**: Consumers and maintainers need a source snapshot matching npm.
+- **Done**: GitHub has the release commit/tag for `@neobr/svelte@2.0.0`.
+
+---
+
+## Later, Only If Needed
+
+- Add a real external fixture app if manual npm smoke testing becomes repetitive.
+- Add broader visual regression only after the first small screenshot smoke proves useful.
+- Revisit library tooling if keeping `packages/svelte/src/app.html` becomes painful.

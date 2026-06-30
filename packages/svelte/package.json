@@ -1,11 +1,11 @@
 {
     "name": "@neobr/svelte",
-    "version": "1.2.0",
+    "version": "2.0.0",
     "type": "module",
     "description": "Neo-Brutalist Svelte 5 Component Library",
     "repository": {
         "type": "git",
-        "url": "https://github.com/nami2111/NeoBr-UI.git",
+        "url": "git+https://github.com/nami2111/NeoBr-UI.git",
         "directory": "packages/svelte"
     },
     "homepage": "https://github.com/nami2111/NeoBr-UI/tree/main/packages/svelte#readme",
@@ -61,6 +61,9 @@
         "!dist/**/*test-helper*",
         "!dist/**/*-test.svelte*",
         "!dist/tests/**"
+    ],
+    "sideEffects": [
+        "**/*.css"
     ],
     "peerDependencies": {
         "svelte": ">=5.40.0 <6"
