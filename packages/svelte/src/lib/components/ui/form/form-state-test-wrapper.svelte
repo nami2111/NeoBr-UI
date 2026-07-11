@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { createFormState, z } from "../../../utils/form-validation.svelte";
+    import { createFormState } from "../../../utils/form-validation.svelte";
+    import { z } from "zod";
 
     let { onSubmit = async () => {} }: { onSubmit?: (values: unknown) => void | Promise<void> } =
         $props();

@@ -27,41 +27,24 @@ export type CompatibleSelectProps =
     | MultipleValueProps<SelectRootProps, string>;
 
 /**
- * Helper type to extract the selection type from props
- */
-export type SelectionType<T> = T extends { type: infer U } ? U : "single";
-
-/**
- * Helper type to infer value type from selection type
- */
-export type ValueType<T extends "single" | "multiple"> = T extends "single" ? string : string[];
-
-/**
- * Simplified DateValue type for components
- * Resolves the complex union type that causes TypeScript issues
- */
-export type SimpleDateValue = DateValue;
-
-/**
- * Compatible DatePicker props for Svelte 5
- * Uses SimpleDateValue to avoid complex union type issues
+ * Compatible DatePicker props for Svelte 5.
  */
 export type CompatibleDatePickerProps = {
-    value?: SimpleDateValue | undefined;
+    value?: DateValue | undefined;
 } & Omit<DatePickerRootProps, "value">;
 
 type CalendarBaseProps = {
-    placeholder?: SimpleDateValue | undefined;
+    placeholder?: DateValue | undefined;
     fixedWeeks?: boolean;
     class?: string;
 };
 
 export type CompatibleCalendarProps =
     | (CalendarBaseProps & {
-          value?: SimpleDateValue | undefined;
+          value?: DateValue | undefined;
           type?: "single";
       })
     | (CalendarBaseProps & {
-          value?: SimpleDateValue[] | undefined;
+          value?: DateValue[] | undefined;
           type: "multiple";
       });

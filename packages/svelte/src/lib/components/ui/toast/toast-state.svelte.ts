@@ -17,38 +17,16 @@ export interface ToastItem extends Omit<ToastOptions, "duration" | "type"> {
 
 type ToastTimer = ReturnType<typeof setTimeout>;
 
-type ToastManagerDependencies = {
-    createId?: () => string;
-    setTimeout?: (handler: () => void, timeout: number) => ToastTimer;
-    clearTimeout?: (timer: ToastTimer) => void;
-    isBrowser?: boolean;
-};
-
-const defaultDependencies = {
-    createId: () => crypto.randomUUID(),
-    setTimeout: (handler: () => void, timeout: number) => globalThis.setTimeout(handler, timeout),
-    clearTimeout: (timer: ToastTimer) => globalThis.clearTimeout(timer),
-    isBrowser,
-} satisfies Required<ToastManagerDependencies>;
-
 export class ToastManager {
     #toasts = $state<ToastItem[]>([]);
     #timers = new Map<string, ToastTimer>();
-    #dependencies: Required<ToastManagerDependencies>;
-
-    constructor(dependencies: ToastManagerDependencies = {}) {
-        this.#dependencies = {
-            ...defaultDependencies,
-            ...dependencies,
-        };
-    }
 
     get toasts() {
         return this.#toasts;
     }
 
     add(options: ToastOptions) {
-        const id = this.#dependencies.createId();
+        const id = crypto.randomUUID();
         const toast: ToastItem = {
             ...options,
             id,
@@ -58,8 +36,8 @@ export class ToastManager {
 
         this.#toasts.push(toast);
 
-        if (this.#dependencies.isBrowser && toast.duration !== Infinity) {
-            const timer = this.#dependencies.setTimeout(() => {
+        if (isBrowser && toast.duration !== Infinity) {
+            const timer = setTimeout(() => {
                 this.dismiss(id);
             }, toast.duration);
             this.#timers.set(id, timer);
@@ -71,7 +49,7 @@ export class ToastManager {
     dismiss(id: string) {
         const timer = this.#timers.get(id);
         if (timer) {
-            this.#dependencies.clearTimeout(timer);
+            clearTimeout(timer);
             this.#timers.delete(id);
         }
 
@@ -80,7 +58,7 @@ export class ToastManager {
 
     clear() {
         for (const timer of this.#timers.values()) {
-            this.#dependencies.clearTimeout(timer);
+            clearTimeout(timer);
         }
 
         this.#timers.clear();

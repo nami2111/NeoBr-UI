@@ -36,7 +36,8 @@ export type FormOptions<T extends FormSchema> = {
  * @example
  * ```svelte
  * <script>
- *   import { createFormState, z } from "@neobr/svelte/form";
+ *   import { createFormState } from "@neobr/svelte/form";
+ *   import { z } from "zod";
  *
  *   const schema = z.object({
  *     email: z.string().email("Invalid email"),
@@ -236,6 +237,3 @@ function cloneValue<T>(value: T): T {
 
     return JSON.parse(JSON.stringify(value)) as T;
 }
-
-// Re-export zod for convenience
-export { z };

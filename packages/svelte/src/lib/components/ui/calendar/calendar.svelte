@@ -3,7 +3,7 @@
     import { cn } from "../../../utils";
     import Icon from "../icon/icon.svelte";
     import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
-    import type { CompatibleCalendarProps, SimpleDateValue } from "../../../types/bits-ui-compat";
+    import type { CompatibleCalendarProps } from "../../../types/bits-ui-compat";
     import CalendarGrid from "./calendar-grid.svelte";
 
     type Props = CompatibleCalendarProps & {
