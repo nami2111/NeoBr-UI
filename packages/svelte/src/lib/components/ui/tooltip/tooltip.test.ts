@@ -24,6 +24,13 @@ describe("Tooltip", () => {
         );
     });
 
+    it("applies the radius prop to the content", () => {
+        renderClient(Tooltip, { content: "Radius info", open: true, radius: "rounded" });
+        const content = screen.getByRole("tooltip");
+        expect(content).toHaveClass("rounded-brutalist-rounded");
+        expect(content).not.toHaveClass("rounded-brutalist");
+    });
+
     it("hydrates with a stable tooltip ID when initially open", async () => {
         const props = { content: "Initial info", open: true };
         const container = document.createElement("div");

@@ -1,7 +1,9 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
 import { expect, test, describe } from "vite-plus/test";
 import { axe } from "vitest-axe";
+import { createRawSnippet } from "svelte";
 import CommandTestWrapper from "./command-test-wrapper.svelte";
+import Command from "./command.svelte";
 import CommandInput from "./command-input.svelte";
 import CommandItem from "./command-item.svelte";
 import CommandEmpty from "./command-empty.svelte";
@@ -17,6 +19,18 @@ describe("Command component", () => {
         const { container } = render(CommandTestWrapper);
         const command = container.querySelector(".rounded-brutalist");
         expect(command).toBeInTheDocument();
+    });
+
+    test("applies the radius prop", () => {
+        const { container } = render(Command, {
+            props: {
+                radius: "soft",
+                children: createRawSnippet(() => ({ render: () => "<span>x</span>" })),
+            },
+        });
+        const command = container.firstElementChild;
+        expect(command).toHaveClass("rounded-brutalist-soft");
+        expect(command).not.toHaveClass("rounded-brutalist");
     });
 
     test("renders input with placeholder", () => {

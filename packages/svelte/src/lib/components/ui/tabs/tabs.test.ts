@@ -2,6 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
 import { describe, it, expect } from "vite-plus/test";
 import { axe } from "vitest-axe";
 import TabsTestWrapper from "./tabs-test-wrapper.svelte";
+import TabsList from "./tabs-list.svelte";
 import TabsTrigger from "./tabs-trigger.svelte";
 import TabsContent from "./tabs-content.svelte";
 
@@ -47,6 +48,13 @@ describe("Tabs", () => {
         expect(() => render(TabsTrigger, { props: { value: "tab1" } })).toThrow(
             "TabsTrigger must be used inside a Tabs root.",
         );
+    });
+
+    it("applies the radius prop to the tabs list", () => {
+        render(TabsList, { props: { radius: "soft" } });
+        const list = screen.getByRole("tablist");
+        expect(list).toHaveClass("rounded-brutalist-soft");
+        expect(list).not.toHaveClass("rounded-brutalist");
     });
 
     it("throws a clear error when content is outside a tabs root", () => {
