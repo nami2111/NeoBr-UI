@@ -264,10 +264,12 @@
 
 @utility btn-brutalist-soft {
     @apply btn-brutalist;
+    border-radius: var(--radius-brutalist-soft);
 }
 
 @utility btn-brutalist-rounded {
     @apply btn-brutalist;
+    border-radius: var(--radius-brutalist-rounded);
 }
 
 @utility container-brutalist {

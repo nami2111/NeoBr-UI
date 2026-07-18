@@ -29,3 +29,12 @@ export const RADIUS: Record<Radius, string> = {
     soft: "rounded-brutalist-soft",
     rounded: "rounded-brutalist-rounded",
 };
+
+/**
+ * Shared class string for the small square icon buttons used in calendar /
+ * date-picker navigation (bits-ui primitive `class` props). Kept as expanded
+ * literals — not a composite `@utility` — so tailwind-merge can still resolve
+ * consumer overrides. See the `cn` comment above.
+ */
+export const NAV_ICON_BUTTON =
+    "border-foreground shadow-brutalist hover:shadow-brutalist-hover rounded-brutalist flex h-8 w-8 cursor-pointer items-center justify-center border-2 p-0 transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none";

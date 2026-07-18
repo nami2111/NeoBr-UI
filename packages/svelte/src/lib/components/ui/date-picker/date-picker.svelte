@@ -1,6 +1,6 @@
 <script lang="ts">
     import { DatePicker as DatePickerPrimitive } from "bits-ui";
-    import { cn, RADIUS, type Radius } from "../../../utils";
+    import { cn, RADIUS, type Radius, NAV_ICON_BUTTON } from "../../../utils";
     import Icon from "../icon/icon.svelte";
     import { Calendar01Icon, ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
     import type { CompatibleDatePickerProps } from "../../../types/bits-ui-compat";
@@ -62,17 +62,13 @@
             <DatePickerPrimitive.Calendar>
                 {#snippet children({ months, weekdays })}
                     <DatePickerPrimitive.Header class="flex items-center justify-between pb-4">
-                        <DatePickerPrimitive.PrevButton
-                            class="border-foreground shadow-brutalist hover:shadow-brutalist-hover rounded-brutalist flex h-8 w-8 cursor-pointer items-center justify-center border-2 p-0 transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none"
-                        >
+                        <DatePickerPrimitive.PrevButton class={NAV_ICON_BUTTON}>
                             <Icon icon={ArrowLeft01Icon} class="h-4 w-4" />
                         </DatePickerPrimitive.PrevButton>
                         <DatePickerPrimitive.Heading
                             class="text-sm font-black tracking-tighter uppercase"
                         />
-                        <DatePickerPrimitive.NextButton
-                            class="border-foreground shadow-brutalist hover:shadow-brutalist-hover rounded-brutalist flex h-8 w-8 cursor-pointer items-center justify-center border-2 p-0 transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none"
-                        >
+                        <DatePickerPrimitive.NextButton class={NAV_ICON_BUTTON}>
                             <Icon icon={ArrowRight01Icon} class="h-4 w-4" />
                         </DatePickerPrimitive.NextButton>
                     </DatePickerPrimitive.Header>
