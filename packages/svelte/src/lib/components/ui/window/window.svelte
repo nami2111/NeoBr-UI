@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
     import type { HTMLAttributes } from "svelte/elements";
     import Icon from "../icon/icon.svelte";
     import { Cancel01Icon, MinusSignIcon, SquareIcon } from "@hugeicons/core-free-icons";
@@ -13,6 +13,11 @@
         onMinimize?: () => void;
         onMaximize?: () => void;
         children?: import("svelte").Snippet;
+        /**
+         * Corner radius: brutalist (sharp), soft (6px), or rounded (12px).
+         * @default "brutalist"
+         */
+        radius?: Radius;
     }
 
     let {
@@ -25,13 +30,15 @@
         onClose = undefined,
         onMinimize = undefined,
         onMaximize = undefined,
+        radius = "brutalist",
         ...rest
     }: Props = $props();
 </script>
 
 <div
     class={cn(
-        "bg-background border-foreground shadow-brutalist rounded-brutalist overflow-hidden border-2 p-0",
+        "bg-background border-foreground shadow-brutalist overflow-hidden border-2 p-0",
+        RADIUS[radius],
         className,
     )}
     {...rest}

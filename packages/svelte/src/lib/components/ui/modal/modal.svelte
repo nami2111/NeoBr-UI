@@ -11,7 +11,7 @@
      * </Modal>
      * ```
      */
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
     import {
         TRANSITION_BRUTALIST_BACKDROP,
         TRANSITION_BRUTALIST_SLOW,
@@ -45,6 +45,12 @@
          */
         size?: "sm" | "md" | "lg" | "xl" | "full" | "auto";
 
+        /**
+         * Corner radius: brutalist (sharp), soft (6px), or rounded (12px).
+         * @default "brutalist"
+         */
+        radius?: Radius;
+
         children?: import("svelte").Snippet;
     };
 
@@ -53,6 +59,7 @@
         onClose = () => {},
         title = undefined,
         size = "md",
+        radius = "brutalist",
         children,
     }: Props = $props();
 
@@ -102,7 +109,8 @@
         <div
             {@attach overlay.content}
             class={cn(
-                "z-modal bg-card text-card-foreground border-foreground shadow-brutalist rounded-brutalist relative w-full overflow-auto border-2 p-6 outline-none",
+                "z-modal bg-card text-card-foreground border-foreground shadow-brutalist relative w-full overflow-auto border-2 p-6 outline-none",
+                RADIUS[radius],
                 sizeClasses[size],
             )}
             transition:fly={{ y: 20, ...TRANSITION_BRUTALIST_SLOW() }}
