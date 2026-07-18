@@ -33,7 +33,8 @@
         "test": "vp test run",
         "test:watch": "vp test",
         "pack:check": "node scripts/check-package-files.mjs",
-        "exports:check": "node scripts/check-package-exports.mjs"
+        "exports:check": "node scripts/check-package-exports.mjs",
+        "tree-shake:check": "node scripts/check-tree-shaking.mjs"
     },
     "exports": {
         ".": {
