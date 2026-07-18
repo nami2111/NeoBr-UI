@@ -3,7 +3,9 @@
     import type { HTMLButtonAttributes } from "svelte/elements";
 
     type Props = HTMLButtonAttributes & {
+        /** Called when the item is activated. */
         onclick?: () => void;
+        /** Item content. */
         children?: import("svelte").Snippet;
     };
 

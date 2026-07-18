@@ -2,6 +2,7 @@
     import { cn } from "../../../utils";
     import type { HTMLAttributes } from "svelte/elements";
 
+    /** Placeholder block shown while content loads. Size it with `class`. */
     type Props = HTMLAttributes<HTMLDivElement>;
 
     let { class: className, ...rest }: Props = $props();

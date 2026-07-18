@@ -2,6 +2,7 @@
   import { cn } from "../../../utils";
   import type { HTMLAttributes } from "svelte/elements";
 
+  /** Ordered list wrapper for breadcrumb items. */
   type Props = HTMLAttributes<HTMLOListElement>;
 
   let { class: className, children, ...rest }: Props = $props();

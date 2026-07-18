@@ -3,6 +3,7 @@
   import type { HTMLAttributes } from "svelte/elements";
 
   type Props = HTMLAttributes<HTMLHeadingElement> & {
+      /** Title content. */
       children?: import('svelte').Snippet;
   };
 

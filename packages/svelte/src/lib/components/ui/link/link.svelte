@@ -27,6 +27,7 @@
 
     type Props = HTMLAnchorAttributes &
         VariantProps<typeof linkVariants> & {
+            /** Link content. */
             children?: import("svelte").Snippet;
         };
 

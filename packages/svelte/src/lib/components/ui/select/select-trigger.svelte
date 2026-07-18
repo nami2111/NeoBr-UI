@@ -5,9 +5,16 @@
     import { ChevronDown } from "@hugeicons/core-free-icons";
 
     type Props = Omit<Select.TriggerProps, "children"> & {
+        /** Additional classes for the trigger. */
         class?: string;
+        /** Text shown when no value is selected. */
         placeholder?: string;
+        /**
+         * Corner radius style: brutalist (sharp), soft (6px), or rounded (12px).
+         * @default "brutalist"
+         */
         radius?: Radius;
+        /** Custom trigger content, replacing the default value/placeholder rendering. */
         children?: import("svelte").Snippet<[]>;
     };
 

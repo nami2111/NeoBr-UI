@@ -3,10 +3,21 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
+        /** Image source URL. Falls back to initials on load error or when omitted. */
         src?: string;
+        /** Alt text for the image. */
         alt?: string;
+        /** Text shown when no image is available (typically initials). */
         fallback?: string;
+        /**
+         * Avatar size.
+         * @default "md"
+         */
         size?: "sm" | "md" | "lg" | "xl";
+        /**
+         * Avatar shape.
+         * @default "circle"
+         */
         shape?: "circle" | "square";
     };
 

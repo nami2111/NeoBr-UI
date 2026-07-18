@@ -3,6 +3,7 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
+        /** Optional group heading rendered above the items. */
         heading?: string;
     };
 

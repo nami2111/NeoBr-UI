@@ -2,6 +2,7 @@
     import { cn } from "../../../utils";
     import type { HTMLAttributes } from "svelte/elements";
 
+    /** Table header cell (`<th>`). */
     let { class: className, children, ...rest }: HTMLAttributes<HTMLTableCellElement> = $props();
 </script>
 

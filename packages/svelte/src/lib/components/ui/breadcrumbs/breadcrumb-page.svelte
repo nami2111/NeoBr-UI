@@ -2,6 +2,7 @@
   import { cn } from "../../../utils";
   import type { HTMLAttributes } from "svelte/elements";
 
+  /** The current page in the breadcrumb trail (non-interactive). */
   type Props = HTMLAttributes<HTMLSpanElement>;
 
   let { class: className, children, ...rest }: Props = $props();

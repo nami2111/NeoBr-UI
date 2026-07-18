@@ -4,6 +4,7 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
+        /** Active tab value. Bindable. */
         value?: string;
     };
 

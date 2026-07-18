@@ -4,8 +4,14 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
+        /** Selected item value. Bindable. */
         value?: string;
+        /**
+         * Disables all items in the group.
+         * @default false
+         */
         disabled?: boolean;
+        /** Shared form field name for the underlying radio inputs. */
         name?: string;
     };
 

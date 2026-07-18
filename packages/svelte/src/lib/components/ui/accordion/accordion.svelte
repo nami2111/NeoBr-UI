@@ -4,6 +4,7 @@
     import type { CompatibleAccordionProps } from "../../../types/bits-ui-compat";
 
     type Props = CompatibleAccordionProps & {
+        /** Additional classes for the accordion root. */
         class?: string;
     };
 

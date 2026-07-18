@@ -2,8 +2,14 @@
     import { cn } from "../../../utils";
 
     type Props = {
+        /** Additional classes for the scroll container. */
         class?: string;
+        /** Scrollable content. */
         children?: import("svelte").Snippet;
+        /**
+         * Which axes may scroll.
+         * @default "vertical"
+         */
         orientation?: "vertical" | "horizontal" | "both";
     };
 

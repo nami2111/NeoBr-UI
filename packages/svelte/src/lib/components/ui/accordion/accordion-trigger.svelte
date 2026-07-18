@@ -5,6 +5,7 @@
     import { ChevronDown } from "@hugeicons/core-free-icons";
 
     type Props = Accordion.TriggerProps & {
+        /** Additional classes for the accordion trigger. */
         class?: string;
     };
 

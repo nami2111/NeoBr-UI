@@ -4,7 +4,12 @@
     import type { HTMLButtonAttributes } from "svelte/elements";
 
     type Props = HTMLButtonAttributes & {
+        /**
+         * Marks this link as the current page.
+         * @default false
+         */
         isActive?: boolean;
+        /** If provided, renders as a link to this URL. */
         href?: string;
     };
 

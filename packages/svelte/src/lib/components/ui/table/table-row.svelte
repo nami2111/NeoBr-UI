@@ -2,6 +2,7 @@
     import { cn } from "../../../utils";
     import type { HTMLAttributes } from "svelte/elements";
 
+    /** Table row (`<tr>`). */
     let { class: className, children, ...rest }: HTMLAttributes<HTMLTableRowElement> = $props();
 </script>
 

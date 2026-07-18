@@ -5,13 +5,30 @@
     import { Cancel01Icon, MinusSignIcon, SquareIcon } from "@hugeicons/core-free-icons";
 
     interface Props extends HTMLAttributes<HTMLDivElement> {
+        /** Title shown in the window's title bar. */
         title?: string;
+        /**
+         * Show a close control.
+         * @default false
+         */
         closable?: boolean;
+        /**
+         * Show a minimize control.
+         * @default false
+         */
         minimizable?: boolean;
+        /**
+         * Show a maximize control.
+         * @default false
+         */
         maximizable?: boolean;
+        /** Called when the close control is activated. */
         onClose?: () => void;
+        /** Called when the minimize control is activated. */
         onMinimize?: () => void;
+        /** Called when the maximize control is activated. */
         onMaximize?: () => void;
+        /** Window body content. */
         children?: import("svelte").Snippet;
         /**
          * Corner radius: brutalist (sharp), soft (6px), or rounded (12px).

@@ -2,6 +2,7 @@
   import { cn } from "../../../utils";
   import type { HTMLAttributes } from "svelte/elements";
 
+  /** Header area of a card, holds title and description. */
   type Props = HTMLAttributes<HTMLDivElement> & {
       children?: import('svelte').Snippet;
   };

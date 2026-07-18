@@ -4,6 +4,7 @@
     import type { HTMLAttributes } from "svelte/elements";
     import { MoreHorizontalIcon } from "@hugeicons/core-free-icons";
 
+    /** Ellipsis indicating skipped page numbers. */
     type Props = HTMLAttributes<HTMLSpanElement>;
 
     let { class: className, ...rest }: Props = $props();

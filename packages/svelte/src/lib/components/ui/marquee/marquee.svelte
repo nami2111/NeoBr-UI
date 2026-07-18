@@ -4,10 +4,27 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     interface Props extends HTMLAttributes<HTMLDivElement> {
+        /**
+         * Scroll direction.
+         * @default "left"
+         */
         direction?: "left" | "right";
+        /**
+         * Seconds for one full loop. Lower is faster.
+         * @default 20
+         */
         speed?: number;
+        /**
+         * Pause the animation while hovered.
+         * @default false
+         */
         pauseOnHover?: boolean;
+        /**
+         * Gap between repeated content.
+         * @default "1rem"
+         */
         gap?: string;
+        /** Content to scroll. */
         children?: import("svelte").Snippet;
     }
 

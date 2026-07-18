@@ -4,7 +4,9 @@
 
     import type { HTMLButtonAttributes } from "svelte/elements";
 
+    /** Toggles the enclosing `Collapsible` when clicked. */
     type Props = HTMLButtonAttributes & {
+        /** Trigger content. */
         children?: import("svelte").Snippet;
     };
 

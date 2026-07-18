@@ -2,6 +2,7 @@
   import { cn } from "../../../utils";
   import type { HTMLAttributes } from "svelte/elements";
 
+  /** Card heading. */
   type Props = HTMLAttributes<HTMLHeadingElement> & {
       children?: import('svelte').Snippet;
   };

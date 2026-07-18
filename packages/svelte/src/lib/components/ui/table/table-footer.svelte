@@ -2,6 +2,7 @@
     import { cn } from "../../../utils";
     import type { HTMLAttributes } from "svelte/elements";
 
+    /** Table footer (`<tfoot>`), e.g. for totals. */
     let { class: className, children, ...rest }: HTMLAttributes<HTMLTableSectionElement> = $props();
 </script>
 

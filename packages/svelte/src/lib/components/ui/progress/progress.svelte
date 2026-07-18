@@ -3,8 +3,20 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
+        /**
+         * Current progress value.
+         * @default 0
+         */
         value?: number;
+        /**
+         * Maximum value corresponding to 100%.
+         * @default 100
+         */
         max?: number;
+        /**
+         * Show an indeterminate animation, ignoring `value`.
+         * @default false
+         */
         indeterminate?: boolean;
     };
 

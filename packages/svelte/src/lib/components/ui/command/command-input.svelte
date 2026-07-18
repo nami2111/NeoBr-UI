@@ -6,7 +6,9 @@
 
     import type { HTMLInputAttributes } from "svelte/elements";
 
+    /** Search field for a `Command`. Updates the command's filter as the user types. */
     type Props = HTMLInputAttributes & {
+        /** Additional classes for the input. */
         class?: string;
     };
 

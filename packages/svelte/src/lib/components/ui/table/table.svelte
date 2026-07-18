@@ -2,6 +2,7 @@
     import { cn } from "../../../utils";
     import type { HTMLTableAttributes } from "svelte/elements";
 
+    /** Table root. Wrap header/body/footer sub-components. */
     let { class: className, children, ...rest }: HTMLTableAttributes = $props();
 </script>
 

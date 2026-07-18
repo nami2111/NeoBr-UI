@@ -7,6 +7,7 @@
     import CalendarGrid from "./calendar-grid.svelte";
 
     type Props = CompatibleCalendarProps & {
+        /** Additional classes for the calendar root. */
         class?: string;
     };
 

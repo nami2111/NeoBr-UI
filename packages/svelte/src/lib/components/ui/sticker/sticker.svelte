@@ -2,11 +2,29 @@
     import { cn, RADIUS, type Radius } from "../../../utils";
 
     interface Props {
+        /** Additional classes for the sticker. */
         class?: string;
+        /**
+         * Rotation in degrees.
+         * @default 0
+         */
         rotation?: number;
+        /**
+         * Color scheme.
+         * @default "default"
+         */
         variant?: "default" | "primary" | "secondary" | "success" | "warning" | "destructive";
+        /**
+         * Sticker outline shape.
+         * @default "rectangle"
+         */
         shape?: "rectangle" | "pill" | "circle" | "tape" | "jagged" | "star";
+        /**
+         * Corner radius style (applies to the rectangle shape).
+         * @default "brutalist"
+         */
         radius?: Radius;
+        /** Sticker content. */
         children?: import("svelte").Snippet;
     }
 

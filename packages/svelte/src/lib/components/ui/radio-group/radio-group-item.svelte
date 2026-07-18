@@ -7,8 +7,14 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
+        /** Value selected when this item is chosen. */
         value: string;
+        /**
+         * Disables just this item.
+         * @default false
+         */
         disabled?: boolean;
+        /** Element id, useful for associating a `<label>`. */
         id?: string;
     };
 

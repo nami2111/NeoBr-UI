@@ -12,11 +12,17 @@
     >;
 
     type Props = {
+        /** Controls visibility. Bindable. */
         open?: boolean;
+        /** Trigger snippet; receives props to spread onto your trigger element. */
         trigger?: Snippet<[TriggerProps]>;
+        /** Popover content. */
         children?: Snippet;
+        /** Additional classes for the root. */
         class?: string;
+        /** Additional classes for the content panel. */
         contentClass?: string;
+        /** Accessible label for the content panel. */
         contentLabel?: string;
         /**
          * Corner radius: brutalist (sharp), soft (6px), or rounded (12px).

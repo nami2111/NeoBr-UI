@@ -7,10 +7,18 @@
     import type { HTMLButtonAttributes } from "svelte/elements";
 
     type Props = HTMLButtonAttributes & {
+        /** Tooltip text shown on hover/focus. */
         content: string;
+        /** Additional classes for the trigger. */
         class?: string;
+        /**
+         * Tooltip placement relative to the trigger.
+         * @default "top"
+         */
         position?: "top" | "bottom" | "left" | "right";
+        /** Controls visibility. Bindable. */
         open?: boolean;
+        /** Trigger content. */
         children?: import("svelte").Snippet;
         /**
          * Corner radius: brutalist (sharp), soft (6px), or rounded (12px).

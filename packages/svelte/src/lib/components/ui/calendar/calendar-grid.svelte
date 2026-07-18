@@ -2,6 +2,7 @@
     import { Calendar as CalendarPrimitive, type CalendarRootSnippetProps } from "bits-ui";
     import { cn } from "../../../utils";
 
+    /** Renders the month grid for `Calendar`. Receives `months`/`weekdays` from the bits-ui root snippet. */
     type Props = CalendarRootSnippetProps;
 
     let { months, weekdays }: Props = $props();

@@ -7,9 +7,22 @@
     import { Tick02Icon } from "@hugeicons/core-free-icons";
 
     type Props = Omit<HTMLInputAttributes, "type"> & {
+        /**
+         * Checked state. Bindable.
+         * @default false
+         */
         checked?: boolean;
+        /**
+         * Disables interaction.
+         * @default false
+         */
         disabled?: boolean;
+        /** Input id, useful for associating a `<label>`. */
         id?: string;
+        /**
+         * Corner radius style: brutalist (sharp), soft (6px), or rounded (12px).
+         * @default "brutalist"
+         */
         radius?: Radius;
     };
 

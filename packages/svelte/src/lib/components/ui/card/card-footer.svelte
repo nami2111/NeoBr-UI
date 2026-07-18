@@ -2,6 +2,7 @@
   import { cn } from "../../../utils";
   import type { HTMLAttributes } from "svelte/elements";
 
+  /** Footer area of a card, typically for actions. */
   type Props = HTMLAttributes<HTMLDivElement> & {
       children?: import('svelte').Snippet;
   };

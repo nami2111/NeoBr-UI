@@ -7,8 +7,14 @@
     import CalendarGrid from "../calendar/calendar-grid.svelte";
 
     type Props = CompatibleDatePickerProps & {
+        /** Additional classes for the date-picker root. */
         class?: string;
+        /** Optional field label. */
         label?: string;
+        /**
+         * Corner radius style: brutalist (sharp), soft (6px), or rounded (12px).
+         * @default "brutalist"
+         */
         radius?: Radius;
     };
 

@@ -5,9 +5,13 @@
     import type { HTMLButtonAttributes } from "svelte/elements";
 
     type Props = HTMLButtonAttributes & {
+        /** Additional classes for the item. */
         class?: string;
+        /** Value used for filtering and passed to `onSelect`. */
         value?: string;
+        /** Called with `value` when the item is selected. */
         onSelect?: (value: string) => void;
+        /** Item content. */
         children?: import("svelte").Snippet;
     };
 
