@@ -16,7 +16,7 @@ A **Neo-Brutalist** component library for Svelte 5 — high-contrast, thick bord
 - **Accessibility** — Keyboard navigation, ARIA attributes, focus trapping, and screen-reader support in every component.
 - **Tree-shaking** — Granular sub-path exports (`@neobr/svelte/button`, `@neobr/svelte/form`) for minimal bundle size.
 - **Zod Validation** — Built-in form state management with reactive runes and type-safe schema validation.
-- **OKLCH Colors** — Perceptually uniform color space with automatic dark mode support.
+- **OKLCH Colors** — Perceptually uniform color space with class-based dark mode (add `.dark` to a parent).
 - **Reduced Motion** — Component transitions respect `prefers-reduced-motion` without global CSS overrides.
 
 ---
@@ -100,7 +100,22 @@ The design system exposes CSS custom properties for theming:
 | `--shadow-brutalist-hover`         | Deepened hover shadow (0px 8px 0px 0px)  |
 | `--z-dropdown` through `--z-toast` | Z-index scale for layering               |
 
-Dark mode activates by adding the `.dark` class to a parent element. All tokens are defined in OKLCH.
+Dark mode is **class-based**: add the `.dark` class to a parent element (e.g. `document.documentElement`). All tokens are defined in OKLCH inside `packages/svelte/src/lib/styles/design-system.css` under the `.dark` selector.
+
+Toggle it in Svelte:
+
+```svelte
+<script>
+  let dark = $state(false);
+</script>
+
+<button onclick={() => (dark = !dark)}>Toggle</button>
+<!-- apply/remove .dark on <html> via your preferred mechanism -->
+```
+
+Prefer system preference? Copy the `.dark` token block from `design-system.css`
+into a `@media (prefers-color-scheme: dark) { :root:not(.light) { ... } }` rule in
+your global stylesheet. The library defaults to manual so apps keep full control.
 
 ---
 
