@@ -189,13 +189,20 @@
     }
 }
 
+/* Reduce NeoBr's own looping/entry animations for reduced-motion users.
+   Scoped to NeoBr animation utility classes only — never a global `*`
+   override — so consumer app styles are untouched. JS transitions are
+   handled separately in utils/motion.ts. */
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    .animate-marquee,
+    .animate-marquee-reverse,
+    .animate-neobr-tail,
+    .animate-progress-indeterminate,
+    .animate-fade-in,
+    .animate-pulse,
+    .animate-skeleton-shimmer {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
     }
 }
 
