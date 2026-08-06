@@ -3,7 +3,6 @@
         "module": "esnext",
         "moduleResolution": "bundler",
         "target": "esnext",
-        "baseUrl": ".",
         "paths": {
             "@neobr/*": ["packages/*"]
         },

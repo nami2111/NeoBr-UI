@@ -82,6 +82,7 @@ No changeset: all changes are dev/toolchain — shipped tarball output unchanged
 | Item | Why |
 |---|---|
 | `typescript 7.0.2` (native/Go) | `svelte-check@4.7.4` peer is `typescript ^5.0.0 \|\| ^6.0.0` — TS 7 unsupported. Re-evaluate when svelte-check ships support |
+| ~~typescript 5.9.3 → 6.0.3~~ ✅ DONE | svelte-check@4.7.4 peer allows `^6.0.0`; upgraded, removed deprecated `baseUrl` from root tsconfig (paths resolve relative to tsconfig), 303/303 tests + svelte-check 0/0 + build green. TS 6 is the bridge to 7 — repo is now v7-ready apart from the svelte-check gate |
 | `bits-ui 2.18.1` | already latest; don't chase 3.x until it's GA and peer-compatible |
 | `@hugeicons/svelte 1.1.4` | latest |
 
