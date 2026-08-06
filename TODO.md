@@ -38,7 +38,9 @@ No changeset: all changes are dev/toolchain — shipped tarball output unchanged
 | `@testing-library/jest-dom` | 6.9.1 | 7.0.0 | svelte — **skip**, needs Node ≥22 (Phase 4) |
 | `jsdom` | 28.1.0 | 30.0.1 | svelte — **skip**, needs Node ≥22 (Phase 4) |
 
-- [ ] apply table, `pnpm install`, full `pnpm test` + `pnpm build` green, then `pnpm changeset` (patch)
+- [x] apply table — all 8 updated (see above), skipped jest-dom/jsdom (Phase 4 gate), `pnpm install` ✅
+- [x] full `pnpm test` 303/303 + `pnpm build` green ✅
+- [x] `pnpm changeset` — skipped: dev-toolchain only, no shipped API change
 
 ## Phase 3 — Code quality (concrete findings, verified in source)
 
