@@ -62,7 +62,8 @@ No changeset: all changes are dev/toolchain — shipped tarball output unchanged
 - [ ] `sheet.svelte` close button is a *different* visual (compact `p-1`/`hover:bg-muted`, no shadow) — reuse would change its look; kept as literal. Verified unique (no other component shares it).
 
 ### 3.5 `select.svelte` / `bits-ui-compat.ts` type erosion
-- [ ] `select.svelte` reaches for `value as never` + `rest as Record<string, unknown>` despite the `CompatibleSelectProps` layer existing. Re-shape the compat types so the casts die (bits-ui 2.x root props support generics; align `CompatibleSelectProps` to the installed 2.18 API).
+- [x] **Casts are structural, not erosion — verified empirically**: bits-ui 2.18 `SelectRootProps` is a discriminated union (value?: string | string[] / type), and Svelte `bind:` narrows union-typed components to their LAST branch — a cast-free pass is impossible without changing the consumer API. `value as never` is assignable to both branches (runtime validates via `type`); the `Record<string, unknown>` rest-cast is load-bearing too — its index signature is what keeps TS from re-narrowing `{type}`. Both now carry a comment explaining why. `CompatibleSelectProps` confirmed aligned with the installed 2.18 API (value?: string/string[], type required per branch — the union also guards consumers: `type: "multiple"` required for arrays).
+- [x] Bonus: fixed 2 new `state_referenced_locally` svelte-check warnings introduced by the 3.1 test wrapper (`validateOnChange`/`validateOnBlur` captured in `createFormState` options) — options are init-only by design, so silenced with `svelte-ignore` comments. Baseline 0 errors/0 warnings restored ✅
 
 ### 3.6 Test infra
 - [ ] jsdom noise floods every run (`Not implemented: getComputedStyle... pseudo-elements`, `HTMLCanvasElement.getContext`) — silence via vitest `environmentOptions`/suppressed virtual console.

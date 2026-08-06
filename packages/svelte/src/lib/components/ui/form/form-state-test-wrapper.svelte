@@ -12,6 +12,7 @@
         validateOnBlur?: boolean;
     } = $props();
 
+
     const schema = z.object({
         email: z.string().email("Invalid email"),
         age: z.number().optional(),
@@ -28,7 +29,11 @@
             email: "neo@example.com",
             profile: initialProfile,
         },
+        // createFormState reads options once at init — the initial-value
+        // capture is intentional, so silence the state_referenced_locally hint.
+        // svelte-ignore state_referenced_locally
         validateOnChange,
+        // svelte-ignore state_referenced_locally
         validateOnBlur,
         onSubmit: (values) => onSubmit(values),
     });
