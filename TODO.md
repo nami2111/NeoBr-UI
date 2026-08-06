@@ -45,9 +45,9 @@ No changeset: all changes are dev/toolchain — shipped tarball output unchanged
 ## Phase 3 — Code quality (concrete findings, verified in source)
 
 ### 3.1 `src/lib/utils/form-validation.svelte.ts` — 2 real bugs
-- [ ] **`cloneValue` silently corrupts non-JSON data**: `structuredClone` throws on Svelte state proxies → falls back to `JSON.parse(JSON.stringify())`, which drops `Date`, `undefined`, `BigInt` (breaks `z.date()` values on submit/reset). Fix: feature-detect and copy plain objects/arrays shallow-deep instead of JSON serialization; only full-clone what JSON can safely carry.
-- [ ] **server-set errors never clear**: `setFieldError` (server validation) is not cleared by `handleChange`, so a failed submit leaves stale errors on the field forever after the user edits. Track server errors separately and clear them on change (or clear `errors[name]` in `handleChange` unconditionally).
-- [ ] `handleBlur` writes `errors[name]`/`delete errors[name]` — works via `$state` proxy, but harden `validateField` to propagate non-Zod exceptions instead of returning `null` silently.
+- [x] **`cloneValue` silently corrupts non-JSON data**: `structuredClone` throws on Svelte state proxies → fell back to `JSON.parse(JSON.stringify())`, dropping `Date`/`undefined`/`BigInt` (broke `z.date()` on submit). Fixed: structuredClone for plain data, `$state.snapshot` fallback for proxies — preserves all three ✅ + regression test "submit keeps Date values as Date instances"
+- [x] **server-set errors never clear**: `setFieldError` (server validation) was not cleared by edit when `validateOnChange`/`validateOnBlur` off (or via `setFieldValue`). Fixed: `handleChange`/`handleBlur`/`setFieldValue` now unconditionally clear `errors[name]` before optional re-validation ✅ + regression test "clears server-set errors when the field changes without validation" (validateOnChange:false)
+- [x] `validateField` now rethrows non-Zod exceptions instead of returning `null` silently ("Never mask an unexpected bug as a valid field")
 
 ### 3.2 `packages/svelte/src/lib/utils/overlay.svelte.ts` — a11y + robustness
 - [ ] `FOCUSABLE_SELECTOR` misses `[contenteditable]` (rich-text modal content can't be focused by the trap) — add it.

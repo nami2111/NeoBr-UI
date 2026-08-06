@@ -96,7 +96,8 @@ export function createFormState<T extends FormSchema>(options: FormOptions<T>) {
                 return error.issues[0]?.message || "Invalid value";
             }
 
-            return null;
+            // Never mask an unexpected bug as a valid field.
+            throw error;
         }
     }
 
@@ -123,13 +124,14 @@ export function createFormState<T extends FormSchema>(options: FormOptions<T>) {
 
     function handleBlur(name: FormFieldName<T>): void {
         touched[name] = true;
+        // Clear stale errors (incl. server-set ones) so a corrected field
+        // doesn't keep showing an outdated message when blur validation is off.
+        delete errors[name];
 
         if (validateOnBlur) {
             const error = validateField(name);
             if (error) {
                 errors[name] = error;
-            } else {
-                delete errors[name];
             }
         }
     }
@@ -137,13 +139,14 @@ export function createFormState<T extends FormSchema>(options: FormOptions<T>) {
     function handleChange(name: FormFieldName<T>, value: FormValues<T>[FormFieldName<T>]): void {
         values[name] = value;
         isDirty = true;
+        // Clear stale errors (incl. server-set ones); re-validation below
+        // re-applies a fresh error when the new value is still invalid.
+        delete errors[name];
 
         if (validateOnChange) {
             const error = validateField(name);
             if (error) {
                 errors[name] = error;
-            } else {
-                delete errors[name];
             }
         }
     }
@@ -151,6 +154,7 @@ export function createFormState<T extends FormSchema>(options: FormOptions<T>) {
     function setFieldValue(name: FormFieldName<T>, value: FormValues<T>[FormFieldName<T>]): void {
         values[name] = value;
         isDirty = true;
+        delete errors[name];
     }
 
     function setFieldError(name: FormFieldName<T>, error: string): void {
@@ -230,10 +234,12 @@ export function createFormState<T extends FormSchema>(options: FormOptions<T>) {
 
 function cloneValue<T>(value: T): T {
     try {
-        if (typeof structuredClone === "function") return structuredClone(value);
+        // Plain (non-reactive) data — e.g. `initialValues`.
+        return structuredClone(value);
     } catch {
-        // Svelte proxies cannot be cloned structurally; fall back to JSON for plain data.
+        // `$state` proxies can't be structured-cloned. `$state.snapshot` returns
+        // a plain deep copy that preserves Dates, BigInts and `undefined` keys —
+        // the old JSON fallback silently dropped all three.
+        return $state.snapshot(value) as T;
     }
-
-    return JSON.parse(JSON.stringify(value)) as T;
 }
