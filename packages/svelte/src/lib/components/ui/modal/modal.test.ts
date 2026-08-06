@@ -1,7 +1,9 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
 import { describe, it, expect, vi } from "vite-plus/test";
 import { axe } from "vitest-axe";
+import { createRawSnippet } from "svelte";
 import ModalTestWrapper from "./modal-test-wrapper.svelte";
+import Modal from "./modal.svelte";
 
 describe("Modal Component", () => {
     it("should have no accessibility violations when open", async () => {
@@ -24,6 +26,19 @@ describe("Modal Component", () => {
         render(ModalTestWrapper, { props: { open: false } });
         const modal = screen.queryByRole("dialog");
         expect(modal).not.toBeInTheDocument();
+    });
+
+    it("applies the radius prop", () => {
+        const { container } = render(Modal, {
+            props: {
+                open: true,
+                radius: "rounded",
+                children: createRawSnippet(() => ({ render: () => "<p>body</p>" })),
+            },
+        });
+        const content = container.querySelector('[role="dialog"] .rounded-brutalist-rounded');
+        expect(content).toBeInTheDocument();
+        expect(content).not.toHaveClass("rounded-brutalist");
     });
 
     it("calls onClose when close button is clicked", async () => {

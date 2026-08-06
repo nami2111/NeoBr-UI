@@ -5,8 +5,11 @@
     import { AlertCircleIcon } from "@hugeicons/core-free-icons";
 
     type Props = {
+        /** Content to render and guard against errors. */
         children?: import("svelte").Snippet;
+        /** Custom error UI. Receives the caught error and a `reset` callback. */
         fallback?: import("svelte").Snippet<[unknown, () => void]>;
+        /** Called when the user retries after an error. */
         onRetry?: () => void;
     };
 

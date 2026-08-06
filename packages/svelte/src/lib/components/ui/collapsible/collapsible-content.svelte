@@ -5,8 +5,14 @@
     import { slide } from "svelte/transition";
 
     type Props = {
+        /** Additional classes for the content wrapper. */
         class?: string;
+        /** Collapsible content. */
         children?: import("svelte").Snippet;
+        /**
+         * Animate open/close with a slide transition.
+         * @default true
+         */
         transition?: boolean;
     };
 

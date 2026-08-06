@@ -5,5 +5,5 @@ export { default as FormDescription } from "./form-description.svelte";
 export { default as FormMessage } from "./form-message.svelte";
 
 // Re-export form validation utilities
-export { createFormState, z } from "../../../utils/form-validation.svelte";
+export { createFormState } from "../../../utils/form-validation.svelte";
 export type { FormState, FormOptions } from "../../../utils/form-validation.svelte";

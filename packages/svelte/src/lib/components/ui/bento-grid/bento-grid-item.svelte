@@ -2,11 +2,17 @@
     import { cn } from "../../../utils";
 
     interface Props {
+        /** Additional classes for the item. Use `md:col-span-*` / `md:row-span-*` to size within the grid. */
         class?: string;
+        /** Item title, as text or a snippet. */
         title?: string | import("svelte").Snippet;
+        /** Item description, as text or a snippet. */
         description?: string | import("svelte").Snippet;
+        /** Optional header/media area rendered above the title. */
         header?: import("svelte").Snippet;
+        /** Optional icon rendered alongside the title. */
         icon?: import("svelte").Snippet;
+        /** Custom body content, rendered instead of title/description when provided. */
         children?: import("svelte").Snippet;
     }
 

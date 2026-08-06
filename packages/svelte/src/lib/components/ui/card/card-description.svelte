@@ -2,6 +2,7 @@
   import { cn } from "../../../utils";
   import type { HTMLAttributes } from "svelte/elements";
 
+  /** Muted description text in a card header. */
   type Props = HTMLAttributes<HTMLParagraphElement> & {
       children?: import('svelte').Snippet;
   };

@@ -2,6 +2,7 @@
   import { cn } from "../../../utils";
   import type { HTMLAttributes } from "svelte/elements";
 
+  /** Pagination navigation landmark. Wraps a `PaginationContent` list. */
   type Props = HTMLAttributes<HTMLElement>;
 
   let { class: className, children, ...rest }: Props = $props();

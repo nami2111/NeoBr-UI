@@ -3,9 +3,19 @@
     import { setCollapsibleState } from "./collapsible-context";
 
     type Props = {
+        /**
+         * Open state. Bindable.
+         * @default false
+         */
         open?: boolean;
+        /** Additional classes for the root. */
         class?: string;
+        /** Trigger and content. */
         children?: import("svelte").Snippet;
+        /**
+         * Disables toggling.
+         * @default false
+         */
         disabled?: boolean;
     };
 

@@ -4,9 +4,22 @@
     import type { HTMLButtonAttributes } from "svelte/elements";
 
     type Props = HTMLButtonAttributes & {
+        /**
+         * On/off state. Bindable.
+         * @default false
+         */
         checked?: boolean;
+        /**
+         * Color scheme when on.
+         * @default "default"
+         */
         variant?: "default" | "destructive" | "success";
+        /**
+         * Corner radius style: brutalist (sharp), soft (6px), or rounded (12px).
+         * @default "brutalist"
+         */
         radius?: Radius;
+        /** Called with the new state on toggle. */
         onchange?: (checked: boolean) => void;
     };
 

@@ -3,7 +3,15 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
+        /**
+         * Separator orientation.
+         * @default "horizontal"
+         */
         orientation?: "horizontal" | "vertical";
+        /**
+         * If purely visual, hides it from assistive tech. Set `false` for a semantic separator.
+         * @default true
+         */
         decorative?: boolean;
     };
 

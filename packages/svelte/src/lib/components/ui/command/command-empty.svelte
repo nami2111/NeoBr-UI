@@ -3,6 +3,7 @@
     import { cn } from "../../../utils";
     import type { HTMLAttributes } from "svelte/elements";
 
+    /** Shown when a search yields no matching command items. */
     type Props = HTMLAttributes<HTMLDivElement>;
 
     let { class: className, children, ...rest }: Props = $props();

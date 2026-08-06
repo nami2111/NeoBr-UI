@@ -3,6 +3,7 @@
   import type { HTMLAttributes } from "svelte/elements";
 
   type Props = HTMLAttributes<HTMLAnchorElement> & {
+    /** Destination URL for the breadcrumb link. */
     href: string;
   };
 

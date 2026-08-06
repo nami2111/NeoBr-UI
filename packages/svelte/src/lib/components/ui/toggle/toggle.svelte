@@ -39,8 +39,17 @@
 
     type Props = HTMLButtonAttributes &
         VariantProps<typeof toggleVariants> & {
+            /**
+             * Pressed state. Bindable.
+             * @default false
+             */
             pressed?: boolean;
+            /**
+             * Corner radius style: brutalist (sharp), soft (6px), or rounded (12px).
+             * @default "brutalist"
+             */
             radius?: Radius;
+            /** Toggle content. */
             children?: import("svelte").Snippet;
         };
 

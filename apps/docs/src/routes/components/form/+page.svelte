@@ -10,7 +10,8 @@
         Input,
         Button,
     } from "@neobr/svelte";
-    import { createFormState, z } from "@neobr/svelte/form";
+    import { createFormState } from "@neobr/svelte/form";
+    import { z } from "zod";
 
     let username = $state("");
     let submittedEmail = $state<string | undefined>();
@@ -39,7 +40,8 @@
 </Form>`;
 
     const validationExample = `<scr` + `ipt>
-    import { createFormState, z } from "@neobr/svelte/form";
+    import { createFormState } from "@neobr/svelte/form";
+    import { z } from "zod";
     
     const schema = z.object({
         email: z.string().email("Please enter a valid email"),

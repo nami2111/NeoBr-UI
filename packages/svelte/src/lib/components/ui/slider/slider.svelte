@@ -3,11 +3,32 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
+        /**
+         * Current value. Bindable.
+         * @default 0
+         */
         value?: number;
+        /**
+         * Minimum value.
+         * @default 0
+         */
         min?: number;
+        /**
+         * Maximum value.
+         * @default 100
+         */
         max?: number;
+        /**
+         * Step increment.
+         * @default 1
+         */
         step?: number;
+        /**
+         * Disables interaction.
+         * @default false
+         */
         disabled?: boolean;
+        /** Called with the new value on change. */
         onchange?: (value: number) => void;
     };
 

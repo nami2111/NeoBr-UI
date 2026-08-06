@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
     import { isBrowser } from "../../../utils/browser";
     import { TRANSITION_BRUTALIST_FAST } from "../../../utils/motion";
     import { useOverlayController } from "../../../utils/overlay.svelte";
@@ -9,9 +9,14 @@
         open?: boolean;
         trigger?: import("svelte").Snippet;
         children?: import("svelte").Snippet;
+        /**
+         * Corner radius: brutalist (sharp), soft (6px), or rounded (12px).
+         * @default "brutalist"
+         */
+        radius?: Radius;
     };
 
-    let { open = $bindable(false), trigger, children }: Props = $props();
+    let { open = $bindable(false), trigger, children, radius = "brutalist" }: Props = $props();
 
     function toggle() {
         open = !open;
@@ -71,7 +76,10 @@
     {#if open}
         <div
             {@attach overlay.content}
-            class="z-dropdown border-foreground bg-background shadow-brutalist rounded-brutalist absolute right-0 mt-2 w-56 origin-top-right border-2 focus-visible:outline-none"
+            class={cn(
+                "z-dropdown border-foreground bg-background shadow-brutalist absolute right-0 mt-2 w-56 origin-top-right border-2 focus-visible:outline-none",
+                RADIUS[radius],
+            )}
             transition:fade={TRANSITION_BRUTALIST_FAST()}
             role="menu"
             aria-orientation="vertical"

@@ -4,7 +4,9 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
+        /** Error state shared with descendant `FormMessage`. A string is the message; `true` marks invalid. */
         error?: string | boolean;
+        /** Field label, control, and messages. */
         children?: import("svelte").Snippet;
     };
 

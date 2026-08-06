@@ -4,9 +4,13 @@
     import PaginationLink from "./pagination-link.svelte";
     import { ChevronLeft } from "@hugeicons/core-free-icons";
 
+    /** Link to the previous page. */
     type Props = {
+        /** Additional classes. */
         class?: string;
+        /** Destination URL for the previous page. */
         href?: string;
+        /** Custom label content; defaults to a chevron. */
         children?: import("svelte").Snippet;
     };
 

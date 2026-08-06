@@ -2,7 +2,9 @@
     import { Select } from "bits-ui";
     import { cn } from "../../../utils";
 
+    /** Dropdown panel holding the select's items. */
     type Props = Select.ContentProps & {
+        /** Additional classes for the content panel. */
         class?: string;
     };
 

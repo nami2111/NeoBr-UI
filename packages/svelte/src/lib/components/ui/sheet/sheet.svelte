@@ -12,9 +12,19 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
+        /**
+         * Whether the sheet is open. Bindable.
+         * @default false
+         */
         open?: boolean;
+        /** Called when the sheet requests to close (backdrop click, Escape, close button). */
         onClose?: () => void;
+        /**
+         * Edge the sheet slides in from.
+         * @default "right"
+         */
         side?: "left" | "right" | "top" | "bottom";
+        /** Optional title shown in the sheet header. */
         title?: string;
     };
 

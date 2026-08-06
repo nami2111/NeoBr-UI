@@ -6,6 +6,7 @@
     import type { HTMLButtonAttributes } from "svelte/elements";
 
     type Props = HTMLButtonAttributes & {
+        /** Value of this item, emitted in the group's `value`. */
         value: string;
     };
 

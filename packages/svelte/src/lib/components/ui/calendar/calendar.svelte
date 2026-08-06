@@ -1,12 +1,13 @@
 <script lang="ts">
     import { Calendar as CalendarPrimitive } from "bits-ui";
-    import { cn } from "../../../utils";
+    import { cn, NAV_ICON_BUTTON } from "../../../utils";
     import Icon from "../icon/icon.svelte";
     import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
-    import type { CompatibleCalendarProps, SimpleDateValue } from "../../../types/bits-ui-compat";
+    import type { CompatibleCalendarProps } from "../../../types/bits-ui-compat";
     import CalendarGrid from "./calendar-grid.svelte";
 
     type Props = CompatibleCalendarProps & {
+        /** Additional classes for the calendar root. */
         class?: string;
     };
 
@@ -24,15 +25,11 @@
 >
     {#snippet children({ months, weekdays })}
         <CalendarPrimitive.Header class="flex items-center justify-between pb-4">
-            <CalendarPrimitive.PrevButton
-                class="border-foreground shadow-brutalist hover:shadow-brutalist-hover rounded-brutalist flex h-8 w-8 cursor-pointer items-center justify-center border-2 p-0 transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none"
-            >
+            <CalendarPrimitive.PrevButton class={NAV_ICON_BUTTON}>
                 <Icon icon={ArrowLeft01Icon} class="h-4 w-4" />
             </CalendarPrimitive.PrevButton>
             <CalendarPrimitive.Heading class="text-sm font-black tracking-tighter uppercase" />
-            <CalendarPrimitive.NextButton
-                class="border-foreground shadow-brutalist hover:shadow-brutalist-hover rounded-brutalist flex h-8 w-8 cursor-pointer items-center justify-center border-2 p-0 transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none"
-            >
+            <CalendarPrimitive.NextButton class={NAV_ICON_BUTTON}>
                 <Icon icon={ArrowRight01Icon} class="h-4 w-4" />
             </CalendarPrimitive.NextButton>
         </CalendarPrimitive.Header>

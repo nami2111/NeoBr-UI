@@ -1,7 +1,11 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, it, expect } from "vite-plus/test";
 import { axe } from "vitest-axe";
+import { createRawSnippet } from "svelte";
 import CardTestWrapper from "./card-test-wrapper.svelte";
+import Card from "./card.svelte";
+
+const text = (value: string) => createRawSnippet(() => ({ render: () => value }));
 
 describe("Card", () => {
     it("should have no accessibility violations", async () => {
@@ -32,5 +36,14 @@ describe("Card", () => {
         expect(card).toBeInTheDocument();
         expect(card).toHaveClass("border-2");
         expect(card).toHaveClass("shadow-brutalist");
+    });
+
+    it("applies the radius prop", () => {
+        const { container } = render(Card, {
+            props: { radius: "rounded", children: text("Rounded Card") },
+        });
+        const card = container.firstElementChild;
+        expect(card).toHaveClass("rounded-brutalist-rounded");
+        expect(card).not.toHaveClass("rounded-brutalist");
     });
 });

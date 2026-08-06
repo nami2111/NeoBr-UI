@@ -1,8 +1,31 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
 import { describe, it, expect } from "vite-plus/test";
+import { createRawSnippet } from "svelte";
 import DropdownMenuTestWrapper from "./dropdown-menu-test-wrapper.svelte";
+import DropdownMenu from "./dropdown-menu.svelte";
 
 describe("DropdownMenu", () => {
+    it("applies the radius prop to the content", async () => {
+        render(DropdownMenu, {
+            props: {
+                open: true,
+                children: createRawSnippet(() => ({ render: () => "item" })),
+            },
+        });
+        const content = await screen.findByRole("menu");
+        expect(content).toHaveClass("rounded-brutalist");
+
+        render(DropdownMenu, {
+            props: {
+                open: true,
+                radius: "soft",
+                children: createRawSnippet(() => ({ render: () => "item" })),
+            },
+        });
+        const soft = screen.getAllByRole("menu").at(-1);
+        expect(soft).toHaveClass("rounded-brutalist-soft");
+        expect(soft).not.toHaveClass("rounded-brutalist");
+    });
     it("renders trigger initially", () => {
         render(DropdownMenuTestWrapper);
         expect(screen.getByText("Open Menu")).toBeInTheDocument();

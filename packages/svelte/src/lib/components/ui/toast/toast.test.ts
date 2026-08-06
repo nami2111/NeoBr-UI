@@ -1,13 +1,12 @@
 import { afterEach, beforeEach, expect, describe, it, vi } from "vite-plus/test";
 import { ToastManager } from "./toast-state.svelte.js";
 
-function createTestToastManager() {
-    let id = 0;
+let idCounter = 0;
 
-    return new ToastManager({
-        createId: () => `toast-${++id}`,
-        isBrowser: true,
-    });
+function createTestToastManager() {
+    idCounter = 0;
+    vi.stubGlobal("crypto", { randomUUID: () => `toast-${++idCounter}` });
+    return new ToastManager();
 }
 
 describe("Toast manager", () => {
@@ -20,6 +19,7 @@ describe("Toast manager", () => {
 
     afterEach(() => {
         toast.clear();
+        vi.unstubAllGlobals();
         vi.useRealTimers();
     });
 

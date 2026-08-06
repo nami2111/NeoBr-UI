@@ -3,6 +3,7 @@
     import { cn } from "../../../utils";
 
     type Props = Accordion.ContentProps & {
+        /** Additional classes for the accordion content panel. */
         class?: string;
     };
 

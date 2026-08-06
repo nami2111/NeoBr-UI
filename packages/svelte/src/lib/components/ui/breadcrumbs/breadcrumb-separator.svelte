@@ -4,6 +4,7 @@
   import Icon from "../icon/icon.svelte";
   import { ChevronRight } from "@hugeicons/core-free-icons";
 
+  /** Visual separator between breadcrumb items. Defaults to a chevron; override via children. */
   type Props = HTMLAttributes<HTMLLIElement>;
 
   let { class: className, children, ...rest }: Props = $props();

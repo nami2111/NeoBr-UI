@@ -43,3 +43,9 @@ jobs:
 
             - name: Build
               run: pnpm build
+
+            - name: Verify package exports
+              run: pnpm -C packages/svelte run exports:check && pnpm -C packages/svelte run pack:check
+
+            - name: Check tree-shaking
+              run: pnpm -C packages/svelte run tree-shake:check

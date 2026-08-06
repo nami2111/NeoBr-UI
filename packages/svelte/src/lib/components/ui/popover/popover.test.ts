@@ -1,7 +1,9 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
 import { expect, test, describe } from "vite-plus/test";
 import { axe } from "vitest-axe";
+import { createRawSnippet } from "svelte";
 import PopoverTestWrapper from "./popover-test-wrapper.svelte";
+import Popover from "./popover.svelte";
 
 describe("Popover component", () => {
     test("should have no accessibility violations when closed", async () => {
@@ -24,6 +26,19 @@ describe("Popover component", () => {
         render(PopoverTestWrapper);
         const trigger = screen.getByRole("button", { name: /open popover/i });
         expect(trigger).toBeInTheDocument();
+    });
+
+    test("applies the radius prop to the content", async () => {
+        render(Popover, {
+            props: {
+                open: true,
+                radius: "soft",
+                children: createRawSnippet(() => ({ render: () => "content" })),
+            },
+        });
+        const content = await screen.findByRole("dialog");
+        expect(content).toHaveClass("rounded-brutalist-soft");
+        expect(content).not.toHaveClass("rounded-brutalist");
     });
 
     test("does not wrap a button trigger in another button", () => {

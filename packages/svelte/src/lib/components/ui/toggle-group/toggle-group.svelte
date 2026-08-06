@@ -4,7 +4,12 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
+        /** Selected value(s). A string for single mode, an array for multiple. Bindable. */
         value?: string | string[];
+        /**
+         * Selection mode.
+         * @default "single"
+         */
         type?: ToggleGroupType;
     };
 

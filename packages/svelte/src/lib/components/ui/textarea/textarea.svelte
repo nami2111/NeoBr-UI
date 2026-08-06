@@ -4,8 +4,14 @@
     import { getFormItemContext } from "../form/form-context";
 
     type Props = HTMLTextareaAttributes & {
+        /** Textarea value. Bindable. */
         value?: string;
+        /** Error state. A string is a message; `true` marks invalid. Also inherits from an enclosing `FormItem`. */
         error?: boolean | string;
+        /**
+         * Corner radius style: brutalist (sharp), soft (6px), or rounded (12px).
+         * @default "brutalist"
+         */
         radius?: Radius;
     };
 

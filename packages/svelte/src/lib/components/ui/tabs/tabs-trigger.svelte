@@ -5,6 +5,7 @@
     import type { HTMLButtonAttributes } from "svelte/elements";
 
     type Props = HTMLButtonAttributes & {
+        /** Value of the tab this trigger activates. Must match a `TabsContent` value. */
         value: string;
     };
 

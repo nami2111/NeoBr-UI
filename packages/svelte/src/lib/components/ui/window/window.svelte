@@ -1,18 +1,40 @@
 <script lang="ts">
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
     import type { HTMLAttributes } from "svelte/elements";
     import Icon from "../icon/icon.svelte";
     import { Cancel01Icon, MinusSignIcon, SquareIcon } from "@hugeicons/core-free-icons";
 
     interface Props extends HTMLAttributes<HTMLDivElement> {
+        /** Title shown in the window's title bar. */
         title?: string;
+        /**
+         * Show a close control.
+         * @default false
+         */
         closable?: boolean;
+        /**
+         * Show a minimize control.
+         * @default false
+         */
         minimizable?: boolean;
+        /**
+         * Show a maximize control.
+         * @default false
+         */
         maximizable?: boolean;
+        /** Called when the close control is activated. */
         onClose?: () => void;
+        /** Called when the minimize control is activated. */
         onMinimize?: () => void;
+        /** Called when the maximize control is activated. */
         onMaximize?: () => void;
+        /** Window body content. */
         children?: import("svelte").Snippet;
+        /**
+         * Corner radius: brutalist (sharp), soft (6px), or rounded (12px).
+         * @default "brutalist"
+         */
+        radius?: Radius;
     }
 
     let {
@@ -25,13 +47,15 @@
         onClose = undefined,
         onMinimize = undefined,
         onMaximize = undefined,
+        radius = "brutalist",
         ...rest
     }: Props = $props();
 </script>
 
 <div
     class={cn(
-        "bg-background border-foreground shadow-brutalist rounded-brutalist overflow-hidden border-2 p-0",
+        "bg-background border-foreground shadow-brutalist overflow-hidden border-2 p-0",
+        RADIUS[radius],
         className,
     )}
     {...rest}

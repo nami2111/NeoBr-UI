@@ -2,6 +2,7 @@
   import { cn } from "../../../utils";
   import type { HTMLAttributes } from "svelte/elements";
 
+  /** Helper text describing a form field. */
   type Props = HTMLAttributes<HTMLParagraphElement> & {
     children?: import('svelte').Snippet;
   };

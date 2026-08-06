@@ -22,7 +22,7 @@
         },
     );
 
-    let { item }: { item: ToastItem } = $props();
+    let { item }: { /** The toast record to render (id, message, type, action, duration). */ item: ToastItem } = $props();
 </script>
 
 <div class={cn(toastVariants({ type: item.type }))}>

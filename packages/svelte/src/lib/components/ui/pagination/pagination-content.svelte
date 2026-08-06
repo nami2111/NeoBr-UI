@@ -2,6 +2,7 @@
   import { cn } from "../../../utils";
   import type { HTMLAttributes } from "svelte/elements";
 
+  /** List wrapper for pagination items. */
   type Props = HTMLAttributes<HTMLUListElement>;
 
   let { class: className, children, ...rest }: Props = $props();

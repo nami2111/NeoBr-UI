@@ -2,6 +2,7 @@
   import { cn } from "../../../utils";
   import type { HTMLLabelAttributes } from "svelte/elements";
 
+  /** Label for a form control. Use `for` to associate it with an input id. */
   type Props = HTMLLabelAttributes & {
       children?: import('svelte').Snippet;
   };

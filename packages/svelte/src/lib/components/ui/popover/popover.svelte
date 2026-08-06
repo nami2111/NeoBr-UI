@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
     import { TRANSITION_BRUTALIST_FAST } from "../../../utils/motion";
     import { useOverlayController } from "../../../utils/overlay.svelte";
     import { fade } from "svelte/transition";
@@ -12,12 +12,23 @@
     >;
 
     type Props = {
+        /** Controls visibility. Bindable. */
         open?: boolean;
+        /** Trigger snippet; receives props to spread onto your trigger element. */
         trigger?: Snippet<[TriggerProps]>;
+        /** Popover content. */
         children?: Snippet;
+        /** Additional classes for the root. */
         class?: string;
+        /** Additional classes for the content panel. */
         contentClass?: string;
+        /** Accessible label for the content panel. */
         contentLabel?: string;
+        /**
+         * Corner radius: brutalist (sharp), soft (6px), or rounded (12px).
+         * @default "brutalist"
+         */
+        radius?: Radius;
     };
 
     let {
@@ -27,6 +38,7 @@
         class: className,
         contentClass,
         contentLabel = "Popover content",
+        radius = "brutalist",
     }: Props = $props();
 
     function toggle() {
@@ -59,7 +71,8 @@
         <div
             {@attach overlay.content}
             class={cn(
-                "z-popover border-foreground bg-background shadow-brutalist rounded-brutalist absolute mt-2 min-w-[200px] border-2 p-4",
+                "z-popover border-foreground bg-background shadow-brutalist absolute mt-2 min-w-[200px] border-2 p-4",
+                RADIUS[radius],
                 contentClass,
             )}
             transition:fade={TRANSITION_BRUTALIST_FAST()}

@@ -13,7 +13,7 @@
      * </Card>
      * ```
      */
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
@@ -21,14 +21,20 @@
          * Card content.
          */
         children?: import("svelte").Snippet;
+        /**
+         * Corner radius: brutalist (sharp), soft (6px), or rounded (12px).
+         * @default "brutalist"
+         */
+        radius?: Radius;
     };
 
-    let { class: className, children, ...rest }: Props = $props();
+    let { class: className, children, radius = "brutalist", ...rest }: Props = $props();
 </script>
 
 <div
     class={cn(
-        "bg-card text-card-foreground border-foreground shadow-brutalist rounded-brutalist border-2",
+        "bg-card text-card-foreground border-foreground shadow-brutalist border-2",
+        RADIUS[radius],
         className,
     )}
     {...rest}

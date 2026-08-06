@@ -5,10 +5,18 @@
     import { Tick02Icon } from "@hugeicons/core-free-icons";
 
     type Props = Omit<Select.ItemProps, "children"> & {
+        /** Value selected when this item is chosen. */
         value: string;
+        /**
+         * Disables just this item.
+         * @default false
+         */
         disabled?: boolean;
+        /** Text label used for the selected-value display. */
         label?: string;
+        /** Additional classes for the item. */
         class?: string;
+        /** Custom item content; defaults to `label`. */
         children?: import("svelte").Snippet;
     };
 

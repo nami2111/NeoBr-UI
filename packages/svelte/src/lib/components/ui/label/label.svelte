@@ -3,6 +3,7 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLLabelElement> & {
+        /** Id of the control this label is associated with. */
         for?: string;
     };
 

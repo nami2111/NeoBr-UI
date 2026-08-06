@@ -18,6 +18,13 @@ describe("Window component", () => {
         expect(screen.getByText("Window")).toBeInTheDocument();
     });
 
+    test("applies the radius prop", () => {
+        const { container } = render(Window, { props: { radius: "rounded", children } });
+        const win = container.firstElementChild;
+        expect(win).toHaveClass("rounded-brutalist-rounded");
+        expect(win).not.toHaveClass("rounded-brutalist");
+    });
+
     test("renders with custom title", () => {
         render(Window, { props: { title: "My App", children } });
         expect(screen.getByText("My App")).toBeInTheDocument();

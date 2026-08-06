@@ -24,8 +24,10 @@
 
     import type { HTMLAttributes } from "svelte/elements";
 
+    /** Animated loading spinner. `variant` sets color, `size` sets dimensions. */
     type Props = VariantProps<typeof loadingVariants> &
         HTMLAttributes<HTMLDivElement> & {
+            /** Additional classes for the spinner. */
             class?: string;
         };
 

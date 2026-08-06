@@ -2,6 +2,7 @@
   import { cn } from "../../../utils";
   import type { HTMLAttributes } from "svelte/elements";
 
+  /** Body content area of a card. */
   type Props = HTMLAttributes<HTMLDivElement> & {
       children?: import('svelte').Snippet;
   };

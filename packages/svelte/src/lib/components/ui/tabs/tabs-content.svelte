@@ -5,6 +5,7 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     type Props = HTMLAttributes<HTMLDivElement> & {
+        /** Value of the tab this panel belongs to. Must match a `TabsTrigger` value. */
         value: string;
     };
 

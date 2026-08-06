@@ -2,8 +2,11 @@
     import { cn } from "../../../utils";
     import { getFormItemContext } from "./form-context";
 
+    /** Displays the enclosing `FormItem`'s error. Falls back to `children` when no error is set. */
     type Props = {
+        /** Additional classes for the message. */
         class?: string;
+        /** Custom message content, shown when there is no error string. */
         children?: import("svelte").Snippet;
     };
 

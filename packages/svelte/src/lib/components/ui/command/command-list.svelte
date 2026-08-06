@@ -2,6 +2,7 @@
     import { cn } from "../../../utils";
     import type { HTMLAttributes } from "svelte/elements";
 
+    /** Scrollable list region containing command groups and items. */
     type Props = HTMLAttributes<HTMLDivElement>;
 
     let { class: className, children, ...rest }: Props = $props();

@@ -1,11 +1,17 @@
 <script lang="ts">
-    import { cn } from "../../../utils";
+    import { cn, RADIUS, type Radius } from "../../../utils";
     import { setCommandState } from "./command-context";
     import type { HTMLAttributes } from "svelte/elements";
 
-    type Props = HTMLAttributes<HTMLDivElement>;
+    type Props = HTMLAttributes<HTMLDivElement> & {
+        /**
+         * Corner radius: brutalist (sharp), soft (6px), or rounded (12px).
+         * @default "brutalist"
+         */
+        radius?: Radius;
+    };
 
-    let { class: className, children, ...rest }: Props = $props();
+    let { class: className, children, radius = "brutalist", ...rest }: Props = $props();
 
     let search = $state("");
     let itemValues = $state<Record<string, string>>({});
@@ -37,7 +43,8 @@
 
 <div
     class={cn(
-        "flex h-full w-full flex-col overflow-hidden rounded-brutalist bg-background text-foreground border-2 border-foreground shadow-brutalist",
+        "flex h-full w-full flex-col overflow-hidden bg-background text-foreground border-2 border-foreground shadow-brutalist",
+        RADIUS[radius],
         className,
     )}
     {...rest}

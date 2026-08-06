@@ -1,4 +1,8 @@
 <script lang="ts">
+    /**
+     * Mounts the toast viewport. Place once near your app root; renders all active toasts
+     * from the shared `toast` store (see `toast/toast-state.svelte.js`).
+     */
     import { flip } from "svelte/animate";
     import { fly } from "svelte/transition";
     import {

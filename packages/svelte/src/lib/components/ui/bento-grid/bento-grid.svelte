@@ -3,6 +3,7 @@
     import type { HTMLAttributes } from "svelte/elements";
 
     interface Props extends HTMLAttributes<HTMLDivElement> {
+        /** Grid items, typically `BentoGridItem` components. */
         children?: import("svelte").Snippet;
     }
 
