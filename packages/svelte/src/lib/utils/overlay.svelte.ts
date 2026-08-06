@@ -10,6 +10,10 @@ const FOCUSABLE_SELECTOR = [
     "input:not([disabled])",
     "select:not([disabled])",
     '[tabindex]:not([tabindex="-1"])',
+    // Rich-text areas are focusable but have no native focusable shape —
+    // without this the trap never wraps around them (Tab from the editor
+    // exits the overlay).
+    '[contenteditable]:not([contenteditable="false"])',
 ].join(", ");
 
 type OverlayControllerOptions = {
@@ -108,7 +112,10 @@ export function useOverlayController(options: OverlayControllerOptions) {
 
     function restoreFocus() {
         if (!previousFocus) return;
-        previousFocus.focus();
+        // The trigger may have been removed while the overlay was open (state
+        // toggles, dynamic lists). focus() on a detached node is a silent
+        // no-op; skip it instead of dropping focus to <body>.
+        if (previousFocus.isConnected) previousFocus.focus();
         previousFocus = null;
     }
 

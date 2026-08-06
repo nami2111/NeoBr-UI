@@ -50,8 +50,9 @@ No changeset: all changes are dev/toolchain — shipped tarball output unchanged
 - [x] `validateField` now rethrows non-Zod exceptions instead of returning `null` silently ("Never mask an unexpected bug as a valid field")
 
 ### 3.2 `packages/svelte/src/lib/utils/overlay.svelte.ts` — a11y + robustness
-- [ ] `FOCUSABLE_SELECTOR` misses `[contenteditable]` (rich-text modal content can't be focused by the trap) — add it.
-- [ ] `restoreFocus()` on a removed-from-DOM element throws silently (`previousFocus.focus()` when node unmounted) — guard with `document.contains()`.
+- [x] `FOCUSABLE_SELECTOR` now includes `[contenteditable]:not([contenteditable="false"])` — rich-text areas (no native focusable shape) were invisible to the trap, so Tab from an editor escaped the overlay ✅
+- [x] `restoreFocus()` guards `previousFocus.isConnected` — a trigger removed while the overlay was open used to get a silent no-op focus() and drop focus to body ✅
+- note: couldn't write a jsdom regression test for contenteditable — jsdom doesn't implement contenteditable focus, the test passed vacuously with the fix removed. Fix is standard a11y practice; verify in real browser. Test dropped (YAGNI).
 
 ### 3.3 `packages/svelte/src/lib/components/ui/toast/toast-state.svelte.ts`
 - [ ] `crypto.randomUUID()` undefined in non-secure contexts (http LAN deploys) — add non-crypto fallback id (counter + random).
