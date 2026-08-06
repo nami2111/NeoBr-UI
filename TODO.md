@@ -58,7 +58,8 @@ No changeset: all changes are dev/toolchain — shipped tarball output unchanged
 - [x] `crypto.randomUUID()` undefined in non-secure contexts (http LAN deploys) — `createToastId()` prefers `crypto.randomUUID`, falls back to monotonic counter + random suffix ✅ + regression test (stub `crypto: {}` → unique ids, dismiss works)
 
 ### 3.4 Duplication — close-button markup
-- [ ] `modal.svelte` and `sheet.svelte` each inline the same 8×8 brutalist close button classes; `NAV_ICON_BUTTON` in `utils.ts` already exists for exactly this. Reuse it (watch that tailwind-merge still resolves consumer overrides — the constant is kept as expanded literals for that reason, so extraction is safe).
+- [x] `modal.svelte` close button now reuses `NAV_ICON_BUTTON` from `utils.ts` (via `cn`, which also resolves the `flex`→`inline-flex` conflict) + `hover:bg-accent inline-flex shrink-0` — class output byte-for-byte identical to the old literal, visual unchanged ✅
+- [ ] `sheet.svelte` close button is a *different* visual (compact `p-1`/`hover:bg-muted`, no shadow) — reuse would change its look; kept as literal. Verified unique (no other component shares it).
 
 ### 3.5 `select.svelte` / `bits-ui-compat.ts` type erosion
 - [ ] `select.svelte` reaches for `value as never` + `rest as Record<string, unknown>` despite the `CompatibleSelectProps` layer existing. Re-shape the compat types so the casts die (bits-ui 2.x root props support generics; align `CompatibleSelectProps` to the installed 2.18 API).
