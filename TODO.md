@@ -55,7 +55,7 @@ No changeset: all changes are dev/toolchain — shipped tarball output unchanged
 - note: couldn't write a jsdom regression test for contenteditable — jsdom doesn't implement contenteditable focus, the test passed vacuously with the fix removed. Fix is standard a11y practice; verify in real browser. Test dropped (YAGNI).
 
 ### 3.3 `packages/svelte/src/lib/components/ui/toast/toast-state.svelte.ts`
-- [ ] `crypto.randomUUID()` undefined in non-secure contexts (http LAN deploys) — add non-crypto fallback id (counter + random).
+- [x] `crypto.randomUUID()` undefined in non-secure contexts (http LAN deploys) — `createToastId()` prefers `crypto.randomUUID`, falls back to monotonic counter + random suffix ✅ + regression test (stub `crypto: {}` → unique ids, dismiss works)
 
 ### 3.4 Duplication — close-button markup
 - [ ] `modal.svelte` and `sheet.svelte` each inline the same 8×8 brutalist close button classes; `NAV_ICON_BUTTON` in `utils.ts` already exists for exactly this. Reuse it (watch that tailwind-merge still resolves consumer overrides — the constant is kept as expanded literals for that reason, so extraction is safe).
