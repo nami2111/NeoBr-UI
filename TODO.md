@@ -9,16 +9,19 @@
 
 `pnpm audit --prod` reports **6 vulnerabilities (1 high, 5 moderate)**. All reachable through the published package's runtime graph.
 
-- [ ] **postcss** (HIGH: path traversal via source map auto-loading, GHSA-fxqj-rqcc-2cmp; + moderate incomplete-fix advisory, patched `>=8.5.23`)
-  - `package.json` override `postcss@<8.5.10: >=8.5.10` → `"postcss@<8.5.23": ">=8.5.23"`
+- [x] **postcss** (HIGH: path traversal via source map auto-loading, GHSA-fxqj-rqcc-2cmp; + moderate incomplete-fix advisory, patched `>=8.5.23`)
+  - `package.json` override `postcss@<8.5.10: >=8.5.10` → `"postcss@<8.5.23": ">=8.5.23"` ✅ (lock now single postcss 8.5.26)
   - pull chain: `vite-plus-core@0.2.4 → postcss@8.5.16` (runtime of dev toolchain only, but audit flags prod scope — fix anyway)
-- [ ] **svelte 5.53.12 → 5.56.8** (4 moderate: SSR XSS via promise serialization, DOM-clobbering XSS, ReDoS in `<svelte:element>`, all patched `>=5.55.7`; 5.56.8 is latest)
-  - `packages/svelte` + `apps/docs`: `svelte: 5.53.12 → 5.56.8`
-  - verify peer range `>=5.40.0 <6` stays truthful: library uses `@attach` (svelte ≥5.29), `$props.id()` (≥5.20), `svelte/attachments` (≥5.40) — all safe within range
-- [ ] **vite 8.0.13 → ≥8.0.16** (moderate, advisory blocks `<=8.0.15`)
-  - bump catalog: `vite: npm:@voidzero-dev/vite-plus-core@0.2.4 → 0.2.8`, `vite-plus: 0.2.4 → 0.2.8` in `pnpm-workspace.yaml` (vite-plus latest is 0.2.8)
-- [ ] **undici** (moderate, patched `>=7.29.0`) — expect resolved by the vite/vitest bump; re-run audit, chase if it lingers
-- [ ] `pnpm install && pnpm audit --prod` → expect 0. Run CI gate + full test suite
+- [x] **svelte 5.53.12 → 5.56.8** (4 moderate: SSR XSS via promise serialization, DOM-clobbering XSS, ReDoS in `<svelte:element>`, all patched `>=5.55.7`; 5.56.8 is latest)
+  - `packages/svelte` + `apps/docs`: `svelte: 5.53.12 → 5.56.8` ✅
+  - verify peer range `>=5.40.0 <6` stays truthful: library uses `@attach` (svelte ≥5.29), `$props.id()` (≥5.20), `svelte/attachments` (≥5.40) — all safe within range ✅
+- [x] **vite 8.0.13 → 8.2.1** (moderate, advisory blocks `<=8.0.15`) ✅
+  - catalog: `vite: npm:@voidzero-dev/vite-plus-core@0.2.4 → 0.2.8`, `vite-plus: 0.2.4 → 0.2.8` in `pnpm-workspace.yaml` — NOTE: catalog alias does NOT move the real vite engine (vitest's vite dep); that needed override `"vite@>=8.0.0 <=8.0.15": ">=8.0.16"` in root package.json + `pnpm update --latest --recursive vite` (lock had pinned 8.0.13)
+- [x] **undici** (moderate, patched `>=7.29.0`) — resolved by the vite/vitest bump; re-run audit ✅
+- [x] `pnpm install && pnpm audit --prod` → **0 vulnerabilities** ✅
+- [x] CI gate + full test suite: 303/303 tests, svelte-check 0 errors/0 warnings, full build, exports:check (142 paths) + pack:check (311 files) + tree-shake:check all OK ✅
+
+No changeset: all changes are dev/toolchain — shipped tarball output unchanged, peer range untouched.
 
 ## Phase 2 — Safe patch updates (no breaking changes)
 
