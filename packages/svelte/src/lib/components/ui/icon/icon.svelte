@@ -51,5 +51,16 @@
 </script>
 
 <div class={cn("inline-flex shrink-0 items-center justify-center", className)}>
-    <HugeiconsIcon {icon} size={Number(size)} {color} {strokeWidth} {...rest} />
+    <!-- className is forwarded to the SVG too: CSS size utilities (e.g.
+         `h-4 w-4`) override the `width`/`height` attributes, so class-driven
+         sizing actually shrinks the glyph — the wrapper alone used to render
+         a 24px SVG overflowing a 16px box. -->
+    <HugeiconsIcon
+        {icon}
+        size={Number(size)}
+        {color}
+        {strokeWidth}
+        class={className}
+        {...rest}
+    />
 </div>

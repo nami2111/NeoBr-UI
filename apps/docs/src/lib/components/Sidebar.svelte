@@ -9,6 +9,7 @@
             items: [
                 { title: "Introduction", href: "/docs/introduction", description: "Overview and usage" },
                 { title: "Installation", href: "/docs/installation", description: "Install and setup" },
+                { title: "Design Tokens", href: "/docs/tokens", description: "Colors, depth, motion, z-scale" },
             ],
         },
         {

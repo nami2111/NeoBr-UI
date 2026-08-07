@@ -113,12 +113,12 @@ String fields default to `""` for input binding. Provide `initialValues` for num
 
 ## Available Components
 
-- **General**: Button, Icon, Link, Badge, Loading, Sticker, Marquee
+- **General**: Button, Icon, Link, Badge, Alert, Loading, Sticker, Marquee
 - **Layout**: Card, Separator, AspectRatio, Skeleton, BentoGrid, Window
-- **Forms**: Input, Textarea, Checkbox, RadioGroup, Slider, Switch, Toggle, ToggleGroup, Form (validation helpers)
+- **Forms**: Input, Textarea, Checkbox, RadioGroup, Slider, Switch, Toggle, ToggleGroup, Label, Form (validation helpers)
 - **Overlay**: Modal, Sheet, DropdownMenu, Popover, Tooltip, Command, Toaster (Toast notifications)
 - **Navigation**: Tabs, Select, Pagination, Breadcrumbs, DatePicker, Calendar
-- **Advanced**: Accordion, Avatar, ErrorBoundary, Collapsible, ScrollArea
+- **Advanced**: Accordion, Avatar, ErrorBoundary, Collapsible, ScrollArea, Progress, Table
 
 ## Design System
 
@@ -150,6 +150,7 @@ Styling is handled via Tailwind CSS v4 with OKLCH color tokens defined in the `@
 | `--color-primary-*`, `--color-secondary-*`                                                                                                               | Lavender and peach OKLCH states         | Primary and secondary actions            |
 | `--color-destructive-*`, `--color-success-*`, `--color-warning-*`                                                                                        | Red, green, and yellow OKLCH states     | Semantic status colors                   |
 | `--color-muted-*`, `--color-accent-*`                                                                                                                    | Matching muted/accent OKLCH aliases     | shadcn-compatible muted/accent surfaces  |
+| `--color-border`, `--color-input`                                                                                                                        | Muted-scale aliases                     | shadcn-compatible `border-border` / `border-input` classes (components themselves draw with `border-foreground`) |
 | `--color-ring`, `--color-card-*`, `--color-shadow-color`                                                                                                 | OKLCH ring, card, and shadow ink values | Focus rings, card surfaces, shadows      |
 | `--font-neobr-mono`                                                                                                                                      | `"JetBrains Mono", monospace`           | Optional NeoBr mono font                 |
 | `--radius-brutalist`, `--radius-brutalist-soft`, `--radius-brutalist-rounded`                                                                            | `0px`, `6px`, `12px`                    | Sharp, soft, and rounded component radii |
@@ -158,6 +159,7 @@ Styling is handled via Tailwind CSS v4 with OKLCH color tokens defined in the `@
 | `--lift-brutalist`, `--press-brutalist`, `--press-brutalist-sm`                                                                                          | `2px`, `5px`, `2px`                     | Hover lift and active press distances    |
 | `--z-select(-backdrop)`, `--z-dropdown(-backdrop)`, `--z-modal(-backdrop)`, `--z-sheet(-backdrop)`, `--z-popover(-backdrop)`, `--z-tooltip`, `--z-toast` | `38-100`                                | Layering scale and backdrop layers       |
 | `--animate-fade-in`, `--animate-slide-*`                                                                                                                 | `0.3s` fade/slide animations            | Public animation utilities               |
+| `--animate-marquee(-reverse)`, `--animate-neobr-tail`, `--animate-progress-indeterminate`, `--animate-skeleton-shimmer`, `--animate-skeleton-pulse`       | Looping/entry animations                | Marquee, loading, progress, skeleton motion |
 
 ### Utility Classes
 

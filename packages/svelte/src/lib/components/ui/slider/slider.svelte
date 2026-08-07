@@ -66,13 +66,13 @@
         {disabled}
         bind:value
         oninput={handleInput}
-        class="accent-primary absolute h-4 w-full cursor-pointer opacity-0"
+        class="accent-primary absolute h-4 w-full cursor-pointer opacity-0 peer"
         {...rest}
     />
     <!-- Custom Thumb for visual consistency -->
     <div
         class={cn(
-            "rounded-brutalist border-foreground bg-foreground pointer-events-none absolute h-6 w-6 border-2",
+            "rounded-brutalist border-foreground bg-foreground pointer-events-none absolute h-6 w-6 border-2 transition-transform peer-active:translate-y-[var(--press-brutalist-sm)]",
             disabled && "opacity-50",
         )}
         style="left: calc({percentage}% - 12px)"

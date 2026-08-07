@@ -1,8 +1,7 @@
 import { json } from "@sveltejs/kit";
+import pkg from "../../../../../../packages/svelte/package.json" with { type: "json" };
 
-// Static version — update on release
-const VERSION = "1.1.0";
-
+/** Live version from the published package — no more manual bumping. */
 export function GET() {
-    return json({ version: VERSION });
+    return json({ version: pkg.version });
 }

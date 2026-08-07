@@ -30,6 +30,21 @@ describe("Toast manager", () => {
         toast.dismiss(id);
     });
 
+    it("falls back to a generated id when crypto.randomUUID is unavailable", () => {
+        // Non-secure contexts (plain http) expose no randomUUID.
+        vi.stubGlobal("crypto", {});
+
+        const id1 = toast.add({ description: "First" });
+        const id2 = toast.add({ description: "Second" });
+
+        expect(id1).toMatch(/^toast-/);
+        expect(id1).not.toBe(id2);
+        expect(toast.toasts.find((t) => t.id === id1)).toBeDefined();
+        expect(toast.toasts.find((t) => t.id === id2)).toBeDefined();
+        toast.dismiss(id1);
+        toast.dismiss(id2);
+    });
+
     it("adds a toast with title", () => {
         const id = toast.add({ title: "Title", description: "Description" });
         const item = toast.toasts.find((t) => t.id === id);

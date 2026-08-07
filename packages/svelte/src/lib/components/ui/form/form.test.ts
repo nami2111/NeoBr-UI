@@ -132,4 +132,32 @@ describe("createFormState", () => {
         submittedValues.profile.name = "Changed by submit handler";
         expect(screen.getByTestId("profile-name")).toHaveTextContent("Neo");
     });
+
+    test("clears server-set errors when the field changes without validation", async () => {
+        render(FormStateTestWrapper, { props: { validateOnChange: false } });
+
+        await fireEvent.click(screen.getByText("Server Error"));
+        expect(screen.getByTestId("email-error")).toHaveTextContent("Already taken");
+
+        await fireEvent.click(screen.getByText("Valid Email"));
+        expect(screen.getByTestId("email-error")).toHaveTextContent("");
+    });
+
+    test("submit keeps Date values as Date instances (no JSON corruption)", async () => {
+        const onSubmit = vi.fn();
+        render(FormStateTestWrapper, { props: { onSubmit } });
+
+        await fireEvent.click(screen.getByText("Set Joined Date"));
+        await fireEvent.click(screen.getByText("Submit"));
+
+        await waitFor(() => {
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+        });
+
+        const submitted = onSubmit.mock.calls[0]?.[0] as unknown as {
+            joined?: Date;
+        };
+        expect(submitted.joined).toBeInstanceOf(Date);
+        expect(submitted.joined?.getTime()).toBe(new Date(2026, 0, 2).getTime());
+    });
 });

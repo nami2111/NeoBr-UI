@@ -11,7 +11,7 @@
      * </Modal>
      * ```
      */
-    import { cn, RADIUS, type Radius } from "../../../utils";
+    import { cn, NAV_ICON_BUTTON, RADIUS, type Radius } from "../../../utils";
     import {
         TRANSITION_BRUTALIST_BACKDROP,
         TRANSITION_BRUTALIST_SLOW,
@@ -125,7 +125,10 @@
                     {/if}
                     <button
                         type="button"
-                        class="border-foreground shadow-brutalist hover:shadow-brutalist-hover hover:bg-accent rounded-brutalist inline-flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center border-2 p-0 transition-all hover:-translate-y-[var(--lift-brutalist)] active:translate-y-[var(--press-brutalist)] active:shadow-none"
+                        class={cn(
+                            NAV_ICON_BUTTON,
+                            "hover:bg-accent inline-flex shrink-0",
+                        )}
                         onclick={handleClose}
                         aria-label="Close modal"
                     >

@@ -26,7 +26,7 @@
 <DocPage title="Components" description="Documented component groups exported by @neobr/svelte.">
     <div class="space-y-10 overflow-x-hidden">
         <div
-            class="border-foreground bg-accent/10 grid gap-4 border-2 p-4 shadow-[0_5px_0_0_var(--color-shadow-color)] md:grid-cols-[1fr_auto]"
+            class="border-foreground bg-accent/10 grid gap-4 border-2 p-4 shadow-brutalist md:grid-cols-[1fr_auto]"
         >
             <label class="relative block">
                 <span class="sr-only">Search components</span>
@@ -86,7 +86,7 @@
         {/each}
 
         {#if filteredCategories.length === 0}
-            <div class="border-foreground bg-muted flex flex-col items-center justify-center border-2 py-14 text-center shadow-[0_5px_0_0_var(--color-shadow-color)]">
+            <div class="border-foreground bg-muted flex flex-col items-center justify-center border-2 py-14 text-center shadow-brutalist">
                 <p class="text-xl font-black">No Components Found</p>
                 <p class="text-muted-foreground mt-2 text-sm font-bold">Try a different search term.</p>
             </div>

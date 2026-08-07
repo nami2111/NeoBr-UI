@@ -17,6 +17,20 @@ export interface ToastItem extends Omit<ToastOptions, "duration" | "type"> {
 
 type ToastTimer = ReturnType<typeof setTimeout>;
 
+let fallbackIdCounter = 0;
+
+function createToastId(): string {
+    if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+        return crypto.randomUUID();
+    }
+
+    // Non-secure contexts (plain http) have no `crypto.randomUUID` — fall
+    // back to a monotonic counter + random suffix.
+    return `toast-${Date.now().toString(36)}-${++fallbackIdCounter}-${Math.random()
+        .toString(36)
+        .slice(2, 8)}`;
+}
+
 export class ToastManager {
     #toasts = $state<ToastItem[]>([]);
     #timers = new Map<string, ToastTimer>();
@@ -26,7 +40,7 @@ export class ToastManager {
     }
 
     add(options: ToastOptions) {
-        const id = crypto.randomUUID();
+        const id = createToastId();
         const toast: ToastItem = {
             ...options,
             id,

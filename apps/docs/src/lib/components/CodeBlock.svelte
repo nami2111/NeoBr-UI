@@ -29,6 +29,6 @@
         {copied ? "Copied!" : "Copy"}
     </Button>
     <pre
-        class="border-foreground bg-muted text-foreground min-h-24 overflow-x-auto rounded-none border-2 p-6 pt-14 font-mono text-sm leading-relaxed shadow-[0_5px_0_0_var(--color-shadow-color)] md:pt-6"
+        class="border-foreground bg-muted text-foreground min-h-24 overflow-x-auto rounded-none border-2 p-6 pt-14 font-mono text-sm leading-relaxed shadow-brutalist md:pt-6"
     ><code>{code}</code></pre>
 </div>

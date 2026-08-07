@@ -98,6 +98,7 @@ The design system exposes CSS custom properties for theming:
 | `--radius-brutalist-rounded`       | Rounded border radius (12px)             |
 | `--shadow-brutalist`               | Centered bottom shadow (0px 5px 0px 0px) |
 | `--shadow-brutalist-hover`         | Deepened hover shadow (0px 8px 0px 0px)  |
+| `--color-border` / `--color-input` | Muted-scale aliases for shadcn-compat `border-border` / `border-input` (components themselves use `border-foreground`) |
 | `--z-dropdown` through `--z-toast` | Z-index scale for layering               |
 
 Dark mode is **class-based**: add the `.dark` class to a parent element (e.g. `document.documentElement`). All tokens are defined in OKLCH inside `packages/svelte/src/lib/styles/design-system.css` under the `.dark` selector.
@@ -130,14 +131,14 @@ your global stylesheet. The library defaults to manual so apps keep full control
 
 ## Development
 
-Uses [Vite+](https://viteplus.dev) as the unified toolchain.
+Uses [Vite+](https://viteplus.dev) as the unified toolchain (pnpm workspace).
 
 ```bash
-vp install                     # Install dependencies
-vp run --filter docs dev       # Start docs dev server
-vp run build                   # Build all packages
-vp run test                    # Run all tests
-vp check                       # Format + lint + type-check
+pnpm install                 # Install dependencies
+vp fmt --check .             # Format check (per-package: cd packages/svelte && vp check)
+vp run -r build              # Build all packages
+vp run -r test               # Run all tests
+vp run --filter docs dev     # Start docs dev server
 ```
 
 ---

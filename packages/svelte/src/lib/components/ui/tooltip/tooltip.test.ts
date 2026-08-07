@@ -24,6 +24,19 @@ describe("Tooltip", () => {
         );
     });
 
+    it("keeps placement translates off the animated element (transform clash guard)", () => {
+        // The scale transition writes an inline `transform` that would override
+        // Tailwind translate utilities on the same element — placement must
+        // live on the outer positioner, animation on the inner box.
+        renderClient(Tooltip, { content: "Clash info", open: true });
+        const content = screen.getByRole("tooltip");
+        const positioner = content.parentElement;
+        expect(positioner).not.toBeNull();
+        expect([...content.classList].some((c) => c.startsWith("-translate-"))).toBe(false);
+        expect(positioner?.className).toContain("-translate-x-1/2");
+        expect(positioner?.className).toContain("-translate-y-full");
+    });
+
     it("applies the radius prop to the content", () => {
         renderClient(Tooltip, { content: "Radius info", open: true, radius: "rounded" });
         const content = screen.getByRole("tooltip");

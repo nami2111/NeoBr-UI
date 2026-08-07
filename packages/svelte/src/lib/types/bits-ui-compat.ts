@@ -22,6 +22,17 @@ export type CompatibleAccordionProps =
     | SingleValueProps<AccordionRootProps, string>
     | MultipleValueProps<AccordionRootProps, string>;
 
+/**
+ * `Select.Root` props with the discriminated-union `value`/`type` replaced by
+ * per-branch squares (single: `string` | multiple: `string[]`). Aligned with
+ * bits-ui 2.18 `SelectRootProps` (value?: string / value?: string[], type
+ * required on each branch).
+ *
+ * NOTE: the union survives this file — `select.svelte` still casts at the
+ * bits-ui boundary (`value as never`, `rest` as `Record<string, unknown>`):
+ * Svelte `bind:` narrows union-typed components to the last branch, so a
+ * cast-free pass isn't possible without changing the consumer API.
+ */
 export type CompatibleSelectProps =
     | SingleValueProps<SelectRootProps, string>
     | MultipleValueProps<SelectRootProps, string>;

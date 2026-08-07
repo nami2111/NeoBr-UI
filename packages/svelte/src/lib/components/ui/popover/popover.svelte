@@ -1,8 +1,8 @@
 <script lang="ts">
     import { cn, RADIUS, type Radius } from "../../../utils";
-    import { TRANSITION_BRUTALIST_FAST } from "../../../utils/motion";
+    import { TRANSITION_POPUP } from "../../../utils/motion";
     import { useOverlayController } from "../../../utils/overlay.svelte";
-    import { fade } from "svelte/transition";
+    import { fly } from "svelte/transition";
     import type { Snippet } from "svelte";
     import type { HTMLButtonAttributes } from "svelte/elements";
 
@@ -75,7 +75,7 @@
                 RADIUS[radius],
                 contentClass,
             )}
-            transition:fade={TRANSITION_BRUTALIST_FAST()}
+            transition:fly={TRANSITION_POPUP()}
             role="dialog"
             aria-label={contentLabel}
         >

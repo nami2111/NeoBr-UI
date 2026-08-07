@@ -43,7 +43,7 @@
         <TabsContent value="preview" class="pt-6">
             <div
                 class={cn(
-                    "border-foreground bg-accent/10 relative flex min-h-[220px] items-center justify-center overflow-x-auto overflow-y-hidden rounded-none border-2 p-6 shadow-[0_5px_0_0_var(--color-shadow-color)] md:p-10",
+                    "border-foreground bg-accent/10 relative flex min-h-[220px] items-center justify-center overflow-x-auto overflow-y-hidden rounded-none border-2 p-6 shadow-brutalist md:p-10",
                     className,
                 )}
             >
@@ -56,7 +56,7 @@
         <TabsContent value="code" class="pt-6">
             <div class="group relative">
                 <pre
-                    class="border-foreground bg-muted text-foreground overflow-x-auto rounded-none border-2 p-6 font-mono text-sm leading-relaxed shadow-[0_5px_0_0_var(--color-shadow-color)]"
+                    class="border-foreground bg-muted text-foreground overflow-x-auto rounded-none border-2 p-6 font-mono text-sm leading-relaxed shadow-brutalist"
                 ><code>{code.trim()}</code></pre>
             </div>
         </TabsContent>

@@ -2,12 +2,21 @@
     import { createFormState } from "../../../utils/form-validation.svelte";
     import { z } from "zod";
 
-    let { onSubmit = async () => {} }: { onSubmit?: (values: unknown) => void | Promise<void> } =
-        $props();
+    let {
+        onSubmit = async () => {},
+        validateOnChange = true,
+        validateOnBlur = true,
+    }: {
+        onSubmit?: (values: unknown) => void | Promise<void>;
+        validateOnChange?: boolean;
+        validateOnBlur?: boolean;
+    } = $props();
+
 
     const schema = z.object({
         email: z.string().email("Invalid email"),
         age: z.number().optional(),
+        joined: z.date().optional(),
         profile: z.object({
             name: z.string().min(2, "Name is too short"),
         }),
@@ -20,6 +29,12 @@
             email: "neo@example.com",
             profile: initialProfile,
         },
+        // createFormState reads options once at init — the initial-value
+        // capture is intentional, so silence the state_referenced_locally hint.
+        // svelte-ignore state_referenced_locally
+        validateOnChange,
+        // svelte-ignore state_referenced_locally
+        validateOnBlur,
         onSubmit: (values) => onSubmit(values),
     });
 </script>
@@ -36,6 +51,15 @@
 <p data-testid="initial-profile-name">{initialProfile.name}</p>
 
 <button type="button" onclick={() => form.handleChange("email", "invalid")}>Invalid Email</button>
+<button type="button" onclick={() => form.handleChange("email", "ok@example.com")}>
+    Valid Email
+</button>
+<button type="button" onclick={() => form.setFieldError("email", "Already taken")}>
+    Server Error
+</button>
+<button type="button" onclick={() => form.handleChange("joined", new Date(2026, 0, 2))}>
+    Set Joined Date
+</button>
 <button type="button" onclick={() => form.handleBlur("email")}>Blur Email</button>
 <button type="button" onclick={() => form.setFieldValue("profile", { name: "A" })}>
     Invalid Profile

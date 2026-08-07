@@ -6,5 +6,5 @@ test("Skeleton renders with custom class", () => {
     const { container } = render(Skeleton, { class: "custom-class" });
     const el = container.querySelector(".custom-class");
     expect(el).toBeDefined();
-    expect(el?.className).toContain("animate-pulse");
+    expect(el?.className).toContain("animate-skeleton-pulse");
 });

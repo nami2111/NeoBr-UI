@@ -48,6 +48,13 @@
 
     --color-ring: oklch(78.5% 0.08 270);
 
+    /* shadcn-compat aliases for `border-border` / `border-input` classes.
+       The library's own components deliberately draw borders with
+       `border-foreground` (brutalist hard edges); these aliases give
+       migrating consumers the subtle shadcn-default borders they expect. */
+    --color-border: oklch(94% 0.01 264);
+    --color-input: oklch(45% 0.02 264);
+
     --color-card: oklch(100% 0 0);
     --color-card-foreground: oklch(12.5% 0.025 264);
 
@@ -84,6 +91,8 @@
 
     /* Animation */
     --animate-fade-in: fade-in 0.3s ease-in-out;
+    --animate-skeleton-shimmer: skeleton-shimmer 1.5s infinite ease-in-out;
+    --animate-skeleton-pulse: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     --animate-slide-up: slide-up 0.3s ease-out;
     --animate-slide-in-from-top: slide-in-from-top 0.3s ease-out;
     --animate-slide-in-from-bottom: slide-in-from-bottom 0.3s ease-out;
@@ -187,6 +196,30 @@
             transform: translateX(100%) scaleX(0.2);
         }
     }
+
+    @keyframes skeleton-shimmer {
+        0% {
+            transform: translateX(-150%) skewX(-20deg);
+            opacity: 0.3;
+        }
+        50% {
+            opacity: 0.6;
+        }
+        100% {
+            transform: translateX(150%) skewX(-20deg);
+            opacity: 0.3;
+        }
+    }
+
+    @keyframes skeleton-pulse {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.7;
+        }
+    }
 }
 
 /* Reduce NeoBr's own looping/entry animations for reduced-motion users.
@@ -200,10 +233,25 @@
     .animate-progress-indeterminate,
     .animate-fade-in,
     .animate-pulse,
+    .animate-skeleton-pulse,
     .animate-skeleton-shimmer {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
     }
+}
+
+/* Skeleton sweep geometry — the animation itself comes from the
+   --animate-skeleton-shimmer token above, this global rule carries the sweep
+   bar's position/size so CSS-only consumers can theme or override it. */
+.animate-skeleton-shimmer {
+    position: absolute;
+    inset: -100% -50%;
+    background-color: var(--color-foreground);
+    opacity: 0.08;
+}
+
+.dark .animate-skeleton-shimmer {
+    opacity: 0.15;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -252,6 +300,9 @@
     --color-accent-foreground: oklch(98.5% 0.005 264);
 
     --color-ring: oklch(72.5% 0.12 270);
+
+    --color-border: oklch(25% 0.02 264);
+    --color-input: oklch(75% 0.02 264);
     --color-shadow-color: oklch(98.5% 0.005 264);
 }
 
