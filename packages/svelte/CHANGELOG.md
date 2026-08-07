@@ -1,5 +1,33 @@
 # @neobr/svelte
 
+## 2.1.0
+
+### Minor Changes
+
+- - **Features**
+
+    - New `--color-border` / `--color-input` tokens — shadcn-compatible `border-border` / `border-input` aliases on the muted scale
+    - Skeleton motion centralized as theme utilities: `--animate-skeleton-shimmer`, `--animate-skeleton-pulse` (themeable by CSS-only consumers)
+
+    - **Fix: form validation**
+
+      - `cloneValue` uses `structuredClone` — zod `z.date()`, BigInt, and `undefined` fields now survive submit (were corrupted via JSON)
+      - Server-set errors (`setFieldError`) clear on edit even with `validateOnChange: false`
+      - Non-Zod exceptions from validators no longer get swallowed
+
+    - **Fix: motion & interactions**
+
+      - Tooltip: placement no longer jumps while the scale transition runs (transform clash)
+      - Popups unified on one transition (fade + 4px rise, 150ms, respects `prefers-reduced-motion`) — dropdown, popover, select; select panels now animate out too
+      - Icon class-driven sizing (`h-4 w-4`) now really sizes the glyph
+      - Select popup surface unified to `bg-background` with the rest of the popup family
+      - Skeleton switched to shared utility classes (pulse + shimmer both hon`prefers-reduced-motion`)
+      - Switch and slider thumbs gain press-state feedback (2px travel, shadow removed)
+
+    - **Fix: robustness**
+      - Overlay focus trap: safe when the trigger element was removed from the DOM; `contenteditable` nodes are focusable
+      - Toast IDs fall back to a counter-based id when `crypto.randomUUID` is unavailable (plain-HTTP contexts)
+
 ## 2.0.1
 
 ### Patch Changes
