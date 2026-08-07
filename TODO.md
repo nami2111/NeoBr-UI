@@ -78,3 +78,9 @@ Gaps: ① accordion trigger presses (`active:translate-y`) but keeps its shadow 
 - [ ] `vp -C packages/svelte fmt --check .` — only CHANGELOG.md noise
 - [ ] `pnpm audit --prod` — 0
 - [ ] When behavior visible (A1/A2/D1/D2): manual browser check of the touched components — jsdom can't run Svelte transitions
+---
+
+## Post-phase audits
+
+- [x] **Docs site audit (2026-02)**: all 44 components have pages (no stubs, `[slug]` 307 fallback); snippet APIs match components (dropdown = child snippet w/ internal button, popover = `trigger(props)` + spread); installation instructions verified against real exports (`./style`, `./form`); catalog auto-derives component count (44). Fixed: `/api/version` hardcoded `1.1.0` → imports `packages/svelte/package.json` (bundled at build; homepage fallback "1.0.0" → "dev"). Docs build rc=0, svelte-check 0/0.
+- [x] **README audit (2026-02)**: `packages/svelte/README.md` component list 40 → 44 (added Alert, Label, Progress, Table); key-token table gained `--color-border`/`--color-input` + full `--animate-*` row (incl. skeleton tokens). Root `README.md`: tokens table gained border/input aliases row; Development section corrected (repo-root `vp check` fails — now shows `vp fmt --check .` / `vp run -r build` / `pnpm install`).
