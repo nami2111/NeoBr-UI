@@ -11,7 +11,7 @@ Set up `@neobr/svelte` with Tailwind CSS v4 and customize the public design toke
 
 - Svelte `>=5.40.0 <6`
 - Tailwind CSS v4
-- Node.js 18+
+- Node.js `>=20.19 || >=22`
 
 ## Install
 
@@ -62,9 +62,9 @@ Override tokens after importing `@neobr/svelte/style`.
 
 ## Important Tokens
 
-- Colors: `--color-background`, `--color-foreground`, `--color-primary-*`, `--color-secondary-*`, `--color-destructive-*`, `--color-success-*`, `--color-warning-*`, `--color-muted-*`, `--color-accent-*`, `--color-card-*`, `--color-ring`.
-- Radius: `--radius-brutalist`, `--radius-brutalist-soft`, `--radius-brutalist-rounded`.
-- Shadow and motion: `--shadow-brutalist`, `--shadow-brutalist-hover`, `--lift-brutalist`, `--press-brutalist`, `--press-brutalist-sm`.
+- Colors: `--color-background`, `--color-foreground`, `--color-primary-*`, `--color-secondary-*`, `--color-destructive-*`, `--color-success-*`, `--color-warning-*`, `--color-muted-*`, `--color-accent-*`, `--color-border`, `--color-input` (muted-scale aliases for shadcn-style `border-border` / `border-input`), `--color-card-*`, `--color-ring`.
+- Radius: `--radius-brutalist` (0px), `--radius-brutalist-soft` (6px), `--radius-brutalist-rounded` (12px).
+- Shadow and motion: `--shadow-brutalist`, `--shadow-brutalist-hover`, `--lift-brutalist`, `--press-brutalist`, `--press-brutalist-sm`, plus `--animate-*` utilities (`animate-fade-in`, `animate-marquee`/`-reverse`, `animate-skeleton-shimmer`, `animate-skeleton-pulse`, …) — themeable via `@theme`.
 - Layers: `--z-select`, `--z-dropdown`, `--z-modal`, `--z-sheet`, `--z-popover`, `--z-tooltip`, `--z-toast`.
 - Font: `--font-neobr-mono`.
 
