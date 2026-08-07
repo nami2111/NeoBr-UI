@@ -123,7 +123,7 @@
             </div>
         </div>
 
-        <div class="relative mx-auto w-full max-w-lg" aria-hidden="true">
+        <div class="relative mx-auto w-full max-w-lg enter" aria-hidden="true">
             <div
                 class="border-foreground bg-background relative overflow-hidden border-2 shadow-brutalist"
             >
@@ -196,8 +196,8 @@
     </section>
 
     <section class="grid gap-4 md:grid-cols-3" aria-label="NeoBr UI highlights">
-        {#each metrics as metric (metric.label)}
-            <div class="border-foreground bg-card border-2 p-5 shadow-brutalist">
+        {#each metrics as metric, i (metric.label)}
+            <div class="enter border-foreground bg-card border-2 p-5 shadow-brutalist" style="animation-delay: {i * 60}ms">
                 <p class="text-muted-foreground text-xs font-black tracking-[0.16em] uppercase">
                     {metric.label}
                 </p>
@@ -221,9 +221,11 @@
         </div>
 
         <div class="grid gap-4 md:grid-cols-3">
-            {#each features as feature (feature.title)}
+            {#each features as feature, i (feature.title)}
                 <article
-                    class="border-foreground bg-background group border-2 p-6 shadow-brutalist transition-all hover:-translate-y-[2px] hover:shadow-brutalist-hover"
+                    class="enter border-foreground bg-background group border-2 p-6 shadow-brutalist transition-all hover:-translate-y-[2px] hover:shadow-brutalist-hover"
+                    style="animation-delay: {i * 60}ms"
+                >
                 >
                     <div class="border-foreground bg-primary mb-5 inline-flex h-12 w-12 items-center justify-center border-2 text-primary-foreground">
                         <Icon icon={feature.icon} class="h-6 w-6" />
@@ -237,3 +239,30 @@
         </div>
     </section>
 </div>
+
+<style>
+    /* Landing micro-entry: cards rise + fade on mount. Docs-only decoration;
+       the library's own motion system is untouched. */
+    .enter {
+        opacity: 0;
+        animation: enter 0.3s ease-out forwards;
+    }
+
+    @keyframes enter {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .enter {
+            opacity: 1;
+            animation: none;
+        }
+    }
+</style>
