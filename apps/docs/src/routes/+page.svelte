@@ -47,7 +47,7 @@
             const data = await res.json();
             version = data.version;
         } catch {
-            version = "1.0.0";
+            version = "dev";
         }
     });
 
