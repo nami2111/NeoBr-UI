@@ -5,6 +5,24 @@ import "vitest-axe/extend-expect";
 
 expect.extend(axeMatchers);
 
+// Silence jsdom's “Not implemented” diagnostics (canvas getContext probe,
+// getComputedStyle pseudo-element checks by axe) — they are noise, not
+// failures. jsdom forwards them as `jsdomError` events on its internal
+// virtual console, which bypasses vitest's onConsoleLog and console patches.
+const virtualConsole = (
+    window as unknown as { _virtualConsole?: { emit: (...args: unknown[]) => void } }
+)._virtualConsole;
+if (virtualConsole) {
+    const originalEmit = virtualConsole.emit.bind(virtualConsole);
+    virtualConsole.emit = (name, ...args) => {
+        const error = args[0] as { message?: string } | undefined;
+        if (name === "jsdomError" && error?.message?.includes("Not implemented")) {
+            return;
+        }
+        originalEmit(name, ...args);
+    };
+}
+
 // Mock matchMedia if needed
 Object.defineProperty(window, "matchMedia", {
     writable: true,

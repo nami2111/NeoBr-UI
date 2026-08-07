@@ -66,8 +66,8 @@ No changeset: all changes are dev/toolchain — shipped tarball output unchanged
 - [x] Bonus: fixed 2 new `state_referenced_locally` svelte-check warnings introduced by the 3.1 test wrapper (`validateOnChange`/`validateOnBlur` captured in `createFormState` options) — options are init-only by design, so silenced with `svelte-ignore` comments. Baseline 0 errors/0 warnings restored ✅
 
 ### 3.6 Test infra
-- [ ] jsdom noise floods every run (`Not implemented: getComputedStyle... pseudo-elements`, `HTMLCanvasElement.getContext`) — silence via vitest `environmentOptions`/suppressed virtual console.
-- [ ] `setup.ts` hardcodes `matchMedia → matches:false` — add a small helper so reduced-motion branches (`duration()` in `utils/motion.ts`) are actually testable.
+- [x] jsdom noise silenced in `src/tests/setup.ts` by wrapping `window._virtualConsole.emit` (drop `jsdomError` events whose message contains "Not implemented"). NB: the obvious routes DON'T work — vitest `onConsoleLog` doesn't see jsdom's virtualConsole channel, patching `console.error` in setup is too late (jsdom captured the reference at construction), and `environmentOptions.jsdom.console: false` only disables vitest's own virtualConsole, not jsdom's default one (which forwards to `window.console`). `_virtualConsole` exists in jsdom 28 AND 30. Run output now 0 noise lines ✅
+- [x] matchMedia helper: **not needed** — `motion.test.ts` already covers both reduced-motion branches via `vi.stubGlobal("matchMedia", …)` (it passes `{matches}` only, which is all `duration()` reads). A setup helper would be dead code ✅
 
 ### 3.7 Design tokens — shadcn-compat gap
 - [ ] No `--color-border` / `--color-input` tokens. Consumers migrating from shadcn expect `border-border`; the library deliberately aliases `muted`/`accent` for shadcn naming but skips `border`. Add `--color-border` (alias of foreground) or document the `border-foreground` alternative explicitly in README.
