@@ -1,8 +1,13 @@
 ---
-description: How to release NeoBr-UI packages using Changesets
+description: How to release @neobr/svelte using Changesets
 ---
 
-Follow these steps to release a new version of the packages in this monorepo.
+Follow these steps to release a new version of the package. Only `packages/svelte`
+(`@neobr/svelte`) ships — there is no separate tailwind-preset package anymore.
+There is also no hosted CI (GitHub Actions were removed): run every step manually.
+
+Prereqs: Node `>=20.19 || >=22`, pnpm, `npm login` (publishing account with
+access to the `@neobr` scope).
 
 ### 1. Document your changes
 
@@ -12,52 +17,45 @@ Whenever you make a change that deserves a version bump, run:
 vp run changeset
 ```
 
-- Select the packages that were changed.
+- Select `@neobr/svelte`.
 - Choose whether it's a `major`, `minor`, or `patch` bump.
-- Provide a brief description of the changes.
+- Provide a brief description of the changes (changelog entry).
 
 ### 2. Version the packages
 
-When you are ready to prepare a release (e.g., at the end of a sprint or feature block), run:
+When you are ready to prepare a release, run:
 
 ```bash
 vp run version-packages
 ```
 
-This will:
+This consumes the changeset files and updates `package.json` version +
+`CHANGELOG.md`. Review the generated diff before committing.
 
-- Consume the changeset files.
-- Update `package.json` versions.
-- Generate or update `CHANGELOG.md` files for each package.
-
-### 3. Sync Design System (IMPORTANT)
-
-Ensure the design system is synced before building for release:
+### 3. Build and verify (manual, no CI)
 
 ```bash
-cp packages/svelte/src/lib/styles/design-system.css packages/tailwind-preset/design-system.css
+vp run -r build            # dist/ is gitignored — must exist before anything resolves @neobr/svelte
+vp run -r test             # 308+ tests
+cd packages/svelte
+vp check                   # format + lint + type-check (per-package — fails at repo root)
+vp fmt --check .           # only CHANGELOG.md noise is acceptable
+pnpm run exports:check && pnpm run pack:check && pnpm run tree-shake:check
+cd ../..
+pnpm audit --prod          # 0 vulnerabilities
 ```
 
-### 4. Build and verify
+Also verify the docs site builds (`cd apps/docs && pnpm build`).
+
+### 4. Publish to npm
 
 ```bash
-vp run build
-vp run test
-vp check
+npm run release            # = vp run build && vp run test && changeset publish
 ```
 
-### 5. Publish to npm
+`changeset publish` runs `pnpm publish` for the versioned packages. Confirm on
+npm that `@neobr/svelte@<new-version>` is live.
 
-To publish all packages:
-
-```bash
-cd packages/tailwind-preset
-npm publish --access public
-```
-
-```bash
-cd ../svelte
-npm publish --access public
-```
-
-Ensure you are logged in to npm (`npm login`) before running this.
+Note: `version-packages` bumps the version, but `npm run release` publishes.
+If you already ran the build/test/checks in step 3, `npm run release` will run
+them again — that's fine, it's the safety gate.
