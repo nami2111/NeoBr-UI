@@ -101,7 +101,7 @@
             </div>
 
             <div
-                class="border-foreground bg-muted flex max-w-2xl flex-col overflow-hidden border-2 shadow-[0_5px_0_0_var(--color-shadow-color)] sm:flex-row"
+                class="border-foreground bg-muted flex max-w-2xl flex-col overflow-hidden border-2 shadow-brutalist sm:flex-row"
             >
                 <div class="border-foreground flex min-w-0 flex-1 items-center gap-3 px-4 py-3 sm:border-r-2">
                     <Icon icon={TerminalIcon} class="h-5 w-5 shrink-0 text-primary" />
@@ -197,7 +197,7 @@
 
     <section class="grid gap-4 md:grid-cols-3" aria-label="NeoBr UI highlights">
         {#each metrics as metric (metric.label)}
-            <div class="border-foreground bg-card border-2 p-5 shadow-[0_5px_0_0_var(--color-shadow-color)]">
+            <div class="border-foreground bg-card border-2 p-5 shadow-brutalist">
                 <p class="text-muted-foreground text-xs font-black tracking-[0.16em] uppercase">
                     {metric.label}
                 </p>
@@ -223,7 +223,7 @@
         <div class="grid gap-4 md:grid-cols-3">
             {#each features as feature (feature.title)}
                 <article
-                    class="border-foreground bg-background group border-2 p-6 shadow-[0_5px_0_0_var(--color-shadow-color)] transition-all hover:-translate-y-[2px] hover:shadow-brutalist-hover"
+                    class="border-foreground bg-background group border-2 p-6 shadow-brutalist transition-all hover:-translate-y-[2px] hover:shadow-brutalist-hover"
                 >
                     <div class="border-foreground bg-primary mb-5 inline-flex h-12 w-12 items-center justify-center border-2 text-primary-foreground">
                         <Icon icon={feature.icon} class="h-6 w-6" />
