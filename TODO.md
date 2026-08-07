@@ -76,9 +76,9 @@ No changeset: all changes are dev/toolchain — shipped tarball output unchanged
 
 `jsdom@30` needs `node ^22.22.2`; `@testing-library/jest-dom@7` needs `node >=22`.
 
-- [ ] Root `engines.node` → `>=20.19 || >=22` (keep 18 out) — no CI to bump (GitHub Actions removed, run locally)
-- [ ] Then: `jsdom` 28→30, `@testing-library/jest-dom` 6.9.1→7.0.0 (check breaking: matcher renames, default import removal)
-- [ ] Full suite + build green, changeset
+- [x] Root `engines.node` → `>=20.19 || >=22` (keep 18 out) — no CI to bump (GitHub Actions removed, run locally)
+- [x] Then: `jsdom` 28→30, `@testing-library/jest-dom` 6.9.1→7.0.0 (check breaking: matcher renames, default import removal) ✅ — no matcher changes observed; bare `import "@testing-library/jest-dom"` in setup.ts still auto-extends under v7
+- [x] Full suite + build green, changeset
 
 ## Phase 5 — Explicitly hold
 
