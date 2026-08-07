@@ -1,101 +1,80 @@
 # NeoBr-UI — Deep Analysis & Improvement Plan
 
-> Generated 2026-02-16. Baseline: 46 test files / 303 tests green, `@neobr/svelte` 2.0.1, 44 components.
-> Analysis reviewed: deps vs npm registry, `pnpm audit`, core utils (form-validation, overlay, scroll-lock, toast, motion), design tokens, CI, test setup, component patterns.
+> Generated 2026-02-16 (rev. 2). Baseline: 46 test files / 306 tests green, `@neobr/svelte` 2.0.1, 44 components, svelte-check 0/0.
 
 ---
 
-## Phase 1 — Security (do first, blocks release)
+## Completed (Phases 1–4, done earlier)
 
-`pnpm audit --prod` reports **6 vulnerabilities (1 high, 5 moderate)**. All reachable through the published package's runtime graph.
+- **Phase 1 — Security**: 0 vulns (`pnpm audit --prod`). postcss override, svelte 5.56.8, vite 8.2.1 (catalog + override), vite-plus-core 0.2.8.
+- **Phase 2 — Safe patches (8)**: kit 2.70.2, package 2.5.8, vite-plugin-svelte 7.2.0, svelte-check 4.7.4, tailwind 4.3.3, hugeicons 4.2.3, @internationalized/date 3.12.3, changesets 2.31.1. TypeScript 5.9.3 → 6.0.3.
+- **Phase 3 — Code quality**: 3.1 form-validation (structuredClone + server-error clear + rethrow) — +2 tests; 3.2 overlay focus trap (contenteditable + detached-trigger guard); 3.3 toast id crypto fallback — +1 test; 3.4 modal close-button dedup; 3.5 select casts documented (structural, load-bearing); 3.6 jsdom noise (0 lines — `_virtualConsole.emit` patch in setup.ts); 3.7 `--color-border`/`--color-input` tokens.
+- **Phase 4 — Node 22 gate**: GitHub CI removed (user choice). engines `>=20.19 || >=22`; jsdom 28→30, jest-dom 6.9.1→7.0.0 — no breaking changes surfaced. Lockfile −378 lines.
+- **Hold**: TypeScript 7 — svelte-check@4.7.4 peer `^5||^6`. bits-ui 2.18.1 / hugeicons are latest.
 
-- [x] **postcss** (HIGH: path traversal via source map auto-loading, GHSA-fxqj-rqcc-2cmp; + moderate incomplete-fix advisory, patched `>=8.5.23`)
-  - `package.json` override `postcss@<8.5.10: >=8.5.10` → `"postcss@<8.5.23": ">=8.5.23"` ✅ (lock now single postcss 8.5.26)
-  - pull chain: `vite-plus-core@0.2.4 → postcss@8.5.16` (runtime of dev toolchain only, but audit flags prod scope — fix anyway)
-- [x] **svelte 5.53.12 → 5.56.8** (4 moderate: SSR XSS via promise serialization, DOM-clobbering XSS, ReDoS in `<svelte:element>`, all patched `>=5.55.7`; 5.56.8 is latest)
-  - `packages/svelte` + `apps/docs`: `svelte: 5.53.12 → 5.56.8` ✅
-  - verify peer range `>=5.40.0 <6` stays truthful: library uses `@attach` (svelte ≥5.29), `$props.id()` (≥5.20), `svelte/attachments` (≥5.40) — all safe within range ✅
-- [x] **vite 8.0.13 → 8.2.1** (moderate, advisory blocks `<=8.0.15`) ✅
-  - catalog: `vite: npm:@voidzero-dev/vite-plus-core@0.2.4 → 0.2.8`, `vite-plus: 0.2.4 → 0.2.8` in `pnpm-workspace.yaml` — NOTE: catalog alias does NOT move the real vite engine (vitest's vite dep); that needed override `"vite@>=8.0.0 <=8.0.15": ">=8.0.16"` in root package.json + `pnpm update --latest --recursive vite` (lock had pinned 8.0.13)
-- [x] **undici** (moderate, patched `>=7.29.0`) — resolved by the vite/vitest bump; re-run audit ✅
-- [x] `pnpm install && pnpm audit --prod` → **0 vulnerabilities** ✅
-- [x] CI gate + full test suite: 303/303 tests, svelte-check 0 errors/0 warnings, full build, exports:check (142 paths) + pack:check (311 files) + tree-shake:check all OK ✅
+---
 
-No changeset: all changes are dev/toolchain — shipped tarball output unchanged, peer range untouched.
+## Phase 5 — UI / Style / Design / Micro-animation deep audit
 
-## Phase 2 — Safe patch updates (no breaking changes)
+Deep review of all 44 components + docs app + tokens (2026-02-16). Findings below are
+verified by grep/read; the tooltip item is a reasoning-verified browser bug (jsdom can't run
+Svelte transitions — like the 3.2 contenteditable caveat, flag for manual browser check).
 
-| Package | Current | Latest | Where |
-|---|---|---|---|
-| `@sveltejs/kit` | 2.69.2 | 2.70.2 | svelte, docs |
-| `@sveltejs/package` | 2.5.7 | 2.5.8 | svelte |
-| `@sveltejs/vite-plugin-svelte` | 7.0.0 | 7.2.0 | svelte, docs |
-| `svelte-check` | 4.7.2 | 4.7.4 | svelte, docs |
-| `tailwindcss` + `@tailwindcss/vite` | 4.3.2 | 4.3.3 | docs |
-| `@hugeicons/core-free-icons` | 4.2.2 | 4.2.3 | svelte, docs |
-| `@internationalized/date` | 3.12.2 | 3.12.3 | svelte, docs |
-| `@changesets/cli` | 2.31.0 | 2.31.1 | root |
-| `@testing-library/jest-dom` | 6.9.1 | 7.0.0 | svelte — **skip**, needs Node ≥22 (Phase 4) |
-| `jsdom` | 28.1.0 | 30.0.1 | svelte — **skip**, needs Node ≥22 (Phase 4) |
+### Strengths (keep, don't regress)
 
-- [x] apply table — all 8 updated (see above), skipped jest-dom/jsdom (Phase 4 gate), `pnpm install` ✅
-- [x] full `pnpm test` 303/303 + `pnpm build` green ✅
-- [x] `pnpm changeset` — skipped: dev-toolchain only, no shipped API change
+- Coherent brutalist identity: `border-2 border-foreground` hard edges + `shadow-brutalist` offset block + lift/press via `--lift-brutalist`/`--press-brutalist*` tokens.
+- Radius system (`brutalist|soft|rounded`) on 19 components; state colors with hover/active pairs; class-based dark mode; z-scale tokens; `@utility` bundle (`btn-brutalist`, `input-brutalist`, `container-brutalist`, `card-brutalist`, …).
+- JS transitions centralized in `utils/motion.ts` with reduced-motion zeroing (`duration()`), used by modal/sheet/dropdown/popover/tooltip/toaster/accordion/checkbox/radio.
+- Focus-visible ring-2 ring-ring + ring-offset everywhere; no interactive element skips it.
 
-## Phase 3 — Code quality (concrete findings, verified in source)
+### Findings to fix — [priority]
 
-### 3.1 `src/lib/utils/form-validation.svelte.ts` — 2 real bugs
-- [x] **`cloneValue` silently corrupts non-JSON data**: `structuredClone` throws on Svelte state proxies → fell back to `JSON.parse(JSON.stringify())`, dropping `Date`/`undefined`/`BigInt` (broke `z.date()` on submit). Fixed: structuredClone for plain data, `$state.snapshot` fallback for proxies — preserves all three ✅ + regression test "submit keeps Date values as Date instances"
-- [x] **server-set errors never clear**: `setFieldError` (server validation) was not cleared by edit when `validateOnChange`/`validateOnBlur` off (or via `setFieldValue`). Fixed: `handleChange`/`handleBlur`/`setFieldValue` now unconditionally clear `errors[name]` before optional re-validation ✅ + regression test "clears server-set errors when the field changes without validation" (validateOnChange:false)
-- [x] `validateField` now rethrows non-Zod exceptions instead of returning `null` silently ("Never mask an unexpected bug as a valid field")
+**F1 — Tooltip: transform clash (real in-browser bug)** `[high]`
+`tooltip.svelte` positions via utility classes (`-translate-x-1/2 -translate-y-full` in `positions`) but animates with `transition:scale` — Svelte writes inline `transform: scale(…)` during the transition, which **overrides** the class translate → tooltip snaps off-position on open/close, then jumps back. jsdom can't reproduce (transitions don't run there — probe test showed no inline style written). All other transitions (fade/fly/slide/flip) are on elements with no translate utilities — only tooltip clashes.
+→ Fix: split into **outer positioner** (no transition) + **inner animated** div; or drop scale → opacity-only `fade` + keep a tiny scale via CSS keyframe on inner. Browser-verify.
 
-### 3.2 `packages/svelte/src/lib/utils/overlay.svelte.ts` — a11y + robustness
-- [x] `FOCUSABLE_SELECTOR` now includes `[contenteditable]:not([contenteditable="false"])` — rich-text areas (no native focusable shape) were invisible to the trap, so Tab from an editor escaped the overlay ✅
-- [x] `restoreFocus()` guards `previousFocus.isConnected` — a trigger removed while the overlay was open used to get a silent no-op focus() and drop focus to body ✅
-- note: couldn't write a jsdom regression test for contenteditable — jsdom doesn't implement contenteditable focus, the test passed vacuously with the fix removed. Fix is standard a11y practice; verify in real browser. Test dropped (YAGNI).
+**F2 — Select / command popups use a THIRD motion dialect** `[select-content.svelte:16]`
+`animate-fade-in` CSS class (theme: 0.3s ease-out + `scale(0.95)`) vs dropdown/popover Svelte `fade` 100ms; select has **no close transition** (CSS class animates in only). Also `command` shares the CSS class. → Unify select+command onto a small popup `fade`/`fly` Svelte transition in motion.ts (origin-aware for bottom/top), matching dropdown/popover, and delete the CSS-only usage.
 
-### 3.3 `packages/svelte/src/lib/components/ui/toast/toast-state.svelte.ts`
-- [x] `crypto.randomUUID()` undefined in non-secure contexts (http LAN deploys) — `createToastId()` prefers `crypto.randomUUID`, falls back to monotonic counter + random suffix ✅ + regression test (stub `crypto: {}` → unique ids, dismiss works)
+**F3 — Popup surface mismatch** `[dropdown-menu.svelte:79 / select-content.svelte:15]`
+dropdown/popover popups use `bg-background`, select uses `bg-card`, command? — unify the popover family to one surface (pick `bg-background`).
 
-### 3.4 Duplication — close-button markup
-- [x] `modal.svelte` close button now reuses `NAV_ICON_BUTTON` from `utils.ts` (via `cn`, which also resolves the `flex`→`inline-flex` conflict) + `hover:bg-accent inline-flex shrink-0` — class output byte-for-byte identical to the old literal, visual unchanged ✅
-- [ ] `sheet.svelte` close button is a *different* visual (compact `p-1`/`hover:bg-muted`, no shadow) — reuse would change its look; kept as literal. Verified unique (no other component shares it).
+**F4 — Icon sizing is fake** `[icon.svelte / modal.svelte close / NAV_ICON_BUTTON]`
+`Icon` default `size=24` + `strokeWidth=1.5` sets SVG attrs; callers pass `class="h-4 w-4"` (modal close, NAV_ICON_BUTTON in sheet etc.) — the box shrinks but the SVG stays 24px and overflows. Fix: make Icon size respond to a `size` prop honored in the class (`h-[16px]` etc.) or drop the class-techniques; audit NAV_ICON_BUTTON usages for icon size vs 8/9 box.
 
-### 3.5 `select.svelte` / `bits-ui-compat.ts` type erosion
-- [x] **Casts are structural, not erosion — verified empirically**: bits-ui 2.18 `SelectRootProps` is a discriminated union (value?: string | string[] / type), and Svelte `bind:` narrows union-typed components to their LAST branch — a cast-free pass is impossible without changing the consumer API. `value as never` is assignable to both branches (runtime validates via `type`); the `Record<string, unknown>` rest-cast is load-bearing too — its index signature is what keeps TS from re-narrowing `{type}`. Both now carry a comment explaining why. `CompatibleSelectProps` confirmed aligned with the installed 2.18 API (value?: string/string[], type required per branch — the union also guards consumers: `type: "multiple"` required for arrays).
-- [x] Bonus: fixed 2 new `state_referenced_locally` svelte-check warnings introduced by the 3.1 test wrapper (`validateOnChange`/`validateOnBlur` captured in `createFormState` options) — options are init-only by design, so silenced with `svelte-ignore` comments. Baseline 0 errors/0 warnings restored ✅
+**F5 — Skeleton keyframes are component-scoped** `[skeleton.svelte]`
+`@keyframes skeleton-shimmer` + `pulse-brutalist` live in the component `<style>` (scoped — consumers of the CSS-only system can't theme/override them; `:global(.dark)` hack). The theme's reduced-motion block already references `.animate-skeleton-shimmer`/`.animate-pulse` — move both keyframes into `design-system.css @theme` so the whole motion set is centralized, and delete the component-scope definitions.
 
-### 3.6 Test infra
-- [x] jsdom noise silenced in `src/tests/setup.ts` by wrapping `window._virtualConsole.emit` (drop `jsdomError` events whose message contains "Not implemented"). NB: the obvious routes DON'T work — vitest `onConsoleLog` doesn't see jsdom's virtualConsole channel, patching `console.error` in setup is too late (jsdom captured the reference at construction), and `environmentOptions.jsdom.console: false` only disables vitest's own virtualConsole, not jsdom's default one (which forwards to `window.console`). `_virtualConsole` exists in jsdom 28 AND 30. Run output now 0 noise lines ✅
-- [x] matchMedia helper: **not needed** — `motion.test.ts` already covers both reduced-motion branches via `vi.stubGlobal("matchMedia", …)` (it passes `{matches}` only, which is all `duration()` reads). A setup helper would be dead code ✅
+**F6 — Docs app hardcodes legacy shadow (token drift)** `[apps/docs — 8 spots]`
+`shadow-[0_5px_0_0_var(--color-shadow-color)]` duplicated across CodeBlock/CodePreview/home cards instead of `shadow-brutalist`. Fix: replace with the token (and `hover:shadow-brutalist-hover`).
 
-### 3.7 Design tokens — shadcn-compat gap
-- [x] Added `--color-border` (alias of `muted` value) + `--color-input` (alias of `muted-foreground` value) in light + `.dark` — shadcn-style subtle defaults for migrating consumers, matching the muted/accent alias precedent. Chose muted-scale (NOT foreground): the library's own 40 component files deliberately draw with `border-foreground`, so a shadcn-migrator's `border-border`/`border-input` should get the subtle line they expect, not a hard black edge. Comment in css explains the split. No `border-border` usage existed anywhere (verified) — purely additive. Docs app untouched (uses `border-foreground` throughout) ✅ 306/306 tests, svelte-check 0/0, docs build rc=0
+**F7 — Press/interaction affordance audit** — design has two dialects:
+- Lift/press group (shadow + translateY): button, NAV_ICON_BUTTON, bento-item, select-trigger (`focus-within:shadow-brutalist-hover`).
+- Fill group (bg-accent): accordion-trigger, tabs-trigger, pagination, breadcrumbs, toggle(-group), menu items, ghost/link.
+Gaps: ① accordion trigger presses (`active:translate-y`) but keeps its shadow (button removes it) — shadow stays. ② tabs/accordion/menu items have no hover-BORDER (fill only) while date/select triggers get full lift — decide and document one per group; fix accordion press-shadow. ③ Switch: no press feedback at all. Audit others (switch, slider thumb, checkbox) for hover/active.
 
-## Phase 4 — Node 22 upgrade (gated, unlocks majors)
+**F9 — micro-nits** `[unify]`
+- `pagination`/tabs section borders: we have `--separator-width: 3px` token only for separator — consider `--dense` borders on chips via `border-2`? skip unless cheap.
+- Date-picker duplicates the `input-brutalist` recipe instead of reusing `@utility` — refactor (the `input-brutalist` utility is documented/dedupe).
 
-`jsdom@30` needs `node ^22.22.2`; `@testing-library/jest-dom@7` needs `node >=22`.
+### Plan items (each = 1 PR-ish step, gates below)
 
-- [x] Root `engines.node` → `>=20.19 || >=22` (keep 18 out) — no CI to bump (GitHub Actions removed, run locally)
-- [x] Then: `jsdom` 28→30, `@testing-library/jest-dom` 6.9.1→7.0.0 (check breaking: matcher renames, default import removal) ✅ — no matcher changes observed; bare `import "@testing-library/jest-dom"` in setup.ts still auto-extends under v7
-- [x] Full suite + build green, changeset
+- [ ] **P5-A1 (bug)** Tooltip transform clash — position/transition split (inner div), manual browser check (jsdom can't run transitions)
+- [ ] **P5-A2 (bugs + unify)** Popup motion system: select/command drop `animate-fade-in` → shared popup transition helper in `motion.ts` (e.g. `POPUP_TRANSITION` 150ms fade + tiny y shift per placement origin); dropdown/popover adopt it too; delete the now-unused CSS class
+- [ ] **P5-B1 (consistency)** Popup surface → `bg-background` everywhere (dropdown/popover/select/command); document choice in component JSDoc
+- [ ] **P5-B2 (consistency)** Icon sizing: honor class-driven size; update NAV_ICON_BUTTON + modal close to `size=16`-driven rendering
+- [ ] **P5-C1 (maintainability)** Skeleton keyframes → `design-system.css` `@theme`; remove scoped duplicates; keep reduced-motion coverage; add regression test if a class change occurs
+- [ ] **P5-C2 (drift)** Docs shadow token cleanup (8 spots → `shadow-brutalist`/`hover:shadow-brutalist-hover`)
+- [ ] **P5-D1 (polish)** Press-audit: accordion active:shadow-none, add transition+press to switch/slider thumbs, hover-border on accordion/pagination rows; verify focus ring unchanged
+- [ ] **P5-D2 (polish)** Home/landing micro-entry: bento/marquee/tooltip demos get a small CSS stagger (animation-delay + reduced-motion guard) in docs only — no library API change
+- [ ] **P5-E (docs)** Tokens page: document `shadow-brutalist(-hover)`, motion tokens, radius options, `--color-border`/`input` aliases from 3.7
 
-## Phase 5 — Explicitly hold
+### Validation checklist (after each P5 item)
 
-| Item | Why |
-|---|---|
-| `typescript 7.0.2` (native/Go) | `svelte-check@4.7.4` peer is `typescript ^5.0.0 \|\| ^6.0.0` — TS 7 unsupported. Re-evaluate when svelte-check ships support |
-| ~~typescript 5.9.3 → 6.0.3~~ ✅ DONE | svelte-check@4.7.4 peer allows `^6.0.0`; upgraded, removed deprecated `baseUrl` from root tsconfig (paths resolve relative to tsconfig), 303/303 tests + svelte-check 0/0 + build green. TS 6 is the bridge to 7 — repo is now v7-ready apart from the svelte-check gate |
-| `bits-ui 2.18.1` | already latest; don't chase 3.x until it's GA and peer-compatible |
-| `@hugeicons/svelte 1.1.4` | latest |
-
-## Validation checklist (every phase)
-
-- [ ] `pnpm install` (lockfile diff reviewed, no surprise upgrades)
-- [ ] `pnpm -C packages/svelte test` — 303 tests green, no new jsdom noise
-- [ ] `pnpm -C packages/svelte run check` (svelte-check)
-- [ ] `pnpm -C apps/docs build` (docs build incl. svelte-kit sync)
-- [ ] `pnpm -C packages/svelte run exports:check && pack:check && tree-shake:check` (post-build guards)
-- [ ] `pnpm lint` (per-package fmt check)
-- [ ] `pnpm audit --prod` → 0 vulnerabilities
-- [ ] changeset added per user-visible change (version bump released)
+- [ ] `pnpm -C packages/svelte test` — 306+ green, no new jsdom noise
+- [ ] `pnpm -C packages/svelte run check` — 0 errors / 0 warnings
+- [ ] `pnpm -C packages/svelte run exports:check && pack:check && tree-shake:check` (after `vp run -r build`)
+- [ ] `pnpm -C apps/docs build` rc=0
+- [ ] `vp -C packages/svelte fmt --check .` — only CHANGELOG.md noise
+- [ ] `pnpm audit --prod` — 0
+- [ ] When behavior visible (A1/A2/D1/D2): manual browser check of the touched components — jsdom can't run Svelte transitions
