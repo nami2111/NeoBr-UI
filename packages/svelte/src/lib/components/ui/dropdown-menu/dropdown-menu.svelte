@@ -1,9 +1,9 @@
 <script lang="ts">
     import { cn, RADIUS, type Radius } from "../../../utils";
     import { isBrowser } from "../../../utils/browser";
-    import { TRANSITION_BRUTALIST_FAST } from "../../../utils/motion";
+    import { TRANSITION_POPUP } from "../../../utils/motion";
     import { useOverlayController } from "../../../utils/overlay.svelte";
-    import { fade } from "svelte/transition";
+    import { fly } from "svelte/transition";
 
     type Props = {
         open?: boolean;
@@ -80,7 +80,7 @@
                 "z-dropdown border-foreground bg-background shadow-brutalist absolute right-0 mt-2 w-56 origin-top-right border-2 focus-visible:outline-none",
                 RADIUS[radius],
             )}
-            transition:fade={TRANSITION_BRUTALIST_FAST()}
+            transition:fly={TRANSITION_POPUP()}
             role="menu"
             aria-orientation="vertical"
         >
