@@ -32,6 +32,17 @@ describe("Icon component", () => {
         expect(wrapper).toHaveClass("custom-icon");
     });
 
+    it("forwards sizing classes to the svg (real class-driven sizing)", () => {
+        const { container } = render(Icon, {
+            props: { icon: Home01Icon, class: "h-4 w-4" },
+        });
+        const svg = container.querySelector("svg");
+        expect(svg).toHaveClass("h-4");
+        expect(svg).toHaveClass("w-4");
+        // CSS utilities on the svg override the width/height attributes.
+        expect(svg?.getAttribute("width")).toBe("24");
+    });
+
     it("applies custom color", () => {
         const { container } = render(Icon, {
             props: { icon: Home01Icon, color: "red" },
