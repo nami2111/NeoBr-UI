@@ -48,6 +48,13 @@
 
     --color-ring: oklch(78.5% 0.08 270);
 
+    /* shadcn-compat aliases for `border-border` / `border-input` classes.
+       The library's own components deliberately draw borders with
+       `border-foreground` (brutalist hard edges); these aliases give
+       migrating consumers the subtle shadcn-default borders they expect. */
+    --color-border: oklch(94% 0.01 264);
+    --color-input: oklch(45% 0.02 264);
+
     --color-card: oklch(100% 0 0);
     --color-card-foreground: oklch(12.5% 0.025 264);
 
@@ -252,6 +259,9 @@
     --color-accent-foreground: oklch(98.5% 0.005 264);
 
     --color-ring: oklch(72.5% 0.12 270);
+
+    --color-border: oklch(25% 0.02 264);
+    --color-input: oklch(75% 0.02 264);
     --color-shadow-color: oklch(98.5% 0.005 264);
 }
 

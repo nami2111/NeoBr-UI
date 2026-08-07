@@ -70,7 +70,7 @@ No changeset: all changes are dev/toolchain — shipped tarball output unchanged
 - [x] matchMedia helper: **not needed** — `motion.test.ts` already covers both reduced-motion branches via `vi.stubGlobal("matchMedia", …)` (it passes `{matches}` only, which is all `duration()` reads). A setup helper would be dead code ✅
 
 ### 3.7 Design tokens — shadcn-compat gap
-- [ ] No `--color-border` / `--color-input` tokens. Consumers migrating from shadcn expect `border-border`; the library deliberately aliases `muted`/`accent` for shadcn naming but skips `border`. Add `--color-border` (alias of foreground) or document the `border-foreground` alternative explicitly in README.
+- [x] Added `--color-border` (alias of `muted` value) + `--color-input` (alias of `muted-foreground` value) in light + `.dark` — shadcn-style subtle defaults for migrating consumers, matching the muted/accent alias precedent. Chose muted-scale (NOT foreground): the library's own 40 component files deliberately draw with `border-foreground`, so a shadcn-migrator's `border-border`/`border-input` should get the subtle line they expect, not a hard black edge. Comment in css explains the split. No `border-border` usage existed anywhere (verified) — purely additive. Docs app untouched (uses `border-foreground` throughout) ✅ 306/306 tests, svelte-check 0/0, docs build rc=0
 
 ## Phase 4 — Node 22 upgrade (gated, unlocks majors)
 
