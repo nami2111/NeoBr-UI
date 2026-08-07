@@ -74,19 +74,29 @@
     </button>
 
     {#if open}
+        <!-- Outer div carries the placement (translate utilities) — the inner
+             one animates. A transition on the same element as the translate
+             classes would write an inline `transform` that overrides them
+             (tooltip snaps off-position on open/close). -->
         <div
             {@attach overlay.content}
-            id={tooltipId}
-            role="tooltip"
             class={cn(
-                "z-tooltip border-foreground bg-foreground text-background shadow-brutalist pointer-events-none absolute border-2 px-3 py-1.5 text-xs font-bold whitespace-nowrap",
-                RADIUS[radius],
+                "z-tooltip pointer-events-none absolute",
                 positions[position],
-                className,
             )}
-            transition:scale={{ start: 0.9, ...TRANSITION_BRUTALIST() }}
         >
-            {content}
+            <div
+                id={tooltipId}
+                role="tooltip"
+                class={cn(
+                    "border-foreground bg-foreground text-background shadow-brutalist border-2 px-3 py-1.5 text-xs font-bold whitespace-nowrap",
+                    RADIUS[radius],
+                    className,
+                )}
+                transition:scale={{ start: 0.9, ...TRANSITION_BRUTALIST() }}
+            >
+                {content}
+            </div>
         </div>
     {/if}
 </div>

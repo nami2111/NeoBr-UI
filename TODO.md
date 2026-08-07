@@ -59,7 +59,7 @@ Gaps: ① accordion trigger presses (`active:translate-y`) but keeps its shadow 
 
 ### Plan items (each = 1 PR-ish step, gates below)
 
-- [ ] **P5-A1 (bug)** Tooltip transform clash — position/transition split (inner div), manual browser check (jsdom can't run transitions)
+- [x] **P5-A1 (bug)** Tooltip transform clash — position/transition split (outer positioner div + inner scale-animated div, placement translate utilities on the outer only). Regression test added: asserts `role="tooltip"` box has no `-translate-*` classes while its positioned parent does. 307/307 tests, svelte-check 0/0, build + exports/pack/tree-shake + docs rc=0. NOTE: jsdom can't run Svelte transitions — visual check in browser still recommended before release
 - [ ] **P5-A2 (bugs + unify)** Popup motion system: select/command drop `animate-fade-in` → shared popup transition helper in `motion.ts` (e.g. `POPUP_TRANSITION` 150ms fade + tiny y shift per placement origin); dropdown/popover adopt it too; delete the now-unused CSS class
 - [ ] **P5-B1 (consistency)** Popup surface → `bg-background` everywhere (dropdown/popover/select/command); document choice in component JSDoc
 - [ ] **P5-B2 (consistency)** Icon sizing: honor class-driven size; update NAV_ICON_BUTTON + modal close to `size=16`-driven rendering
