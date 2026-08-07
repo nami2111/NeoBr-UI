@@ -74,9 +74,9 @@ No changeset: all changes are dev/toolchain — shipped tarball output unchanged
 
 ## Phase 4 — Node 22 upgrade (gated, unlocks majors)
 
-`jsdom@30` needs `node ^22.22.2`; `@testing-library/jest-dom@7` needs `node >=22`; CI pins Node 20.
+`jsdom@30` needs `node ^22.22.2`; `@testing-library/jest-dom@7` needs `node >=22`.
 
-- [ ] Root `engines.node` → `>=20.19 || >=22` (keep 18 out), CI: `node-version: 20` → `22`
+- [ ] Root `engines.node` → `>=20.19 || >=22` (keep 18 out) — no CI to bump (GitHub Actions removed, run locally)
 - [ ] Then: `jsdom` 28→30, `@testing-library/jest-dom` 6.9.1→7.0.0 (check breaking: matcher renames, default import removal)
 - [ ] Full suite + build green, changeset
 
